@@ -1,0 +1,3 @@
+[submodule "libraries/nprapi-wordpress"]
+	path = libraries/nprapi-wordpress
+	url = https://github.com/npr/nprapi-wordpress.git
