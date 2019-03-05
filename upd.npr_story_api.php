@@ -45,7 +45,28 @@
         }
 
         private function create_settings_table() {
-            throw new Exception('not implemented.');
+            ee()->load->dbforge();
+            
+            $fields = array(
+                'settings_id' => array(
+                    'type' => 'int',
+                    'constraint' => 10,
+                    'unsigned' => TRUE,
+                    'auto_increment' => TRUE
+                ),
+                'pull_server' => array(
+                    'type' => 'varchar',
+                    'constraint' => 64
+                ),
+                'push_server' => array(
+                    'type' => 'varchar',
+                    'constraint' => 64
+                )
+            );
+            
+            ee()->dbforge->add_key('settings_id', TRUE);
+            ee()->dbforge->add_field($fields);
+            ee()->dbforge->create_table('npr_story_api_settings');
         }
 
         private function delete_settings_table() {
