@@ -14,6 +14,8 @@
 
             ee()->db->insert('modules', $data);
 
+            $this->create_settings_table();
+
             return TRUE;
         }
 
@@ -28,6 +30,8 @@
             ee()->db->delete('actions', array('class' => $this->module_name));
             ee()->db->delete('actions', array('class' => 'Ipm_pledge_tracker_mcp'));
 
+            $this->delete_settings_table();
+
 		    return TRUE;
         }
 
@@ -38,6 +42,14 @@
             }
 
             return TRUE;
+        }
+
+        private function create_settings_table() {
+            throw new Exception('not implemented.');
+        }
+
+        private function delete_settings_table() {
+            throw new Exception('not implemented.');
         }
     }
 ?>
