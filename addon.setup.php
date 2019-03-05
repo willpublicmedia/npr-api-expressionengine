@@ -6,6 +6,6 @@
         'description'       => "An ExpressionEngine port of NPR's story API Wordpress module (https://github.com/npr/nprapi-wordpress).",
         'namespace'         => 'IllinoisPublicMedia\NprStoryApi',
         'version'           => '0.0.0',
-        'settings_exist'    => FALSE
+        'settings_exist'    => TRUE
     )
 ?>
