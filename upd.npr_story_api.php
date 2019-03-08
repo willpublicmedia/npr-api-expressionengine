@@ -54,11 +54,27 @@
                     'unsigned' => TRUE,
                     'auto_increment' => TRUE
                 ),
-                'pull_server' => array(
+                'api_key' => array(
                     'type' => 'varchar',
                     'constraint' => 64
                 ),
-                'push_server' => array(
+                'npr_pull_post_type' => array(
+                    'type' => 'varchar',
+                    'constraint' => 64
+                ),
+                'npr_push_post_type' => array(
+                    'type' => 'varchar',
+                    'constraint' => 64
+                ),
+                'org_id' => array(
+                    'type' => 'int',
+                    'constraint' => 10
+                ),
+                'pull_url' => array(
+                    'type' => 'varchar',
+                    'constraint' => 64
+                ),
+                'push_url' => array(
                     'type' => 'varchar',
                     'constraint' => 64
                 )
