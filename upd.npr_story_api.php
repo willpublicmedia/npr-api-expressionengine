@@ -36,7 +36,12 @@ class Npr_story_api_upd
         ee()->db->delete('actions', array('class' => $this->module_name));
         ee()->db->delete('actions', array('class' => 'Ipm_pledge_tracker_mcp'));
 
-        $this->delete_settings_table();
+        $tables = array(
+            'npr_story_api_field_mappings',
+            'npr_story_api_settings',
+        );
+
+        $this->delete_tables($tables);
 
         return true;
     }
@@ -87,8 +92,9 @@ class Npr_story_api_upd
         );
         ee()->dbforge->add_key('id', true);
         ee()->dbforge->add_field($fields);
-        ee()->dbforge->create_table('npr_story_api_settings');
+        ee()->dbforge->create_table('npr_story_api_field_mappings');
     }
+
     private function create_settings_table()
     {
         ee()->load->dbforge();
@@ -134,8 +140,10 @@ class Npr_story_api_upd
         ee()->dbforge->create_table('npr_story_api_settings');
     }
 
-    private function delete_settings_table()
+    private function delete_tables($table_names)
     {
-        throw new Exception('not implemented.');
+        foreach($table_names as $table) {
+            ee()->db->delete($table);
+        }
     }
 }
