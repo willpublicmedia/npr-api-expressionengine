@@ -5,8 +5,10 @@
 <ul>
 	<?php
 		$keys = array_keys($settings);
-		foreach ($keys as $setting) { 
-			print("<li>{$setting}</li>"); 
+		var_dump($settings);
+		foreach ($keys as $setting) {
+			$name = $settings[$setting]['display_name'];
+			print("<li>{$name}</li>"); 
 		} 
 	?>
 </ul>

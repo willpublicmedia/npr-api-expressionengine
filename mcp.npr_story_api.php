@@ -5,13 +5,34 @@
 class Npr_story_api_mcp
 {
     private $api_settings = array(
-        'api_key' => '',
-        'pull_url' => '',
-        'push_url' => '',
-        'org_id' => '',
-        'npr_pull_post_type' => '',
-        'npr_push_post_type' => '',
-        'npr_permissions' => ''
+        'api_key' => array(
+            'display_name' => 'API Key',
+            'value' => ''
+        ),
+        'pull_url' => array(
+            'display_name' => 'Pull URL',
+            'value' => ''
+        ),
+        'push_url' => array(
+            'display_name' => 'Push URL',
+            'value' => ''
+        ),
+        'org_id' => array(
+            'display_name' => 'Org ID',
+            'value' => ''
+        ),
+        'npr_pull_post_type' => array(
+            'display_name' => 'NPR Pull Post Type',
+            'value' => ''
+        ),
+        'npr_push_post_type' => array(
+            'display_name' => 'NPR Push Post Type',
+            'value' => ''
+        ),
+        'npr_permissions' => array(
+            'display_name' => 'NPR Permissions',
+            'value' => 'You have no Permission Groups defined with the NPR API.'
+        )
     );
 
     private $base_url;
@@ -27,7 +48,7 @@ class Npr_story_api_mcp
             'settings' => $this->api_settings,
             'db_values' => $values
         );
-        
+
         return ee('View')->make('npr_story_api:index')->render($settings);
     }
 
