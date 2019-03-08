@@ -8,6 +8,10 @@ class Npr_story_api_upd
 
     private $module_name = 'Npr_story_api';
 
+    public function __construct() {
+        ee()->load->dbforge();
+    }
+
     public function install()
     {
         $data = array(
@@ -20,7 +24,7 @@ class Npr_story_api_upd
         ee()->db->insert('modules', $data);
 
         $this->create_settings_table();
-        $this->create_field_mappings_table();
+        // $this->create_field_mappings_table();
 
         return true;
     }
@@ -58,8 +62,6 @@ class Npr_story_api_upd
 
     private function create_field_mappings_table()
     {
-        ee()->load->dbforge();
-
         $fields = array(
             'id' => array(
                 'type' => 'int',
@@ -89,7 +91,7 @@ class Npr_story_api_upd
             'story_byline' => array(
                 'type' => 'varchar',
                 'constraint' => 128,
-            ),
+            )
         );
         ee()->dbforge->add_key('id', true);
         ee()->dbforge->add_field($fields);
@@ -98,8 +100,6 @@ class Npr_story_api_upd
 
     private function create_settings_table()
     {
-        ee()->load->dbforge();
-
         $fields = array(
             'id' => array(
                 'type' => 'int',
@@ -113,6 +113,7 @@ class Npr_story_api_upd
             ),
             'npr_permissions' => array(
                 'type' => 'varchar',
+                'constraint' => 256
             ),
             'npr_pull_post_type' => array(
                 'type' => 'varchar',
@@ -133,7 +134,7 @@ class Npr_story_api_upd
             'push_url' => array(
                 'type' => 'varchar',
                 'constraint' => 64,
-            ),
+            )
         );
 
         ee()->dbforge->add_key('id', true);
@@ -144,7 +145,7 @@ class Npr_story_api_upd
     private function delete_tables($table_names)
     {
         foreach($table_names as $table) {
-            ee()->db->delete($table);
+            ee()->dbforge->drop_table($table);
         }
     }
 }
