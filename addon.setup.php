@@ -8,7 +8,8 @@
         'version'           => '0.0.0',
         'settings_exist'    => TRUE,
         'models'            => array(
-            'Field_mappings'  => 'Models\Field_mappings'
+            'Api_settings' => 'Models\Api_settings',
+            'Field_mappings' => 'Models\Field_mappings'
         )
     )
 ?>
