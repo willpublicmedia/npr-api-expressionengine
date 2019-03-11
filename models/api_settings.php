@@ -9,9 +9,19 @@ if (!defined('BASEPATH')) {
 use EllisLab\ExpressionEngine\Service\Model\Model;
 
 class Api_settings extends Model {
+    public static $display_names = array(
+        'api_key' => 'API Key',
+        'pull_url' => 'Pull URL',
+        'push_url' => 'Push URL',
+        'org_id' => 'Org ID',
+        'npr_pull_post_type' => 'NPR Pull Post Type',
+        'npr_push_post_type' => 'NPR Push Post Type',
+        'npr_permissions' => 'NPR Permissions'
+    );
+
     protected static $_primary_key = 'id';
     protected static $_table_name = 'npr_story_api_settings';
-
+   
     protected $id;
     protected $api_key;
     protected $npr_permissions;
