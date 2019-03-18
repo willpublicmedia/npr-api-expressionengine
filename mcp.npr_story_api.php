@@ -52,8 +52,6 @@ class Npr_story_api_mcp
 
         return ee('View')->make('npr_story_api:index')->render($settings);
     }
-
-    private $post_types = array();
         
     private function validate_server($server) {
         return filter_var($server, FILTER_VALIDATE_URL);
