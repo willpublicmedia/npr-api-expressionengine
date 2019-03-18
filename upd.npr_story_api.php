@@ -23,8 +23,8 @@ class Npr_story_api_upd
 
         ee()->db->insert('modules', $data);
 
-        $this->create_settings_table();
-        $this->create_field_mappings_table();
+        // $this->create_settings_table();
+        // $this->create_field_mappings_table();
 
         return true;
     }
