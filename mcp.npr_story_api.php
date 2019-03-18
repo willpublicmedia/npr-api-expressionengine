@@ -7,36 +7,7 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Security\Permissions_checker;
 
 class Npr_story_api_mcp
 {
-    private $api_settings = array(
-        'api_key' => array(
-            'display_name' => 'API Key',
-            'value' => '',
-        ),
-        'pull_url' => array(
-            'display_name' => 'Pull URL',
-            'value' => '',
-        ),
-        'push_url' => array(
-            'display_name' => 'Push URL',
-            'value' => '',
-        ),
-        'org_id' => array(
-            'display_name' => 'Org ID',
-            'value' => '',
-        ),
-        'npr_pull_post_type' => array(
-            'display_name' => 'NPR Pull Post Type',
-            'value' => '',
-        ),
-        'npr_push_post_type' => array(
-            'display_name' => 'NPR Push Post Type',
-            'value' => '',
-        ),
-        'npr_permissions' => array(
-            'display_name' => 'NPR Permissions',
-            'value' => 'You have no Permission Groups defined with the NPR API.',
-        ),
-    );
+    private $api_settings = array();
 
     private $base_url;
 
@@ -61,10 +32,8 @@ class Npr_story_api_mcp
 
     private function load_settings()
     {
-        foreach ($this->api_settings as $setting => $values) {
-            $value = ee('Config')->get("npr_story_api:config.{$setting}");
-            $this->api_settings[$setting]['value'] = $value;
-        }
+        $settings = ee('Config')->get("npr_story_api:config.api_settings");
+        $this->api_settings = $settings;
     }
 
     private function validate_server($server)
