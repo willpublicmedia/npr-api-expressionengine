@@ -24,10 +24,72 @@ class Npr_story_api_mcp
     public function index()
     {
         $data = array(
-            'settings' => $this->api_settings
+            'base_url' => $this->base_url,
+            'cp_page_title' => 'NPR Story API Settings',
+            'save_btn_text' => 'Save Settings',
+            'save_btn_text_working' => 'Saving...',
+            'sections' => array(
+                array(
+                    array(
+                        'title' => 'API Key',
+                        'fields' => array(
+                            'api_key' => array(
+                                'type' => 'text',
+                                'value' => '',
+                                'required' => TRUE
+                            )
+                        )
+                    ),
+                    array(
+                        'title' => 'Pull URL',
+                        'fields' => array(
+                            'pull_url' => array(
+                                'type' => 'text',
+                                'value' => ''
+                            )
+                        )
+                    ),
+                    array(
+                        'title' => 'Push URL',
+                        'fields' => array(
+                            'push_url' => array(
+                                'type' => 'text',
+                                'value' => ''
+                            )
+                        )
+                    ),
+                    array(
+                        'title' => 'Org ID',
+                        'fields' => array(
+                            'org_id' => array(
+                                'type' => 'text',
+                                'value' => ''
+                            )
+                        )
+                    ),
+                    array(
+                        'title' => 'NPR Pull Post Type',
+                        'fields' => array(
+                            'npr_pull_post_type' => array(
+                                'type' => 'text',
+                                'value' => ''
+                            )
+                        )
+                    ),
+                    array(
+                        'title' => 'NPR Push Post Type',
+                        'fields' => array(
+                            'npr_push_post_type' => array(
+                                'type' => 'text',
+                                'value' => ''
+                            )
+                        )
+                    )
+                )
+            )
         );
 
-        return ee('View')->make('npr_story_api:index')->render($data);
+        return ee('View')->make('ee:_shared/form')->render($data);
     }
 
     private function load_settings()
