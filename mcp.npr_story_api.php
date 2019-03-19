@@ -5,6 +5,9 @@
 require_once __DIR__ . '/libraries/security/permissions-checker.php';
 use IllinoisPublicMedia\NprStoryApi\Libraries\Security\Permissions_checker;
 
+require_once __DIR__ . '/libraries/configuration/config_form_builder.php';
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_form_builder;
+
 class Npr_story_api_mcp
 {
     private $api_settings = array();
@@ -23,70 +26,14 @@ class Npr_story_api_mcp
 
     public function index()
     {
+        $builder = new Config_form_builder();
+        $form_fields = $builder->build_api_settings();
         $data = array(
             'base_url' => $this->base_url,
             'cp_page_title' => 'NPR Story API Settings',
             'save_btn_text' => 'Save Settings',
             'save_btn_text_working' => 'Saving...',
-            'sections' => array(
-                array(
-                    array(
-                        'title' => 'API Key',
-                        'fields' => array(
-                            'api_key' => array(
-                                'type' => 'text',
-                                'value' => '',
-                                'required' => TRUE
-                            )
-                        )
-                    ),
-                    array(
-                        'title' => 'Pull URL',
-                        'fields' => array(
-                            'pull_url' => array(
-                                'type' => 'text',
-                                'value' => ''
-                            )
-                        )
-                    ),
-                    array(
-                        'title' => 'Push URL',
-                        'fields' => array(
-                            'push_url' => array(
-                                'type' => 'text',
-                                'value' => ''
-                            )
-                        )
-                    ),
-                    array(
-                        'title' => 'Org ID',
-                        'fields' => array(
-                            'org_id' => array(
-                                'type' => 'text',
-                                'value' => ''
-                            )
-                        )
-                    ),
-                    array(
-                        'title' => 'NPR Pull Post Type',
-                        'fields' => array(
-                            'npr_pull_post_type' => array(
-                                'type' => 'text',
-                                'value' => ''
-                            )
-                        )
-                    ),
-                    array(
-                        'title' => 'NPR Push Post Type',
-                        'fields' => array(
-                            'npr_push_post_type' => array(
-                                'type' => 'text',
-                                'value' => ''
-                            )
-                        )
-                    )
-                )
-            )
+            'sections' => $form_fields
         );
 
         return ee('View')->make('ee:_shared/form')->render($data);
