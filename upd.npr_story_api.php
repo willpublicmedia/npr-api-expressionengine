@@ -51,6 +51,7 @@ class Npr_story_api_upd
         );
 
         $this->delete_tables($tables);
+        $this->delete_config();
 
         return true;
     }
@@ -149,6 +150,11 @@ class Npr_story_api_upd
         ee()->dbforge->add_key('id', true);
         ee()->dbforge->add_field($fields);
         ee()->dbforge->create_table('npr_story_api_settings');
+    }
+
+    private function delete_config() {
+        $uninstaller = new Config_installer();
+        $uninstaller->remove_config();
     }
 
     private function delete_tables($table_names)
