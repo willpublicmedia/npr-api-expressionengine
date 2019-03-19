@@ -2,6 +2,9 @@
     exit('No direct script access allowed');
 }
 
+require_once(__DIR__ . '/libraries/configuration/config_installer.php');
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_installer;
+
 class Npr_story_api_upd
 {
     private $version = '0.0.0';
@@ -23,6 +26,7 @@ class Npr_story_api_upd
 
         ee()->db->insert('modules', $data);
 
+        $this->create_config_file();
         // $this->create_settings_table();
         // $this->create_field_mappings_table();
 
@@ -58,6 +62,11 @@ class Npr_story_api_upd
         }
 
         return true;
+    }
+
+    private function create_config_file() {
+        $config_installer = new Config_installer();
+        $installer->install();
     }
 
     private function create_field_mappings_table()

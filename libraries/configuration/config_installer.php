@@ -7,7 +7,20 @@ if (!defined('BASEPATH')) {
 }
 
 class Config_installer {
+    private $central_config_dir = SYSPATH . '/user/config';
+
+    private $filename = 'npr_story_api';
+
     public function install() {
-        throw new Exception('not implemented');
+        $this->ensure_core_file();
+    }
+
+    private function ensure_core_file() {
+        $config_source = PATH_THIRD . '/npr_story_api/config/config.php';
+        $config_dest = "{$this->central_config_dir}/{$this->filename}.php";
+        
+        if (!\file_exists($config_dest)) {
+            copy($config_source, $config_dest);
+        }
     }
 }
