@@ -5,34 +5,13 @@ if (!defined('BASEPATH')) {
 }
 
 $config['api_settings'] = array(
-    'api_key' => array(
-        'display_name' => 'API Key',
-        'value' => '',
-    ),
-    'pull_url' => array(
-        'display_name' => 'Pull URL',
-        'value' => '',
-    ),
-    'push_url' => array(
-        'display_name' => 'Push URL',
-        'value' => '',
-    ),
-    'org_id' => array(
-        'display_name' => 'Org ID',
-        'value' => '',
-    ),
-    'npr_pull_post_type' => array(
-        'display_name' => 'NPR Pull Post Type',
-        'value' => '',
-    ),
-    'npr_push_post_type' => array(
-        'display_name' => 'NPR Push Post Type',
-        'value' => '',
-    ),
-    'npr_permissions' => array(
-        'display_name' => 'NPR Permissions',
-        'value' => 'You have no Permission Groups defined with the NPR API.',
-    ),
+    'api_key' => '',
+    'pull_url' => '',
+    'push_url' => '',
+    'org_id' => '',
+    'npr_pull_post_type' => '',
+    'npr_push_post_type' => '',
+    'npr_permissions' => 'You have no Permission Groups defined with the NPR API.'
 );
 
 $config['field_mappings'] = array(

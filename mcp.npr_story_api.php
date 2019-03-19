@@ -27,7 +27,7 @@ class Npr_story_api_mcp
     public function index()
     {
         $builder = new Config_form_builder();
-        $form_fields = $builder->build_api_settings();
+        $form_fields = $builder->build_api_settings_form($this->api_settings);
         $data = array(
             'base_url' => $this->base_url,
             'cp_page_title' => 'NPR Story API Settings',
