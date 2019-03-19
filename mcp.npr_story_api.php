@@ -32,7 +32,11 @@ class Npr_story_api_mcp
         $validation_results = null;
         if ( ! empty($_POST))
 		{
-			$validation_results = $this->process_form_data($_POST);
+            $validation_results = $this->process_form_data($_POST);
+            
+            if ($validation_results->isValid()) {
+                $this->save_settings($_POST);
+            }
         }
         
         $builder = new Config_form_builder();
@@ -54,11 +58,18 @@ class Npr_story_api_mcp
         $settings = ee('Config')->get("npr_story_api:config.api_settings");
         $this->api_settings = $settings;
     }
-
+    
     private function process_form_data($form_data) {
         $rules = Settings_validator::API_SETTINGS_RULES;
         $result = ee('Validation')->make($rules)->validate($form_data);
-        var_dump($result);
         return $result;
+    }
+
+    private function save_settings($form_data) {
+        foreach ($form_data as $key => $value) {
+            if ($this->api_settings[$key] != $value) {
+                ee('Config')->getFile('npr_story_api:config')->set("api_settings.{$key}", $value, TRUE);
+            }
+        }                
     }
 }
