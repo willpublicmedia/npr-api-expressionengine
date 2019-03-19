@@ -8,6 +8,9 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Security\Permissions_checker;
 require_once __DIR__ . '/libraries/configuration/config_form_builder.php';
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_form_builder;
 
+require_once __DIR__ . '/libraries/validation/settings_validator.php';
+use IllinoisPublicMedia\NprStoryApi\Libraries\Validation\Settings_validator;
+
 class Npr_story_api_mcp
 {
     private $api_settings = array();
@@ -26,11 +29,18 @@ class Npr_story_api_mcp
 
     public function index()
     {
+        $validation_results = null;
+        if ( ! empty($_POST))
+		{
+			$validation_results = $this->process_form_data($_POST);
+        }
+        
         $builder = new Config_form_builder();
         $form_fields = $builder->build_api_settings_form($this->api_settings);
         $data = array(
             'base_url' => $this->base_url,
             'cp_page_title' => 'NPR Story API Settings',
+            'errors' => $validation_results,
             'save_btn_text' => 'Save Settings',
             'save_btn_text_working' => 'Saving...',
             'sections' => $form_fields
@@ -45,8 +55,10 @@ class Npr_story_api_mcp
         $this->api_settings = $settings;
     }
 
-    private function validate_server($server)
-    {
-        return filter_var($server, FILTER_VALIDATE_URL);
+    private function process_form_data($form_data) {
+        $rules = Settings_validator::API_SETTINGS_RULES;
+        $result = ee('Validation')->make($rules)->validate($form_data);
+        var_dump($result);
+        return $result;
     }
 }
