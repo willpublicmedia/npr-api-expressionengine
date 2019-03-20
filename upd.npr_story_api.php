@@ -17,6 +17,8 @@ class Npr_story_api_upd
 
     public function install()
     {
+        $this->create_config_tables();
+        
         $data = array(
             'module_name' => $this->module_name,
             'module_version' => $this->version,
@@ -25,8 +27,6 @@ class Npr_story_api_upd
         );
 
         ee()->db->insert('modules', $data);
-
-        $this->create_config_tables();
         
         return true;
     }
