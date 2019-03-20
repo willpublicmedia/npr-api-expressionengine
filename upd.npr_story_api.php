@@ -109,7 +109,8 @@ class Npr_story_api_upd
     }
 
     private function delete_channels() {
-        //throw new Exception('not implemented.');
+        $installer = new Channel_installer();
+        $installer->uninstall();
     }
 
     private function delete_config() {

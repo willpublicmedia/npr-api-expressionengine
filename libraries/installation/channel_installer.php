@@ -33,6 +33,17 @@ class Channel_installer {
             $this->create_channel($data);
         }
     }
+    
+    /**
+     * Delete NPR Story API channels.
+     *
+     * @return void
+     */
+    public function uninstall() {
+        foreach(array_values($this->channel_data) as $model) {
+            $model->delete();
+        }
+    }
 
     /**
      * Create a new channel using a channel model.
