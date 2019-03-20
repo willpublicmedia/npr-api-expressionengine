@@ -67,10 +67,21 @@ class Npr_story_api_mcp
     }
 
     private function save_settings($form_data) {
+        $changed = FALSE;
         foreach ($form_data as $key => $value) {
             if ($this->api_settings[$key] != $value) {
-                ee('Config')->getFile('npr_story_api:config')->set("api_settings.{$key}", $value, TRUE);
+                // ee('Config')->getFile('npr_story_api')->set("api_settings.{$key}", $value, TRUE);
+                $changed = TRUE;
+                break;
             }
-        }                
+        }
+
+        // if ($changed) {
+            // ee()->config->load('npr_story_api', TRUE);
+            ee()->config->set_item('meat', 'pineapple');
+
+            ee('Config')->getFile('npr_story_api')->set('pineapple', 'meat', TRUE);
+            // ee()->config->set_item('api_settings', $form_data);
+        // }
     }
 }
