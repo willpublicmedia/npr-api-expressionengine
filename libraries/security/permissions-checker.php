@@ -6,10 +6,12 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
-
+/**
+ * Tools for checking NPR Story API permissions.
+ */
 class Permissions_checker {
     /**
-	 * Makes sure users can access a given method
+	 * Makes sure users can access a given method.
 	 *
 	 * @access	private
 	 * @return	void

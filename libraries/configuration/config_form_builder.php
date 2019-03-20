@@ -6,6 +6,9 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
+/**
+ * Tools for building NPR Story API control panel forms.
+ */
 class Config_form_builder {
     private $api_settings_form = array(
         array(
@@ -67,6 +70,13 @@ class Config_form_builder {
         )
     );
 
+    /**
+     * Build control panel form for API settings.
+     *
+     * @param  mixed $settings NPR Story API setting values.
+     *
+     * @return mixed Control panel form.
+     */
     public function build_api_settings_form($settings) {
         $this->add_form_values($settings);
         $form_data = $this->api_settings_form;

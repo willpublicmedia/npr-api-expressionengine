@@ -6,7 +6,13 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
+/**
+ * Tools for validating NPR Story API form data.
+ */
 class Settings_validator {
+    /**
+     * Default validation rules for NPR Story API settings.
+     */
     public const API_SETTINGS_RULES = array(
         'api_key' => 'required|maxLength[64]|alphaNumeric',
         'pull_url' => 'url|maxLength[64]',
@@ -17,6 +23,14 @@ class Settings_validator {
         'npr_push_post_type' => 'alpha|maxLength[64]'
     );
 
+    /**
+     * Validate form values.
+     *
+     * @param  mixed $data Form data.
+     * @param  mixed $rules Validation rules.
+     *
+     * @return mixed Validation object.
+     */
     public function validate($data, $rules) {
         $results = ee('Validation')->make($rules)->validate($data);
         return $results;

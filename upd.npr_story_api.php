@@ -5,16 +5,29 @@
 require_once(__DIR__ . '/libraries/configuration/config_installer.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_installer;
 
+/**
+ * NPR Story API updater.
+ */
 class Npr_story_api_upd
 {
     private $version = '0.0.0';
 
     private $module_name = 'Npr_story_api';
 
+    /**
+     * NPR Story API updater constructor.
+     *
+     * @return void
+     */
     public function __construct() {
         ee()->load->dbforge();
     }
 
+    /**
+     * Install NPR Story API module.
+     *
+     * @return bool
+     */
     public function install()
     {
         $this->create_config_tables();
@@ -31,6 +44,11 @@ class Npr_story_api_upd
         return true;
     }
 
+    /**
+     * Uninstall NPR Story API module.
+     *
+     * @return bool
+     */
     public function uninstall()
     {
         ee()->db->select('module_id');
@@ -48,6 +66,13 @@ class Npr_story_api_upd
         return true;
     }
 
+    /**
+     * Update NPR Story API module.
+     *
+     * @param  mixed $current Current module version.
+     *
+     * @return bool
+     */
     public function update($current = '')
     {
         if (version_compare($current, $this->version, '=')) {

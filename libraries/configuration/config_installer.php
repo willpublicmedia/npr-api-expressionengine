@@ -6,12 +6,25 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
+/**
+ * NPR Story API configuration installer.
+ */
 class Config_installer {
+    /**
+     * Install NPR Story API settings.
+     *
+     * @return void
+     */
     public function install() {
         $this->create_settings_table();
         $this->create_field_mappings_table();
     }
 
+    /**
+     * Uninstall NPR Story API settings.
+     *
+     * @return void
+     */
     public function uninstall() {
         $tables = array(
             'npr_story_api_field_mappings',

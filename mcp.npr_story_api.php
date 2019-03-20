@@ -11,12 +11,21 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_form_builder;
 require_once __DIR__ . '/libraries/validation/settings_validator.php';
 use IllinoisPublicMedia\NprStoryApi\Libraries\Validation\Settings_validator;
 
+/**
+ * NPR Story API control panel.
+ */
 class Npr_story_api_mcp
 {
     private $api_settings = array();
 
     private $base_url;
 
+    
+    /**
+     * NPR Story API control panel constructor.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $permissions = new Permissions_checker();
@@ -27,6 +36,12 @@ class Npr_story_api_mcp
         ee()->load->helper('form');
     }
 
+    
+    /**
+     * NPR Story API settings index.
+     *
+     * @return void
+     */
     public function index()
     {
         $validation_results = null;
@@ -35,7 +50,7 @@ class Npr_story_api_mcp
             $validation_results = $this->process_form_data($_POST);
             
             if ($validation_results->isValid()) {
-                $this->save_settings($_POST);
+                $this->save_settings($_POST, 'npr_story_api_settings');
             }
         }
         
@@ -72,22 +87,24 @@ class Npr_story_api_mcp
         return $result;
     }
 
-    private function save_settings($form_data) {
+    private function save_settings($form_data, $table_name) {
         $changed = FALSE;
         foreach ($form_data as $key => $value) {
             if ($this->api_settings[$key] != $value) {
-                // ee('Config')->getFile('npr_story_api')->set("api_settings.{$key}", $value, TRUE);
                 $changed = TRUE;
                 break;
             }
         }
 
-        // if ($changed) {
-            // ee()->config->load('npr_story_api', TRUE);
-            ee()->config->set_item('meat', 'pineapple');
+        if ($changed == FALSE) {
+            return;
+        }
 
-            ee('Config')->getFile('npr_story_api')->set('pineapple', 'meat', TRUE);
-            // ee()->config->set_item('api_settings', $form_data);
-        // }
+        $query = ee()->db->
+            get($table_name)->
+            result_array();
+        $old_settings = array_pop($query);
+
+        ee()->db->update($table_name, $form_data, array('id' => $old_settings['id']));
     }
 }
