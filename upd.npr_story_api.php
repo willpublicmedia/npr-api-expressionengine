@@ -67,7 +67,7 @@ class Npr_story_api_upd
 
     private function create_config_file() {
         $config_installer = new Config_installer();
-        $installer->install();
+        $config_installer->install();
     }
 
     private function create_field_mappings_table()
