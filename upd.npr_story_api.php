@@ -5,6 +5,9 @@
 require_once(__DIR__ . '/libraries/configuration/config_installer.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_installer;
 
+require_once(__DIR__ . '/libraries/configuration/config_installer.php');
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Channel_installer;
+
 /**
  * NPR Story API updater.
  */
@@ -31,6 +34,7 @@ class Npr_story_api_upd
     public function install()
     {
         $this->create_config_tables();
+        $this->create_required_channels();
         
         $data = array(
             'module_name' => $this->module_name,
@@ -62,6 +66,7 @@ class Npr_story_api_upd
         ee()->db->delete('actions', array('class' => 'Ipm_pledge_tracker_mcp'));
 
         $this->delete_config();
+        $this->delete_channels();
 
         return true;
     }
@@ -85,6 +90,19 @@ class Npr_story_api_upd
     private function create_config_tables() {
         $config_installer = new Config_installer();
         $config_installer->install();
+    }
+
+    private function create_required_channels() {
+        $channels = array(
+            'npr_stories'
+        );
+
+        $installer = new Channel_installer();
+        $installer->install($channels);
+    }
+
+    private function delete_channels() {
+        throw new Exception('not implemented.');
     }
 
     private function delete_config() {
