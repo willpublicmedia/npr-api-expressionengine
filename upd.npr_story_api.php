@@ -80,6 +80,13 @@ class Npr_story_api_upd
      */
     public function update($current = '')
     {
+        if (version_compare($this->version, '1.0.0', '<')) {
+            $this->uninstall();
+            $this->install();
+
+            return true;
+        }
+        
         if (version_compare($current, $this->version, '=')) {
             return false;
         }
