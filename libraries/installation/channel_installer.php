@@ -59,7 +59,7 @@ class Channel_installer {
         $channel = ee('Model')->make('Channel', array(
             'channel_name' => 'npr_stories',
             'channel_title' => 'NPR Stories',
-            'channel_url' => '/npr',
+            'channel_url' => '{base_url}npr',
             'channel_description' => 'Stories pulled from the NPR Story API.',
         ));
 
