@@ -55,8 +55,14 @@ class Npr_story_api_mcp
 
     private function load_settings()
     {
-        ee()->config->load('npr_story_api', TRUE);
-        $settings = ee()->config->item('api_settings', 'npr_story_api');
+        $results = ee()->db->
+            select('*')->
+            from('npr_story_api_settings')->
+            get()->
+            result_array();
+
+        $settings = array_pop($results);
+
         $this->api_settings = $settings;
     }
     
