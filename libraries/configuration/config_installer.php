@@ -21,8 +21,22 @@ class Config_installer {
         $this->delete_tables($tables);
     }
 
+    private function add_default_settings($table, $defaults) {
+        $results = ee()->db->
+            select('*')->
+            from($table)->
+            get();
+        
+        if (!empty($results->result_array())) {
+            return;
+        }
+        
+        ee()->db->insert($table, $defaults);
+    }
+
     private function create_field_mappings_table()
     {
+        $table_name = 'npr_story_api_field_mappings';
         $fields = array(
             'id' => array(
                 'type' => 'int',
@@ -56,11 +70,23 @@ class Config_installer {
         );
         ee()->dbforge->add_key('id', true);
         ee()->dbforge->add_field($fields);
-        ee()->dbforge->create_table('npr_story_api_field_mappings');
+        ee()->dbforge->create_table($table_name);
+
+        $defaults = array(
+            'custom_settings' => FALSE,
+            'media_agency_field' => '',
+            'media_credit_field' => '',
+            'story_title' => '',
+            'story_body' => '',
+            'story_byline' => ''
+        );
+
+        ee()->db->insert($table_name, $defaults);
     }
 
     private function create_settings_table()
     {
+        $table_name = 'npr_story_api_settings';
         $fields = array(
             'id' => array(
                 'type' => 'int',
@@ -86,6 +112,7 @@ class Config_installer {
             ),
             'org_id' => array(
                 'type' => 'int',
+                'null' => TRUE,
                 'constraint' => 10,
             ),
             'pull_url' => array(
@@ -100,7 +127,19 @@ class Config_installer {
 
         ee()->dbforge->add_key('id', true);
         ee()->dbforge->add_field($fields);
-        ee()->dbforge->create_table('npr_story_api_settings');
+        ee()->dbforge->create_table($table_name);
+        
+        $defaults = array(
+            'api_key' => '',
+            'npr_permissions' => '',
+            'npr_pull_post_type' => '',
+            'npr_push_post_type' => '',
+            'org_id' => null,
+            'pull_url' => '',
+            'push_url' => ''
+        );
+
+        $this->add_default_settings($table_name, $defaults);
     }
     
     private function delete_tables($table_names)
