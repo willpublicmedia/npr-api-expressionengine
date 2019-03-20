@@ -42,7 +42,7 @@ class Channel_installer {
      * @return void
      */
     private function create_channel($model) {
-        ee()->db->insert('channels', $model);    
+        $model->save();
     }
 
     private function load_channel_data() {
@@ -62,6 +62,8 @@ class Channel_installer {
             'channel_url' => '{base_url}npr',
             'channel_description' => 'Stories pulled from the NPR Story API.',
         ));
+
+        $fields = ee('Model')->get('ChannelFieldGroup')->all();
 
         return $channel;
     }

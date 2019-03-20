@@ -109,7 +109,7 @@ class Npr_story_api_upd
     }
 
     private function delete_channels() {
-        throw new Exception('not implemented.');
+        //throw new Exception('not implemented.');
     }
 
     private function delete_config() {
