@@ -11,13 +11,22 @@ if (!defined('BASEPATH')) {
  */
 class Config_installer {
     /**
+     * Config constructor.
+     *
+     * @return void
+     */
+    public function __construct() {
+        ee()->load->dbutil();
+    }
+
+    /**
      * Install NPR Story API settings.
      *
      * @return void
      */
     public function install() {
-        $this->create_settings_table();
-        $this->create_field_mappings_table();
+        $this->init_settings_table();
+        $this->init_field_mappings_table();
     }
 
     /**
@@ -35,10 +44,7 @@ class Config_installer {
     }
 
     private function add_default_settings($table, $defaults) {
-        $results = ee()->db->
-            select('*')->
-            from($table)->
-            get();
+        $results = ee()->db->get($table);
         
         if (!empty($results->result_array())) {
             return;
@@ -47,9 +53,21 @@ class Config_installer {
         ee()->db->insert($table, $defaults);
     }
 
-    private function create_field_mappings_table()
+    private function create_table($table_name, $fields, $defaults) {
+        if (!ee()->db->table_exists($table_name)) {
+            ee()->dbforge->add_key('id', true);
+            ee()->dbforge->add_field($fields);
+            ee()->dbforge->create_table($table_name);
+            ee()->db->insert($table_name, $fields);
+        }
+
+        $this->add_default_settings($table_name, $defaults);
+    }
+
+    private function init_field_mappings_table()
     {
         $table_name = 'npr_story_api_field_mappings';
+
         $fields = array(
             'id' => array(
                 'type' => 'int',
@@ -81,9 +99,6 @@ class Config_installer {
                 'constraint' => 128,
             )
         );
-        ee()->dbforge->add_key('id', true);
-        ee()->dbforge->add_field($fields);
-        ee()->dbforge->create_table($table_name);
 
         $defaults = array(
             'custom_settings' => FALSE,
@@ -94,12 +109,13 @@ class Config_installer {
             'story_byline' => ''
         );
 
-        ee()->db->insert($table_name, $defaults);
+        $this->create_table($table_name, $fields, $defaults);
     }
 
-    private function create_settings_table()
+    private function init_settings_table()
     {
         $table_name = 'npr_story_api_settings';
+
         $fields = array(
             'id' => array(
                 'type' => 'int',
@@ -137,10 +153,6 @@ class Config_installer {
                 'constraint' => 64,
             )
         );
-
-        ee()->dbforge->add_key('id', true);
-        ee()->dbforge->add_field($fields);
-        ee()->dbforge->create_table($table_name);
         
         $defaults = array(
             'api_key' => '',
@@ -152,7 +164,7 @@ class Config_installer {
             'push_url' => ''
         );
 
-        $this->add_default_settings($table_name, $defaults);
+        $this->create_table($table_name, $fields, $defaults);
     }
     
     private function delete_tables($table_names)
