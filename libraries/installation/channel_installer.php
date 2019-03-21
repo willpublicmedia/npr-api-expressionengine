@@ -33,7 +33,7 @@ class Channel_installer {
             $this->create_channel($data);
         }
     }
-    
+
     /**
      * Delete NPR Story API channels.
      *
@@ -74,8 +74,9 @@ class Channel_installer {
             'channel_description' => 'Stories pulled from the NPR Story API.',
         ));
 
-        $fields = ee('Model')->get('ChannelFieldGroup')->all();
-
+        $channel->FieldGroups = ee('Model')->get('ChannelFieldGroup')->all();
+        $channel->CustomFields = ee('Model')->get('ChannelField')->all();
+        
         return $channel;
     }
 }
