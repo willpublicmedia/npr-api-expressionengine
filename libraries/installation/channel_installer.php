@@ -53,7 +53,13 @@ class Channel_installer {
      * @return void
      */
     private function create_channel($model) {
-        $model->save();
+        $already_installed = ee('Model')->get('Channel')
+            ->filter('channel_name', $model->channel_name)
+            ->count() > 0;
+
+        if ($already_installed === FALSE) {
+            $model->save();
+        }
     }
 
     private function load_channel_data() {
