@@ -1,0 +1,7 @@
+{
+    "name": "illinoispublicmedia/npr_api_expressionengine",
+    "description": "An ExpressionEngine wrapper for NPR's Story API Wordpress plugin.",
+    "license": "",
+    "type": "expressionengine-addon",
+    "require": {}
+}
