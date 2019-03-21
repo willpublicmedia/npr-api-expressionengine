@@ -63,7 +63,6 @@ class Npr_story_api_upd
         ee()->db->delete('module_member_groups', array('module_id' => $query->row('module_id')));
         ee()->db->delete('modules', array('module_name' => $this->module_name));
         ee()->db->delete('actions', array('class' => $this->module_name));
-        ee()->db->delete('actions', array('class' => 'Ipm_pledge_tracker_mcp'));
 
         $this->delete_config();
         $this->delete_channels();
