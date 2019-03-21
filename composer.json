@@ -3,5 +3,12 @@
     "description": "An ExpressionEngine wrapper for NPR's Story API Wordpress plugin.",
     "license": "",
     "type": "expressionengine-addon",
-    "require": {}
+    "require": {
+        "npr/nprapi-wordpress": "master"
+    },
+    "repositories": [{
+        "type": "github",
+        "url": "https://github.com/npr/nprapi-wordpress"
+    }],
+    "minimum-stability": "dev"
 }
