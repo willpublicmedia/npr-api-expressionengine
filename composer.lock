@@ -1,0 +1,44 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d974007a5a3aba014c8b7147cb4a7b3f",
+    "packages": [
+        {
+            "name": "nprds/nprapi-wordpress",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/npr/nprapi-wordpress.git",
+                "reference": "0d6fa17c1f44ed39450e0ab6e1391dd2bcf99d5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/npr/nprapi-wordpress/zipball/0d6fa17c1f44ed39450e0ab6e1391dd2bcf99d5d",
+                "reference": "0d6fa17c1f44ed39450e0ab6e1391dd2bcf99d5d",
+                "shasum": ""
+            },
+            "type": "wordpress-plugin",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Access the NPR API from within Wordpress",
+            "homepage": "https://digitalservices.npr.org/",
+            "support": {
+                "source": "https://github.com/npr/nprapi-wordpress/tree/v1.8",
+                "issues": "https://github.com/npr/nprapi-wordpress/issues"
+            },
+            "time": "2018-09-28T21:36:13+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

@@ -4,7 +4,7 @@
     "license": "",
     "type": "expressionengine-addon",
     "require": {
-        "npr/nprapi-wordpress": "master"
+        "nprds/nprapi-wordpress": "master"
     },
     "repositories": [{
         "type": "github",
