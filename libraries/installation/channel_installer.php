@@ -7,7 +7,6 @@ if (!defined('BASEPATH')) {
 }
 
 use EllisLab\ExpressionEngine\Model\Channel\Channel;
-use EllisLab\ExpressionEngine\Model\Status\Status;
 
 /**
  * Installs channels required by NPR Story API module.
@@ -63,17 +62,6 @@ class Channel_installer {
         }
     }
 
-    private function create_status($status_name) {
-        $data = array(
-            'status' => $status_name,
-            'highlight' => 'ffcc00'
-        );
-
-        $status = ee('Model')->make('Status', $data);
-        
-        return $status;
-    }
-
     private function load_channel_data() {
         $npr_stories = $this->load_npr_story_channel();
 
@@ -94,10 +82,6 @@ class Channel_installer {
 
         $channel->FieldGroups = ee('Model')->get('ChannelFieldGroup')->all();
         $channel->CustomFields = ee('Model')->get('ChannelField')->all();
-        
-        $draft = $this->create_status('draft');
-
-        $channel->Statuses->add($draft);
         
         return $channel;
     }

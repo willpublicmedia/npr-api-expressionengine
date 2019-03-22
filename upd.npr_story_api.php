@@ -2,11 +2,9 @@
     exit('No direct script access allowed');
 }
 
-require_once(__DIR__ . '/libraries/configuration/config_installer.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_installer;
-
-require_once(__DIR__ . '/libraries/configuration/config_installer.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Channel_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Status_installer;
 
 /**
  * NPR Story API updater.
@@ -34,6 +32,7 @@ class Npr_story_api_upd
     public function install()
     {
         $this->create_config_tables();
+        $this->create_required_statuses();
         $this->create_required_channels();
         
         $data = array(
@@ -65,7 +64,8 @@ class Npr_story_api_upd
         ee()->db->delete('actions', array('class' => $this->module_name));
 
         $this->delete_config();
-        $this->delete_channels();
+        // $this->delete_channels();
+        // $this->delete_statuses();
 
         return true;
     }
@@ -107,6 +107,15 @@ class Npr_story_api_upd
         $installer->install($channels);
     }
 
+    private function create_required_statuses() {
+        $statuses = array(
+            'draft'
+        );
+
+        $installer = new Status_installer();
+        $installer->install($statuses);
+    }
+
     private function delete_channels() {
         $installer = new Channel_installer();
         $installer->uninstall();
@@ -114,6 +123,11 @@ class Npr_story_api_upd
 
     private function delete_config() {
         $uninstaller = new Config_installer();
+        $uninstaller->uninstall();
+    }
+
+    private function delete_statuses() {
+        $uninstaller = new Status_installer();
         $uninstaller->uninstall();
     }
 }
