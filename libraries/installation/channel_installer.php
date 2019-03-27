@@ -17,7 +17,7 @@ class Channel_installer {
     );
 
     public function __construct() {
-        $this->channel_data = $this->load_channel_data();
+        $this->required_channels = $this->load_required_channels();
     }
 
     /**
@@ -27,12 +27,12 @@ class Channel_installer {
      */
     public function install($channel_names) {
         foreach($channel_names as $name) {
-            if (!array_key_exists($name, $this->channel_data)) {
+            if (!array_key_exists($name, $this->required_channels)) {
                 throw new Exception("Channel configuration not found for {$name}.");
             }
 
-            $data = $this->channel_data[$name];
-            $this->create_channel($data);
+            $data = $this->required_channels[$name];
+            $data->save();
         }
     }
 
@@ -42,45 +42,26 @@ class Channel_installer {
      * @return void
      */
     public function uninstall() {
-        foreach(array_values($this->channel_data) as $model) {
+        foreach(array_values($this->required_channels) as $model) {
             $model->delete();
         }
     }
 
-    /**
-     * Create a new channel using a channel model.
-     *
-     * @param  Channel $model Channel model.
-     *
-     * @return void
-     */
-    private function create_channel($model) {
-        $already_installed = ee('Model')->get('Channel')
-            ->filter('channel_name', $model->channel_name)
-            ->count() > 0;
-
-        if ($already_installed === FALSE) {
-            $model->save();
-        }
-    }
-
-    private function load_channel_data() {
-        $npr_stories = $this->load_npr_story_channel();
-
-        $channels = array(
-            'npr_stories' => $npr_stories
-        );
-
-        return $channels;
-    }
-
-    private function load_npr_story_channel() {
-        $channel = ee('Model')->make('Channel', array(
+    private function init_npr_story_channel($channel = null) {
+        $data = array(
             'channel_name' => 'npr_stories',
             'channel_title' => 'NPR Stories',
             'channel_url' => '{base_url}npr',
             'channel_description' => 'Stories pulled from the NPR Story API.',
-        ));
+        );
+
+        if ($channel == null) {
+            $channel = ee('Model')->make('Channel');
+        }
+
+        foreach ($data as $key => $val) {
+            $channel->{$key} = $val;
+        }
 
         $channel->FieldGroups = ee('Model')->get('ChannelFieldGroup')->all();
         $channel->CustomFields = ee('Model')->get('ChannelField')->all();
@@ -90,5 +71,33 @@ class Channel_installer {
         $channel->deft_status = $status->status;
 
         return $channel;
+    }
+
+    private function load_channel_data($channel_name) {
+        $channel = ee('Model')
+            ->get('Channel')
+            ->filter('channel_name', '==', $channel_name)
+            ->first();
+        
+        switch($channel_name) {
+            case 'npr_stories':
+                $channel = $this->init_npr_story_channel($channel);
+                break;
+            default:
+                throw new Exception("Couldn't find initializer function for channel {$channel_name}.");
+        }
+
+        return $channel;
+    }
+
+    private function load_required_channels() {
+        $channels = $this->required_channels;
+        
+        foreach ($channels as $name => $channel) {
+            $channel = $this->load_channel_data($name);
+            $channels[$name] = $channel;
+        }
+
+        return $channels;
     }
 }
