@@ -44,7 +44,7 @@ class status_installer
      */
     public function uninstall()
     {
-        foreach (array_values($this->channel_data) as $model) {
+        foreach (array_values($this->status_data) as $model) {
             $model->delete();
         }
     }
