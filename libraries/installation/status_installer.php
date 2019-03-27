@@ -13,11 +13,13 @@ use EllisLab\ExpressionEngine\Model\Status\Status;
  */
 class status_installer
 {
-    private $status_data;
+    private $required_statuses = array(
+        'draft' => null
+    );
 
     public function __construct()
     {
-        $this->status_data = $this->load_status_data();
+        $this->required_statuses = $this->load_required_statuses();
     }
 
     /**
@@ -28,12 +30,12 @@ class status_installer
     public function install($status_names)
     {
         foreach ($status_names as $name) {
-            if (!array_key_exists($name, $this->status_data)) {
+            if (!array_key_exists($name, $this->required_statuses)) {
                 throw new Exception("Status configuration not found for {$name}.");
             }
 
-            $data = $this->status_data[$name];
-            $this->init_status($data);
+            $data = $this->required_statuses[$name];
+            $data->save();
         }
     }
 
@@ -44,50 +46,55 @@ class status_installer
      */
     public function uninstall()
     {
-        foreach (array_values($this->status_data) as $model) {
+        foreach (array_values($this->required_statuses) as $model) {
             $model->delete();
         }
     }
 
-    private function create_status($status_name)
-    {
+    private function create_draft($status = null) {
         $data = array(
-            'status' => $status_name,
+            'status' => 'draft',
             'highlight' => 'ffcc00',
-            'status_order' => 2,
+            'status_order' => 2
         );
 
-        $status = ee('Model')->make('Status', $data);
+        if ($status == null) {
+            $status = ee('Model')->make('Status');
+        }
+
+        foreach ($data as $key => $val) {
+            $status->{$key} = $val;
+        }
 
         return $status;
     }
+    
+    private function load_required_statuses() {
+        $statuses = $this->required_statuses;
 
-    /**
-     * Create a new status using a status model.
-     *
-     * @param  Status $model Status model.
-     *
-     * @return void
-     */
-    private function init_status($model)
-    {
-        $already_installed = ee('Model')->get('Status')
-            ->filter('status', $model->status)
-            ->count() > 0;
-
-        if ($already_installed === false) {
-            $model->save();
+        foreach ($statuses as $name => $status) {
+            $status = $this->load_status_data($name);
+            $statuses[$name] = $status;
         }
-    }
-
-    private function load_status_data()
-    {
-        $draft = $this->create_status('draft');
-
-        $statuses = array(
-            'draft' => $draft,
-        );
 
         return $statuses;
+    }
+
+    private function load_status_data($status_name)
+    {
+        $status = ee('Model')
+            ->get('Status')
+            ->filter('status', '==', $status_name)
+            ->first();
+
+        switch($status_name) {
+            case 'draft':
+                $status = $this->create_draft($status);
+                break;
+            default:
+                throw new Exception("No status initializer found for {$status_name}.");
+        }
+
+        return $status;
     }
 }
