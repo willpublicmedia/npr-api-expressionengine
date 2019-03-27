@@ -65,8 +65,9 @@ class Channel_installer {
 
         $channel->FieldGroups = ee('Model')->get('ChannelFieldGroup')->all();
         $channel->CustomFields = ee('Model')->get('ChannelField')->all();
+        
         $channel->Statuses = ee('Model')->get('Status')->filter('status', '!=', 'Default Page')->all();
-        // $channel->deft_status = $status->status;
+        $channel->deft_status = 'draft';
 
         return $channel;
     }
