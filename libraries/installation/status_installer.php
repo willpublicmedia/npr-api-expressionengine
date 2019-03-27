@@ -54,8 +54,7 @@ class status_installer
     private function create_draft($status = null) {
         $data = array(
             'status' => 'draft',
-            'highlight' => 'ffcc00',
-            'status_order' => 2
+            'highlight' => 'ffcc00'
         );
 
         if ($status == null) {
