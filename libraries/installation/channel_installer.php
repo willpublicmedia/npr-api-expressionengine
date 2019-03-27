@@ -12,7 +12,9 @@ use EllisLab\ExpressionEngine\Model\Channel\Channel;
  * Installs channels required by NPR Story API module.
  */
 class Channel_installer {
-    private $channel_data;
+    private $required_channels = array(
+        'npr_stories' => null
+    );
 
     public function __construct() {
         $this->channel_data = $this->load_channel_data();
@@ -86,7 +88,7 @@ class Channel_installer {
         $status = ee('Model')->get('Status')->filter('status', '==', 'draft')->first();
         $channel->Statuses->add($status);
         $channel->deft_status = $status->status;
-        
+
         return $channel;
     }
 }
