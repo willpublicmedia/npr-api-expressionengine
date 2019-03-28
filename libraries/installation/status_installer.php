@@ -14,13 +14,8 @@ use EllisLab\ExpressionEngine\Model\Status\Status;
 class status_installer
 {
     private $required_statuses = array(
-        'draft' => null
+        'draft'
     );
-
-    public function __construct()
-    {
-        $this->required_statuses = $this->load_required_statuses();
-    }
 
     /**
      * Create status.
@@ -30,12 +25,11 @@ class status_installer
     public function install($status_names)
     {
         foreach ($status_names as $name) {
-            if (!array_key_exists($name, $this->required_statuses)) {
+            if (!in_array($name, $this->required_statuses)) {
                 throw new Exception("Status configuration not found for {$name}.");
             }
 
-            $data = $this->required_statuses[$name];
-            $data->save();
+            $this->update_status_data($name);
         }
     }
 
@@ -46,7 +40,8 @@ class status_installer
      */
     public function uninstall()
     {
-        foreach (array_values($this->required_statuses) as $model) {
+        foreach (array_values($this->required_statuses) as $name) {
+            $model = ee('Model')->get('Status')->filter('status', '==', $name)->first();
             $model->delete();
         }
     }
@@ -65,21 +60,10 @@ class status_installer
             $status->{$key} = $val;
         }
 
-        return $status;
+        $status->save();
     }
     
-    private function load_required_statuses() {
-        $statuses = $this->required_statuses;
-
-        foreach ($statuses as $name => $status) {
-            $status = $this->load_status_data($name);
-            $statuses[$name] = $status;
-        }
-
-        return $statuses;
-    }
-
-    private function load_status_data($status_name)
+    private function update_status_data($status_name)
     {
         $status = ee('Model')
             ->get('Status')
@@ -88,12 +72,10 @@ class status_installer
 
         switch($status_name) {
             case 'draft':
-                $status = $this->create_draft($status);
+                $this->create_draft($status);
                 break;
             default:
                 throw new Exception("No status initializer found for {$status_name}.");
         }
-
-        return $status;
     }
 }
