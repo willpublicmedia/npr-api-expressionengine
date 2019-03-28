@@ -13,12 +13,8 @@ use EllisLab\ExpressionEngine\Model\Channel\Channel;
  */
 class Channel_installer {
     private $required_channels = array(
-        'npr_stories' => null
+        'npr_stories'
     );
-
-    public function __construct() {
-        $this->required_channels = $this->load_required_channels();
-    }
 
     /**
      * Create channel.
@@ -27,12 +23,11 @@ class Channel_installer {
      */
     public function install($channel_names) {
         foreach($channel_names as $name) {
-            if (!array_key_exists($name, $this->required_channels)) {
+            if (!in_array($name, $this->required_channels)) {
                 throw new Exception("Channel configuration not found for {$name}.");
             }
 
-            $data = $this->required_channels[$name];
-            $data->save();
+            $this->update_channel_data($name);
         }
     }
 
@@ -42,7 +37,8 @@ class Channel_installer {
      * @return void
      */
     public function uninstall() {
-        foreach(array_values($this->required_channels) as $model) {
+        foreach($this->required_channels as $name) {
+            $model = ee('Model')->get('Channel')->filter('channel_name', '==', $name)->first();
             $model->delete();
         }
     }
@@ -66,13 +62,15 @@ class Channel_installer {
         $channel->FieldGroups = ee('Model')->get('ChannelFieldGroup')->all();
         $channel->CustomFields = ee('Model')->get('ChannelField')->all();
         
-        $channel->Statuses = ee('Model')->get('Status')->filter('status', '!=', 'Default Page')->all();
+        $draft = ee('Model')->get('Status')->filter('status', '==', 'draft')->first();
+        $channel->Statuses->add($draft);
         $channel->deft_status = 'draft';
-
-        return $channel;
+        
+        $channel->save();
+        $draft->save();
     }
 
-    private function load_channel_data($channel_name) {
+    private function update_channel_data($channel_name) {
         $channel = ee('Model')
             ->get('Channel')
             ->filter('channel_name', '==', $channel_name)
@@ -80,23 +78,10 @@ class Channel_installer {
         
         switch($channel_name) {
             case 'npr_stories':
-                $channel = $this->init_npr_story_channel($channel);
+                $this->init_npr_story_channel($channel);
                 break;
             default:
                 throw new Exception("Couldn't find initializer function for channel {$channel_name}.");
         }
-
-        return $channel;
-    }
-
-    private function load_required_channels() {
-        $channels = $this->required_channels;
-        
-        foreach ($channels as $name => $channel) {
-            $channel = $this->load_channel_data($name);
-            $channels[$name] = $channel;
-        }
-
-        return $channels;
     }
 }
