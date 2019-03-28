@@ -3,6 +3,7 @@
 }
 
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Channel_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Status_installer;
 
@@ -32,6 +33,7 @@ class Npr_story_api_upd
     public function install()
     {
         $this->create_config_tables();
+        $this->create_required_fields();
         $this->create_required_statuses();
         $this->create_required_channels();
         
@@ -66,6 +68,7 @@ class Npr_story_api_upd
         $this->delete_config();
         $this->delete_channels();
         $this->delete_statuses();
+        $this->delete_fields();
 
         return true;
     }
@@ -107,6 +110,11 @@ class Npr_story_api_upd
         $installer->install($channels);
     }
 
+    private function create_required_fields() {
+        $installer = new Field_installer();
+        $installer->install();
+    }
+
     private function create_required_statuses() {
         $statuses = array(
             'draft'
@@ -123,6 +131,11 @@ class Npr_story_api_upd
 
     private function delete_config() {
         $uninstaller = new Config_installer();
+        $uninstaller->uninstall();
+    }
+
+    private function delete_fields() {
+        $uninstaller = new Field_installer();
         $uninstaller->uninstall();
     }
 
