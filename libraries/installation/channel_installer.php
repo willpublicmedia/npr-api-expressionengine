@@ -7,6 +7,7 @@ if (!defined('BASEPATH')) {
 }
 
 use EllisLab\ExpressionEngine\Model\Channel\Channel;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Layout_customizer;
 
 /**
  * Installs channels required by NPR Story API module.
@@ -43,6 +44,14 @@ class Channel_installer {
         }
     }
 
+    private function customize_layout($channel, $field_names) {
+        $customizer = new Layout_customizer($channel);
+        
+        foreach ($field_names as $field) {
+            $customizer->add_field($field);
+        }
+    }
+
     private function init_npr_story_channel($channel = null) {
         $data = array(
             'channel_name' => 'npr_stories',
@@ -68,6 +77,12 @@ class Channel_installer {
         
         $channel->save();
         $draft->save();
+
+        $layout_fields = array(
+            'entry_source'
+        );
+
+        $this->customize_layout($channel, $layout_fields);
     }
 
     private function update_channel_data($channel_name) {
