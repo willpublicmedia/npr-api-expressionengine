@@ -15,22 +15,42 @@ class Field_installer {
             'field_label' => 'Story Source',
             'field_instructions' => 'Import a story from NPR or create a story for export.',
             'field_type' => 'radio',
-            'field_list_items' => array(
-                '1' => 'Local',
-                '2' => 'NPR'
-            )
+            'field_list_items' => '',
+            'field_settings' => array(
+                'value_label_pairs' => array(
+                    'local' => 'Local',
+                    'npr' => 'NPR'
+                    )
+                ),
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1
         ),
         'npr_story_id' => array(
             'field_name' => 'npr_story_id',
             'field_label' => 'NPR Story ID',
             'field_instructions' => 'Enter an NPR story ID as found in https://api.npr.org.',
-            'field_type' => 'text'
+            'field_type' => 'text',
+            'field_list_items' => '',
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1
         ),
         'publish_to_npr' => array(
             'field_name' => 'publish_to_npr',
             'field_label' => 'Publish to NPR',
             'field_instructions' => 'Select yes to publish the story on the NPR API.',
-            'field_type' => 'toggle'
+            'field_type' => 'toggle',
+            'field_list_items' => '',
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1,
+            'field_settings' => array(
+                'field_default_value' => 0
+            )
         )
     );
 
@@ -53,19 +73,21 @@ class Field_installer {
 
     private function create_field($definition) {
         $field = ee('Model')->get('ChannelField')->filter('field_name', '==', $definition->field_name)->first();
-
+        
         if ($field == null) {
             $field = ee('Model')->make('ChannelField');
         }
-
+        
         foreach ($definition as $key => $val) {
             $field->{$key} = $val;
         }
-
+        
         $field->save();
 
         $this->custom_field_group->ChannelFields->add($field);
         $this->custom_field_group->save();
+
+        $field = null;
     }
     
     private function load_field_group($group_name) {
