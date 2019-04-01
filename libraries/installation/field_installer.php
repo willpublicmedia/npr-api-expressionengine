@@ -10,7 +10,7 @@ class Field_installer {
     const DEFAULT_FIELD_GROUP_NAME = 'addon_fields';
 
     private $field_definitions = array(
-        'entry_source' => array(
+        'channel_entry_source' => array(
             'field_name' => 'channel_entry_source',
             'field_label' => 'Story Source',
             'field_instructions' => 'Import a story from NPR or create a story for export.',
@@ -65,7 +65,7 @@ class Field_installer {
     }
 
     public function uninstall() {
-        foreach ($this->field_definitions[0] as $name => $definition) {
+        foreach ($this->field_definitions as $name => $definition) {
             $model = ee('Model')->get('ChannelField')->filter('field_name', '==', $name)->first();
             $model->delete();
         }
