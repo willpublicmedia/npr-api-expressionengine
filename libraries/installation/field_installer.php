@@ -67,12 +67,15 @@ class Field_installer {
     public function uninstall() {
         foreach ($this->field_definitions as $name => $definition) {
             $model = ee('Model')->get('ChannelField')->filter('field_name', '==', $name)->first();
-            $model->delete();
+            if ($model != null) {
+                $model->delete();
+            }
         }
     }
 
     private function create_field($definition) {
-        $field = ee('Model')->get('ChannelField')->filter('field_name', '==', $definition->field_name)->first();
+        $name = $definition['field_name'];
+        $field = ee('Model')->get('ChannelField')->filter('field_name', '==', $definition['field_name'])->first();
         
         if ($field == null) {
             $field = ee('Model')->make('ChannelField');
@@ -82,10 +85,12 @@ class Field_installer {
             $field->{$key} = $val;
         }
         
+        
+        $field_group = $this->custom_field_group;
+        $field->ChannelFieldGroups->add($field_group);
+        
         $field->save();
-
-        $this->custom_field_group->ChannelFields->add($field);
-        $this->custom_field_group->save();
+        $field_group->save();
 
         $field = null;
     }
