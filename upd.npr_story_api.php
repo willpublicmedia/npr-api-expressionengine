@@ -12,9 +12,15 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Status_installer;
  */
 class Npr_story_api_upd
 {
-    private $version = '0.0.0';
+    private $channels = array(
+        'npr_stories'
+    );
 
     private $module_name = 'Npr_story_api';
+
+    private $publish_layout = 'NPR Story API';
+    
+    private $version = '0.0.0';
 
     /**
      * NPR Story API updater constructor.
@@ -102,12 +108,8 @@ class Npr_story_api_upd
     }
 
     private function create_required_channels() {
-        $channels = array(
-            'npr_stories'
-        );
-
         $installer = new Channel_installer();
-        $installer->install($channels);
+        $installer->install($this->channels, $this->publish_layout);
     }
 
     private function create_required_fields() {
@@ -126,7 +128,7 @@ class Npr_story_api_upd
 
     private function delete_channels() {
         $installer = new Channel_installer();
-        $installer->uninstall();
+        $installer->uninstall($this->channels, $this->publish_layout);
     }
 
     private function delete_config() {

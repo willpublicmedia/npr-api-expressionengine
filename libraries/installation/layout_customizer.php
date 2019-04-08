@@ -16,9 +16,15 @@ class Layout_customizer {
 
     private $channel;
 
-    public function __construct($channel) {
+    private $layout_name;
+
+    public function __construct($channel, $layout_name) {
         ee()->load->library('layout');
+
         $this->channel = $channel;
+        $this->layout_name = $layout_name;
+
+        $this->create_layout($this->layout_name);
     }
 
     public function add_field($field_name) {
@@ -28,6 +34,10 @@ class Layout_customizer {
 
         $method = $this->available_fields[$field_name];
         $this->{$method}();
+    }
+
+    public function uninstall($layout_name) {
+        throw new \Exception("not implemented");
     }
 
     private function add_entry_source() {
@@ -46,9 +56,12 @@ class Layout_customizer {
 
             ee()->layout->add_layout_fields($tabs, array($this->channel->channel_id));
         }
-        catch (Exception $err) {
+        catch (\Exception $err) {
             return;
         }
+    }
 
+    private function create_layout($layout_name) {
+        throw new \Exception('Not implemented');
     }
 }

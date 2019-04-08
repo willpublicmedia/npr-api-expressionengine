@@ -37,16 +37,19 @@ class Channel_installer {
      *
      * @return void
      */
-    public function uninstall() {
+    public function uninstall($channel, $layout_name) {
         foreach($this->required_channels as $name) {
             $model = ee('Model')->get('Channel')->filter('channel_name', '==', $name)->first();
             $model->delete();
         }
+
+        $customizer = new Layout_customizer($channel, $layout_name);
+        $customizer->uninstall($layout_name);
     }
 
-    private function customize_layout($channel, $field_names) {
-        $customizer = new Layout_customizer($channel);
-        
+    private function customize_layout($channel, $layout_name, $field_names) {
+        $customizer = new Layout_customizer($channel, $layout_name);
+
         foreach ($field_names as $field) {
             $customizer->add_field($field);
         }
