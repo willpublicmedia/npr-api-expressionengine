@@ -43,12 +43,14 @@ class Channel_installer {
             $model->delete();
         }
 
-        $customizer = new Layout_customizer($channel, $layout_name);
+        $customizer = new Layout_customizer($channel);
         $customizer->uninstall($layout_name);
     }
 
     private function customize_layout($channel, $layout_name, $field_names) {
-        $customizer = new Layout_customizer($channel, $layout_name);
+        $customizer = new Layout_customizer($channel);
+
+        $customizer->install($layout_name);
 
         foreach ($field_names as $field) {
             $customizer->add_field($field);

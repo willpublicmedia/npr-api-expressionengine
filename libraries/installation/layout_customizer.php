@@ -16,15 +16,20 @@ class Layout_customizer {
 
     private $channel;
 
-    private $layout_name;
-
-    public function __construct($channel, $layout_name) {
+    public function __construct($channel) {
         ee()->load->library('layout');
 
         $this->channel = $channel;
-        $this->layout_name = $layout_name;
+    }
 
-        $this->create_layout($this->layout_name);
+    public function install($layout_name) {
+        $model = ee('Model')->get('ChannelLayout')->filter('layout_name', '==', $layout_name)->first();
+
+        if ($model == null) {
+            $model = ee('Model')->make('ChannelLayout', array( 'layout_name' => $layout_name ));
+        }
+
+        $model->save();
     }
 
     public function add_field($field_name) {
@@ -37,7 +42,11 @@ class Layout_customizer {
     }
 
     public function uninstall($layout_name) {
-        throw new \Exception("not implemented");
+        $model = ee('Model')->get('ChannelLayout')->filter('layout_name', '==', $layout_name)->first();
+
+        if ($model != null) {
+            $model->delete();
+        }
     }
 
     private function add_entry_source() {
