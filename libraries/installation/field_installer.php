@@ -46,7 +46,7 @@ class Field_installer {
         'publish_to_npr' => array(
             'field_name' => 'publish_to_npr',
             'field_label' => 'Publish to NPR',
-            'field_instructions' => 'Select yes to publish the story on the NPR API.',
+            'field_instructions' => 'Enable to publish the story on the NPR API.',
             'field_type' => 'toggle',
             'field_list_items' => '',
             'field_pre_populate' => 'n',
