@@ -26,7 +26,7 @@ class status_installer
     {
         foreach ($status_names as $name) {
             if (!in_array($name, $this->required_statuses)) {
-                throw new Exception("Status configuration not found for {$name}.");
+                throw new \Exception("Status configuration not found for {$name}.");
             }
 
             $this->update_status_data($name);
@@ -75,7 +75,7 @@ class status_installer
                 $this->create_draft($status);
                 break;
             default:
-                throw new Exception("No status initializer found for {$status_name}.");
+                throw new \Exception("No status initializer found for {$status_name}.");
         }
     }
 }

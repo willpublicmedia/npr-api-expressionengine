@@ -23,7 +23,7 @@ class Layout_customizer {
 
     public function add_field($field_name) {
         if (!array_key_exists($field_name, $this->available_fields)) {
-            throw new Exception("No field creation method exists for {$field_name}.");
+            throw new \Exception("No field creation method exists for {$field_name}.");
         }
 
         $method = $this->available_fields[$field_name];

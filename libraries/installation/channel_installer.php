@@ -25,7 +25,7 @@ class Channel_installer {
     public function install($channel_names) {
         foreach($channel_names as $name) {
             if (!in_array($name, $this->required_channels)) {
-                throw new Exception("Channel configuration not found for {$name}.");
+                throw new \Exception("Channel configuration not found for {$name}.");
             }
 
             $this->update_channel_data($name);
@@ -96,7 +96,7 @@ class Channel_installer {
                 $this->init_npr_story_channel($channel);
                 break;
             default:
-                throw new Exception("Couldn't find initializer function for channel {$channel_name}.");
+                throw new \Exception("Couldn't find initializer function for channel {$channel_name}.");
         }
     }
 }
