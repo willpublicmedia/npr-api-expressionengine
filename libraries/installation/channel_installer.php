@@ -17,12 +17,16 @@ class Channel_installer {
         'npr_stories'
     );
 
+    private $layout_name;
+
     /**
      * Create channel.
      * 
      * @return void
      */
-    public function install($channel_names) {
+    public function install($channel_names, $layout_name) {
+        $this->layout_name = $layout_name;
+
         foreach($channel_names as $name) {
             if (!in_array($name, $this->required_channels)) {
                 throw new \Exception("Channel configuration not found for {$name}.");
@@ -47,14 +51,10 @@ class Channel_installer {
         $customizer->uninstall($layout_name);
     }
 
-    private function customize_layout($channel, $layout_name, $field_names) {
+    private function customize_layout($channel, $field_names) {
         $customizer = new Layout_customizer($channel);
 
-        $customizer->install($layout_name);
-
-        foreach ($field_names as $field) {
-            $customizer->add_field($field);
-        }
+        $customizer->install($this->layout_name, $field_names);
     }
 
     private function init_npr_story_channel($channel = null) {
