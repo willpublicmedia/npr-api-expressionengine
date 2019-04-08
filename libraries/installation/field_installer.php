@@ -32,6 +32,7 @@ class Field_installer {
             'field_label' => 'NPR Story ID',
             'field_instructions' => 'Enter an NPR story ID as found in https://api.npr.org.',
             'field_type' => 'text',
+            'field_maxl' => '64',
             'field_list_items' => '',
             'field_pre_populate' => 'n',
             'field_pre_field_id' => 0,
