@@ -36,7 +36,11 @@ class Field_installer {
             'field_pre_populate' => 'n',
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
-            'field_order' => 1
+            'field_order' => 1,
+            'field_settings' => array(
+                'field_fmt' => 'none',
+                'field_show_fmt' => 'n'
+            )
         ),
         'publish_to_npr' => array(
             'field_name' => 'publish_to_npr',
