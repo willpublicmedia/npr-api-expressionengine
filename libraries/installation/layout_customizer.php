@@ -33,6 +33,8 @@ class Layout_customizer {
 
     public function install($layout_name, $field_names) {
         $this->create_layout($layout_name);
+
+        $this->assign_layout($layout_name, $this->channel);
     }
 
     public function uninstall($layout_name) {
@@ -41,6 +43,15 @@ class Layout_customizer {
         if ($model != null) {
             $model->delete();
         }
+    }
+
+    private function assign_layout($layout_name, $channel) {
+        $layout = ee('Model')->get('ChannelLayout')->filter('layout_name', '==', $layout_name)->first();
+
+        $channel->ChannelLayouts->add($layout);
+
+        $channel->save();
+        $layout->save();
     }
 
     private function create_layout($layout_name) {
