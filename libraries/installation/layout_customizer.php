@@ -45,11 +45,22 @@ class Layout_customizer {
             return;
         }
 
-        $default = new Default_npr_story_layout($this->channel->channel_id, NULL);
-        $layout = $default->getLayout();
+        $channel_layout = ee('Model')->make('ChannelLayout');
+        $channel_layout->Channel = $this->channel;
 
-        $model = ee('Model')->make('ChannelLayout', $layout);
-        $model->layout_name = $layout_name;
-        $model->save();
+        $default_layout = new Default_npr_story_layout($this->channel->channel_id, NULL);
+        $field_layout = $default_layout->getLayout();
+        foreach ($this->channel->getAllCustomFields() as $custom_field)
+        {
+            $field_layout[0]['fields'][] = array(
+                'field' => $custom_field->field_id,
+                'visible' => TRUE,
+                'collapsed' => FALSE
+            );
+        }
+
+        $channel_layout->layout_name = $layout_name;
+        $channel_layout->field_layout = $field_layout;
+        $channel_layout->save();
     }
 }
