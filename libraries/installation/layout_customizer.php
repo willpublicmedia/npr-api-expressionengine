@@ -50,17 +50,16 @@ class Layout_customizer {
 
         $default_layout = new Default_npr_story_layout($this->channel->channel_id, NULL);
         $field_layout = $default_layout->getLayout();
-        foreach ($this->channel->getAllCustomFields() as $custom_field)
-        {
-            $field_layout[0]['fields'][] = array(
-                'field' => $custom_field->field_id,
-                'visible' => TRUE,
-                'collapsed' => FALSE
-            );
-        }
-
+        
         $channel_layout->layout_name = $layout_name;
         $channel_layout->field_layout = $field_layout;
+        
+        $member_groups = ee('Model')->get('MemberGroup')
+            ->filter('group_title', '==', 'Super Admin')
+            ->all();
+            
+        $channel_layout->MemberGroups = $member_groups;
+
         $channel_layout->save();
     }
 }
