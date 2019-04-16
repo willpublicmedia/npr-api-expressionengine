@@ -8,6 +8,12 @@ if (!defined('BASEPATH')) {
 use EllisLab\ExpressionEngine\Model\Channel\Display\DefaultChannelLayout;
 
 class Default_npr_story_layout extends DefaultChannelLayout {
+	private $custom_options_fields = array(
+		'channel_entry_source' => NULL,
+		'npr_story_id' => NULL,
+		'publish_to_npr' => NULL
+	);
+
     /**
      * Create a default publish layout for the NPR Story API channel.
      *
@@ -15,6 +21,9 @@ class Default_npr_story_layout extends DefaultChannelLayout {
      */
     protected function createLayout()
 	{
+		// prevent channel custom fields from stomping layout custom fields.
+		$this->synchronize_custom_fields($this->custom_options_fields);
+
 		$layout = array();
 
 		$layout[] = array(
@@ -100,17 +109,17 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 				'collapsed' => FALSE
             ),
             array(
-				'field' => 'channel_entry_source',
+				'field' => $this->custom_options_fields['channel_entry_source'],
 				'visible' => TRUE,
 				'collapsed' => FALSE
 			),
 			array(
-				'field' => 'npr_story_id',
+				'field' => $this->custom_options_fields['npr_story_id'],
 				'visible' => TRUE,
 				'collapsed' => FALSE
 			),
 			array(
-				'field' => 'publish_to_npr',
+				'field' => $this->custom_options_fields['publish_to_npr'],
 				'visible' => TRUE,
 				'collapsed' => FALSE
 			),
@@ -202,5 +211,15 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 		}
 
 		return $layout;
+	}
+
+	private function synchronize_custom_fields(&$fields) {
+		foreach ($fields as $key => $value) {
+			$model = ee('Model')->get('ChannelField')->filter('field_name', $key)->first();
+			
+			$value = "field_id_{$model->field_id}";
+
+			$fields[$key] = $value;
+		}
 	}
 }
