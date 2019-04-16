@@ -73,8 +73,7 @@ class Channel_installer {
             $channel->{$key} = $val;
         }
 
-        $channel->FieldGroups = ee('Model')->get('ChannelFieldGroup')->all();
-        $channel->CustomFields = ee('Model')->get('ChannelField')->all();
+        $channel->FieldGroups = ee('Model')->get('ChannelFieldGroup')->filter('group_name', '==', 'addon_fields')->all();
         
         $draft = ee('Model')->get('Status')->filter('status', '==', 'draft')->first();
         $channel->Statuses->add($draft);
