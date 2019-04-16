@@ -51,10 +51,10 @@ class Channel_installer {
         $customizer->uninstall($layout_name);
     }
 
-    private function customize_layout($channel, $field_names) {
+    private function customize_layout($channel) {
         $customizer = new Layout_customizer($channel);
 
-        $customizer->install($this->layout_name, $field_names);
+        $customizer->install($this->layout_name);
     }
 
     private function init_npr_story_channel($channel = null) {
@@ -82,11 +82,7 @@ class Channel_installer {
         $channel->save();
         $draft->save();
 
-        $layout_fields = array(
-            'entry_source'
-        );
-
-        $this->customize_layout($channel, $layout_fields);
+        $this->customize_layout($channel);
     }
 
     private function update_channel_data($channel_name) {

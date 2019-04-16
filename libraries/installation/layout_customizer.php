@@ -16,7 +16,7 @@ class Layout_customizer {
         $this->channel = $channel;
     }
 
-    public function install($layout_name, $field_names) {
+    public function install($layout_name) {
         $this->create_layout($layout_name);
         $this->assign_layout($layout_name, $this->channel);
     }
