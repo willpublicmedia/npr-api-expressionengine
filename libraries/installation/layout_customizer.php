@@ -33,6 +33,7 @@ class Layout_customizer {
         $layout = ee('Model')->get('ChannelLayout')->filter('layout_name', '==', $layout_name)->first();
 
         $channel->ChannelLayouts->add($layout);
+        $layout->synchronize($channel->getAllCustomFields());
 
         $channel->save();
         $layout->save();
