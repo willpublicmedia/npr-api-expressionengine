@@ -15,19 +15,8 @@ class Npr_story_api_ext {
         'enabled' => 'y'
     );
 
-    private $double_extension = array(
-        'class' => __CLASS__,
-        'method' => 'prove_concept',
-        'hook' => 'after_channel_entry_save',
-        'priority' => 10,
-        'version' => NULL,
-        'settings' => '',
-        'enabled' => 'y'
-    );
-
     private $required_extensions = array(
-        'query_extension',
-        'double_extension'
+        'query_extension'
     );
 
     public $version;
@@ -51,10 +40,6 @@ class Npr_story_api_ext {
 
     public function disable_extension() {
         ee('Model')->get('Extension')->filter('class', __CLASS__)->delete();
-    }
-
-    public function prove_concept() {
-        print_r("I'm running an extra hook!");
     }
 
     public function query_api($data) {
