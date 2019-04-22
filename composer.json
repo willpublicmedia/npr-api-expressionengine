@@ -6,6 +6,9 @@
     "require": {
         "nprds/nprapi-wordpress": "master"
     },
+    "autoload": {
+        "classmap": ["vendor/nprds/nprapi-wordpress/classes/"]
+    },
     "repositories": [{
         "type": "github",
         "url": "https://github.com/npr/nprapi-wordpress"
