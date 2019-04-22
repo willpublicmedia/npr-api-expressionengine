@@ -42,7 +42,27 @@ class Npr_story_api_ext {
         ee('Model')->get('Extension')->filter('class', __CLASS__)->delete();
     }
 
-    public function query_api($data) {
-        print_r("I'm querying!");
+    public function query_api() {
+        $is_external_story = $this->check_external_story_source();
+
+        if (!$is_external_story) {
+            return;
+        }
+
+        print_r($_POST);
+    }
+
+    private function check_external_story_source() {
+        $source_field_id = ee('Model')->get('ChannelField')
+            ->filter('field_name', 'channel_entry_source')
+            ->first()
+            ->field_id;
+        
+        $story_source = ee()->input->post("field_id_{$source_field_id}");
+        if ($story_source == NULL || $story_source == 'local') {
+            return FALSE;
+        }
+
+        return TRUE;
     }
 }
