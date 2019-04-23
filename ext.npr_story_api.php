@@ -109,6 +109,5 @@ class Npr_story_api_ext {
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'query', $pull_url);
         $api_service->parse();
-        $print_r($api_service);
     }
 }

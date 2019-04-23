@@ -15,6 +15,7 @@ require_once(__DIR__ . '/../../vendor/autoload.php');
 use \NPRAPI;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Configuration_exception;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Npr_response_exception;
+use \IllinoisPublicMedia\NprStoryApi\Libraries\Model\Http\Api_response;
 
 class Npr_api_expressionengine extends NPRAPI {
     /**
@@ -31,15 +32,15 @@ class Npr_api_expressionengine extends NPRAPI {
 
         $this->request->request_url = $url;
 
-        $raw = $this->connect_as_curl($url);
+        $response = $this->connect_as_curl($url);
         
-        if ( $raw['body'] ) {
-            $this->xml = $raw['body'];
+        if ($response->body) {
+            $this->xml = $response->body;
         } else {
-            $this->notice[] = __( 'No data available.' );
+            $this->notice[] = 'No data available.';
         }
 
-        return $raw;
+        return $response;
     }
 
     /**
@@ -60,11 +61,10 @@ class Npr_api_expressionengine extends NPRAPI {
             throw new Configuration_exception('NPR API key not found. Configure key in NPR Story API module settings.');
         }
 
-        $params['apiKey'] = '';
         $request_url = $this->build_request($params, $path, $base);
 
-        $raw = $this->query_by_url($request_url);
-        $this->response = $raw;
+        $response = $this->query_by_url($request_url);
+        $this->response = $response;
     }
 
     private function build_query_params($params) {
@@ -104,24 +104,32 @@ class Npr_api_expressionengine extends NPRAPI {
         curl_close($ch);
 
         // parser expects an object, not xml string.
-        $response_code = $this->convert_response($raw);
+        $response = $this->convert_response($raw, $url);
 
-        if ($http_status != self::NPRAPI_STATUS_OK || $response_code != self::NPRAPI_STATUS_OK) {
-            throw new Npr_response_exception("Unable to retrieve story info for {$url}.");
+        if ($http_status != self::NPRAPI_STATUS_OK || $response->code != self::NPRAPI_STATUS_OK) {
+            throw new Npr_response_exception("Unable to retrieve story info for {$response->url}.");
         }
 
-        return $raw;
+        return $response;
     }
 
-    private function convert_response($xmlstring) {
+    private function convert_response($xmlstring, $url) {
+        $response = new Api_response($xmlstring);
+        $response->url = $url;
+
         $xml = simplexml_load_string($xmlstring);
-        if (!property_exists($xml, 'messages')) {
+
+        $response->code = $this->set_response_code($xml);     
+
+        return $response;
+    }
+
+    private function set_response_code($simplexml) {
+        if (!property_exists($simplexml, 'messages')) {
             return self::NPRAPI_STATUS_OK;
         }
         
-        $messages = $xml->messages->message;
+        $messages = $simplexml->messages->message;
         $code = (int)$messages[0]->attributes()->id;
-        
-        return $code;
     }
 }
