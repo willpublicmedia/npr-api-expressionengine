@@ -30,26 +30,15 @@ class Npr_api_expressionengine extends NPRAPI {
 
         $this->request->request_url = $url;
 
-        // $response = wp_remote_get( $url );
-        // if ( !is_wp_error( $response ) ) {
-        //     $this->response = $response;
-        //     if ( $response['response']['code'] == self::NPRAPI_STATUS_OK ) {
-        //         if ( $response['body'] ) {
-        //             $this->xml = $response['body'];
-        //         } else {
-        //             $this->notice[] = __( 'No data available.' );
-        //         }
-        //     } else {
-        //         nprstory_show_message( 'An error occurred pulling your story from the NPR API.  The API responded with message =' . $response['response']['message'], TRUE );
-        //     }
-        // } else {
-        //     $error_text = '';
-        //     if ( ! empty( $response->errors['http_request_failed'][0] ) ) {
-        //         $error_text = '<br> HTTP Error response =  '. $response->errors['http_request_failed'][0];
-        //     }
-        //     nprstory_show_message( 'Error pulling story for url='.$url . $error_text, TRUE );
-        //     nprstory_error_log( 'Error retrieving story for url='.$url ); 
-        // }
+        $response = $this->connect_as_curl($url);
+        
+        if ( $response['body'] ) {
+            $this->xml = $response['body'];
+        } else {
+            $this->notice[] = __( 'No data available.' );
+        }
+
+        return $response;
     }
 
     /**
@@ -68,7 +57,8 @@ class Npr_api_expressionengine extends NPRAPI {
     public function request($params = array(), $path = 'query', $base = self::NPRAPI_PULL_URL) {
         $request_url = $this->build_request($params, $path, $base);
 
-        $this->query_by_url($request_url);
+        $response = $this->query_by_url($request_url);
+        $this->response = $response;
     }
 
     private function build_query_params($params) {
@@ -93,5 +83,24 @@ class Npr_api_expressionengine extends NPRAPI {
         $request_url = $this->request->base . '/' . $this->request->path . '?' . implode('&', $queries);
 
         return $request_url;
+    }
+
+    private function connect_as_curl($url) {
+        $ch =  curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);     
+
+        $response = curl_exec($ch);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        if ($http_status != self::NPRAPI_STATUS_OK) {
+            throw new Npr_response_exception("Unable to retrieve story info for {$url}.");
+        }
+
+        return $response;
     }
 }
