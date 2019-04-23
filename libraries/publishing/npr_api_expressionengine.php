@@ -68,6 +68,17 @@ class Npr_api_expressionengine extends NPRAPI {
     }
 
     /**
+     * Save story as received from NPR Story API.
+     *
+     * @param  mixed $story
+     *
+     * @return void
+     */
+    public function save_clean_response($story) {
+        throw new Exception('not implemented');
+    }
+
+    /**
      *
      * This function will go through the list of stories in the object and check to see if there are updates
      * available from the NPR API if the pubDate on the API is after the pubDate originally stored locally.

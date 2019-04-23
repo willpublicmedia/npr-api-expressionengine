@@ -109,6 +109,10 @@ class Npr_story_api_ext {
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'query', $pull_url);
         $api_service->parse();
+        
+        foreach ($api_service->stories as $story) {
+            $api_service->save_clean_response($story);
+        }
 
         if (empty($api_service->message) || $api_service->message->level != 'warning') {
             $post_id = $api_service->update_posts_from_stories(/*entry_status*/);
