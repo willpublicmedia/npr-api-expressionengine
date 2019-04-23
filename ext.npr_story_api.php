@@ -88,6 +88,10 @@ class Npr_story_api_ext {
             ->get()
             ->result_array();
 
+        if (isset($settings[0])) {
+            $settings = $settings[0];
+        }
+        
         return $settings;
     }
 
