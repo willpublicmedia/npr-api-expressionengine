@@ -30,17 +30,6 @@ class Npr_api_expressionengine extends NPRAPI {
 
         $this->request->request_url = $url;
 
-        //fill out the $this->request->param array so we can know what params were sent
-        // $parsed_url = parse_url($url);
-        // if ( ! empty( $parsed_url['query'] ) ) {
-        //     $params = explode( '&', $parsed_url['query'] );
-        //     if ( ! empty( $params ) ){
-        //         foreach ( $params as $p ){
-        //             $attrs = explode( '=', $p );
-        //             $this->request->param[$attrs[0]] = $attrs[1];
-        //         }
-        //     }
-        // }
         // $response = wp_remote_get( $url );
         // if ( !is_wp_error( $response ) ) {
         //     $this->response = $response;
@@ -77,24 +66,32 @@ class Npr_api_expressionengine extends NPRAPI {
      *   The base URL of the request (i.e., HTTP://EXAMPLE.COM/path) with no trailing slash.
      */
     public function request($params = array(), $path = 'query', $base = self::NPRAPI_PULL_URL) {
-        $this->assign_request_params($params, $path, $base);
-
-        $queries = array();
-        foreach ( $this->request->params as $k => $v ) {
-          $queries[] = "$k=$v";
-        }
-
-        $request_url = $this->request->base . '/' . $this->request->path . '?' . implode('&', $queries);
-        $this->request->request_url = $request_url;
+        $request_url = $this->build_request($params, $path, $base);
 
         $this->query_by_url($request_url);
     }
 
-    private function assign_request_params($params, $path, $base) {
+    private function build_query_params($params) {
+        $queries = array();
+        foreach ( $this->request->params as $k => $v ) {
+          $queries[] = "$k=$v";
+          $this->request->param[$k] = $v;
+        }
+
+        return $queries;
+    }
+
+    private function build_request($params, $path, $base) {
         // prevent null value from stomping default.
         $base = $base?: self::NPRAPI_PULL_URL;
         $this->request->params = $params;
         $this->request->path = $path;
         $this->request->base = $base;
+
+        $queries = $this->build_query_params($params);
+        
+        $request_url = $this->request->base . '/' . $this->request->path . '?' . implode('&', $queries);
+
+        return $request_url;
     }
 }
