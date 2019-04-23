@@ -109,5 +109,24 @@ class Npr_story_api_ext {
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'query', $pull_url);
         $api_service->parse();
+
+        if (empty($api_service->message) || $api_service->message->level != 'warning') {
+            $post_id = $api_service->update_posts_from_stories(/*entry_status*/);
+        }
+        // if ( empty( $api->message ) || $api->message->level != 'warning') {
+        //     $post_id = $api->update_posts_from_stories($publish);
+        //     if ( ! empty( $post_id ) ) {
+        //         //redirect to the edit page if we just updated one story
+        //         $post_link = admin_url( 'post.php?action=edit&post=' . $post_id );
+        //         wp_redirect( $post_link );
+        //     }
+        // } else {
+        //     if ( empty($story) ) {
+        //         $xml = simplexml_load_string( $api->xml );
+        //         nprstory_show_message('Error retrieving story for id = ' . $story_id . '<br> API error ='.$api->message->id . '<br> API Message ='. $xml->message->text , TRUE);
+        //         error_log('Not going to save the return from query for story_id='. $story_id .', we got an error='.$api->message->id. ' from the NPR Story API'); // debug use
+        //         return;
+        //     }
+        // }
     }
 }
