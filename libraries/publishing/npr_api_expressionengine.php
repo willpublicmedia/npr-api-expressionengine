@@ -103,7 +103,8 @@ class Npr_api_expressionengine extends NPRAPI {
 
         curl_close($ch);
 
-        $response_code = $this->parse_response_code($raw);
+        // parser expects an object, not xml string.
+        $response_code = $this->convert_response($raw);
 
         if ($http_status != self::NPRAPI_STATUS_OK || $response_code != self::NPRAPI_STATUS_OK) {
             throw new Npr_response_exception("Unable to retrieve story info for {$url}.");
@@ -112,7 +113,7 @@ class Npr_api_expressionengine extends NPRAPI {
         return $raw;
     }
 
-    private function parse_response_code($xmlstring) {
+    private function convert_response($xmlstring) {
         $xml = simplexml_load_string($xmlstring);
         if (!property_exists($xml, 'messages')) {
             return self::NPRAPI_STATUS_OK;
