@@ -14,6 +14,7 @@ if (!defined('BASEPATH')) {
 require_once(__DIR__ . '/../../vendor/autoload.php');
 use \NPRAPI;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Configuration_exception;
+use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Npr_response_exception;
 
 class Npr_api_expressionengine extends NPRAPI {
     /**
@@ -30,15 +31,15 @@ class Npr_api_expressionengine extends NPRAPI {
 
         $this->request->request_url = $url;
 
-        $response = $this->connect_as_curl($url);
+        $raw = $this->connect_as_curl($url);
         
-        if ( $response['body'] ) {
-            $this->xml = $response['body'];
+        if ( $raw['body'] ) {
+            $this->xml = $raw['body'];
         } else {
             $this->notice[] = __( 'No data available.' );
         }
 
-        return $response;
+        return $raw;
     }
 
     /**
@@ -55,10 +56,15 @@ class Npr_api_expressionengine extends NPRAPI {
      *   The base URL of the request (i.e., HTTP://EXAMPLE.COM/path) with no trailing slash.
      */
     public function request($params = array(), $path = 'query', $base = self::NPRAPI_PULL_URL) {
+        if (!isset($params['apiKey']) || $params['apiKey'] === '') {
+            throw new Configuration_exception('NPR API key not found. Configure key in NPR Story API module settings.');
+        }
+
+        $params['apiKey'] = '';
         $request_url = $this->build_request($params, $path, $base);
 
-        $response = $this->query_by_url($request_url);
-        $this->response = $response;
+        $raw = $this->query_by_url($request_url);
+        $this->response = $raw;
     }
 
     private function build_query_params($params) {
@@ -92,15 +98,29 @@ class Npr_api_expressionengine extends NPRAPI {
         // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);     
 
-        $response = curl_exec($ch);
+        $raw = curl_exec($ch);
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
 
-        if ($http_status != self::NPRAPI_STATUS_OK) {
+        $response_code = $this->parse_response_code($raw);
+
+        if ($http_status != self::NPRAPI_STATUS_OK || $response_code != self::NPRAPI_STATUS_OK) {
             throw new Npr_response_exception("Unable to retrieve story info for {$url}.");
         }
 
-        return $response;
+        return $raw;
+    }
+
+    private function parse_response_code($xmlstring) {
+        $xml = simplexml_load_string($xmlstring);
+        if (!property_exists($xml, 'messages')) {
+            return self::NPRAPI_STATUS_OK;
+        }
+        
+        $messages = $xml->messages->message;
+        $code = (int)$messages[0]->attributes()->id;
+        
+        return $code;
     }
 }
