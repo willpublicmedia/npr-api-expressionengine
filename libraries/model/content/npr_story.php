@@ -56,6 +56,10 @@ class Npr_story extends Model {
         'ListText' => array(
             'model' => 'Npr_text_paragraph',
             'type' => 'HasMany'
+        ),
+        'Correction' => array(
+            'model' => 'Npr_correction',
+            'type' => 'HasMany'
         )
     );
 
@@ -191,5 +195,5 @@ class Npr_story extends Model {
     /**
      * Information about corrections to the story. Not present if there are no corrections.
      */
-    // protected $correction; collection of objects?
+    protected $correction;
 }
