@@ -45,10 +45,18 @@ class Npr_story extends Model {
             'model' => 'Npr_pull_quote',
             'type' => 'HasMany'
         ),
-        // 'Text' => array(
-        //     'model' => 'Npr_story_text',
-        //     'type' => 'HasMany'
-        // )
+        'Text' => array(
+            'model' => 'Npr_text_paragraph',
+            'type' => 'HasMany'
+        ),
+        'TextWithHtml' => array(
+            'model' => 'Npr_text_paragraph',
+            'type' => 'HasMany'
+        ),
+        'ListText' => array(
+            'model' => 'Npr_text_paragraph',
+            'type' => 'HasMany'
+        )
     );
 
     /**
@@ -165,12 +173,12 @@ class Npr_story extends Model {
     /**
      * The full text of the returned story without any markup, broken out by paragraph.
      */
-    // protected $text;
+    protected $text;
 
     /**
      * The full text of the returned story, complete with markup, broken out by paragraph.
      */
-    // protected $textWithHtml; collection of objects
+    protected $textWithHtml;
 
     /**
      * A supplemental text field used for a variety of reasons. 
@@ -178,7 +186,7 @@ class Npr_story extends Model {
      * an additional highlighted paragraph related to the story, or possibly even an extension 
      * of the text (and textWithHtml) fields.
      */
-    // protected $listText; collection of objects
+    protected $listText;
 
     /**
      * Information about corrections to the story. Not present if there are no corrections.
