@@ -2,7 +2,7 @@
     exit('No direct script access allowed');
 }
 
-use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Config_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Channel_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Status_installer;
