@@ -40,6 +40,7 @@ class Npr_story_api_upd
     public function install()
     {
         $this->create_config_tables();
+        $this->create_story_tables();
         $this->create_required_fields();
         $this->create_required_statuses();
         $this->create_required_channels();
@@ -78,6 +79,7 @@ class Npr_story_api_upd
         $this->delete_statuses();
         $this->delete_fields();
         $this->delete_extensions();
+        $this->delete_tables();
 
         return true;
     }
@@ -134,6 +136,10 @@ class Npr_story_api_upd
         $installer->install($statuses);
     }
 
+    private function create_story_tables() {
+        throw new \Exception('not implemented');
+    }
+
     private function delete_channels() {
         $installer = new Channel_installer();
         $installer->uninstall($this->channels, $this->publish_layout);
@@ -157,5 +163,9 @@ class Npr_story_api_upd
     private function delete_statuses() {
         $uninstaller = new Status_installer();
         $uninstaller->uninstall();
+    }
+
+    private function delete_tables() {
+        throw new \Exception('not implemented');
     }
 }
