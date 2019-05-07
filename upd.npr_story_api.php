@@ -21,6 +21,10 @@ class Npr_story_api_upd
 
     private $publish_layout = 'NPR Story API';
     
+    private $tables = array(
+        'story' => array()
+    );
+
     private $version = '0.0.0';
 
     /**
@@ -40,7 +44,7 @@ class Npr_story_api_upd
     public function install()
     {
         $this->create_config_tables();
-        $this->create_story_tables();
+        $this->create_story_tables($this->tables['story']);
         $this->create_required_fields();
         $this->create_required_statuses();
         $this->create_required_channels();
@@ -79,7 +83,7 @@ class Npr_story_api_upd
         $this->delete_statuses();
         $this->delete_fields();
         $this->delete_extensions();
-        $this->delete_tables();
+        $this->delete_story_tables($this->tables['story']);
 
         return true;
     }
@@ -136,8 +140,15 @@ class Npr_story_api_upd
         $installer->install($statuses);
     }
 
-    private function create_story_tables() {
-        throw new \Exception('not implemented');
+    private function create_story_tables(array $table_names) {
+        $tables = array();
+        foreach ($table_names as $name) {
+            $data = $this->load_table_config($name);
+            array_push($tables, $data);
+        }
+
+        $installer = new Table_installer();
+        $installer->install($tables);
     }
 
     private function delete_channels() {
@@ -165,7 +176,11 @@ class Npr_story_api_upd
         $uninstaller->uninstall();
     }
 
-    private function delete_tables() {
+    private function delete_story_tables(array $table_names) {
+        throw new \Exception('not implemented');
+    }
+
+    private function load_table_config(string $table_name) {
         throw new \Exception('not implemented');
     }
 }
