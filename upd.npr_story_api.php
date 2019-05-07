@@ -7,6 +7,8 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Channel_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Status_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Extension_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table_loader;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Table_installer;
 
 /**
  * NPR Story API updater.
