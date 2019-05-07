@@ -22,7 +22,9 @@ class Npr_story_api_upd
     private $publish_layout = 'NPR Story API';
     
     private $tables = array(
-        'story' => array()
+        'story' => array(
+            'npr_story'
+        )
     );
 
     private $version = '0.0.0';

@@ -7,7 +7,8 @@ if (!defined('BASEPATH')) {
 }
 
 class Table_loader {
-    public function load(string $table_name): Table {
+    public function load(string $model_name): Table {
+        $table_name = "{$model_name}_table";
         $data = new $table_name();
         return $data;
     }
