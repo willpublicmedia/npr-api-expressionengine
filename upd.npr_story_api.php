@@ -177,10 +177,14 @@ class Npr_story_api_upd
     }
 
     private function delete_story_tables(array $table_names) {
-        throw new \Exception('not implemented');
+        $uninstaller = new Table_installer();
+        $uninstaller->uninstall($table_names);
     }
 
     private function load_table_config(string $table_name) {
-        throw new \Exception('not implemented');
+        $loader = new Table_loader();
+        $data = $loader->load($table_name);
+
+        return $data;
     }
 }
