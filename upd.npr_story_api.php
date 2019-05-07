@@ -23,7 +23,8 @@ class Npr_story_api_upd
     
     private $tables = array(
         'story' => array(
-            'npr_story'
+            'npr_audio'
+            // 'npr_story'
         )
     );
 
