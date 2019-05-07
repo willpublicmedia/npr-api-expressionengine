@@ -15,7 +15,7 @@ require_once(__DIR__ . '/../../vendor/autoload.php');
 use \NPRAPI;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Configuration_exception;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Npr_response_exception;
-use \IllinoisPublicMedia\NprStoryApi\Libraries\Model\Http\Api_response;
+use \IllinoisPublicMedia\NprStoryApi\Libraries\Dto\Http\Api_response;
 
 class Npr_api_expressionengine extends NPRAPI {
     /**
