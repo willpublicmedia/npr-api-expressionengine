@@ -6,18 +6,6 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
-use IllinoisPublicMedia\NprStoryApi\Libraries\Dto\Installation\Table;
-
-class npr_story_table implements iTable {
-    public function table_name() {
-        return 'npr_story_api_stories';
-    }
-
-    public function fields() {
-        return array();
-    }
-
-    public function defaults() {
-        return array();
-    }
+class npr_story_table extends Table {
+    private $_table_name = 'npr_story_api_stories';
 }
