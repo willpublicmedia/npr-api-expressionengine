@@ -6,8 +6,10 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table;
+
 class npr_audio_table extends Table {
-    private $_fields = array(
+    protected $_fields = array(
         'ee_id' => array(
             'type' => 'int',
             'constraint' => 64,
@@ -46,9 +48,9 @@ class npr_audio_table extends Table {
         ),
     );
 
-    private $_keys = array(
+    protected $_keys = array(
         'primary' => 'ee_id'
     );
 
-    private $_table_name = 'npr_story_api_stories_audio';
+    protected $_table_name = 'npr_story_api_stories_audio';
 }

@@ -6,7 +6,17 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
-class Table {
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\ITable;
+
+class Table implements ITable {
+    protected $_defaults;
+
+    protected $_fields;
+
+    protected $_keys;
+
+    protected $_table_name;
+    
     public function table_name() {
         return $this->_table_name;
     }

@@ -6,6 +6,8 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table;
+
 class npr_story_table extends Table {
-    private $_table_name = 'npr_story_api_stories';
+    protected $_table_name = 'npr_story_api_stories';
 }
