@@ -27,7 +27,8 @@ class Npr_story_api_upd
     private $tables = array(
         'story' => array(
             'npr_audio',
-            'npr_pull_correction'
+            'npr_pull_correction',
+            'npr_image'
             // 'npr_story'
         )
     );

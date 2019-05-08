@@ -46,8 +46,9 @@ class Npr_image extends Model {
 
     /**
      * Indicates if the image has a border in the asset itself.
+     * Note: NPR output reference says 'addBorder'; API output uses 'hasBorder'.
      */
-    protected $addBorder;
+    protected $hasBorder;
 
     /**
      * The caption for the image, describing the contents of the image and/or the image's relationship to the returned story.
@@ -66,10 +67,13 @@ class Npr_image extends Model {
 
     /**
      * The owner or provider of the image, which may be independent from the image producer.
-     * 
-     * url : The URL of the provider. This is used for attribution purposes and must convey with the image.
      */
     protected $provider;
+
+    /**
+     * The URL of the provider. This is used for attribution purposes and must convey with the image.
+     */
+    protected $providerUrl;
 
     /**
      * The copyright information (year) for the image.
