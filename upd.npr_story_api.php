@@ -30,7 +30,8 @@ class Npr_story_api_upd
             'npr_image',
             'npr_organization',
             'npr_pull_correction',
-            'npr_pull_quote'
+            'npr_pull_quote',
+            'npr_related_link'
             // 'npr_story'
         )
     );
