@@ -8,13 +8,13 @@ if (!defined('BASEPATH')) {
 
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table;
 
-class npr_text_paragraph extends Table {
+class npr_text_paragraph_table extends Table {
     protected $_defaults = array();
 
     protected $_fields = array(
         'id' => array(
             'type' => 'int',
-            'constraint' => 2048,
+            'constraint' => 255,
             'unsigned' => TRUE,
             'auto_increment' => TRUE
         ),
@@ -25,7 +25,7 @@ class npr_text_paragraph extends Table {
         ),
         'num' => array(
             'type' => 'int',
-            'constraint' => 2048
+            'constraint' => 255
         ),
         'text' => array(
             'type' => 'text'

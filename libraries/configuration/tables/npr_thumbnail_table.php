@@ -44,5 +44,5 @@ class npr_thumbnail_table extends Table {
         'primary' => 'id'
     );
 
-    protected $_table_name = 'npr_story_api_stories_thumbnails'
+    protected $_table_name = 'npr_story_api_stories_thumbnails';
 }

@@ -24,11 +24,11 @@ class npr_story_table extends Table {
         ),
         'title' => array(
             'type' => 'varchar',
-            'constraint' => 2048
+            'constraint' => 512
         ),
         'subtitle' => array(
             'type' => 'varchar',
-            'constraint' => 2048
+            'constraint' => 1024
         ),
         'shortTitle' => array(
             'type' => 'varchar',
@@ -45,14 +45,6 @@ class npr_story_table extends Table {
         'slug' => array(
             'type' => 'varchar',
             'constraint' => 48
-        ),
-        'thumbnail' => array(
-            'type' => 'int',
-            'constraint' => 64
-        ),
-        'toenail' => array(
-            'type' => 'int',
-            'constraint' => 64
         ),
         'storyDate' => array(
             'type' => 'datetime'
@@ -71,10 +63,10 @@ class npr_story_table extends Table {
             'type' => 'varchar',
             'constraint' => 2048
         ),
-        'organization' => array(
-            'type' => 'int',
-            'constraint' => 64
-        ),
+        // 'organization' => array(
+        //     'type' => 'int',
+        //     'constraint' => 64
+        // ),
         'pullQuote' => array(
             'type' => 'varchar',
             'constraint' => 4096
@@ -83,9 +75,9 @@ class npr_story_table extends Table {
     
     protected $_keys = array(
         'primary' => 'ee_id',
-        'secondary' => array(
-            'organization'
-        )
+        // 'secondary' => array(
+        //     'organization'
+        // )
     );
     
     protected $_table_name = 'npr_story_api_stories';
