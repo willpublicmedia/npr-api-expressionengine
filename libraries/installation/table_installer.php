@@ -38,8 +38,11 @@ class Table_installer {
      * @return void
      */
     public function uninstall(array $table_names) {
+        $prefix = ee()->config->item('dbprefix');
+
         foreach($table_names as $table) {
-            ee()->dbforge->drop_table($table);
+            $table_name = $prefix . $table;
+            ee()->dbforge->drop_table($table_name);
         }
     }
 

@@ -188,11 +188,12 @@ class Npr_story_api_upd
         $tables = array();
         foreach ($table_names as $name) {
             $data = $this->load_table_config($name);
-            array_push($tables, $data->table_name());
+            $table_name = $data->table_name();
+            array_push($tables, $table_name);
         }
 
         $uninstaller = new Table_installer();
-        $uninstaller->uninstall($table_names);
+        $uninstaller->uninstall($tables);
     }
 
     private function load_table_config(string $table_name): ITable {
