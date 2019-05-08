@@ -86,11 +86,11 @@ class Npr_story_api_upd
         ee()->db->delete('modules', array('module_name' => $this->module_name));
         ee()->db->delete('actions', array('class' => $this->module_name));
 
-        $this->delete_config();
         $this->delete_channels();
         $this->delete_statuses();
         $this->delete_fields();
         $this->delete_extensions();
+        $this->delete_config();
         $this->delete_story_tables($this->tables['story']);
 
         return true;
