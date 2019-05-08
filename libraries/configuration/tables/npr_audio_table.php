@@ -28,7 +28,7 @@ class npr_audio_table extends Table {
             'constraint' => 48
         ),
         'description' => array(
-            'type' => 'varchar',
+            'type' => 'text'
         ),
         'format' => array(
             'type' => 'varchar',
@@ -36,7 +36,7 @@ class npr_audio_table extends Table {
         ),
         'rights' => array(
             'type' => 'varchar',
-            'constraint' => 64
+            'constraint' => 128
         ),
         'url' => array(
             'type' => 'varchar',
