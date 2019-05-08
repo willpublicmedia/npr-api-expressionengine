@@ -185,6 +185,12 @@ class Npr_story_api_upd
     }
 
     private function delete_story_tables(array $table_names) {
+        $tables = array();
+        foreach ($table_names as $name) {
+            $data = $this->load_table_config($name);
+            array_push($tables, $data->table_name());
+        }
+
         $uninstaller = new Table_installer();
         $uninstaller->uninstall($table_names);
     }
