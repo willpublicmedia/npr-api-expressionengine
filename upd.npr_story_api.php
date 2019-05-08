@@ -25,14 +25,15 @@ class Npr_story_api_upd
     private $publish_layout = 'NPR Story API';
     
     private $tables = array(
+        // table order matters for column relationships
         'story' => array(
+            'npr_story',
             'npr_audio',
             'npr_image',
             'npr_organization',
             'npr_pull_correction',
             'npr_pull_quote',
             'npr_related_link',
-            'npr_story',
             'npr_text_paragraph',
             'npr_thumbnail'
         )
