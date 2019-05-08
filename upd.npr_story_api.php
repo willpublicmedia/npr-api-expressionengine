@@ -28,7 +28,8 @@ class Npr_story_api_upd
         'story' => array(
             'npr_audio',
             'npr_pull_correction',
-            'npr_image'
+            'npr_image',
+            'npr_organization'
             // 'npr_story'
         )
     );
