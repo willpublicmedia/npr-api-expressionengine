@@ -6,6 +6,8 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\ITable;
+
 /**
  * NPR Story API table installer.
  */
@@ -41,7 +43,7 @@ class Table_installer {
         }
     }
 
-    private function create_table(Table $table_config) {
+    private function create_table(ITable $table) {
         $name = $table->table_name();
         
         if (!ee()->db->table_exists($name)) {

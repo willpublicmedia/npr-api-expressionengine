@@ -8,6 +8,7 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Channel_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Status_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Extension_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table_loader;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\ITable;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Table_installer;
 
 /**
@@ -186,7 +187,7 @@ class Npr_story_api_upd
         $uninstaller->uninstall($table_names);
     }
 
-    private function load_table_config(string $table_name) {
+    private function load_table_config(string $table_name): ITable {
         $loader = new Table_loader();
         $data = $loader->load($table_name);
 
