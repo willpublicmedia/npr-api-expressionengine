@@ -30,6 +30,10 @@ class npr_thumbnail_table extends Table {
             'type' => 'varchar',
             'constraint' => 512
         ),
+        'rights' => array(
+            'type' => 'varchar',
+            'constraint' => 512
+        ),
         'story' => array(
             'type' => 'int',
             'constraint' => 64

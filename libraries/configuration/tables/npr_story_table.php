@@ -9,11 +9,84 @@ if (!defined('BASEPATH')) {
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table;
 
 class npr_story_table extends Table {
-    protected $_table_name = 'npr_story_api_stories';
-
     protected $_defaults = array();
     
-    protected $_fields = array();
+    protected $_fields = array(
+        'ee_id' => array(
+            'type' => 'int',
+            'constraint' => 64,
+            'unsigned' => TRUE,
+            'auto_increment' => TRUE
+        ),
+        'id' => array(
+            'type' => 'varchar',
+            'constraint' => 24,
+        ),
+        'title' => array(
+            'type' => 'varchar',
+            'constraint' => 2048
+        ),
+        'subtitle' => array(
+            'type' => 'varchar',
+            'constraint' => 2048
+        ),
+        'shortTitle' => array(
+            'type' => 'varchar',
+            'constraint' => 48
+        ),
+        'teaser' => array(
+            'type' => 'varchar',
+            'constraint' => '4096'
+        ),
+        'miniTeaser' => array(
+            'type' => 'varchar',
+            'constraint' => 2048
+        ),
+        'slug' => array(
+            'type' => 'varchar',
+            'constraint' => 48
+        ),
+        'thumbnail' => array(
+            'type' => 'int',
+            'constraint' => 64
+        ),
+        'toenail' => array(
+            'type' => 'int',
+            'constraint' => 64
+        ),
+        'storyDate' => array(
+            'type' => 'datetime'
+        ),
+        'pubDate' => array(
+            'type' => 'datetime'
+        ),
+        'lastModifiedDate' => array(
+            'type' => 'datetime'
+        ),
+        'keywords' => array(
+            'type' => 'varchar',
+            'constraint' => 2048
+        ),
+        'priorityKeywords' => array(
+            'type' => 'varchar',
+            'constraint' => 2048
+        ),
+        'organization' => array(
+            'type' => 'int',
+            'constraint' => 64
+        ),
+        'pullQuote' => array(
+            'type' => 'varchar',
+            'constraint' => 4096
+        )
+    );
     
-    protected $_keys = array();
+    protected $_keys = array(
+        'primary' => 'ee_id',
+        'secondary' => array(
+            'organization'
+        )
+    );
+    
+    protected $_table_name = 'npr_story_api_stories';
 }
