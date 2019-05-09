@@ -78,7 +78,7 @@ class Npr_api_expressionengine extends NPRAPI {
      */
     public function save_clean_response($story) {
         $model = $this->map_to_model($story);
-        throw new Exception('not implemented');
+        $model->save();
     }
 
     /**
