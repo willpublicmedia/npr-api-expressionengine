@@ -62,8 +62,8 @@ class Npr_story_api_upd
      */
     public function install()
     {
-        $this->create_config_tables();
-        $this->create_story_tables($this->tables['story']);
+        $this->create_tables($this->tables['config']);
+        $this->create_tables($this->tables['story']);
         $this->create_required_fields();
         $this->create_required_statuses();
         $this->create_required_channels();
@@ -101,8 +101,8 @@ class Npr_story_api_upd
         $this->delete_statuses();
         $this->delete_fields();
         $this->delete_extensions();
-        $this->delete_config();
-        $this->delete_story_tables($this->tables['story']);
+        $this->delete_tables($this->tables['story']);
+        $this->delete_tables($this->tables['config']);
 
         return true;
     }
@@ -130,11 +130,6 @@ class Npr_story_api_upd
         return true;
     }
 
-    private function create_config_tables() {
-        $config_installer = new Config_installer();
-        $config_installer->install();
-    }
-
     private function create_required_channels() {
         $installer = new Channel_installer();
         $installer->install($this->channels, $this->publish_layout);
@@ -159,7 +154,7 @@ class Npr_story_api_upd
         $installer->install($statuses);
     }
 
-    private function create_story_tables(array $table_names) {
+    private function create_tables(array $table_names) {
         $tables = array();
         foreach ($table_names as $name) {
             $data = $this->load_table_config($name);
@@ -173,11 +168,6 @@ class Npr_story_api_upd
     private function delete_channels() {
         $installer = new Channel_installer();
         $installer->uninstall($this->channels, $this->publish_layout);
-    }
-
-    private function delete_config() {
-        $uninstaller = new Config_installer();
-        $uninstaller->uninstall();
     }
 
     private function delete_extensions() {
@@ -195,7 +185,7 @@ class Npr_story_api_upd
         $uninstaller->uninstall();
     }
 
-    private function delete_story_tables(array $table_names) {
+    private function delete_tables(array $table_names) {
         $tables = array();
         foreach ($table_names as $name) {
             $data = $this->load_table_config($name);
