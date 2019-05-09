@@ -28,14 +28,15 @@ class Npr_story_api_upd
         // table order matters for column relationships
         'story' => array(
             'npr_story',
+            'npr_organization',
             'npr_audio',
             'npr_image',
-            'npr_organization',
             'npr_pull_correction',
             'npr_pull_quote',
             'npr_related_link',
             'npr_text_paragraph',
-            'npr_thumbnail'
+            'npr_thumbnail',
+            'npr_story_org'
         )
     );
 

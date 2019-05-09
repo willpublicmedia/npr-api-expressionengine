@@ -37,22 +37,11 @@ class npr_organization_table extends Table {
         'website_type' => array(
             'type' => 'varchar',
             'constraint' => 128
-        ),
-        'story_id' => array(
-            'type' => 'int',
-            'constraint' => 64
         )
     );
     
     protected $_keys = array(
-        'primary' => 'id',
-        // 'foreign' => array(
-        //     array(
-        //         'column' => 'story_id',
-        //         'foreign_table' => 'exp_npr_story_api_stories',
-        //         'foreign_column' => 'id'
-        //     )
-        // )
+        'primary' => 'id'
     );
 
     protected $_table_name = 'npr_story_api_stories_organizations';
