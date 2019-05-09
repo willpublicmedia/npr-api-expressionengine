@@ -16,6 +16,8 @@ use \NPRAPI;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Configuration_exception;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Npr_response_exception;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Dto\Http\Api_response;
+use \IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Model_story_mapper;
+use EllisLab\ExpressionEngine\Service\Model\Model;
 
 class Npr_api_expressionengine extends NPRAPI {
     /**
@@ -565,8 +567,11 @@ class Npr_api_expressionengine extends NPRAPI {
         return $response;
     }
 
-    private function map_to_model($parsed_story) {
-        throw new \Exception('Not implemented');
+    private function map_to_model($parsed_story): Model {
+        $mapper = new Model_story_mapper();
+        $model = $mapper->map_parsed_story($parsed_story);
+
+        return $model;
     }
 
     private function set_response_code($simplexml) {
