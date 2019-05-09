@@ -62,14 +62,21 @@ class npr_image_table extends Table {
             'unsigned' => TRUE,
             'constraint' => 4
         ),
-        'story' => array(
+        'story_id' => array(
             'type' => 'int',
             'constraint' => 64
         )
     );
 
     protected $_keys = array(
-        'primary' => 'ee_id'
+        'primary' => 'ee_id',
+        'foreign' => array(
+            array(
+                'column' => 'story_id',
+                'foreign_table' => 'exp_npr_story_api_stories',
+                'foreign_column' => 'id'
+            )
+        )
     );
 
     protected $_table_name = 'npr_story_api_stories_images';

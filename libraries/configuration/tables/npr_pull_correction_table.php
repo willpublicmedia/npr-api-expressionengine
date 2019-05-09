@@ -29,14 +29,21 @@ class npr_pull_correction_table extends Table {
             'type' => 'varchar',
             'constraint' => 64
         ),
-        'story' => array(
+        'story_id' => array(
             'type' => 'int',
             'constraint' => 64
         )
     );
 
     protected $_keys = array(
-        'primary' => 'id'
+        'primary' => 'id',
+        'foreign' => array(
+            array(
+                'column' => 'story_id',
+                'foreign_table' => 'exp_npr_story_api_stories',
+                'foreign_column' => 'id'
+            )
+        )
     );
 
     protected $_table_name = 'npr_story_api_stories_corrections';

@@ -49,7 +49,7 @@ class npr_organization_table extends Table {
         // 'foreign' => array(
         //     array(
         //         'column' => 'story_id',
-        //         'foreign_table' => 'story',
+        //         'foreign_table' => 'exp_npr_story_api_stories',
         //         'foreign_column' => 'id'
         //     )
         // )

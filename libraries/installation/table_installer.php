@@ -53,15 +53,15 @@ class Table_installer {
             $keys = $table->keys();
             $fields = $table->fields();
 
+            ee()->dbforge->add_field($fields);
+                        
             ee()->dbforge->add_key($keys['primary'], TRUE);
-            
             if (array_key_exists('foreign', $keys)) {
                 foreach ($keys['foreign'] as $foreign_key) {
-                    ee()->dbforge->add_field("CONSTRAINT FOREIGN KEY ({$foreign_key['column']}) REFERENCES {$foreign_key['foreign_table']}({$foreign_key['foreign_column']}) ON DELETE CASCADE");
+                    ee()->dbforge->add_key($foreign_key['column']);
                 }
             }
 
-            ee()->dbforge->add_field($fields);
             ee()->dbforge->create_table($name);
             ee()->db->insert($name, $fields);
         }
