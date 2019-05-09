@@ -26,6 +26,10 @@ class Npr_story_api_upd
     
     private $tables = array(
         // table order matters for column relationships
+        'config' => array(
+            'config_settings',
+            'config_field_mappings'
+        ),
         'story' => array(
             'npr_story',
             'npr_organization',
