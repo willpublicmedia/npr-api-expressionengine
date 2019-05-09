@@ -75,6 +75,7 @@ class Npr_api_expressionengine extends NPRAPI {
      * @return void
      */
     public function save_clean_response($story) {
+        $model = $this->map_to_model($story);
         throw new Exception('not implemented');
     }
 
@@ -562,6 +563,10 @@ class Npr_api_expressionengine extends NPRAPI {
         $response->code = $this->set_response_code($xml);     
 
         return $response;
+    }
+
+    private function map_to_model($parsed_story) {
+        throw new \Exception('Not implemented');
     }
 
     private function set_response_code($simplexml) {
