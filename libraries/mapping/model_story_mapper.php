@@ -7,7 +7,6 @@ if (!defined('BASEPATH')) {
 }
 
 use EllisLab\ExpressionEngine\Service\Model\Model;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Model\Content\Npr_story;
 
 class Model_story_mapper {
     public function map_parsed_story($story): Model {
@@ -20,11 +19,11 @@ class Model_story_mapper {
     }
 
     private function load_base_model($story_id) {
-        if (ee('Model')->get('Npr_story')->filter('id', $story_id)->count() > 0) {
-            return ee('Model')->get('Npr_story')->filter('id', $story_id)->first();
+        if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $story_id)->count() > 0) {
+            return ee('Model')->get('npr_story_api:Npr_story')->filter('id', $story_id)->first();
         }    
         
-        $model = ee('Model')->make('Npr_story');
+        $model = ee('Model')->make('npr_story_api:Npr_story');
         $model->id = $story_id;
 
         return $model;
