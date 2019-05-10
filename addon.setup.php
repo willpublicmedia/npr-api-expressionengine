@@ -9,9 +9,9 @@
         'settings_exist'    => TRUE,
         'models'            => array(
             'Npr_audio' => 'Libraries\Model\Content\Npr_audio',
-            'Npr_correction' => 'Libraries\Model\Content\Npr_correction',
             'Npr_image' => 'Libraries\Model\Content\Npr_image',
             'Npr_organization' => 'Libraries\Model\Content\Npr_organization',
+            'Npr_pull_correction' => 'Libraries\Model\Content\Npr_pull_correction',
             'Npr_pull_quote' => 'Libraries\Model\Content\Npr_pull_quote',
             'Npr_related_link' => 'Libraries\Model\Content\Npr_related_link',
             'Npr_story' => 'Libraries\Model\Content\Npr_story',
