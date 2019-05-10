@@ -58,7 +58,7 @@ class Npr_story extends Model {
             'type' => 'HasMany'
         ),
         'Correction' => array(
-            'model' => 'Npr_correction',
+            'model' => 'Npr_pull_correction',
             'type' => 'HasMany'
         )
     );
