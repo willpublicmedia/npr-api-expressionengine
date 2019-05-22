@@ -19,7 +19,9 @@ class Npr_organization extends Model {
     protected static $_relationships = array(
         'Stories' => array(
             'model' => 'Npr_story',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'id',
+            'to_key' => 'organization'
         )
     );
 

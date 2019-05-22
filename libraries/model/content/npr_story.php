@@ -31,7 +31,9 @@ class Npr_story extends Model {
         ),
         'Organization' => array(
             'model' => 'Npr_organization',
-            'type' => 'HasOne'
+            'type' => 'BelongsTo',
+            'from_key' => 'organization',
+            'to_key' => 'id'
         ),
         'Audio' => array(
             'model' => 'Npr_audio',
