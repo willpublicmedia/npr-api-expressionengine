@@ -62,8 +62,7 @@ class Table_installer {
         $this->add_keys($keys);
 
         ee()->dbforge->create_table($name);
-        ee()->db->insert($name, $fields);
-
+        
         $defaults = $table->defaults();
         if (!empty($defaults)) {
             $this->add_default_settings($name, $defaults);
