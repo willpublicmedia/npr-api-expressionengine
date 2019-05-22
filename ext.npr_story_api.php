@@ -114,9 +114,9 @@ class Npr_story_api_ext {
             $api_service->save_clean_response($story);
         }
 
-        if (empty($api_service->message) || $api_service->message->level != 'warning') {
-            $post_id = $api_service->update_posts_from_stories(/*entry_status*/);
-        }
+        // if (empty($api_service->message) || $api_service->message->level != 'warning') {
+        //     $post_id = $api_service->update_posts_from_stories(/*entry_status*/);
+        // }
         // if ( empty( $api->message ) || $api->message->level != 'warning') {
         //     $post_id = $api->update_posts_from_stories($publish);
         //     if ( ! empty( $post_id ) ) {
