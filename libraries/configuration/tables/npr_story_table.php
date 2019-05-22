@@ -42,6 +42,10 @@ class npr_story_table extends Table {
             'type' => 'varchar',
             'constraint' => 2048
         ),
+        'organization_id' => array(
+            'type' => 'int',
+            'constraint' => 64
+        ),
         'slug' => array(
             'type' => 'varchar',
             'constraint' => 48
@@ -71,6 +75,7 @@ class npr_story_table extends Table {
     
     protected $_keys = array(
         'primary' => 'ee_id',
+        'foreign' => 'organization_id'
     );
     
     protected $_table_name = 'npr_story_api_stories';

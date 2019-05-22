@@ -39,8 +39,7 @@ class Npr_story_api_upd
             'npr_pull_quote',
             'npr_related_link',
             'npr_text_paragraph',
-            'npr_thumbnail',
-            'npr_story_org'
+            'npr_thumbnail'
         )
     );
 

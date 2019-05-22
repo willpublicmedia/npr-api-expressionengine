@@ -54,9 +54,4 @@ class Npr_organization extends Model {
      * Indicates the type of website provided by the owner organization (eg. "Home Page").
      */
     protected $website_type;
-
-    /**
-     * NPR stories.
-     */
-    protected $stories;
 }
