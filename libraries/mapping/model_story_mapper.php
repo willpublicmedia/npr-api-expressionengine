@@ -13,9 +13,16 @@ class Model_story_mapper {
         $model = $this->load_base_model($story->id);
         $model->title = $story->title->value;
         $model->slug = $story->slug->value;
+        $model->subtitle = $story->subtitle->value;
+        $model->shortTitle = $story->subtitle->value;
+        $model->teaser = $story->teaser->value;
+        $model->miniTeaser = $story->miniTeaser->value;
+        $model->storyDate = $story->storyDate->value;
+        $model->pubDate = $story->pubDate->value;
+        $model->lastModifiedDate = $story->lastModifiedDate->value;
         // move this to channel behavior
         //$model->slug = ee('Format')->make('Text', $story->slug->value)->urlSlug(['separator' => '-', 'lowercase' => TRUE]);
-        throw new \Exception('not implemented');
+        return $model;
     }
 
     private function load_base_model($story_id) {
