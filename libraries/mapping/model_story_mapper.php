@@ -17,12 +17,16 @@ class Model_story_mapper {
         $model->shortTitle = $story->subtitle->value;
         $model->teaser = $story->teaser->value;
         $model->miniTeaser = $story->miniTeaser->value;
-        $model->storyDate = $story->storyDate->value;
-        $model->pubDate = $story->pubDate->value;
-        $model->lastModifiedDate = $story->lastModifiedDate->value;
+        $model->storyDate = $this->convert_date_string($story->storyDate->value);
+        $model->pubDate = $this->convert_date_string($story->pubDate->value);
+        $model->lastModifiedDate = $this->convert_date_string($story->lastModifiedDate->value);
         // move this to channel behavior
         //$model->slug = ee('Format')->make('Text', $story->slug->value)->urlSlug(['separator' => '-', 'lowercase' => TRUE]);
         return $model;
+    }
+
+    private function convert_date_string($date_string) {
+        return date('Y-m-d H:i:s', strtotime($date_string));
     }
 
     private function load_base_model($story_id) {
