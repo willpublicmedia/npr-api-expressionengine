@@ -29,5 +29,10 @@ class Npr_thumbnail extends Model {
 
     protected $provider;
 
+    /**
+     * Undocumented story property.
+     */
+    protected $thumbnailRights;
+
     protected $story_id;
 }

@@ -21,7 +21,7 @@ class Npr_organization extends Model {
             'model' => 'Npr_story',
             'type' => 'HasMany',
             'from_key' => 'id',
-            'to_key' => 'organization'
+            'to_key' => 'organization_id'
         )
     );
 
