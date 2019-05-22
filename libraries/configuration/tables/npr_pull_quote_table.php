@@ -34,13 +34,7 @@ class npr_pull_quote_table extends Table {
 
     protected $_keys = array(
         'primary' => 'id',
-        'foreign' => array(
-            array(
-                'column' => 'story_id',
-                'foreign_table' => 'exp_npr_story_api_stories',
-                'foreign_column' => 'id'
-            )
-        )
+        'foreign' => 'story_id'
     );
 
     protected $_table_name = 'npr_story_api_stories_pull_quotes';

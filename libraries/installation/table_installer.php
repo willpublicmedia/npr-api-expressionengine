@@ -55,17 +55,11 @@ class Table_installer {
             return;
         }
 
-        $keys = $table->keys();
         $fields = $table->fields();
-
         ee()->dbforge->add_field($fields);
-                    
-        ee()->dbforge->add_key($keys['primary'], TRUE);
-        if (array_key_exists('foreign', $keys)) {
-            foreach ($keys['foreign'] as $foreign_key) {
-                ee()->dbforge->add_key($foreign_key['column']);
-            }
-        }
+        
+        $keys = $table->keys();
+        $this->add_keys($keys);
 
         ee()->dbforge->create_table($name);
         ee()->db->insert($name, $fields);
@@ -88,5 +82,19 @@ class Table_installer {
         }
         
         ee()->db->insert($table_name, $defaults);
+    }
+
+    private function add_keys(array $keys) {
+        ee()->dbforge->add_key($keys['primary'], TRUE);
+
+        if (array_key_exists('foreign', $keys)) {
+            $foreign_keys = is_array($keys['foreign']) ?
+                $keys['foreign'] :
+                array($keys['foreign']);
+            
+            foreach ($foreign_keys as $foreign_key) {
+                ee()->dbforge->add_key($foreign_key);
+            }
+        }
     }
 }

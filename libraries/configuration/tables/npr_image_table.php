@@ -70,13 +70,7 @@ class npr_image_table extends Table {
 
     protected $_keys = array(
         'primary' => 'ee_id',
-        'foreign' => array(
-            array(
-                'column' => 'story_id',
-                'foreign_table' => 'exp_npr_story_api_stories',
-                'foreign_column' => 'id'
-            )
-        )
+        'foreign' => 'story_id'
     );
 
     protected $_table_name = 'npr_story_api_stories_images';
