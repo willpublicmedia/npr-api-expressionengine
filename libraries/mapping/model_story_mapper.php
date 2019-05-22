@@ -23,6 +23,8 @@ class Model_story_mapper {
         $model->storyDate = $this->convert_date_string($story->storyDate->value);
         $model->pubDate = $this->convert_date_string($story->pubDate->value);
         $model->lastModifiedDate = $this->convert_date_string($story->lastModifiedDate->value);
+        $model->keywords = $story->keywords->value;
+        $model->priorityKeywords = $story->keywords->value;
 
         $organization = $this->load_organization($story->organization);
         $model->Organization = $organization;
