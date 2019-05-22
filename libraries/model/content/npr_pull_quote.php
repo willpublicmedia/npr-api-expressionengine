@@ -15,7 +15,9 @@ class Npr_pull_quote extends Model {
     protected static $_relationships = array(
         'Story' => array(
             'model' => 'Npr_story',
-            'type' => 'BelongsTo'
+            'type' => 'BelongsTo',
+            'from_key' => 'story_id',
+            'to_key' => 'ee_id'
         )
     );
 
@@ -34,5 +36,5 @@ class Npr_pull_quote extends Model {
      */
     protected $date;
 
-    protected $story;
+    protected $story_id;
 }

@@ -14,8 +14,10 @@ class Npr_audio extends Model {
 
     protected static $_relationships = array(
         'Story' => array(
+            'type' => 'BelongsTo',
             'model' => 'Npr_story',
-            'type' => 'BelongsTo'
+            'from_key' => 'story_id',
+            'to_key' => 'ee_id'
         )
     );
 
@@ -59,5 +61,5 @@ class Npr_audio extends Model {
      */
     protected $url;
 
-    protected $story;
+    protected $story_id;
 }

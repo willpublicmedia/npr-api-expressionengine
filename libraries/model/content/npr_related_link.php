@@ -15,7 +15,9 @@ class Npr_related_link extends Model {
     protected static $_relationships = array(
         'Story' => array(
             'model' => 'Npr_story',
-            'type' => 'BelongsTo'
+            'type' => 'BelongsTo',
+            'from_key' => 'story_id',
+            'to_key' => 'ee_id'
         )
     );
 
@@ -51,5 +53,5 @@ class Npr_related_link extends Model {
      */
     protected $linkType;
 
-    protected $story;
+    protected $story_id;
 }

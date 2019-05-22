@@ -19,11 +19,15 @@ class Npr_story extends Model {
     protected static $_relationships = array(
         'Thumbnail' => array(
             'model' => 'Npr_thumbnail',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         ),
         'Toenail' => array(
             'model' => 'Npr_thumbnail',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         ),
         'Organization' => array(
             'model' => 'Npr_organization',
@@ -31,35 +35,51 @@ class Npr_story extends Model {
         ),
         'Audio' => array(
             'model' => 'Npr_audio',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         ),
         'Image' => array(
             'model' => 'Npr_image',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         ),
         'Link' => array(
             'model' => 'Npr_related_link',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         ),
         'PullQuote' => array(
             'model' => 'Npr_pull_quote',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         ),
         'Text' => array(
             'model' => 'Npr_text_paragraph',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         ),
         'TextWithHtml' => array(
             'model' => 'Npr_text_paragraph',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         ),
         'ListText' => array(
             'model' => 'Npr_text_paragraph',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         ),
         'Correction' => array(
             'model' => 'Npr_pull_correction',
-            'type' => 'HasMany'
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
         )
     );
 

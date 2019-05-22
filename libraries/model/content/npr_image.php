@@ -14,8 +14,10 @@ class Npr_image extends Model {
 
     protected static $_relationships = array(
         'Story' => array(
+            'type' => 'BelongsTo',
             'model' => 'Npr_story',
-            'type' => 'BelongsTo'
+            'from_key' => 'story_id',
+            'to_key' => 'ee_id'
         )
     );
 
@@ -79,4 +81,6 @@ class Npr_image extends Model {
      * The copyright information (year) for the image.
      */
     protected $copyright;
+
+    protected $story_id;
 }

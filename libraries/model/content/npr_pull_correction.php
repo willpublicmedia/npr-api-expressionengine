@@ -15,7 +15,9 @@ class Npr_pull_correction extends Model {
     protected static $_relationships = array(
         'Story' => array(
             'model' => 'Npr_story',
-            'type' => 'BelongsTo'
+            'type' => 'BelongsTo',
+            'from_key' => 'story_id',
+            'to_key' => 'ee_id'
         )
     );
 
@@ -39,5 +41,5 @@ class Npr_pull_correction extends Model {
      */
     protected $correctionDate;
 
-    protected $story;
+    protected $story_id;
 }
