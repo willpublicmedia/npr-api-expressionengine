@@ -80,7 +80,7 @@ class Table_installer {
             return;
         }
         
-        ee()->db->insert($table_name, $defaults);
+        ee()->db->insert($table_name, $default_settings);
     }
 
     private function add_keys(array $keys) {
