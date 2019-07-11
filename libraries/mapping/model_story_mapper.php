@@ -50,8 +50,8 @@ class Model_story_mapper {
     }
     
     private function load_organization(\NPRMLElement $org_element) {
-        if (ee('Model')->get('npr_story_api:Npr_organization')->filter('id', $org_element->orgId)->count() > 0) {
-            return ee('Model')->get('npr_story_api:Npr_organization')->filter('id', $org_element->orgId)->first();
+        if (ee('Model')->get('npr_story_api:Npr_organization')->filter('orgId', $org_element->orgId)->count() > 0) {
+            return ee('Model')->get('npr_story_api:Npr_organization')->filter('orgId', $org_element->orgId)->first();
         }
 
         $org = ee('Model')->make('npr_story_api:Npr_organization');
