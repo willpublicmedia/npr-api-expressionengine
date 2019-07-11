@@ -29,6 +29,10 @@ class Model_story_mapper {
         $model->Organization = $this->load_organization($story->organization);
         $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
 
+        if (property_exists($story, 'audio')) {
+            $model->Audio = $this->process_audio($story->audio);
+        }
+
         if (property_exists($story, 'toenail'))
         {
             $model->Toenail = $this->process_thumbnail($story->toenail);
@@ -69,6 +73,28 @@ class Model_story_mapper {
         return $org;
     }
 
+    private function process_audio(\NPRMLElement $audio_element) {
+        if (ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->count() > 0) {
+            return ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->first();
+        }
+
+        throw new \Exception('audio processing not implemented.');
+        $id = $audio_element->id;
+        $primary = $audio_element->type === "primary" ? TRUE : FALSE;
+        $title = $audio_element->title->value;
+        $duration = $audio_element->duration->value;
+        $description = $audio_element->description->value;
+        $region = $audio_element->region->value;
+        $rightsholder = $audio_element->rightsholder->value;
+        $permissions = $this->serialize_permissions($audio_element->permissions);
+
+        // loop
+        $audio = ee('Model')->make('npr_story_api:Npr_audio');
+        // format
+        // type
+        // filesize
+    }
+
     private function process_thumbnail(\NPRMLElement $thumbnails) {
         $provider = $thumbnails->provider->value;
         
@@ -106,5 +132,9 @@ class Model_story_mapper {
         }
 
         return $models;
+    }
+
+    private function serialize_permissions(\NPRMLElement $permissions_element) {
+        throw new \Exception('permissions serialization not implemented.');
     }
 }

@@ -62,4 +62,9 @@ class Npr_audio extends Model {
     protected $url;
 
     protected $story_id;
+
+    /**
+     * Undocumented field. Serialized permissions elements.
+     */
+    protected $permissions;
 }
