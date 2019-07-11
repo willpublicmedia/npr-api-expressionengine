@@ -92,9 +92,7 @@ class Model_story_mapper {
         $audio->description = $audio_element->description->value;
         $audio->region = $audio_element->region->value;
         $audio->rightsholder = $audio_element->rightsHolder->value;
-        
-        // This is wrong. Rename primary property to type and save as string.
-        $audio->primary = $audio_element->type === "primary" ? TRUE : FALSE;
+        $audio->type = $audio_element->type;
         
         // $permissions = $this->serialize_permissions($audio_element->permissions);
         

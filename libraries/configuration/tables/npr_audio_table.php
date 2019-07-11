@@ -20,10 +20,6 @@ class npr_audio_table extends Table {
             'type' => 'varchar',
             'constraint' => 24,
         ),
-        'type' => array(
-            'type' => 'varchar',
-            'constraint' => 48
-        ),
         'duration' => array(
             'type' => 'varchar',
             'constraint' => 48
@@ -35,9 +31,29 @@ class npr_audio_table extends Table {
             'type' => 'varchar',
             'constraint' => 24
         ),
+        'permissions' => array(
+            'type' => 'varchar',
+            'constraint' => 1024
+        ),
+        'region' => array(
+            'type' => 'varchar',
+            'constraint' => 256
+        ),
         'rights' => array(
             'type' => 'varchar',
             'constraint' => 128
+        ),
+        'rightsholder' => array(
+            'type' => 'varchar',
+            'constraint' => 512
+        ),
+        'title' => array(
+            'type' => 'varchar',
+            'constraint' => 256
+        ),
+        'type' => array(
+            'type' => 'varchar',
+            'constraint' => 48
         ),
         'url' => array(
             'type' => 'varchar',

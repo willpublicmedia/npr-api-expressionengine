@@ -34,7 +34,7 @@ class Npr_audio extends Model {
     /**
      * Defines whether or not the audio asset is the primary audio for the story.
      */
-    protected $primary;
+    protected $type;
 
     /**
      * The duration of the audio asset. All formats for the audio will have the same duration.
