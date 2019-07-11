@@ -20,8 +20,9 @@ class npr_audio_table extends Table {
             'type' => 'varchar',
             'constraint' => 24,
         ),
-        'primary' => array(
-            'type' => 'bool'
+        'type' => array(
+            'type' => 'varchar',
+            'constraint' => 48
         ),
         'duration' => array(
             'type' => 'varchar',
