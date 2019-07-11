@@ -29,6 +29,9 @@ class Model_story_mapper {
         $organization = $this->load_organization($story->organization);
         $model->Organization = $organization;
         
+        $thumbnails = $this->process_thumbnail($story->thumbnail);
+        $model->Thumbnail = $thumbnails;
+
         // move this to channel behavior
         //$model->slug = ee('Format')->make('Text', $story->slug->value)->urlSlug(['separator' => '-', 'lowercase' => TRUE]);
         return $model;
@@ -62,5 +65,44 @@ class Model_story_mapper {
         $org->save();
 
         return $org;
+    }
+
+    private function process_thumbnail(\NPRMLElement $thumbnails) {
+        $provider = $thumbnails->provider->value;
+        
+        $models = array();
+        $model;
+        foreach ($thumbnails as $key => $value) {
+            if ($key === 'provider')
+            {
+                continue;
+            }
+
+            $link = $value->value;
+
+            if (ee('Model')->get('npr_story_api:Npr_thumbnail')
+                ->filter('link', $link)
+                ->filter('size', $key)
+                ->count() > 0) 
+            {
+                $model = ee('Model')->get('npr_story_api:Npr_thumbnail')
+                    ->filter('link', $link)
+                    ->filter('size', $key)
+                    ->first();
+            } 
+            else
+            {
+                $model = ee('Model')->make('npr_story_api:Npr_thumbnail');
+            }
+            
+            $model->size = $key;
+            $model->provider = $provider;
+            $model->link = $link;
+            $model->save();
+
+            $models[] = $model;
+        }
+
+        return $models;
     }
 }
