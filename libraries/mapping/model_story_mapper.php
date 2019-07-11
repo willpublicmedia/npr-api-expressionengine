@@ -26,11 +26,13 @@ class Model_story_mapper {
         $model->keywords = $story->keywords->value;
         $model->priorityKeywords = $story->keywords->value;
 
-        $organization = $this->load_organization($story->organization);
-        $model->Organization = $organization;
-        
-        $thumbnails = $this->process_thumbnail($story->thumbnail);
-        $model->Thumbnail = $thumbnails;
+        $model->Organization = $this->load_organization($story->organization);
+        $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
+
+        if (property_exists($story, 'toenail'))
+        {
+            $model->Toenail = $this->process_thumbnail($story->toenail);
+        }
 
         // move this to channel behavior
         //$model->slug = ee('Format')->make('Text', $story->slug->value)->urlSlug(['separator' => '-', 'lowercase' => TRUE]);
