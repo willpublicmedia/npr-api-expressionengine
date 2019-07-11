@@ -27,7 +27,9 @@ class Model_story_mapper {
         $model->priorityKeywords = $story->keywords->value;
 
         $model->Organization = $this->load_organization($story->organization);
-        $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
+        if (property_exists($story, 'thumbnail')) {
+            $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
+        }
 
         if (property_exists($story, 'audio')) {
             $model->Audio = $this->process_audio($story->audio);
@@ -78,7 +80,6 @@ class Model_story_mapper {
             return ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->first();
         }
 
-        throw new \Exception('audio processing not implemented.');
         $id = $audio_element->id;
         $primary = $audio_element->type === "primary" ? TRUE : FALSE;
         $title = $audio_element->title->value;
