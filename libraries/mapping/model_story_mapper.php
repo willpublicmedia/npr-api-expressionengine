@@ -13,6 +13,7 @@ use \NPRMLElement;
 
 class Model_story_mapper {
     public function map_parsed_story($story): Model {
+        // throw new \Exception('Test using stories 691846168, 690346427');
         $model = $this->load_base_model($story->id);
         $model->title = $story->title->value;
         $model->slug = $story->slug->value;
@@ -25,14 +26,18 @@ class Model_story_mapper {
         $model->lastModifiedDate = $this->convert_date_string($story->lastModifiedDate->value);
         $model->keywords = $story->keywords->value;
         $model->priorityKeywords = $story->keywords->value;
-
         $model->Organization = $this->load_organization($story->organization);
+
         if (property_exists($story, 'thumbnail')) {
             $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
         }
 
         if (property_exists($story, 'audio')) {
-            $model->Audio = $this->process_audio($story->audio);
+            foreach ($story->audio as $item)
+            {
+                $audio = $this->process_audio($item);
+                $model->Audio->add($audio);
+            }
         }
 
         if (property_exists($story, 'toenail'))
@@ -75,25 +80,30 @@ class Model_story_mapper {
         return $org;
     }
 
-    private function process_audio(\NPRMLElement $audio_element) {
+    private function process_audio($audio_element) {
         if (ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->count() > 0) {
             return ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->first();
         }
 
-        $id = $audio_element->id;
-        $primary = $audio_element->type === "primary" ? TRUE : FALSE;
-        $title = $audio_element->title->value;
-        $duration = $audio_element->duration->value;
-        $description = $audio_element->description->value;
-        $region = $audio_element->region->value;
-        $rightsholder = $audio_element->rightsholder->value;
-        $permissions = $this->serialize_permissions($audio_element->permissions);
-
-        // loop
         $audio = ee('Model')->make('npr_story_api:Npr_audio');
+        $audio->id = $audio_element->id;
+        $audio->title = $audio_element->title->value;
+        $audio->duration = $audio_element->duration->value;
+        $audio->description = $audio_element->description->value;
+        $audio->region = $audio_element->region->value;
+        $audio->rightsholder = $audio_element->rightsHolder->value;
+        
+        // This is wrong. Rename primary property to type and save as string.
+        $audio->primary = $audio_element->type === "primary" ? TRUE : FALSE;
+        
+        // $permissions = $this->serialize_permissions($audio_element->permissions);
+        
         // format
         // type
         // filesize
+
+        $audio->save();
+        return $audio;
     }
 
     private function process_thumbnail(\NPRMLElement $thumbnails) {

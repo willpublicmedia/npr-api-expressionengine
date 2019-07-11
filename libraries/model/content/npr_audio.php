@@ -67,4 +67,20 @@ class Npr_audio extends Model {
      * Undocumented field. Serialized permissions elements.
      */
     protected $permissions;
+
+    
+    /**
+     * Undocumented field. Audio title.
+     */
+    protected $title;
+
+    /**
+     * Undocumented field. Playable region.
+     */
+    protected $region;
+
+    /**
+     * Undocumented field. Audio rights holder.
+     */
+    protected $rightsholder;
 }
