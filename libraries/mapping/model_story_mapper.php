@@ -95,7 +95,7 @@ class Model_story_mapper {
         $audio->type = $audio_element->type;
         
         $audio->permissions = $this->serialize_permissions($audio_element->permissions);
-        $audio->formats = $this->store_audio_formats($audio_element->format);
+        $audio->Format = $this->store_audio_formats($audio_element->format);
         // format
         // type
         // filesize
@@ -154,6 +154,28 @@ class Model_story_mapper {
     }
 
     private function store_audio_formats(\NPRMLElement $format_element) {
-        return array();
+        $formats = array();
+        foreach ($format_element as $key => $value) {
+            if (ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->count() > 0) {
+                $formats[] = ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->first();
+                continue;
+            }
+
+            // $value is often a single-element array.
+            $format_data = is_array($value) ? array_pop($value) : $value;
+
+            $model = ee('Model')->make('npr_story_api:Npr_audio_format');
+            $model->format = $key;
+            $model->url = $format_data->value;
+
+            if (\property_exists($format_data, 'type')) {
+                $model->type = $format_data->type;
+            }
+
+            $model->save();
+            $formats[] = $model;
+        }
+
+        return $formats;
     }
 }
