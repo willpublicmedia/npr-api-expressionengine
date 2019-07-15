@@ -9,6 +9,7 @@
         'settings_exist'    => TRUE,
         'models'            => array(
             'Npr_audio' => 'Libraries\Model\Content\Npr_audio',
+            'Npr_audio_format' => 'Libraries\Model\Content\Npr_audio_format',
             'Npr_image' => 'Libraries\Model\Content\Npr_image',
             'Npr_organization' => 'Libraries\Model\Content\Npr_organization',
             'Npr_pull_correction' => 'Libraries\Model\Content\Npr_pull_correction',
