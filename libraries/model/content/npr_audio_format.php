@@ -26,6 +26,8 @@ class Npr_audio_format extends Model {
      */
     protected $id;
 
+    protected $audio_id;
+
     /**
      * Defines whether or not the audio asset is the primary audio for the story.
      */

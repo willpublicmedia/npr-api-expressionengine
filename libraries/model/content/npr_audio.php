@@ -18,6 +18,12 @@ class Npr_audio extends Model {
             'model' => 'Npr_story',
             'from_key' => 'story_id',
             'to_key' => 'ee_id'
+        ),
+        'Formats' => array(
+            'type' => 'HasMany',
+            'model' => 'Npr_audio_format',
+            'from_key' => 'id',
+            'to_key' => 'audio_id'
         )
     );
 
@@ -47,19 +53,9 @@ class Npr_audio extends Model {
     protected $description;
 
     /**
-     * Audio format. Options: mp3, rm (real media), wm (windows media).
-     */
-    protected $format;
-
-    /**
      * Defines the delivery method for the MP3 files.
      */
     protected $rights;
-
-    /**
-     * The URL for the audio assets.
-     */
-    protected $url;
 
     protected $story_id;
 

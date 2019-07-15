@@ -95,7 +95,7 @@ class Model_story_mapper {
         $audio->type = $audio_element->type;
         
         $audio->permissions = $this->serialize_permissions($audio_element->permissions);
-        
+        $audio->formats = $this->store_audio_formats($audio_element->format);
         // format
         // type
         // filesize
@@ -151,5 +151,9 @@ class Model_story_mapper {
         }
 
         return json_encode($permissions);
+    }
+
+    private function store_audio_formats(\NPRMLElement $format_element) {
+        return array();
     }
 }
