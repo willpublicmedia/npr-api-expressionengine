@@ -94,7 +94,7 @@ class Model_story_mapper {
         $audio->rightsholder = $audio_element->rightsHolder->value;
         $audio->type = $audio_element->type;
         
-        $permissions = $this->serialize_permissions($audio_element->permissions);
+        $audio->permissions = $this->serialize_permissions($audio_element->permissions);
         
         // format
         // type
@@ -147,7 +147,7 @@ class Model_story_mapper {
         $permissions = array();
         foreach ($permissions_element as $key => $value)
         {
-            $permissions[$key][] = $permissions_element->$key->allow;
+            $permissions[$key] = $permissions_element->$key->allow;
         }
 
         return json_encode($permissions);
