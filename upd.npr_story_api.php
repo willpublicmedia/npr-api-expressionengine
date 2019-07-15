@@ -34,6 +34,7 @@ class Npr_story_api_upd
             'npr_story',
             'npr_organization',
             'npr_audio',
+            'npr_audio_format',
             'npr_image',
             'npr_pull_correction',
             'npr_pull_quote',

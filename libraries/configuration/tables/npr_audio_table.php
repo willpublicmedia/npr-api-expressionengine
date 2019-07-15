@@ -27,10 +27,6 @@ class npr_audio_table extends Table {
         'description' => array(
             'type' => 'text'
         ),
-        'format' => array(
-            'type' => 'varchar',
-            'constraint' => 24
-        ),
         'permissions' => array(
             'type' => 'varchar',
             'constraint' => 1024
@@ -50,14 +46,6 @@ class npr_audio_table extends Table {
         'title' => array(
             'type' => 'varchar',
             'constraint' => 256
-        ),
-        'type' => array(
-            'type' => 'varchar',
-            'constraint' => 48
-        ),
-        'url' => array(
-            'type' => 'varchar',
-            'constraint' => 2048
         ),
         'story_id' => array(
             'type' => 'int',
