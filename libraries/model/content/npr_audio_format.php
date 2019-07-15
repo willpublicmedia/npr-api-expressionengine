@@ -16,8 +16,8 @@ class Npr_audio_format extends Model {
         'Audio' => array(
             'type' => 'BelongsTo',
             'model' => 'Npr_audio',
-            'from_key' => 'ee_id',
-            'to_key' => 'id'
+            'from_key' => 'audio_id',
+            'to_key' => 'ee_id'
         )
     );
 

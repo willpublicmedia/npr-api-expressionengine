@@ -19,10 +19,10 @@ class Npr_audio extends Model {
             'from_key' => 'story_id',
             'to_key' => 'ee_id'
         ),
-        'Formats' => array(
+        'Format' => array(
             'type' => 'HasMany',
             'model' => 'Npr_audio_format',
-            'from_key' => 'id',
+            'from_key' => 'ee_id',
             'to_key' => 'audio_id'
         )
     );
