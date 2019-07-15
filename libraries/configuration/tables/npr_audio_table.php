@@ -47,6 +47,10 @@ class npr_audio_table extends Table {
             'type' => 'varchar',
             'constraint' => 256
         ),
+        'type' => array(
+            'type' => 'varchar',
+            'constraint' => 48,
+        ),
         'story_id' => array(
             'type' => 'int',
             'constraint' => 64
