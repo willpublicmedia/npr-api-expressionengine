@@ -42,10 +42,14 @@ class Model_story_mapper {
         }
 
         // This mixes Link (Permalink) and Related Link!
-        if (property_exists($story, 'relatedLink')) {
-            $model->RelatedLink = $this->process_related_links($story->relatedLink);
-        }
+        // if (property_exists($story, 'relatedLink')) {
+        //     $model->RelatedLink = $this->process_related_links($story->relatedLink);
+        // }
 
+        if (property_exists($story, 'link')) {
+            $model->Link = $this->process_permalinks($story->link);
+        }
+        
         if (property_exists($story, 'thumbnail')) {
             $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
         }
@@ -116,6 +120,32 @@ class Model_story_mapper {
 
         $audio->save();
         return $audio;
+    }
+
+    private function process_permalinks(array $element_array)
+    {
+        $links = array();
+        foreach ($element_array as $link_element)
+        {
+            $link = $link_element->value;
+            $model;
+            if (ee('Model')->get('npr_story_api:Npr_permalink')->filter('link', $link)->count() > 0) 
+            {
+                $model = ee('Model')->get('npr_story_api:Npr_permalink')->filter('link', $link)->first();
+            }
+            else
+            {
+                $model = ee('Model')->make('npr_story_api:Npr_permalink');
+                $model->link = $link;
+            }
+            
+            $model->type = $link_element->type;
+            $model->save();
+
+            $links[] = $model;
+        }
+
+        return $links;
     }
 
     private function process_related_links(array $link_array) {
