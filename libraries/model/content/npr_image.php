@@ -87,5 +87,15 @@ class Npr_image extends Model {
      */
     protected $copyright;
 
+    /**
+     * Undocumented property. URL for image enlargement.
+     */
+    protected $enlargement;
+
+    /**
+     * Undocumented property. Caption for image enlargement.
+     */
+    protected $enlargementCaption;
+
     protected $story_id;
 }

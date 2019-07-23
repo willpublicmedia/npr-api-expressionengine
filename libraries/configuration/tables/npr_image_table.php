@@ -69,6 +69,14 @@ class npr_image_table extends Table {
         'story_id' => array(
             'type' => 'int',
             'constraint' => 64
+        ),
+        'enlargement' => array(
+            'type' => 'varchar',
+            'constraint' => 2048
+        ),
+        'enlargementCaption' => array(
+            'type' => 'varchar',
+            'constraint' => 2048
         )
     );
 
