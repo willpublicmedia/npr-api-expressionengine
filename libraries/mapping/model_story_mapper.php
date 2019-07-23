@@ -66,11 +66,14 @@ class Model_story_mapper {
     }
     
     private function load_organization(\NPRMLElement $org_element) {
+        $org = null;
+
         if (ee('Model')->get('npr_story_api:Npr_organization')->filter('orgId', $org_element->orgId)->count() > 0) {
-            return ee('Model')->get('npr_story_api:Npr_organization')->filter('orgId', $org_element->orgId)->first();
+            $org = ee('Model')->get('npr_story_api:Npr_organization')->filter('orgId', $org_element->orgId)->first();
+        } else {
+            $org = ee('Model')->make('npr_story_api:Npr_organization');
         }
 
-        $org = ee('Model')->make('npr_story_api:Npr_organization');
         $org->orgId = $org_element->orgId;
         $org->orgAbbr = $org_element->orgAbbr;
         $org->name = $org_element->name->value;
@@ -81,11 +84,14 @@ class Model_story_mapper {
     }
 
     private function process_audio($audio_element) {
+        $audio = null;
+
         if (ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->count() > 0) {
-            return ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->first();
+            $audio = ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->first();
+        } else {
+            $audio = ee('Model')->make('npr_story_api:Npr_audio');
         }
 
-        $audio = ee('Model')->make('npr_story_api:Npr_audio');
         $audio->id = $audio_element->id;
         $audio->title = $audio_element->title->value;
         $audio->duration = $audio_element->duration->value;
@@ -157,14 +163,14 @@ class Model_story_mapper {
         $formats = array();
         foreach ($format_element as $key => $value) {
             if (ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->count() > 0) {
-                $formats[] = ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->first();
-                continue;
+                $model = ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->first();
+            } else {
+                $model = ee('Model')->make('npr_story_api:Npr_audio_format');
             }
 
             // $value is often a single-element array.
             $format_data = is_array($value) ? array_pop($value) : $value;
 
-            $model = ee('Model')->make('npr_story_api:Npr_audio_format');
             $model->format = $key;
             $model->url = $format_data->value;
 
