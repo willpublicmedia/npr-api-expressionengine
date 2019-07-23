@@ -64,6 +64,15 @@ class Npr_story extends Model {
             'to_key' => 'story_id'
         ),
         /**
+         * Permalinks to the story.
+         */
+        'Link' => array(
+            'model' => 'Npr_permalink',
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
+        ),
+        /**
          * Links to related stories, both on NPR.org and elsewhere.
          */
         'RelatedLink' => array(
