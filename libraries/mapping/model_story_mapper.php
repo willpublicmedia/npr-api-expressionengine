@@ -46,6 +46,10 @@ class Model_story_mapper {
         //     $model->RelatedLink = $this->process_related_links($story->relatedLink);
         // }
 
+        if (property_exists($story, 'image')) {
+            $model->Image = $this->process_images($story->image);
+        }
+
         if (property_exists($story, 'link')) {
             $model->Link = $this->process_permalinks($story->link);
         }
@@ -120,6 +124,43 @@ class Model_story_mapper {
 
         $audio->save();
         return $audio;
+    }
+
+    private function process_images(array $image_array)
+    {
+        $images = array();
+        foreach ($image_array as $image_element)
+        {
+            $id = $image_element->id;
+
+            $model;
+            if (ee('Model')->get('npr_story_api:Npr_image')->filter('id', $id)->count() > 0)
+            {
+                $model = ee('Model')->get('npr_story_api:Npr_image')->filter('id', $id)->first();
+            }
+            else
+            {
+                $model = ee('Model')->make('npr_story_api:Npr_image');
+                $model->id = $id;
+            }
+
+            $model->type = $image_element->type;
+            $model->width = $image_element->width;
+            $model->src = $image_element->src;
+            $model->hasBorder = $image_element->hasBorder;
+            $model->title = $image_element->title->value;
+            $model->caption = $image_element->title->caption;
+            $model->link = $image_element->link->url;
+            $model->producer = $image_element->producer->value;
+            $model->provider = $image_element->provider->value;
+            $model->providerUrl = $image_element->provider->url;
+            //$model->copyright = $image_element->copyright;
+            //$model->enlargement;
+            //crops
+
+            $model->save();
+            $images[] = $model;
+        }
     }
 
     private function process_permalinks(array $element_array)
