@@ -22,6 +22,10 @@ class npr_image_table extends Table {
             'type' => 'varchar',
             'constraint' => 24,
         ),
+        'title' => array(
+            'type' => 'varchar',
+            'constraint' => 256
+        ),
         'type' => array(
             'type' => 'varchar',
             'constraint' => 128

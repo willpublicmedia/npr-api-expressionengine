@@ -154,7 +154,10 @@ class Model_story_mapper {
             $model->producer = $image_element->producer->value;
             $model->provider = $image_element->provider->value;
             $model->providerUrl = $image_element->provider->url;
-            //$model->copyright = $image_element->copyright;
+            if (\property_exists($image_element, 'copyright'))
+            {
+                $model->copyright = $image_element->copyright->value;
+            }
             //$model->enlargement;
             //crops
 

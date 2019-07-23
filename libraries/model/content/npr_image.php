@@ -53,6 +53,11 @@ class Npr_image extends Model {
     protected $hasBorder;
 
     /**
+     * Image title.
+     */
+    protected $title;
+
+    /**
      * The caption for the image, describing the contents of the image and/or the image's relationship to the returned story.
      */
     protected $caption;
