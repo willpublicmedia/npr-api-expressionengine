@@ -66,7 +66,7 @@ class Npr_story extends Model {
         /**
          * Links to related stories, both on NPR.org and elsewhere.
          */
-        'Link' => array(
+        'RelatedLink' => array(
             'model' => 'Npr_related_link',
             'type' => 'HasMany',
             'from_key' => 'ee_id',

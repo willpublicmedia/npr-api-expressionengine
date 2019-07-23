@@ -42,8 +42,8 @@ class Model_story_mapper {
         }
 
         // This mixes Link (Permalink) and Related Link!
-        if (property_exists($story, 'link')) {
-            $model->Link = $this->process_links($story->relatedLink);
+        if (property_exists($story, 'relatedLink')) {
+            $model->RelatedLink = $this->process_related_links($story->relatedLink);
         }
 
         if (property_exists($story, 'thumbnail')) {
@@ -118,29 +118,56 @@ class Model_story_mapper {
         return $audio;
     }
 
-    private function process_links(array $link_element) {
-        $links = array();
-        $link;
-        foreach ($link_element as $item)
+    private function process_related_links(array $link_array) {
+        $related_links = array();
+        foreach ($link_array as $links_element)
         {
-            $type = $item->type;
-            $url = $item->value;
-            if (ee('Model')->get('npr_story_api:Npr_related_link')->filter('type', $type)->filter('link', $url)->count() > 0) 
+            $link_id = $links_element->id;
+
+            $model;
+            if (ee('Model')->get('npr_story_api:Npr_related_link')->filter('id', $link_id)->count() > 0)
             {
-                $link = ee('Model')->get('npr_story_api:Npr_related_link')->filter('type', $type)->filter('link', $url)->first();
+                $model = ee('Model')->get('npr_story_api:Npr_related_link')->filter('id', $link_id)->first();
             }
             else
             {
-                $link = ee('Model')->make('npr_story_api:Npr_related_link');
+                $model = ee('Model')->make('npr_story_api:Npr_related_link');
+                $model->id = $link_id;
             }
+            
+            $model->caption = $links_element->caption->value;
+            $model->type = $links_element->type;
 
-            $link->type = $type;
-            $link->link = $url;
-
-            $links[] = $link;
+            // process permalinks
+            
+            $model->save();
+            $related_links[] = $model;
         }
+        
+        return $related_links;
 
-        return $links;
+        // $links = array();
+        // $link;
+        // foreach ($link_element as $item)
+        // {
+        //     $type = $item->type;
+        //     $url = $item->value;
+        //     if (ee('Model')->get('npr_story_api:Npr_related_link')->filter('type', $type)->filter('link', $url)->count() > 0) 
+        //     {
+        //         $link = ee('Model')->get('npr_story_api:Npr_related_link')->filter('type', $type)->filter('link', $url)->first();
+        //     }
+        //     else
+        //     {
+        //         $link = ee('Model')->make('npr_story_api:Npr_related_link');
+        //     }
+
+        //     $link->type = $type;
+        //     $link->link = $url;
+
+        //     $links[] = $link;
+        // }
+
+        // return $links;
     }
 
     private function process_thumbnail(\NPRMLElement $thumbnails) {
