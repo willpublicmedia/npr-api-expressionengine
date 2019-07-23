@@ -147,7 +147,7 @@ class Model_story_mapper {
             $model->type = $image_element->type;
             $model->width = $image_element->width;
             $model->src = $image_element->src;
-            $model->hasBorder = $image_element->hasBorder;
+            $model->hasBorder = ($image_element->hasBorder === 'true');
             $model->title = $image_element->title->value;
             $model->caption = $image_element->title->caption;
             $model->link = $image_element->link->url;
@@ -156,7 +156,11 @@ class Model_story_mapper {
             $model->providerUrl = $image_element->provider->url;
             if (\property_exists($image_element, 'copyright'))
             {
-                $model->copyright = $image_element->copyright->value;
+                $copyright = $image_element->copyright->value;
+                if (is_numeric($copyright)) 
+                {
+                    $model->copyright = intval($image_element->copyright->value);
+                }
             }
             //$model->enlargement;
             //crops
