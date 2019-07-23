@@ -149,7 +149,7 @@ class Model_story_mapper {
             $model->src = $image_element->src;
             $model->hasBorder = ($image_element->hasBorder === 'true');
             $model->title = $image_element->title->value;
-            $model->caption = $image_element->title->caption;
+            $model->caption = $image_element->caption;
             $model->link = $image_element->link->url;
             $model->producer = $image_element->producer->value;
             $model->provider = $image_element->provider->value;
@@ -162,7 +162,10 @@ class Model_story_mapper {
                     $model->copyright = intval($image_element->copyright->value);
                 }
             }
-            //$model->enlargement;
+            
+            $model->enlargement = $image_element->enlargement->src;
+            $model->enlargementCaption = $image_element->enlargement->caption->value;
+
             //crops
 
             $model->save();
