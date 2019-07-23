@@ -102,8 +102,6 @@ class Model_story_mapper {
         
         $audio->permissions = $this->serialize_permissions($audio_element->permissions);
         $audio->Format = $this->store_audio_formats($audio_element->format);
-        // format
-        // type
         // filesize
 
         $audio->save();

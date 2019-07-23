@@ -193,4 +193,9 @@ class Npr_story extends Model {
      * The owner organization of the returned story.
      */
     protected $organization_id;
+
+    /**
+     * Undocumented property. Audio run-by date.
+     */
+    protected $audioRunByDate;
 }

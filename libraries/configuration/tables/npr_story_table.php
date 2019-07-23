@@ -70,6 +70,9 @@ class npr_story_table extends Table {
         'pullQuote' => array(
             'type' => 'varchar',
             'constraint' => 4096
+        ),
+        'audioRunByDate' => array(
+            'type' => 'datetime'
         )
     );
     
