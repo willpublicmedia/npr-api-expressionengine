@@ -28,10 +28,6 @@ class Model_story_mapper {
         $model->priorityKeywords = $story->keywords->value;
         $model->Organization = $this->load_organization($story->organization);
 
-        if (property_exists($story, 'thumbnail')) {
-            $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
-        }
-
         if (property_exists($story, 'audio')) {
             foreach ($story->audio as $item)
             {
@@ -40,14 +36,23 @@ class Model_story_mapper {
             }
         }
 
-        if (property_exists($story, 'toenail'))
-        {
-            $model->Toenail = $this->process_thumbnail($story->toenail);
-        }
-
         if (property_exists($story, 'audioRunByDate'))
         {
             $model->audioRunByDate = $this->convert_date_string($story->audioRunByDate->value);
+        }
+
+        // This mixes Link (Permalink) and Related Link!
+        if (property_exists($story, 'link')) {
+            $model->Link = $this->process_links($story->relatedLink);
+        }
+
+        if (property_exists($story, 'thumbnail')) {
+            $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
+        }
+
+        if (property_exists($story, 'toenail'))
+        {
+            $model->Toenail = $this->process_thumbnail($story->toenail);
         }
 
         // move this to channel behavior
@@ -111,6 +116,31 @@ class Model_story_mapper {
 
         $audio->save();
         return $audio;
+    }
+
+    private function process_links(array $link_element) {
+        $links = array();
+        $link;
+        foreach ($link_element as $item)
+        {
+            $type = $item->type;
+            $url = $item->value;
+            if (ee('Model')->get('npr_story_api:Npr_related_link')->filter('type', $type)->filter('link', $url)->count() > 0) 
+            {
+                $link = ee('Model')->get('npr_story_api:Npr_related_link')->filter('type', $type)->filter('link', $url)->first();
+            }
+            else
+            {
+                $link = ee('Model')->make('npr_story_api:Npr_related_link');
+            }
+
+            $link->type = $type;
+            $link->link = $url;
+
+            $links[] = $link;
+        }
+
+        return $links;
     }
 
     private function process_thumbnail(\NPRMLElement $thumbnails) {
