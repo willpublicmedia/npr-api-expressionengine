@@ -36,6 +36,7 @@ class Npr_story_api_upd
             'npr_audio',
             'npr_audio_format',
             'npr_image',
+            'npr_permalink',
             'npr_pull_correction',
             'npr_pull_quote',
             'npr_related_link',
