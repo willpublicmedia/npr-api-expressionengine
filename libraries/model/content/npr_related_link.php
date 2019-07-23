@@ -7,6 +7,8 @@ use EllisLab\ExpressionEngine\Service\Model\Model;
 /**
  * Object model for an NPR story related link as defined by https://www.npr.org/api/outputReference.php.
  */
+// Newsroom doesn't pull related link.
+// Rewrite model--has many weak permalinks.
 class Npr_related_link extends Model {
     protected static $_primary_key = 'ee_id';
 

@@ -30,14 +30,6 @@ class npr_related_link_table extends Table {
             'type' => 'varchar',
             'constraint' => 2048
         ),
-        'link' => array(
-            'type' => 'varchar',
-            'constraint' => 2048
-        ),
-        'linkType' => array(
-            'type' => 'varchar',
-            'constraint' => 24
-        ),
         'story_id' => array(
             'type' => 'int',
             'constraint' => 64

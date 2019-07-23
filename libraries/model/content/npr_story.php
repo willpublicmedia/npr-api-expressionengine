@@ -75,12 +75,13 @@ class Npr_story extends Model {
         /**
          * Links to related stories, both on NPR.org and elsewhere.
          */
-        'RelatedLink' => array(
-            'model' => 'Npr_related_link',
-            'type' => 'HasMany',
-            'from_key' => 'ee_id',
-            'to_key' => 'story_id'
-        ),
+        // Newsroom will use local related links.
+        // 'RelatedLink' => array(
+        //     'model' => 'Npr_related_link',
+        //     'type' => 'HasMany',
+        //     'from_key' => 'ee_id',
+        //     'to_key' => 'story_id'
+        // ),
         /**
          * Quotes from the returned story that have been identified as particularly compelling by NPR editorial staff.
          */

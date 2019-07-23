@@ -41,7 +41,7 @@ class Model_story_mapper {
             $model->audioRunByDate = $this->convert_date_string($story->audioRunByDate->value);
         }
 
-        // This mixes Link (Permalink) and Related Link!
+        // Newsroom will use local related links.
         // if (property_exists($story, 'relatedLink')) {
         //     $model->RelatedLink = $this->process_related_links($story->relatedLink);
         // }
