@@ -43,15 +43,5 @@ class Npr_related_link extends Model {
      */
     protected $caption;
 
-    /**
-     * The actual URL for the related link.
-     */
-    protected $link;
-
-    /**
-     * Determines the nature of the link. Current type values are "html", which points to NPR.org, and "api", which points to this API.
-     */
-    protected $linkType;
-
     protected $story_id;
 }
