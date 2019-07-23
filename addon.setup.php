@@ -11,6 +11,7 @@
             'Npr_audio' => 'Libraries\Model\Content\Npr_audio',
             'Npr_audio_format' => 'Libraries\Model\Content\Npr_audio_format',
             'Npr_image' => 'Libraries\Model\Content\Npr_image',
+            'Npr_permalink' => 'Libraries\Model\Content\Npr_permalink',
             'Npr_organization' => 'Libraries\Model\Content\Npr_organization',
             'Npr_pull_correction' => 'Libraries\Model\Content\Npr_pull_correction',
             'Npr_pull_quote' => 'Libraries\Model\Content\Npr_pull_quote',
