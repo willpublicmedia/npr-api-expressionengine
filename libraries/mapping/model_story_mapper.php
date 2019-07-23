@@ -45,6 +45,11 @@ class Model_story_mapper {
             $model->Toenail = $this->process_thumbnail($story->toenail);
         }
 
+        if (property_exists($story, 'audioRunByDate'))
+        {
+            $model->audioRunByDate = $this->convert_date_string($story->audioRunByDate->value);
+        }
+
         // move this to channel behavior
         //$model->slug = ee('Format')->make('Text', $story->slug->value)->urlSlug(['separator' => '-', 'lowercase' => TRUE]);
         return $model;
