@@ -27,7 +27,7 @@ class Model_story_mapper {
         $model->keywords = $story->keywords->value;
         $model->priorityKeywords = $story->keywords->value;
         $model->Organization = $this->load_organization($story->organization);
-        $model->Text = $this->process_text($story->text, 'text');
+        // newsroom doesn't use plain text.
         $model->TextWithHtml = $this->process_text($story->textWithHtml, 'textWithHtml');
 
         if (property_exists($story, 'audio')) {
@@ -76,7 +76,9 @@ class Model_story_mapper {
 
     private function load_base_model($story_id) {
         if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $story_id)->count() > 0) {
-            return ee('Model')->get('npr_story_api:Npr_story')->filter('id', $story_id)->first();
+            $model = ee('Model')->get('npr_story_api:Npr_story')->filter('id', $story_id)->first();
+            $model->TextWithHtml = NULL;
+            return $model;
         }    
         
         $model = ee('Model')->make('npr_story_api:Npr_story');
@@ -296,23 +298,13 @@ class Model_story_mapper {
 
         foreach ($text_element->paragraphs as $text_element)
         {
-            $text = $text_element->value;
-            $paragraph;
-            if (ee('Model')->get('npr_story_api:Npr_text_paragraph')->filter('text', $text)->count() > 0)
-            {
-                $model = ee('Model')->get('npr_story_api:Npr_text_paragraph')->filter('text', $text)->first();
-            }
-            else 
-            {
-                $model = ee('Model')->make('npr_story_api:Npr_text_paragraph');
-                $model->text = $text;
-            }
-            
-            $model->num = $text_element->num;
-            $model->paragraphType = $paragraph_type;
+            $paragraph = ee('Model')->make('npr_story_api:Npr_text_paragraph');
+            $paragraph->text = $text_element->value;
+            $paragraph->paragraphType = $paragraph_type;
+            $paragraph->num = $text_element->num;
 
-            $model->save();
-            $paragraphs[] = $model;
+            $paragraph->save();
+            $paragraphs[] = $paragraph;
         }
 
         return $paragraphs;
