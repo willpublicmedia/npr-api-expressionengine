@@ -166,7 +166,7 @@ class Model_story_mapper {
             $model->enlargement = $image_element->enlargement->src;
             $model->enlargementCaption = $image_element->enlargement->caption->value;
 
-            //crops
+            throw new \Exception('build crop model and tables');
 
             $model->save();
             $images[] = $model;
