@@ -27,6 +27,8 @@ class Model_story_mapper {
         $model->keywords = $story->keywords->value;
         $model->priorityKeywords = $story->keywords->value;
         $model->Organization = $this->load_organization($story->organization);
+        $model->Text = $this->process_text($story->text);
+        $model->TextWithHtml = $this->process_text($story->textWithHtml);
 
         if (property_exists($story, 'audio')) {
             foreach ($story->audio as $item)
@@ -286,6 +288,33 @@ class Model_story_mapper {
         // }
 
         // return $links;
+    }
+
+    private function process_text(NPRMLElement $text_element)
+    {
+        $paragraphs = array();
+
+        foreach ($text_element->paragraphs as $text_element)
+        {
+            $text = $text_element->value;
+            $paragraph;
+            if (ee('Model')->get('npr_story_api:Npr_text_paragraph')->filter('text', $text)->count() > 0)
+            {
+                $model = ee('Model')->get('npr_story_api:Npr_text_paragraph')->filter('text', $text)->first();
+            }
+            else 
+            {
+                $model = ee('Model')->make('npr_story_api:Npr_text_paragraph');
+                $model->text = $text;
+            }
+            
+            $model->num = $text_element->num;
+
+            $model->save();
+            $paragraphs[] = $model;
+        }
+
+        return $paragraphs;
     }
 
     private function process_thumbnail(\NPRMLElement $thumbnails) {
