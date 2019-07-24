@@ -35,6 +35,7 @@ class Npr_story_api_upd
             'npr_organization',
             'npr_audio',
             'npr_audio_format',
+            'npr_html_asset',
             'npr_image',
             'npr_image_crop',
             'npr_permalink',
