@@ -55,6 +55,15 @@ class Npr_story extends Model {
             'to_key' => 'story_id'
         ),
         /**
+         * HTML asssets associated with story.
+         */
+        'HtmlAsset' => array(
+            'model' => 'Npr_html_asset',
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
+        ),
+        /**
          * All images associated with the returned story.
          */
         'Image' => array(
