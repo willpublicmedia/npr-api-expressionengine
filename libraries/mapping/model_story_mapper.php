@@ -166,11 +166,48 @@ class Model_story_mapper {
             $model->enlargement = $image_element->enlargement->src;
             $model->enlargementCaption = $image_element->enlargement->caption->value;
 
-            throw new \Exception('build crop model and tables');
+            if (property_exists($image_element, 'crop'))
+            {
+                $model->Crop = $this->process_image_crops($image_element->crop);
+            }
 
             $model->save();
             $images[] = $model;
         }
+    }
+
+    private function process_image_crops(array $crop_element_array)
+    {
+        $crops = array();
+
+        $model;
+        foreach ($crop_element_array as $crop_element)
+        {
+            $type = $crop_element->type;
+            $width = $crop_element->width;
+            $height = $crop_element->height;
+            $primary = (property_exists($crop_element, 'primary') && $crop_element->primary === 'true');
+
+            if (ee('Model')->get('npr_story_api:Npr_image_crop')->filter('type', $type)->filter('width', $width)->count() > 0)
+            {
+                $model = ee('Model')->get('npr_story_api:Npr_image_crop')->filter('type', $type)->filter('width', $width)->first();
+            }
+            else
+            {
+                $model = ee('Model')->make('npr_story_api:Npr_image_crop');
+                $model->type = $type;
+                $model->width = $width;
+            }
+
+            $model->height = $height;
+            $model->primary = $primary;
+            $model->src = $crop_element->src;
+
+            $model->save();
+            $crops[] = $model;
+        }
+
+        return $crops;
     }
 
     private function process_permalinks(array $element_array)
