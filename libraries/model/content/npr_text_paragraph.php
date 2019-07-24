@@ -43,6 +43,11 @@ class Npr_text_paragraph extends Model {
      * 
      */
     protected $tag;
+
+    /**
+     * Non-API property denoting type of parent text tag (e.g., text, textWithHtml).
+     */
+    protected $paragraphType;
     
     protected $story_id;
 }
