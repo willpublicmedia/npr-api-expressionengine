@@ -10,6 +10,7 @@
         'models'            => array(
             'Npr_audio' => 'Libraries\Model\Content\Npr_audio',
             'Npr_audio_format' => 'Libraries\Model\Content\Npr_audio_format',
+            'Npr_html_asset' => 'Libraries\Model\Content\Npr_html_asset',
             'Npr_image' => 'Libraries\Model\Content\Npr_image',
             'Npr_image_crop' => 'Libraries\Model\Content\Npr_image_crop',
             'Npr_permalink' => 'Libraries\Model\Content\Npr_permalink',
