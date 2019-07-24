@@ -18,6 +18,12 @@ class Npr_image extends Model {
             'model' => 'Npr_story',
             'from_key' => 'story_id',
             'to_key' => 'ee_id'
+        ),
+        'Crop' => array(
+            'type' => 'HasMany',
+            'model' => 'Npr_image_crop',
+            'from_key' => 'ee_id',
+            'to_key' => 'image_id'
         )
     );
 
