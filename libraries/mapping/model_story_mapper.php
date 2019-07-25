@@ -349,26 +349,31 @@ class Model_story_mapper
         return $crops;
     }
 
+    private function process_permalink(\NPRMLElement $link_element)
+    {
+        $link = $link_element->value;
+        $model;
+        if (ee('Model')->get('npr_story_api:Npr_permalink')->filter('link', $link)->count() > 0) 
+        {
+            $model = ee('Model')->get('npr_story_api:Npr_permalink')->filter('link', $link)->first();
+        }
+        else
+        {
+            $model = ee('Model')->make('npr_story_api:Npr_permalink');
+            $model->link = $link;
+        }
+        
+        $model->type = $link_element->type;
+        $model->save();
+        return $model;
+    }
+
     private function process_permalinks(array $element_array)
     {
         $links = array();
         foreach ($element_array as $link_element)
         {
-            $link = $link_element->value;
-            $model;
-            if (ee('Model')->get('npr_story_api:Npr_permalink')->filter('link', $link)->count() > 0) 
-            {
-                $model = ee('Model')->get('npr_story_api:Npr_permalink')->filter('link', $link)->first();
-            }
-            else
-            {
-                $model = ee('Model')->make('npr_story_api:Npr_permalink');
-                $model->link = $link;
-            }
-            
-            $model->type = $link_element->type;
-            $model->save();
-
+            $model = $this->process_permalink($link_element);
             $links[] = $model;
         }
 
