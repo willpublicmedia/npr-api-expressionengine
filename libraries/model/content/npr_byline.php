@@ -8,6 +8,13 @@ use EllisLab\ExpressionEngine\Service\Model\Model;
  * Object model for a story byline.
  */
 class Npr_byline extends Model {
+    private $api_settings;
+
+    public function __construct()
+    {
+        $this->api_settings = $this->load_settings();
+    }
+
     protected static $_primary_key = 'id';
 
     protected static $_table_name = 'npr_story_api_stories_bylines';
@@ -50,7 +57,22 @@ class Npr_byline extends Model {
 
     protected function get___api_link()
     {
-        // $api_url . '/query?id=' . $this->personId . '&meta=inherit&apiKey=' . $apiKey
-        return "https://api.npr.org/query?id={$this->personId}&meta=inherit";
+        $api_url = $this->settings['pull_url'];
+        $api_key = $this->settings['api_key'];
+
+        return $api_url . "/query?id={$this->personId}&meta=inherit&apiKey={$api_key}";
+    }
+
+    private function load_settings()
+    {
+        $results = ee()->db->
+            select('*')->
+            from('npr_story_api_settings')->
+            get()->
+            result_array();
+
+        $settings = array_pop($results);
+
+        return $settings;
     }
 }
