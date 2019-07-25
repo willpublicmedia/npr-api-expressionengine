@@ -71,7 +71,8 @@ class Model_story_mapper {
     }
 
     private function convert_date_string($date_string) {
-        return date('Y-m-d H:i:s', strtotime($date_string));
+        $date = $date_string == '' ? NULL : date('Y-m-d H:i:s', strtotime($date_string));
+        return $date;
     }
 
     private function load_base_model($story_id) {
