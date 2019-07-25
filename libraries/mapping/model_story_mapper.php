@@ -136,7 +136,7 @@ class Model_story_mapper {
         $audio->type = $audio_element->type;
         
         $audio->permissions = $this->serialize_permissions($audio_element->permissions);
-        $audio->Format = $this->store_audio_formats($audio_element->format);
+        $audio->Format = $this->process_audio_format($audio_element->format);
         // filesize
 
         $audio->save();
@@ -152,6 +152,32 @@ class Model_story_mapper {
         }
 
         return $audios;
+    }
+
+    private function process_audio_format(\NPRMLElement $format_element) {
+        $formats = array();
+        foreach ($format_element as $key => $value) {
+            if (ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->count() > 0) {
+                $model = ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->first();
+            } else {
+                $model = ee('Model')->make('npr_story_api:Npr_audio_format');
+            }
+
+            // $value is often a single-element array.
+            $format_data = is_array($value) ? array_pop($value) : $value;
+
+            $model->format = $key;
+            $model->url = $format_data->value;
+
+            if (\property_exists($format_data, 'type')) {
+                $model->type = $format_data->type;
+            }
+
+            $model->save();
+            $formats[] = $model;
+        }
+
+        return $formats;
     }
     
     private function process_byline(\NPRMLElement $byline_element)
@@ -465,31 +491,5 @@ class Model_story_mapper {
         }
 
         return json_encode($permissions);
-    }
-
-    private function store_audio_formats(\NPRMLElement $format_element) {
-        $formats = array();
-        foreach ($format_element as $key => $value) {
-            if (ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->count() > 0) {
-                $model = ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->first();
-            } else {
-                $model = ee('Model')->make('npr_story_api:Npr_audio_format');
-            }
-
-            // $value is often a single-element array.
-            $format_data = is_array($value) ? array_pop($value) : $value;
-
-            $model->format = $key;
-            $model->url = $format_data->value;
-
-            if (\property_exists($format_data, 'type')) {
-                $model->type = $format_data->type;
-            }
-
-            $model->save();
-            $formats[] = $model;
-        }
-
-        return $formats;
     }
 }
