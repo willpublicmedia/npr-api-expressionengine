@@ -35,6 +35,22 @@ class Npr_byline extends Model {
      * Story author's name.
      */
     protected $name;
+    
+    /**
+     * Author's ID.
+     */
+    protected $personId;    
 
     protected $story_id;
+
+    /**
+     * Generate the api link for the author's work.
+     */
+    protected $_api_link;
+
+    protected function get___api_link()
+    {
+        // $api_url . '/query?id=' . $this->personId . '&meta=inherit&apiKey=' . $apiKey
+        return "https://api.npr.org/query?id={$this->personId}&meta=inherit";
+    }
 }
