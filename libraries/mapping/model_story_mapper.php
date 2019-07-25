@@ -39,7 +39,10 @@ class Model_story_mapper
 
         if (property_exists($story, 'audio'))
         {
-            $model->Audio = $this->process_audio($story->audio);
+            $audio = is_array($story->audio) ? 
+                $this->process_audios($story->audio) : 
+                $this->process_audio($story->audio);
+            $model->Audio = $audio;
         }
 
         if (property_exists($story, 'audioRunByDate'))
@@ -49,7 +52,10 @@ class Model_story_mapper
 
         if (property_exists($story, 'byline'))
         {
-            $model->Byline = $this->process_bylines($story->byline);
+            $byline = is_array($story->byline) ?
+                $this->process_bylines($story->byline) :
+                $this->process_byline($story->byline);
+            $model->Byline = $byline;
         }
 
         // Newsroom will use local related links.
@@ -59,17 +65,26 @@ class Model_story_mapper
 
         if (property_exists($story, 'image'))
         {
-            $model->Image = $this->process_images($story->image);
+            $image = is_array($story->image) ?
+                $this->process_images($story->image) :
+                $this->process_image($story->image);
+            $model->Image = $image;
         }
 
         if (property_exists($story, 'link'))
         {
-            $model->Link = $this->process_permalinks($story->link);
+            $link = is_array($story->link) ?
+                $this->process_permalinks($story->link) :
+                $this->process_permalink($story->link);
+            $model->Link = $link;
         }
         
         if (property_exists($story, 'pullQuote'))
         {
-            $model->PullQuote = $this->process_pullquotes($story->pullQuote);
+            $quote = is_array($story->pullQuote) ?
+                $this->process_pullquotes($story->pullQuote) :
+                $this->process_pullquote($story->pullQuote);
+            $model->PullQuote = $quote;
         }
 
         if (property_exists($story, 'thumbnail'))
