@@ -12,6 +12,10 @@ class Npr_audio extends Model {
 
     protected static $_table_name = 'npr_story_api_stories_audio';
 
+    protected static $_typed_columns = array(
+        'permissions' => 'json'
+    );
+
     protected static $_relationships = array(
         'Story' => array(
             'type' => 'BelongsTo',

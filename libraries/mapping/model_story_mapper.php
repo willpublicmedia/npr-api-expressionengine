@@ -166,7 +166,7 @@ class Model_story_mapper
         $audio->rightsholder = $audio_element->rightsHolder->value;
         $audio->type = $audio_element->type;
         
-        $audio->permissions = $this->serialize_permissions($audio_element->permissions);
+        $audio->permissions = $this->process_permissions($audio_element->permissions);
         $audio->Format = $this->process_audio_format($audio_element->format);
         // filesize
 
@@ -380,6 +380,17 @@ class Model_story_mapper
         return $links;
     }
 
+    private function process_permissions(\NPRMLElement $permissions_element)
+    {
+        $permissions = array();
+        foreach ($permissions_element as $key => $value)
+        {
+            $permissions[$key] = $permissions_element->$key->allow;
+        }
+
+        return $permissions;
+    }
+
     private function process_pullquote(\NPRMLElement $pullquote_element)
     {
         $id = $pullquote_element->id;
@@ -473,16 +484,5 @@ class Model_story_mapper
         }
 
         return $models;
-    }
-
-    private function serialize_permissions(\NPRMLElement $permissions_element)
-    {
-        $permissions = array();
-        foreach ($permissions_element as $key => $value)
-        {
-            $permissions[$key] = $permissions_element->$key->allow;
-        }
-
-        return json_encode($permissions);
     }
 }
