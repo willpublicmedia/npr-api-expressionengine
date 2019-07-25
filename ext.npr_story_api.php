@@ -54,11 +54,18 @@ class Npr_story_api_ext {
         }
 
         $npr_story_id = $this->get_npr_story_id();
+        // WARNING: story pull executes loop. Title may be an array.
         $title = $this->pull_npr_story($npr_story_id);
-    
+        $this->change_entry_title($title);
+    }
+
+    private function change_entry_title($queried_title) {
         if (isset($title[0])) {
             $title = $title[0];
         }
+    
+        $entry_title = ee()->input->post('title');
+        $url_title = ee()->input->post('url_title');
     }
 
     private function check_external_story_source() {
@@ -116,7 +123,7 @@ class Npr_story_api_ext {
         
         $titles = array();
         foreach ($api_service->stories as $story) {
-            $title = $api_service->save_clean_response($story);
+            $titles[] = $api_service->save_clean_response($story);
         }
 
         return $titles;
