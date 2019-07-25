@@ -11,8 +11,10 @@ use EllisLab\ExpressionEngine\Service\Model\Model;
 require_once(__DIR__ . '/../../vendor/autoload.php');
 use \NPRMLElement;
 
-class Model_story_mapper {
-    public function map_parsed_story($story): Model {
+class Model_story_mapper
+{
+    public function map_parsed_story($story): Model
+    {
         // throw new \Exception('Test using stories 691846168, 690346427, 744535478 [buggy!], 734538252');
         $model = $this->load_base_model($story->id);
         $model->title = $story->title->value;
@@ -35,7 +37,8 @@ class Model_story_mapper {
         // newsroom doesn't use plain text.
         $model->TextWithHtml = $this->process_text($story->textWithHtml, 'textWithHtml');
 
-        if (property_exists($story, 'audio')) {
+        if (property_exists($story, 'audio'))
+        {
             $model->Audio = $this->process_audio($story->audio);
         }
 
@@ -54,11 +57,13 @@ class Model_story_mapper {
         //     $model->RelatedLink = $this->process_related_links($story->relatedLink);
         // }
 
-        if (property_exists($story, 'image')) {
+        if (property_exists($story, 'image'))
+        {
             $model->Image = $this->process_images($story->image);
         }
 
-        if (property_exists($story, 'link')) {
+        if (property_exists($story, 'link'))
+        {
             $model->Link = $this->process_permalinks($story->link);
         }
         
@@ -67,7 +72,8 @@ class Model_story_mapper {
             $model->PullQuote = $this->process_pullquotes($story->pullQuote);
         }
 
-        if (property_exists($story, 'thumbnail')) {
+        if (property_exists($story, 'thumbnail'))
+        {
             $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
         }
 
@@ -81,13 +87,16 @@ class Model_story_mapper {
         return $model;
     }
 
-    private function convert_date_string($date_string) {
+    private function convert_date_string($date_string)
+    {
         $date = $date_string == '' ? NULL : date('Y-m-d H:i:s', strtotime($date_string));
         return $date;
     }
 
-    private function load_base_model($story_id) {
-        if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $story_id)->count() > 0) {
+    private function load_base_model($story_id)
+    {
+        if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $story_id)->count() > 0)
+        {
             $model = ee('Model')->get('npr_story_api:Npr_story')->filter('id', $story_id)->first();
             $model->TextWithHtml = NULL;
             return $model;
@@ -99,12 +108,16 @@ class Model_story_mapper {
         return $model;
     }
     
-    private function load_organization(\NPRMLElement $org_element) {
+    private function load_organization(\NPRMLElement $org_element)
+    {
         $org = null;
 
-        if (ee('Model')->get('npr_story_api:Npr_organization')->filter('orgId', $org_element->orgId)->count() > 0) {
+        if (ee('Model')->get('npr_story_api:Npr_organization')->filter('orgId', $org_element->orgId)->count() > 0)
+        {
             $org = ee('Model')->get('npr_story_api:Npr_organization')->filter('orgId', $org_element->orgId)->first();
-        } else {
+        }
+        else
+        {
             $org = ee('Model')->make('npr_story_api:Npr_organization');
         }
 
@@ -121,9 +134,12 @@ class Model_story_mapper {
     {
         $audio = null;
 
-        if (ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->count() > 0) {
+        if (ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->count() > 0)
+        {
             $audio = ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->first();
-        } else {
+        }
+        else
+        {
             $audio = ee('Model')->make('npr_story_api:Npr_audio');
         }
 
@@ -143,7 +159,8 @@ class Model_story_mapper {
         return $audio;
     }
 
-    private function process_audios(array $audio_element_array) {
+    private function process_audios(array $audio_element_array)
+    {
         $audios = array();
         foreach ($audio_element_array as $audio_element)
         {
@@ -154,12 +171,17 @@ class Model_story_mapper {
         return $audios;
     }
 
-    private function process_audio_format(\NPRMLElement $format_element) {
+    private function process_audio_format(\NPRMLElement $format_element)
+    {
         $formats = array();
-        foreach ($format_element as $key => $value) {
-            if (ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->count() > 0) {
+        foreach ($format_element as $key => $value)
+        {
+            if (ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->count() > 0)
+            {
                 $model = ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->first();
-            } else {
+            }
+            else
+            {
                 $model = ee('Model')->make('npr_story_api:Npr_audio_format');
             }
 
@@ -444,12 +466,14 @@ class Model_story_mapper {
         return $paragraphs;
     }
 
-    private function process_thumbnail(\NPRMLElement $thumbnail_element) {
+    private function process_thumbnail(\NPRMLElement $thumbnail_element)
+    {
         $provider = $thumbnail_element->provider->value;
         
         $models = array();
         $model;
-        foreach ($thumbnail_element as $key => $value) {
+        foreach ($thumbnail_element as $key => $value)
+        {
             if ($key === 'provider')
             {
                 continue;
@@ -483,7 +507,8 @@ class Model_story_mapper {
         return $models;
     }
 
-    private function serialize_permissions(\NPRMLElement $permissions_element) {
+    private function serialize_permissions(\NPRMLElement $permissions_element)
+    {
         $permissions = array();
         foreach ($permissions_element as $key => $value)
         {
