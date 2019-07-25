@@ -79,6 +79,7 @@ class Npr_api_expressionengine extends NPRAPI {
     public function save_clean_response($story) {
         $model = $this->map_to_model($story);
         $model->save();
+        return $model->title;
     }
 
     /**

@@ -54,7 +54,11 @@ class Npr_story_api_ext {
         }
 
         $npr_story_id = $this->get_npr_story_id();
-        $this->pull_npr_story($npr_story_id);
+        $title = $this->pull_npr_story($npr_story_id);
+    
+        if (isset($title[0])) {
+            $title = $title[0];
+        }
     }
 
     private function check_external_story_source() {
@@ -110,9 +114,12 @@ class Npr_story_api_ext {
         $api_service->request($params, 'query', $pull_url);
         $api_service->parse();
         
+        $titles = array();
         foreach ($api_service->stories as $story) {
-            $api_service->save_clean_response($story);
+            $title = $api_service->save_clean_response($story);
         }
+
+        return $titles;
 
         // if (empty($api_service->message) || $api_service->message->level != 'warning') {
         //     $post_id = $api_service->update_posts_from_stories(/*entry_status*/);
