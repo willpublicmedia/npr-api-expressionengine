@@ -5,7 +5,7 @@ namespace IllinoisPublicMedia\NprStoryApi\Libraries\Model\Content;
 use EllisLab\ExpressionEngine\Service\Model\Model;
 
 /**
- * Object model for a story byline.
+ * Object model for an NPR story byline.
  */
 class Npr_byline extends Model {
     private $api_settings;
@@ -13,6 +13,7 @@ class Npr_byline extends Model {
     public function __construct()
     {
         $this->api_settings = $this->load_settings();
+        parent::__construct();
     }
 
     protected static $_primary_key = 'id';
@@ -21,8 +22,8 @@ class Npr_byline extends Model {
 
     protected static $_relationships = array(
         'Story' => array(
-            'model' => 'Npr_story',
             'type' => 'BelongsTo',
+            'model' => 'Npr_story',
             'from_key' => 'story_id',
             'to_key' => 'ee_id'
         )
@@ -34,7 +35,7 @@ class Npr_byline extends Model {
     protected $id;
 
     /**
-     * The unique ID for the byline
+     * The unique ID for the byline.
      */
     protected $byline_id;
 
@@ -42,11 +43,11 @@ class Npr_byline extends Model {
      * Story author's name.
      */
     protected $name;
-    
+
     /**
-     * Author's ID.
+     * Author's unique ID.
      */
-    protected $personId;    
+    protected $personId;
 
     protected $story_id;
 
@@ -65,14 +66,15 @@ class Npr_byline extends Model {
 
     private function load_settings()
     {
-        $results = ee()->db->
-            select('*')->
-            from('npr_story_api_settings')->
-            get()->
-            result_array();
+        $settings = ee()->db->select('*')
+            ->from('npr_story_api_settings')
+            ->get()
+            ->result_array();
 
-        $settings = array_pop($results);
-
+        if (isset($settings[0])) {
+            $settings = $settings[0];
+        }
+        
         return $settings;
     }
 }
