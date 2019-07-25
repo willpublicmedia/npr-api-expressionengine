@@ -99,7 +99,13 @@ class Npr_story extends Model {
             'type' => 'HasMany',
             'from_key' => 'ee_id',
             'to_key' => 'story_id'
-        ),    
+        ),
+        'Byline' => array(
+            'model' => 'Npr_byline',
+            'type' => 'HasMany',
+            'from_key' => 'ee_id',
+            'to_key' => 'story_id'
+        ),
         /**
         * The full text of the returned story without any markup, broken out by paragraph.
         */
