@@ -26,6 +26,10 @@ class npr_pull_quote_table extends Table {
             'type' => 'varchar',
             'constraint' => 128
         ),
+        'text' => array(
+            'type' => 'varchar',
+            'constraint' => 2048
+        ),
         'story_id' => array(
             'type' => 'int',
             'constraint' => 64

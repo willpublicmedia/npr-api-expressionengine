@@ -36,5 +36,10 @@ class Npr_pull_quote extends Model {
      */
     protected $date;
 
+    /**
+     * Pull quote text.
+     */
+    protected $text;
+
     protected $story_id;
 }
