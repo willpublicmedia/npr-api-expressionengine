@@ -60,12 +60,16 @@ class Npr_story_api_ext {
     }
 
     private function change_entry_title($queried_title) {
-        if (isset($title[0])) {
-            $title = $title[0];
+        if (isset($queried_title[0])) {
+            $queried_title = $queried_title[0];
         }
     
         $entry_title = ee()->input->post('title');
         $url_title = ee()->input->post('url_title');
+
+        // XSS CLEAN ME FIRST!
+        $_POST['title'] = $queried_title;
+        $_REQUEST['title'] = $queried_title;
     }
 
     private function check_external_story_source() {
