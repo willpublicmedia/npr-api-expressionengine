@@ -117,17 +117,6 @@ class Model_story_mapper {
         return $org;
     }
 
-    private function process_audios(array $audio_element_array) {
-        $audios = array();
-        foreach ($audio_element_array as $audio_element)
-        {
-            $audio = $this->process_audio($audio_element);
-            $audios[] = $audio;
-        }
-
-        return $audios;
-    }
-
     private function process_audio(\NPRMLElement $audio_element)
     {
         $audio = null;
@@ -154,18 +143,17 @@ class Model_story_mapper {
         return $audio;
     }
 
-    private function process_bylines(array $byline_element_array)
-    {
-        $bylines = array();
-        foreach ($byline_element_array as $byline_element)
+    private function process_audios(array $audio_element_array) {
+        $audios = array();
+        foreach ($audio_element_array as $audio_element)
         {
-            $byline = $this->process_byline($byline_element);
-            $bylines[] = $byline;
+            $audio = $this->process_audio($audio_element);
+            $audios[] = $audio;
         }
 
-        return $bylines;
+        return $audios;
     }
-
+    
     private function process_byline(\NPRMLElement $byline_element)
     {
         $id = $byline_element->id;
@@ -186,6 +174,18 @@ class Model_story_mapper {
 
         $byline->save();
         return $byline;
+    }
+
+    private function process_bylines(array $byline_element_array)
+    {
+        $bylines = array();
+        foreach ($byline_element_array as $byline_element)
+        {
+            $byline = $this->process_byline($byline_element);
+            $bylines[] = $byline;
+        }
+
+        return $bylines;
     }
 
     private function process_images(array $image_array)
