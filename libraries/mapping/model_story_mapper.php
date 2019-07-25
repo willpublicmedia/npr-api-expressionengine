@@ -312,29 +312,40 @@ class Model_story_mapper {
         return $links;
     }
 
+    private function process_pullquote(\NPRMLElement $pullquote_element)
+    {
+        $id = $pullquote_element->id;
+
+        $model;
+        if (ee('Model')->get('npr_story_api:Npr_pull_quote')->filter('id', $id)->count() > 0)
+        {
+            $model = ee('Model')->get('npr_story_api:Npr_pull_quote')->filter('id', $id)->first();
+        }
+        else
+        {
+            $model = ee('Model')->make('npr_story_api:Npr_pull_quote');
+            $model->id = $id;
+        }
+
+        $model->text = $pullquote_element->text->value;
+        $model->person = $pullquote_element->person->value;
+        $model->date = $this->convert_date_string($pullquote_element->date->value);
+
+        $model->save();
+        return $model;
+    }
+
     private function process_pullquotes(array $pullquote_element_array)
     {
         $pullquotes = array();
 
         foreach ($pullquote_element_array as $pullquote_element)
         {
-            $id = $pullquote_element->id;
-
-            $model;
-            if (ee('Model')->get('npr_story_api:Npr_pull_quote')->filter('id', $id)->count() > 0)
-            {
-                $model = ee('Model')->get('npr_story_api:Npr_pull_quote')->filter('id', $id)->first();
-            }
-            else
-            {
-                $model = ee('Model')->make('npr_story_api:Npr_pull_quote');
-                $model->id = $id;
-            }
-
-            $model->text = $pullquote_element->text->value;
-            $model->person = $pullquote_element->person->value;
-            $model->date = $this->convert_date_string($pullquote_element->date->value);
+            $quote = $this->process_pullquote($pullquote_element);
+            $pullquotes[] = $quote;
         }
+
+        return $pullquotes;
     }
 
     private function process_related_links(array $link_array) {
