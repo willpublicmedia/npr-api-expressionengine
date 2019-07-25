@@ -13,7 +13,7 @@ use \NPRMLElement;
 
 class Model_story_mapper {
     public function map_parsed_story($story): Model {
-        // throw new \Exception('Test using stories 691846168, 690346427, 744535478');
+        // throw new \Exception('Test using stories 691846168, 690346427, 744535478 [buggy!], 734538252');
         $model = $this->load_base_model($story->id);
         $model->title = $story->title->value;
         $model->slug = $story->slug->value;
@@ -36,11 +36,7 @@ class Model_story_mapper {
         $model->TextWithHtml = $this->process_text($story->textWithHtml, 'textWithHtml');
 
         if (property_exists($story, 'audio')) {
-            foreach ($story->audio as $item)
-            {
-                $audio = $this->process_audio($item);
-                $model->Audio->add($audio);
-            }
+            $model->Audio = $this->process_audio($story->audio);
         }
 
         if (property_exists($story, 'audioRunByDate'))
@@ -121,29 +117,35 @@ class Model_story_mapper {
         return $org;
     }
 
-    private function process_audio($audio_element) {
-        $audio = null;
+    private function process_audio(array $audio_element_array) {
+        $audios = array();
+        foreach ($audio_element_array as $audio_element)
+        {
+            $audio = null;
 
-        if (ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->count() > 0) {
-            $audio = ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->first();
-        } else {
-            $audio = ee('Model')->make('npr_story_api:Npr_audio');
+            if (ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->count() > 0) {
+                $audio = ee('Model')->get('npr_story_api:Npr_audio')->filter('id', $audio_element->id)->first();
+            } else {
+                $audio = ee('Model')->make('npr_story_api:Npr_audio');
+            }
+
+            $audio->id = $audio_element->id;
+            $audio->title = $audio_element->title->value;
+            $audio->duration = $audio_element->duration->value;
+            $audio->description = $audio_element->description->value;
+            $audio->region = $audio_element->region->value;
+            $audio->rightsholder = $audio_element->rightsHolder->value;
+            $audio->type = $audio_element->type;
+            
+            $audio->permissions = $this->serialize_permissions($audio_element->permissions);
+            $audio->Format = $this->store_audio_formats($audio_element->format);
+            // filesize
+
+            $audio->save();
+            $audios[] = $audio;
         }
 
-        $audio->id = $audio_element->id;
-        $audio->title = $audio_element->title->value;
-        $audio->duration = $audio_element->duration->value;
-        $audio->description = $audio_element->description->value;
-        $audio->region = $audio_element->region->value;
-        $audio->rightsholder = $audio_element->rightsHolder->value;
-        $audio->type = $audio_element->type;
-        
-        $audio->permissions = $this->serialize_permissions($audio_element->permissions);
-        $audio->Format = $this->store_audio_formats($audio_element->format);
-        // filesize
-
-        $audio->save();
-        return $audio;
+        return $audios;
     }
 
     private function process_bylines(\NPRMLElement $byline_element)
