@@ -242,36 +242,44 @@ class Model_story_mapper {
             $model = $this->process_image($image_element);
             $images[] = $model;
         }
+        
+        return $images;
+    }
+
+    private function process_image_crop(\NPRMLElement $crop_element)
+    {
+        $model;
+        $type = $crop_element->type;
+        $width = $crop_element->width;
+        $height = $crop_element->height;
+        $primary = (property_exists($crop_element, 'primary') && $crop_element->primary === 'true');
+
+        if (ee('Model')->get('npr_story_api:Npr_image_crop')->filter('type', $type)->filter('width', $width)->count() > 0)
+        {
+            $model = ee('Model')->get('npr_story_api:Npr_image_crop')->filter('type', $type)->filter('width', $width)->first();
+        }
+        else
+        {
+            $model = ee('Model')->make('npr_story_api:Npr_image_crop');
+            $model->type = $type;
+            $model->width = $width;
+        }
+
+        $model->height = $height;
+        $model->primary = $primary;
+        $model->src = $crop_element->src;
+
+        $model->save();
+        return $model;
     }
 
     private function process_image_crops(array $crop_element_array)
     {
         $crops = array();
 
-        $model;
         foreach ($crop_element_array as $crop_element)
         {
-            $type = $crop_element->type;
-            $width = $crop_element->width;
-            $height = $crop_element->height;
-            $primary = (property_exists($crop_element, 'primary') && $crop_element->primary === 'true');
-
-            if (ee('Model')->get('npr_story_api:Npr_image_crop')->filter('type', $type)->filter('width', $width)->count() > 0)
-            {
-                $model = ee('Model')->get('npr_story_api:Npr_image_crop')->filter('type', $type)->filter('width', $width)->first();
-            }
-            else
-            {
-                $model = ee('Model')->make('npr_story_api:Npr_image_crop');
-                $model->type = $type;
-                $model->width = $width;
-            }
-
-            $model->height = $height;
-            $model->primary = $primary;
-            $model->src = $crop_element->src;
-
-            $model->save();
+            $model = $this->process_image_crop($crop_element);
             $crops[] = $model;
         }
 
