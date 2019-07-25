@@ -19,7 +19,7 @@ class npr_byline_table extends Table {
             'auto_increment' => TRUE
         ),
         'byline_id' => array(
-            'type' => int,
+            'type' => 'int',
             'constraint' => 64
         ),
         'name' => array(
@@ -27,7 +27,7 @@ class npr_byline_table extends Table {
             'constraint' => 64
         ),
         'personId' => array(
-            'type' => int,
+            'type' => 'int',
             'constraint' => 64
         ),
         'story_id' => array(
