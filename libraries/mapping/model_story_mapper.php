@@ -13,7 +13,7 @@ use \NPRMLElement;
 
 class Model_story_mapper {
     public function map_parsed_story($story): Model {
-        // throw new \Exception('Test using stories 691846168, 690346427');
+        // throw new \Exception('Test using stories 691846168, 690346427, 744535478');
         $model = $this->load_base_model($story->id);
         $model->title = $story->title->value;
         $model->slug = $story->slug->value;
@@ -26,7 +26,12 @@ class Model_story_mapper {
         $model->lastModifiedDate = $this->convert_date_string($story->lastModifiedDate->value);
         $model->keywords = $story->keywords->value;
         $model->priorityKeywords = $story->keywords->value;
-        $model->Organization = $this->load_organization($story->organization);
+        
+        if (property_exists($story, 'organization'))
+        {
+            $model->Organization = $this->load_organization($story->organization);
+        }
+        
         // newsroom doesn't use plain text.
         $model->TextWithHtml = $this->process_text($story->textWithHtml, 'textWithHtml');
 
@@ -61,6 +66,11 @@ class Model_story_mapper {
             $model->Link = $this->process_permalinks($story->link);
         }
         
+        if (property_exists($story, 'pullQuote'))
+        {
+            $model->PullQuote = $this->process_pullquotes($story->pullQuote);
+        }
+
         if (property_exists($story, 'thumbnail')) {
             $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
         }
@@ -266,6 +276,31 @@ class Model_story_mapper {
         }
 
         return $links;
+    }
+
+    private function process_pullquotes(array $pullquote_element_array)
+    {
+        $pullquotes = array();
+
+        foreach ($pullquote_element_array as $pullquote_element)
+        {
+            $id = $pullquote_element->id;
+
+            $model;
+            if (ee('Model')->get('npr_story_api:Npr_pull_quote')->filter('id', $id)->count() > 0)
+            {
+                $model = ee('Model')->get('npr_story_api:Npr_pull_quote')->filter('id', $id)->first();
+            }
+            else
+            {
+                $model = ee('Model')->make('npr_story_api:Npr_pull_quote');
+                $model->id = $id;
+            }
+
+            $model->text = $pullquote_element->text->value;
+            $model->person = $pullquote_element->person->value;
+            $model->date = $this->convert_date_string($pullquote_element->date->value);
+        }
     }
 
     private function process_related_links(array $link_array) {
