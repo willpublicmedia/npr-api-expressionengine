@@ -278,11 +278,7 @@ class Model_story_mapper
         $model->providerUrl = $image_element->provider->url;
         if (\property_exists($image_element, 'copyright'))
         {
-            $copyright = $image_element->copyright->value;
-            if (is_numeric($copyright)) 
-            {
-                $model->copyright = intval($image_element->copyright->value);
-            }
+            $model->copyright = intval($image_element->copyright->value);
         }
         
         $model->enlargement = $image_element->enlargement->src;

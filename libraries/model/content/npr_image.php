@@ -12,6 +12,12 @@ class Npr_image extends Model {
 
     protected static $_table_name = 'npr_story_api_stories_images';
 
+    protected static $_typed_columns = array(
+        'copyright' => 'int',
+        'height' => 'int',
+        'width' => 'int'
+    );
+
     protected static $_relationships = array(
         'Story' => array(
             'type' => 'BelongsTo',
