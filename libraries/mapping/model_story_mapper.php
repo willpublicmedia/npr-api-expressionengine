@@ -43,6 +43,11 @@ class Model_story_mapper {
             $model->audioRunByDate = $this->convert_date_string($story->audioRunByDate->value);
         }
 
+        if (property_exists($story, 'byline'))
+        {
+            $model->Byline = $this->process_bylines($story->byline);
+        }
+
         // Newsroom will use local related links.
         // if (property_exists($story, 'relatedLink')) {
         //     $model->RelatedLink = $this->process_related_links($story->relatedLink);
@@ -129,6 +134,28 @@ class Model_story_mapper {
 
         $audio->save();
         return $audio;
+    }
+
+    private function process_bylines(\NPRMLElement $byline_element)
+    {
+        $id = $byline_element->id;
+
+        $byline;
+        if (ee('Model')->get('npr_story_api:Npr_byline')->filter('byline_id', $id)->count() > 0)
+        {
+            $byline = ee('Model')->get('npr_story_api:Npr_byline')->filter('byline_id', $id)->first();
+        }
+        else
+        {
+            $byline = ee('Model')->make('npr_story_api:Npr_byline');
+            $byline->byline_id = $id;
+        }
+
+        $byline->name = $byline_element->name->value;
+        $byline->personId = $byline_element->name->personId;
+
+        $byline->save();
+        return $byline;
     }
 
     private function process_images(array $image_array)
