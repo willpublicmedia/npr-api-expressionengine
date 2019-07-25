@@ -154,7 +154,19 @@ class Model_story_mapper {
         return $audio;
     }
 
-    private function process_bylines(\NPRMLElement $byline_element)
+    private function process_bylines(array $byline_element_array)
+    {
+        $bylines = array();
+        foreach ($byline_element_array as $byline_element)
+        {
+            $byline = $this->process_byline($byline_element);
+            $bylines[] = $byline;
+        }
+
+        return $bylines;
+    }
+
+    private function process_byline(\NPRMLElement $byline_element)
     {
         $id = $byline_element->id;
 
