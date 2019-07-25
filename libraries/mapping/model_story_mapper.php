@@ -418,12 +418,12 @@ class Model_story_mapper {
         return $paragraphs;
     }
 
-    private function process_thumbnail(\NPRMLElement $thumbnails) {
-        $provider = $thumbnails->provider->value;
+    private function process_thumbnail(\NPRMLElement $thumbnail_element) {
+        $provider = $thumbnail_element->provider->value;
         
         $models = array();
         $model;
-        foreach ($thumbnails as $key => $value) {
+        foreach ($thumbnail_element as $key => $value) {
             if ($key === 'provider')
             {
                 continue;
