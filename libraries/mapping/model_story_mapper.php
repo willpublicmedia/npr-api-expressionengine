@@ -188,52 +188,58 @@ class Model_story_mapper {
         return $bylines;
     }
 
+    private function process_image(\NPRMLElement $image_element)
+    {
+        $id = $image_element->id;
+
+        $model;
+        if (ee('Model')->get('npr_story_api:Npr_image')->filter('id', $id)->count() > 0)
+        {
+            $model = ee('Model')->get('npr_story_api:Npr_image')->filter('id', $id)->first();
+        }
+        else
+        {
+            $model = ee('Model')->make('npr_story_api:Npr_image');
+            $model->id = $id;
+        }
+
+        $model->type = $image_element->type;
+        $model->width = $image_element->width;
+        $model->src = $image_element->src;
+        $model->hasBorder = ($image_element->hasBorder === 'true');
+        $model->title = $image_element->title->value;
+        $model->caption = $image_element->caption;
+        $model->link = $image_element->link->url;
+        $model->producer = $image_element->producer->value;
+        $model->provider = $image_element->provider->value;
+        $model->providerUrl = $image_element->provider->url;
+        if (\property_exists($image_element, 'copyright'))
+        {
+            $copyright = $image_element->copyright->value;
+            if (is_numeric($copyright)) 
+            {
+                $model->copyright = intval($image_element->copyright->value);
+            }
+        }
+        
+        $model->enlargement = $image_element->enlargement->src;
+        $model->enlargementCaption = $image_element->enlargement->caption->value;
+
+        if (property_exists($image_element, 'crop'))
+        {
+            $model->Crop = $this->process_image_crops($image_element->crop);
+        }
+
+        $model->save();
+        return $model;
+    }
+
     private function process_images(array $image_array)
     {
         $images = array();
         foreach ($image_array as $image_element)
         {
-            $id = $image_element->id;
-
-            $model;
-            if (ee('Model')->get('npr_story_api:Npr_image')->filter('id', $id)->count() > 0)
-            {
-                $model = ee('Model')->get('npr_story_api:Npr_image')->filter('id', $id)->first();
-            }
-            else
-            {
-                $model = ee('Model')->make('npr_story_api:Npr_image');
-                $model->id = $id;
-            }
-
-            $model->type = $image_element->type;
-            $model->width = $image_element->width;
-            $model->src = $image_element->src;
-            $model->hasBorder = ($image_element->hasBorder === 'true');
-            $model->title = $image_element->title->value;
-            $model->caption = $image_element->caption;
-            $model->link = $image_element->link->url;
-            $model->producer = $image_element->producer->value;
-            $model->provider = $image_element->provider->value;
-            $model->providerUrl = $image_element->provider->url;
-            if (\property_exists($image_element, 'copyright'))
-            {
-                $copyright = $image_element->copyright->value;
-                if (is_numeric($copyright)) 
-                {
-                    $model->copyright = intval($image_element->copyright->value);
-                }
-            }
-            
-            $model->enlargement = $image_element->enlargement->src;
-            $model->enlargementCaption = $image_element->enlargement->caption->value;
-
-            if (property_exists($image_element, 'crop'))
-            {
-                $model->Crop = $this->process_image_crops($image_element->crop);
-            }
-
-            $model->save();
+            $model = $this->process_image($image_element);
             $images[] = $model;
         }
     }
