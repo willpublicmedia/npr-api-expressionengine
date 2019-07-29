@@ -64,8 +64,25 @@ class Npr_story_api_ext {
             $queried_title = $queried_title[0];
         }
     
-        $entry_model = $this->model_post_data();
-        $entry_model->title = $queried_title;
+        // $entry_model = $this->model_post_data();
+        $posted = array();
+        foreach (array_keys($_POST) as $key)
+        {
+            $posted[$key] = ee()->input->post($key); 
+        }
+
+        $posted['title'] = $queried_title;
+
+        // save npr story id as class field
+        // check story already used
+        // fetch or create model
+        // check model title
+        // update title
+        // save model
+        
+        // $entry_model = ee('Model')->make('ChannelEntry', $posted);
+        // $entry_model->title = $queried_title;
+        // $entry_model->save();
     }
 
     private function check_external_story_source() {
