@@ -70,26 +70,7 @@ class Npr_story_api_ext {
             $queried_title = $queried_title[0];
         }
     
-        $posted = array();
-        foreach (array_keys($_POST) as $key)
-        {
-            $posted[$key] = ee()->input->post($key); 
-        }
-
-        $uri = explode("/", uri_string());
-        $page = end($uri);
-        reset($uri);
-        $model;
-        if (in_array("edit", $uri) && is_numeric($page))
-        {
-            $model = ee('Model')->get('ChannelEntry')
-                ->filter('entry_id', $page)
-                ->first();
-        }
-        else
-        {
-            $model = ee('Model')->make('ChannelEntry', $posted);
-        }
+        $model = $this->map_model_fields();
         
         $model->title = $queried_title;
         $model->save();
@@ -150,7 +131,23 @@ class Npr_story_api_ext {
             $posted[$key] = ee()->input->post($key); 
         }
 
-        return ee('Model')->make('ChannelEntry', $posted);
+        $uri = explode("/", uri_string());
+        $page = end($uri);
+        reset($uri);
+        
+        $model;
+        if (in_array("edit", $uri) && is_numeric($page))
+        {
+            $model = ee('Model')->get('ChannelEntry')
+                ->filter('entry_id', $page)
+                ->first();
+        }
+        else
+        {
+            $model = ee('Model')->make('ChannelEntry', $posted);
+        }
+
+        return $model;
     }
 
     private function pull_npr_story($npr_story_id) {
