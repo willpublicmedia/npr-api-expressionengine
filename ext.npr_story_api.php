@@ -64,6 +64,7 @@ class Npr_story_api_ext {
             $queried_title = $queried_title[0];
         }
     
+        $entry_model = $this->model_post_data();
         $entry_title = ee()->input->post('title');
         $url_title = ee()->input->post('url_title');
 
@@ -108,6 +109,17 @@ class Npr_story_api_ext {
         }
         
         return $settings;
+    }
+
+    private function model_post_data()
+    {
+        $posted = array();
+        foreach (array_keys($_POST) as $key)
+        {
+            $posted[$key] = ee()->input->post($key); 
+        }
+
+        return ee('Model')->make('ChannelEntry', $posted);
     }
 
     private function pull_npr_story($npr_story_id) {
