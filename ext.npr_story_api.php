@@ -70,9 +70,14 @@ class Npr_story_api_ext {
             $queried_title = $queried_title[0];
         }
     
-        $model = $this->map_model_fields();
+        $model = $this->model_post_data();
         
-        $model->title = $queried_title;
+        if ($model->title != $queried_title)
+        {
+            $model->title = $queried_title;
+            $model->url_title = (string) ee('Format')->make('Text', $queried_title)->urlSlug();
+        }
+        
         $model->save();
     }
 
@@ -134,7 +139,7 @@ class Npr_story_api_ext {
         $uri = explode("/", uri_string());
         $page = end($uri);
         reset($uri);
-        
+
         $model;
         if (in_array("edit", $uri) && is_numeric($page))
         {
