@@ -65,12 +65,7 @@ class Npr_story_api_ext {
         }
     
         $entry_model = $this->model_post_data();
-        $entry_title = ee()->input->post('title');
-        $url_title = ee()->input->post('url_title');
-
-        // XSS CLEAN ME FIRST!
-        $_POST['title'] = $queried_title;
-        $_REQUEST['title'] = $queried_title;
+        $entry_model->title = $queried_title;
     }
 
     private function check_external_story_source() {
