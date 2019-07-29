@@ -7,7 +7,7 @@ if (!defined('BASEPATH')) {
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 
 class Npr_story_api_ext {
-    private $entry_fields = array(
+    private $fields = array(
         'npr_story_id' => '',
         'channel_entry_source' => ''
     );
@@ -32,7 +32,7 @@ class Npr_story_api_ext {
         $addon = ee('Addon')->get('npr_story_api');
         $this->version = $addon->getVersion();
         $this->settings = $this->load_settings();
-        $this->fields = $this->map_model_fields();
+        $this->fields = $this->map_model_fields(array_keys($this->fields));
     }
 
     public function activate_extension() {
@@ -70,25 +70,29 @@ class Npr_story_api_ext {
             $queried_title = $queried_title[0];
         }
     
-        // $entry_model = $this->model_post_data();
         $posted = array();
         foreach (array_keys($_POST) as $key)
         {
             $posted[$key] = ee()->input->post($key); 
         }
 
-        $posted['title'] = $queried_title;
-
-        // save npr story id as class field
-        // check story already used
-        // fetch or create model
-        // check model title
-        // update title
-        // save model
-
-        // $entry_model = ee('Model')->make('ChannelEntry', $posted);
-        // $entry_model->title = $queried_title;
-        // $entry_model->save();
+        $uri = explode("/", uri_string());
+        $page = end($uri);
+        reset($uri);
+        $model;
+        if (in_array("edit", $uri) && is_numeric($page))
+        {
+            $model = ee('Model')->get('ChannelEntry')
+                ->filter('entry_id', $page)
+                ->first();
+        }
+        else
+        {
+            $model = ee('Model')->make('ChannelEntry', $posted);
+        }
+        
+        $model->title = $queried_title;
+        $model->save();
     }
 
     private function check_external_story_source() {
@@ -125,7 +129,7 @@ class Npr_story_api_ext {
     private function map_model_fields($field_array)
     {
         $map = array();
-        foreach (array_keys($field_array) as $model_field)
+        foreach ($field_array as $model_field)
         {
             $field_id = ee('Model')->get('ChannelField')
             ->filter('field_name', $model_field)
