@@ -7,6 +7,11 @@ if (!defined('BASEPATH')) {
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 
 class Npr_story_api_ext {
+    private $entry_fields = array(
+        'npr_story_id' => '',
+        'channel_entry_source' => ''
+    );
+
     private $query_extension = array(
         'class' => __CLASS__,
         'method' => 'query_api',
@@ -27,6 +32,7 @@ class Npr_story_api_ext {
         $addon = ee('Addon')->get('npr_story_api');
         $this->version = $addon->getVersion();
         $this->settings = $this->load_settings();
+        $this->fields = $this->map_model_fields();
     }
 
     public function activate_extension() {
@@ -79,19 +85,16 @@ class Npr_story_api_ext {
         // check model title
         // update title
         // save model
-        
+
         // $entry_model = ee('Model')->make('ChannelEntry', $posted);
         // $entry_model->title = $queried_title;
         // $entry_model->save();
     }
 
     private function check_external_story_source() {
-        $field_id = ee('Model')->get('ChannelField')
-            ->filter('field_name', 'channel_entry_source')
-            ->first()
-            ->field_id;
-        
-        $story_source = ee()->input->post("field_id_{$field_id}");
+        $source_field = $this->fields['channel_entry_source'];
+        $story_source = ee()->input->post($source_field);
+
         if ($story_source == NULL || $story_source == 'local') {
             return FALSE;
         }
@@ -100,12 +103,8 @@ class Npr_story_api_ext {
     }
 
     private function get_npr_story_id() {
-        $field_id = ee('Model')->get('ChannelField')
-        ->filter('field_name', 'npr_story_id')
-        ->first()
-        ->field_id;
-    
-        $npr_story_id = ee()->input->post("field_id_{$field_id}", TRUE);
+        $id_field = $this->fields['npr_story_id'];
+        $npr_story_id = ee()->input->post($id_field, TRUE);
 
         return $npr_story_id;
     }
@@ -121,6 +120,22 @@ class Npr_story_api_ext {
         }
         
         return $settings;
+    }
+
+    private function map_model_fields($field_array)
+    {
+        $map = array();
+        foreach (array_keys($field_array) as $model_field)
+        {
+            $field_id = ee('Model')->get('ChannelField')
+            ->filter('field_name', $model_field)
+            ->first()
+            ->field_id;
+
+            $map[$model_field] = "field_id_{$field_id}";
+        }
+
+        return $map;
     }
 
     private function model_post_data()
