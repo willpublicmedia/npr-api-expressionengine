@@ -12,18 +12,9 @@ class Npr_story_api_ext {
         'channel_entry_source' => ''
     );
 
-    private $query_extension = array(
-        'class' => __CLASS__,
-        'method' => 'query_api',
-        'hook' => 'before_channel_entry_save',
-        'priority' => 10,
-        'version' => NULL,
-        'settings' => '',
-        'enabled' => 'y'
-    );
-
     private $required_extensions = array(
-        'query_extension'
+        'query_api' => 'before_channel_entry_save',
+        'delete_story' => 'before_channel_entry_delete'
     );
 
     public $version;
@@ -40,15 +31,27 @@ class Npr_story_api_ext {
             return;
         }
 
-        foreach ($this->required_extensions as $name) {
-            $data = $this->{$name};
-            $data['version'] = $this->version;
-            ee('Model')->make('Extension', $this->{$name})->save();
+        foreach ($this->required_extensions as $method => $hook) {
+            $data = array(
+                'class' => __CLASS__,
+                'method' => $method,
+                'hook' => $hook,
+                'priority' => 10,
+                'version' => $this->version,
+                'settings' => '',
+                'enabled' => 'y'
+            );
+            
+            ee('Model')->make('Extension', $data)->save();
         }
     }
 
     public function disable_extension() {
         ee('Model')->get('Extension')->filter('class', __CLASS__)->delete();
+    }
+
+    public function delete_story() {
+        throw new \Exception('Not implemented');
     }
 
     public function query_api() {
