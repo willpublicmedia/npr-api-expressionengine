@@ -65,6 +65,10 @@ class Field_installer {
         $this->custom_field_group = $this->load_field_group($field_group);
 
         foreach ($this->field_definitions as $name => $definition) {
+            if (ee('Model')->get('ChannelField')->filter('field_name', $name)->count() > 0) {
+                continue;
+            }
+            
             $this->create_field($definition);
         }
     }
