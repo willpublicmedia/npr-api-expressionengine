@@ -50,7 +50,16 @@ class Npr_story_api_ext {
     }
 
     public function delete_story() {
-        throw new \Exception('Not implemented');
+        $is_external_story = $this->check_external_story_source();
+
+        // WARNING: check for push stories!
+        if (!$is_external_story) {
+            return;
+        }
+
+        $this->fields = $this->map_model_fields(array_keys($this->fields));
+
+        $npr_story_id = $this->get_npr_story_id();
     }
 
     public function query_api() {
