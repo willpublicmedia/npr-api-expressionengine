@@ -23,7 +23,6 @@ class Npr_story_api_ext {
         $addon = ee('Addon')->get('npr_story_api');
         $this->version = $addon->getVersion();
         $this->settings = $this->load_settings();
-        $this->fields = $this->map_model_fields(array_keys($this->fields));
     }
 
     public function activate_extension() {
@@ -61,6 +60,8 @@ class Npr_story_api_ext {
         if (!$is_external_story) {
             return;
         }
+
+        $this->fields = $this->map_model_fields(array_keys($this->fields));
 
         $npr_story_id = $this->get_npr_story_id();
         // WARNING: story pull executes loop. Title may be an array.
