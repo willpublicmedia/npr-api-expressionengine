@@ -68,8 +68,8 @@ class Npr_story_api_ext {
             return;
         }
 
-        $npr_story_id = $this->get_npr_story_id($entry->entry_id);
-        $this->delete_npr_story($npr_story_id);
+        // $npr_story_id = $this->get_npr_story_id($entry->entry_id);
+        // $this->delete_npr_story($npr_story_id);
     }
 
     public function query_api($entry, $values) {
@@ -90,6 +90,11 @@ class Npr_story_api_ext {
 
         $entry->title = $values['title'];
         $entry->url_title = $values['url_title'];
+        
+        // TODO: use correct inverse model
+        $story = ee('Model')->get('npr_story_api:Npr_story')->filter('id', $npr_story_id)->first();
+        $story->entry_id = $entry->entry_id;
+        $story->save();
     }
 
     private function change_entry_title($queried_title, $entry_values) {
