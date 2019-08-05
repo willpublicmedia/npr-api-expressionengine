@@ -22,6 +22,11 @@
             'Npr_story' => 'Libraries\Model\Content\Npr_story',
             'Npr_text_paragraph' => 'Libraries\Model\Content\Npr_text_paragraph',
             'Npr_thumbnail' => 'Libraries\Model\Content\Npr_thumbnail'
+        ),
+        'models.dependencies' => array(
+            'Npr_story' => array(
+                'ee:ChannelEntry'
+            )
         )
     )
 ?>

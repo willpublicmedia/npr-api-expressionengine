@@ -144,6 +144,16 @@ class Npr_story extends Model {
             'type' => 'HasMany',
             'from_key' => 'ee_id',
             'to_key' => 'story_id'
+        ),
+        'ChannelEntry' => array(
+            'type' => 'belongsTo',
+            'from_key' => 'ee_id',
+            'to_key' => 'entry_id',
+            'model' => 'ee:ChannelEntry',
+            'inverse' => array(
+                'name' => 'EntryNprStories',
+                'type' => 'hasOne'
+            )
         )
     );
 
