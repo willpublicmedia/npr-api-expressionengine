@@ -174,10 +174,16 @@ class Npr_story_api_ext {
         $field_data_tables = array();
         foreach ($field_array as $model_field)
         {
-            $field_id = ee('Model')->get('ChannelField')
+            $field = ee('Model')->get('ChannelField')
             ->filter('field_name', $model_field)
-            ->first()
-            ->field_id;
+            ->first();
+
+            if ($field === NULL)
+            {
+                continue;
+            }
+
+            $field_id = $field->field_id;
 
             $field_ids[$model_field] = $field_id;
             $field_names[$model_field] = "field_id_{$field_id}";
