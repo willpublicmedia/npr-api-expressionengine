@@ -86,26 +86,24 @@ class Npr_story_api_ext {
 
         // WARNING: story pull executes loop. Title may be an array.
         $title = $this->pull_npr_story($npr_story_id);
-        $this->change_entry_title($title);
+        $values = $this->change_entry_title($title, $values);
     }
 
-    private function change_entry_title($queried_title) {
+    private function change_entry_title($queried_title, $entry_values) {
         if (isset($queried_title[0])) {
             $queried_title = $queried_title[0];
         }
     
-        $model = $this->model_post_data();
-        
-        if ($model->title != $queried_title)
+        if ($entry_values['title'] != $queried_title)
         {
-            $model->title = $queried_title;
-            $model->url_title = (string) ee('Format')->make('Text', $queried_title)->urlSlug();
+            $entry_values['title'] = $queried_title;
+            $entry_values['url_title'] = (string) ee('Format')->make('Text', $queried_title)->urlSlug();
         }
         
-        $model->save();
+        return $entry_values;
     }
 
-    private function check_external_story_source($entry_source) {
+    private function check_external_story_source($story_source) {
         if ($story_source == NULL || $story_source == 'local') {
             return FALSE;
         }
