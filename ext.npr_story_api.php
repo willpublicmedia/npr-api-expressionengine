@@ -68,8 +68,8 @@ class Npr_story_api_ext {
             return;
         }
 
-        // $npr_story_id = $this->get_npr_story_id($entry->entry_id);
-        // $this->delete_npr_story($npr_story_id);
+        $npr_story_id = $this->get_npr_story_id($entry->entry_id);
+        $this->delete_npr_story($npr_story_id);
     }
 
     public function query_api($entry, $values) {
@@ -92,6 +92,7 @@ class Npr_story_api_ext {
         $entry->url_title = $values['url_title'];
         
         // TODO: use correct inverse model
+        // Save twice to store entry id.
         $story = ee('Model')->get('npr_story_api:Npr_story')->filter('id', $npr_story_id)->first();
         $story->entry_id = $entry->entry_id;
         $story->save();
@@ -135,16 +136,22 @@ class Npr_story_api_ext {
 
     private function get_npr_story_id($entry_id)
     {
-        $id_field = $this->fields['npr_story_id'];
-        // field query should work as load_entry_source(), but doesn't.
-        $data = ee()->db->select($this->fields['npr_story_id'])
-            ->from($this->field_data_tables['npr_story_id'])
-            ->where('entry_id', $entry_id)
-            ->limit(1)
-            ->get()
-            ->result_array();
+        $npr_story_id = ee('Model')->get('npr_story_api:Npr_story')
+            ->filter('entry_id', $entry_id)
+            ->fields('id')
+            ->first()
+            ->id;
+
+        // $id_field = $this->fields['npr_story_id'];
+        // // field query should work as load_entry_source(), but doesn't.
+        // $data = ee()->db->select($this->fields['npr_story_id'])
+        //     ->from($this->field_data_tables['npr_story_id'])
+        //     ->where('entry_id', $entry_id)
+        //     ->limit(1)
+        //     ->get()
+        //     ->result_array();
         
-        $npr_story_id = isset($data[0]) ? $data[0][$id_field] : NULL;
+        // $npr_story_id = isset($data[0]) ? $data[0][$id_field] : NULL;
         
         return $npr_story_id;
     }
