@@ -65,7 +65,7 @@ class Npr_story_api_ext {
         }
 
         $npr_story_id = $this->get_npr_story_id($entry->entry_id);
-        $this->delete_npr_story($entry->entry_id, $npr_story_id);
+        $this->delete_npr_story($npr_story_id);
     }
 
     public function query_api($entry, $values) {
@@ -110,9 +110,18 @@ class Npr_story_api_ext {
         return TRUE;
     }
 
-    private function delete_npr_story($entry_id, $npr_story_id)
+    private function delete_npr_story($npr_story_id)
     {
-        throw new \Exception('Not implemented');
+        $story = ee('Model')->get('npr_story_api:Npr_story')
+            ->filter('id', $npr_story_id)
+            ->all();
+        
+        if ($story === NULL)
+        {
+            return;
+        }
+
+        $story->delete();
     }
 
     private function get_npr_story_id($entry_id)
