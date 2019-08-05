@@ -51,11 +51,19 @@ class Npr_story_api_ext {
     }
 
     public function delete_story($entry, $values) {
-        // if (ee()->input->post('bulk_action') !== 'remove')
-        // {
-        //     return;
-        // }
+        if (ee()->input->post('bulk_action') !== 'remove')
+        {
+            return;
+        }
 
+        $entry_source = $this->load_entry_source($entry->entry_id);
+        $is_external_story = $this->check_external_story_source($entry_source);
+
+        if (!$is_external_story)
+        {
+            return;
+        }
+        
         // $entry_ids = ee()->input->post('selection');
         // foreach ($entry_ids as $entry_id)
         // {
@@ -112,6 +120,16 @@ class Npr_story_api_ext {
         }
 
         return TRUE;
+    }
+
+    private function load_entry_source($entry_id)
+    {
+        $source = ee('Model')->get('ChannelEntry')
+            ->filter('entry_id', $entry_id)
+            ->fields($this->fields['channel_entry_source'])
+            ->first();
+        
+        return $source;
     }
 
     private function load_settings() {
