@@ -51,29 +51,30 @@ class Npr_story_api_ext {
     }
 
     public function delete_story($entry, $values) {
-        if (ee()->input->post('bulk_action') !== 'remove')
-        {
-            return;
-        }
+        // if (ee()->input->post('bulk_action') !== 'remove')
+        // {
+        //     return;
+        // }
 
-        $entry_ids = ee()->input->post('selection');
-        foreach ($entry_ids as $entry_id)
-        {
-            $is_external_story = $this->check_external_story_source($entry_id);
+        // $entry_ids = ee()->input->post('selection');
+        // foreach ($entry_ids as $entry_id)
+        // {
+        //     $is_external_story = $this->check_external_story_source($entry_id);
             
-            // WARNING: check for push stories!
-            if (!$is_external_story) {
-                return;
-            }
+        //     // WARNING: check for push stories!
+        //     if (!$is_external_story) {
+        //         return;
+        //     }
             
-            $this->fields = $this->map_model_fields(array_keys($this->fields));
+        //     $this->fields = $this->map_model_fields(array_keys($this->fields));
             
-            $npr_story_id = $this->get_npr_story_id();
-        }
+        //     $npr_story_id = $this->get_npr_story_id();
+        // }
     }
 
     public function query_api($entry, $values) {
-        $is_external_story = $this->check_external_story_source();
+        $source_field = $this->fields['channel_entry_source'];
+        $is_external_story = $this->check_external_story_source($values[$source_field]);
 
         // WARNING: check for push stories!
         if (!$is_external_story) {
@@ -102,22 +103,7 @@ class Npr_story_api_ext {
         $model->save();
     }
 
-    private function check_external_story_source($entry_id = NULL) {
-        $story_source;
-        if ($entry_id === NULL)
-        {
-            $source_field = $this->fields['channel_entry_source'];
-            $story_source = ee()->input->post($source_field);
-        }
-        else
-        {
-            $story_source = ee('Model')->get('ChannelEntry')
-                ->filter('entry_id', $entry_id)
-                ->fields($this->fields['channel_entry_source'])
-                ->first();
-        }
-        
-
+    private function check_external_story_source($entry_source) {
         if ($story_source == NULL || $story_source == 'local') {
             return FALSE;
         }
