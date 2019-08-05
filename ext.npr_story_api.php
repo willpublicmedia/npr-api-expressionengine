@@ -63,21 +63,8 @@ class Npr_story_api_ext {
         {
             return;
         }
-        
-        // $entry_ids = ee()->input->post('selection');
-        // foreach ($entry_ids as $entry_id)
-        // {
-        //     $is_external_story = $this->check_external_story_source($entry_id);
-            
-        //     // WARNING: check for push stories!
-        //     if (!$is_external_story) {
-        //         return;
-        //     }
-            
-        //     $this->fields = $this->map_model_fields(array_keys($this->fields));
-            
-        //     $npr_story_id = $this->get_npr_story_id();
-        // }
+
+        $npr_story_id = $this->get_npr_story_id($entry->entry_id);
     }
 
     public function query_api($entry, $values) {
@@ -120,6 +107,16 @@ class Npr_story_api_ext {
         }
 
         return TRUE;
+    }
+
+    private function get_npr_story_id($entry_id)
+    {
+        $npr_story_id = ee('Model')->get('ChannelEntry')
+            ->filter('entry_id', $entry_id)
+            ->fields($this->fields['npr_story_id'])
+            ->first();
+        
+        return $npr_story_id;
     }
 
     private function load_entry_source($entry_id)
