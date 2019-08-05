@@ -73,6 +73,10 @@ class npr_story_table extends Table {
         ),
         'audioRunByDate' => array(
             'type' => 'datetime'
+        ),
+        'entry_id' => array(
+            'type' => 'int',
+            'constraint' => 10
         )
     );
     

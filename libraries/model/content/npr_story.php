@@ -151,7 +151,7 @@ class Npr_story extends Model {
             'to_key' => 'entry_id',
             'model' => 'ee:ChannelEntry',
             'inverse' => array(
-                'name' => 'EntryNprStories',
+                'name' => 'NprStory',
                 'type' => 'hasOne'
             )
         )
@@ -233,4 +233,9 @@ class Npr_story extends Model {
      * Undocumented property. Audio run-by date.
      */
     protected $audioRunByDate;
+
+    /**
+     * Channel entry id.
+     */
+    protected $entry_id;
 }
