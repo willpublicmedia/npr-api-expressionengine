@@ -50,7 +50,7 @@ class Npr_story_api_ext {
         ee('Model')->get('Extension')->filter('class', __CLASS__)->delete();
     }
 
-    public function delete_story() {
+    public function delete_story($entry, $values) {
         if (ee()->input->post('bulk_action') !== 'remove')
         {
             return;
@@ -72,7 +72,7 @@ class Npr_story_api_ext {
         }
     }
 
-    public function query_api() {
+    public function query_api($entry, $values) {
         $is_external_story = $this->check_external_story_source();
 
         // WARNING: check for push stories!
