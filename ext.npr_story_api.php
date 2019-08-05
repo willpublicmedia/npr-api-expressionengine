@@ -87,6 +87,9 @@ class Npr_story_api_ext {
         // WARNING: story pull executes loop. Title may be an array.
         $title = $this->pull_npr_story($npr_story_id);
         $values = $this->change_entry_title($title, $values);
+
+        $entry->title = $values['title'];
+        $entry->url_title = $values['url_title'];
     }
 
     private function change_entry_title($queried_title, $entry_values) {
