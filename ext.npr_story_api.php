@@ -81,7 +81,9 @@ class Npr_story_api_ext {
             return;
         }
 
-        $npr_story_id = $this->get_npr_story_id();
+        $id_field = $this->fields['npr_story_id'];
+        $npr_story_id = $values[$id_field];
+
         // WARNING: story pull executes loop. Title may be an array.
         $title = $this->pull_npr_story($npr_story_id);
         $this->change_entry_title($title);
@@ -109,13 +111,6 @@ class Npr_story_api_ext {
         }
 
         return TRUE;
-    }
-
-    private function get_npr_story_id() {
-        $id_field = $this->fields['npr_story_id'];
-        $npr_story_id = ee()->input->post($id_field, TRUE);
-
-        return $npr_story_id;
     }
 
     private function load_settings() {
