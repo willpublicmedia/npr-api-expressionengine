@@ -7,10 +7,14 @@ if (!defined('BASEPATH')) {
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 
 class Npr_story_api_ext {
-    private $fields = array(
-        'npr_story_id' => '',
-        'channel_entry_source' => ''
+    private $field_ids = array(
+        'npr_story_id' => NULL,
+        'channel_entry_source' => NULL
     );
+
+    private $field_data_tables = array();
+    
+    private $fields = array();
 
     private $required_extensions = array(
         'query_api' => 'before_channel_entry_save',
@@ -23,7 +27,7 @@ class Npr_story_api_ext {
         $addon = ee('Addon')->get('npr_story_api');
         $this->version = $addon->getVersion();
         $this->settings = $this->load_settings();
-        $this->fields = $this->map_model_fields(array_keys($this->fields));
+        $this->map_model_fields(array_keys($this->field_ids));
     }
 
     public function activate_extension() {
@@ -165,7 +169,9 @@ class Npr_story_api_ext {
 
     private function map_model_fields($field_array)
     {
-        $map = array();
+        $field_ids = array();
+        $field_names = array();
+        $field_data_tables = array();
         foreach ($field_array as $model_field)
         {
             $field_id = ee('Model')->get('ChannelField')
@@ -173,10 +179,14 @@ class Npr_story_api_ext {
             ->first()
             ->field_id;
 
-            $map[$model_field] = "field_id_{$field_id}";
+            $field_ids[$model_field] = $field_id;
+            $field_names[$model_field] = "field_id_{$field_id}";
+            $field_data_tables[$model_field] = "channel_data_field_{$field_id}";
         }
 
-        return $map;
+        $this->field_ids = $field_ids;
+        $this->fields = $field_names;
+        $this->field_data_tables = $field_data_tables;
     }
 
     private function model_post_data()
