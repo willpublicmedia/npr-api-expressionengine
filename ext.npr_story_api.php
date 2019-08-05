@@ -133,7 +133,7 @@ class Npr_story_api_ext {
         $id_field = $this->fields['npr_story_id'];
         // field query should work as load_entry_source(), but doesn't.
         $data = ee()->db->select($this->fields['npr_story_id'])
-            ->from('channel_data_field_22')
+            ->from($this->field_data_tables['npr_story_id'])
             ->where('entry_id', $entry_id)
             ->limit(1)
             ->get()
