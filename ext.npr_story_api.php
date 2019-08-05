@@ -64,7 +64,7 @@ class Npr_story_api_ext {
             return;
         }
 
-        $npr_story_id = $this->get_npr_story_id($entry->entry_id);
+        $npr_story_id = $this->get_npr_story_id($entry->entry_id, $entry->channel_id);
         $this->delete_npr_story($npr_story_id);
     }
 
@@ -124,12 +124,18 @@ class Npr_story_api_ext {
         $story->delete();
     }
 
-    private function get_npr_story_id($entry_id)
+    private function get_npr_story_id($entry_id, $channel_id)
     {
-        $npr_story_id = ee('Model')->get('ChannelEntry')
-            ->filter('entry_id', $entry_id)
-            ->fields($this->fields['npr_story_id'])
-            ->first();
+        $id_field = $this->fields['npr_story_id'];
+        // field query should work as load_entry_source(), but doesn't.
+        $data = ee()->db->select($this->fields['npr_story_id'])
+            ->from('channel_data_field_22')
+            ->where('entry_id', $entry_id)
+            ->limit(1)
+            ->get()
+            ->result_array();
+        
+        $npr_story_id = isset($data[0]) ? $data[0][$id_field] : $data;
         
         return $npr_story_id;
     }
