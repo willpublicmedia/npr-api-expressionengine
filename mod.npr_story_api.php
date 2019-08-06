@@ -29,6 +29,42 @@ class Npr_story_api
         return $model;
     }
 
+    private function map_audio($audio_models)
+    {
+        $audio_array = array();
+        foreach ($audio_models as $model)
+        {
+            $audio_array[] = array(
+                'type' => $model->type,
+                'duration' => $model->duration,
+                'description' => $model->description,
+                'formats' => $this->map_audio_formats($model->Format),
+                'rights' => $model->rights,
+                'permissions' => $model->permissions,
+                'title' => $model->title,
+                'region' => $model->region,
+                'rightsholder' => $model->rightsholder
+            );
+        }
+
+        return $audio_array;
+    }
+
+    private function map_audio_formats($format_models)
+    {
+        $format_array = array();
+        foreach ($format_models as $model)
+        {
+            $format_array[] = array(
+                'type' => $model->type,
+                'format' => $model->format,
+                'url' => $model->url
+            );
+        }
+
+        return $format_array;
+    }
+
     private function map_organization($org_model)
     {
         $org_array = array();
@@ -36,8 +72,8 @@ class Npr_story_api
             'name' => $org_model->name,
             'website' => $org_model->website
         );
-        
-        return org_array;
+
+        return $org_array;
     }
 
     private function map_thumbnails($thumbnail_models)
@@ -59,6 +95,7 @@ class Npr_story_api
 
     private function process_story($story)
     {
+        $audio_array = $this->map_audio($story->Audio);
         $org_array = $this->map_organization($story->Organization);
         $thumbnail_array = $this->map_thumbnails($story->Thumbnail);
         $toenail_array = $this->map_thumbnails($story->Toenail);
@@ -79,6 +116,7 @@ class Npr_story_api
             'priorityKeywords' => $story->priorityKeywords,
             'pullQuote' => array(),
             'audioRunByDate' => $story->audioRunByDate,
+            'audio' => $audio_array,
             'thumbnails' => $thumbnail_array,
             'toenails' => $toenail_array
         );
