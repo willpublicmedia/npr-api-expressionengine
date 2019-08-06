@@ -71,7 +71,6 @@ class Npr_story_api_ext {
 
         $entry->title = $values['title'];
         $entry->url_title = $values['url_title'];
-        $entry->NprStory = $story;
         $story->ChannelEntry = $entry;
         $story->save();
     }
