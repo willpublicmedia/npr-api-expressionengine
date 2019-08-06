@@ -60,27 +60,23 @@ class Npr_story_api_ext {
 
         $id_field = $this->fields['npr_story_id'];
         $npr_story_id = $values[$id_field];
+        
+        // WARNING: story pull executes loop. Story may be an array.
+        $story = $this->pull_npr_story($npr_story_id);
+        if (isset($story[0])) {
+            $story = $story[0];
+        }
 
-        // WARNING: story pull executes loop. Title may be an array.
-        $title = $this->pull_npr_story($npr_story_id);
-        $values = $this->change_entry_title($title, $values);
+        $values = $this->change_entry_title($story->title, $values);
 
         $entry->title = $values['title'];
         $entry->url_title = $values['url_title'];
-        
-        // TODO: use correct inverse model
-        // Save twice to store entry id.
-        $story = ee('Model')->get('npr_story_api:Npr_story')->filter('id', $npr_story_id)->first();
         $entry->NprStory = $story;
         $story->ChannelEntry = $entry;
         $story->save();
     }
 
-    private function change_entry_title($queried_title, $entry_values) {
-        if (isset($queried_title[0])) {
-            $queried_title = $queried_title[0];
-        }
-    
+    private function change_entry_title($queried_title, $entry_values) {   
         if ($entry_values['title'] != $queried_title)
         {
             $entry_values['title'] = $queried_title;
@@ -174,12 +170,12 @@ class Npr_story_api_ext {
         $api_service->request($params, 'query', $pull_url);
         $api_service->parse();
         
-        $titles = array();
+        $stories = array();
         foreach ($api_service->stories as $story) {
-            $titles[] = $api_service->save_clean_response($story);
+            $stories[] = $api_service->save_clean_response($story);
         }
 
-        return $titles;
+        return $stories;
 
         // if (empty($api_service->message) || $api_service->message->level != 'warning') {
         //     $post_id = $api_service->update_posts_from_stories(/*entry_status*/);
