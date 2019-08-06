@@ -1,5 +1,7 @@
 <?php
 
+namespace IllinoisPublicMedia\NprStoryApi;
+
 if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
