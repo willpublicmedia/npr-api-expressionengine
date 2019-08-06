@@ -9,8 +9,8 @@ class Npr_story_api
         $tagdata = ee()->TMPL->tagdata;
 
         $story = $this->story(intval($id));
-        // $data = $this->process_story($story);
-        $variables = ee()->TMPL->parse_variables($tagdata, $story);
+        $data = $this->process_story($story);
+        $variables = ee()->TMPL->parse_variables($tagdata, array($data));
 
         $this->return_data = $variables;
     }
@@ -31,7 +31,24 @@ class Npr_story_api
 
     private function process_story($story)
     {
-        $data = array();
+        $data = array(
+            'id' => $story->id,
+            'title' => $story->title,
+            'subtitle' => $story->subtitle,
+            'shortTitle' => $story->shortTitle,
+            'teaser' => $story->teaser,
+            'miniTeaser' => $story->miniTeaser,
+            'organization' => array(),
+            'slug' => $story->slug,
+            'storyDate' => $story->storyDate,
+            'pubDate' => $story->pubDate,
+            'lastModifiedDate' => $story->lastModifiedDate,
+            'keywords' => $story->keywords,
+            'priorityKeywords' => $story->priorityKeywords,
+            'pullQuote' => array(),
+            'audioRunByDate' => $story->audioRunByDate,
+        );
+
         return $data;
     }
 
