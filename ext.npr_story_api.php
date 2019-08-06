@@ -7,18 +7,13 @@ if (!defined('BASEPATH')) {
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 
 class Npr_story_api_ext {
-    private $field_ids = array(
+    private $fields = array(
         'npr_story_id' => NULL,
         'channel_entry_source' => NULL
     );
-
-    private $field_data_tables = array();
     
-    private $fields = array();
-
     private $required_extensions = array(
         'query_api' => 'before_channel_entry_save',
-        'delete_story' => 'before_channel_entry_delete'
     );
 
     public $version;
@@ -27,7 +22,7 @@ class Npr_story_api_ext {
         $addon = ee('Addon')->get('npr_story_api');
         $this->version = $addon->getVersion();
         $this->settings = $this->load_settings();
-        $this->map_model_fields(array_keys($this->field_ids));
+        $this->map_model_fields(array_keys($this->fields));
     }
 
     public function activate_extension() {
@@ -52,24 +47,6 @@ class Npr_story_api_ext {
 
     public function disable_extension() {
         ee('Model')->get('Extension')->filter('class', __CLASS__)->delete();
-    }
-
-    public function delete_story($entry, $values) {
-        if (ee()->input->post('bulk_action') !== 'remove')
-        {
-            return;
-        }
-
-        $entry_source = $this->load_entry_source($entry->entry_id);
-        $is_external_story = $this->check_external_story_source($entry_source);
-
-        if (!$is_external_story)
-        {
-            return;
-        }
-
-        $npr_story_id = $this->get_npr_story_id($entry->entry_id);
-        $this->delete_npr_story($npr_story_id);
     }
 
     public function query_api($entry, $values) {
@@ -121,52 +98,6 @@ class Npr_story_api_ext {
         return TRUE;
     }
 
-    private function delete_npr_story($npr_story_id)
-    {
-        $story = ee('Model')->get('npr_story_api:Npr_story')
-            ->filter('id', $npr_story_id)
-            ->first();
-        
-        if ($story === NULL)
-        {
-            return;
-        }
-
-        $story->delete();
-    }
-
-    private function get_npr_story_id($entry_id)
-    {
-        $npr_story_id = ee('Model')->get('npr_story_api:Npr_story')
-            ->filter('entry_id', $entry_id)
-            ->fields('id')
-            ->first()
-            ->id;
-
-        // $id_field = $this->fields['npr_story_id'];
-        // // field query should work as load_entry_source(), but doesn't.
-        // $data = ee()->db->select($this->fields['npr_story_id'])
-        //     ->from($this->field_data_tables['npr_story_id'])
-        //     ->where('entry_id', $entry_id)
-        //     ->limit(1)
-        //     ->get()
-        //     ->result_array();
-        
-        // $npr_story_id = isset($data[0]) ? $data[0][$id_field] : NULL;
-        
-        return $npr_story_id;
-    }
-
-    private function load_entry_source($entry_id)
-    {
-        $source = ee('Model')->get('ChannelEntry')
-            ->filter('entry_id', $entry_id)
-            ->fields($this->fields['channel_entry_source'])
-            ->first();
-        
-        return $source;
-    }
-
     private function load_settings() {
         $settings = ee()->db->select('*')
             ->from('npr_story_api_settings')
@@ -182,9 +113,7 @@ class Npr_story_api_ext {
 
     private function map_model_fields($field_array)
     {
-        $field_ids = array();
         $field_names = array();
-        $field_data_tables = array();
         foreach ($field_array as $model_field)
         {
             $field = ee('Model')->get('ChannelField')
@@ -197,15 +126,10 @@ class Npr_story_api_ext {
             }
 
             $field_id = $field->field_id;
-
-            $field_ids[$model_field] = $field_id;
             $field_names[$model_field] = "field_id_{$field_id}";
-            $field_data_tables[$model_field] = "channel_data_field_{$field_id}";
         }
 
-        $this->field_ids = $field_ids;
         $this->fields = $field_names;
-        $this->field_data_tables = $field_data_tables;
     }
 
     private function model_post_data()
