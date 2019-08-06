@@ -5,10 +5,14 @@ class Npr_story_api
 
     public function __construct()
     {
-        $id = ee()->TMPL->fetch_param('id');
-        $story = $this->story($id);
+        $id = $this->validate_parameter(ee()->TMPL->fetch_param('npr_story_id'));
+        $tagdata = ee()->TMPL->tagdata;
 
-        $this->return_data = $story;
+        $story = $this->story(intval($id));
+        // $data = $this->process_story($story);
+        $variables = ee()->TMPL->parse_variables($tagdata, $story);
+
+        $this->return_data = $variables;
     }
 
     public function story($npr_story_id)
@@ -23,5 +27,16 @@ class Npr_story_api
         }
 
         return $model;
+    }
+
+    private function process_story($story)
+    {
+        $data = array();
+        return $data;
+    }
+
+    private function validate_parameter($input)
+    {
+        return strip_tags($input);
     }
 }
