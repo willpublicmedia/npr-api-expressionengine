@@ -34,6 +34,18 @@ class Npr_story_api
         $org_array = array();
         $org_array[] = array('name' => $story->Organization->name, 'website' => $story->Organization->website);
 
+        $thumbnail_array = array();
+        foreach ($story->Thumbnail as $thumbnail_model)
+        {
+            $thumbnail_array[] = array(
+                'id' => $thumbnail_model->id,
+                'size' => $thumbnail_model->size,
+                'link' => $thumbnail_model->link,
+                'provider' => $thumbnail_model->provider,
+                'rights' => $thumbnail_model->rights
+            );
+        }
+
         $data = array(
             'id' => $story->id,
             'title' => $story->title,
@@ -50,6 +62,7 @@ class Npr_story_api
             'priorityKeywords' => $story->priorityKeywords,
             'pullQuote' => array(),
             'audioRunByDate' => $story->audioRunByDate,
+            'thumbnails' => $thumbnail_array
         );
 
         return $data;
