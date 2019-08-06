@@ -29,13 +29,10 @@ class Npr_story_api
         return $model;
     }
 
-    private function process_story($story)
+    private function map_thumbnails($thumbnail_models)
     {
-        $org_array = array();
-        $org_array[] = array('name' => $story->Organization->name, 'website' => $story->Organization->website);
-
         $thumbnail_array = array();
-        foreach ($story->Thumbnail as $thumbnail_model)
+        foreach ($thumbnail_models as $thumbnail_model)
         {
             $thumbnail_array[] = array(
                 'id' => $thumbnail_model->id,
@@ -45,6 +42,17 @@ class Npr_story_api
                 'rights' => $thumbnail_model->rights
             );
         }
+
+        return $thumbnail_array;
+    }
+
+    private function process_story($story)
+    {
+        $org_array = array();
+        $org_array[] = array('name' => $story->Organization->name, 'website' => $story->Organization->website);
+
+        $thumbnail_array = $this->map_thumbnails($story->Thumbnail);
+        $toenail_array = $this->map_thumbnails($story->Toenail);
 
         $data = array(
             'id' => $story->id,
@@ -62,7 +70,8 @@ class Npr_story_api
             'priorityKeywords' => $story->priorityKeywords,
             'pullQuote' => array(),
             'audioRunByDate' => $story->audioRunByDate,
-            'thumbnails' => $thumbnail_array
+            'thumbnails' => $thumbnail_array,
+            'toenails' => $toenail_array
         );
 
         return $data;
