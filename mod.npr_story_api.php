@@ -31,6 +31,9 @@ class Npr_story_api
 
     private function process_story($story)
     {
+        $org_array = array();
+        $org_array[] = array('name' => $story->Organization->name, 'website' => $story->Organization->website);
+
         $data = array(
             'id' => $story->id,
             'title' => $story->title,
@@ -38,7 +41,7 @@ class Npr_story_api
             'shortTitle' => $story->shortTitle,
             'teaser' => $story->teaser,
             'miniTeaser' => $story->miniTeaser,
-            'organization' => array(),
+            'organization' => $org_array,
             'slug' => $story->slug,
             'storyDate' => $story->storyDate,
             'pubDate' => $story->pubDate,
