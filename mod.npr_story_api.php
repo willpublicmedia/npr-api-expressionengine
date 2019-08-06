@@ -29,6 +29,17 @@ class Npr_story_api
         return $model;
     }
 
+    private function map_organization($org_model)
+    {
+        $org_array = array();
+        $org_array[] = array(
+            'name' => $org_model->name,
+            'website' => $org_model->website
+        );
+        
+        return org_array;
+    }
+
     private function map_thumbnails($thumbnail_models)
     {
         $thumbnail_array = array();
@@ -48,9 +59,7 @@ class Npr_story_api
 
     private function process_story($story)
     {
-        $org_array = array();
-        $org_array[] = array('name' => $story->Organization->name, 'website' => $story->Organization->website);
-
+        $org_array = $this->map_organization($story->Organization);
         $thumbnail_array = $this->map_thumbnails($story->Thumbnail);
         $toenail_array = $this->map_thumbnails($story->Toenail);
 
