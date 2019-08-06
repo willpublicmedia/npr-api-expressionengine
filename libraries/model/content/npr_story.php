@@ -147,12 +147,11 @@ class Npr_story extends Model {
         ),
         'ChannelEntry' => array(
             'type' => 'belongsTo',
-            'from_key' => 'ee_id',
-            'to_key' => 'entry_id',
             'model' => 'ee:ChannelEntry',
             'inverse' => array(
                 'name' => 'NprStory',
-                'type' => 'hasOne'
+                'type' => 'hasOne',
+                'weak' => TRUE
             )
         )
     );

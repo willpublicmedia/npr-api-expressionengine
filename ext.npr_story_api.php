@@ -94,7 +94,8 @@ class Npr_story_api_ext {
         // TODO: use correct inverse model
         // Save twice to store entry id.
         $story = ee('Model')->get('npr_story_api:Npr_story')->filter('id', $npr_story_id)->first();
-        $story->entry_id = $entry->entry_id;
+        $entry->NprStory = $story;
+        $story->ChannelEntry = $entry;
         $story->save();
     }
 
