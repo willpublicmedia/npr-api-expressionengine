@@ -1,11 +1,14 @@
 <?php
+    require_once (__DIR__ . '/constants.php');
+    use IllinoisPublicMedia\NprStoryApi\Constants;
+
     return array(
-        'author'            => 'Illinois Public Media (WILL)',
-        'author_url'        => 'https://gitlab.engr.illinois.edu/willpublicmedia/npr_api_expressionengine',
-        'name'              => 'NPR Story API',
-        'description'       => "An ExpressionEngine port of NPR's story API Wordpress module (https://github.com/npr/nprapi-wordpress).",
+        'author'            => Constants::AUTHOR,
+        'author_url'        => Constants::AUTHOR_URL,
+        'name'              => Constants::NAME,
+        'description'       => Constants::DESCRIPTION,
         'namespace'         => 'IllinoisPublicMedia\NprStoryApi',
-        'version'           => '0.0.0',
+        'version'           => Constants::VERSION,
         'settings_exist'    => TRUE,
         'models'            => array(
             'Npr_audio' => 'Libraries\Model\Content\Npr_audio',

@@ -2,6 +2,7 @@
     exit('No direct script access allowed');
 }
 
+use IllinoisPublicMedia\NprStoryApi\Constants;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Config_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Channel_installer;
@@ -49,7 +50,7 @@ class Npr_story_api_upd
         )
     );
 
-    private $version = '0.0.0';
+    private $version = Constants::VERSION;
 
     /**
      * NPR Story API updater constructor.
