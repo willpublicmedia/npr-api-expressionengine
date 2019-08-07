@@ -70,6 +70,62 @@ class Npr_story_api
         return $format_array;
     }
 
+    private function map_html_assets($asset_models)
+    {
+        $asset_array = array();
+        foreach ($asset_models as $model)
+        {
+            $asset_array[] = array(
+                'asset' => $model->asset
+            );
+        }
+
+        return $asset_array;
+    }
+
+    private function map_image_crops($crop_models)
+    {
+        $crop_array = array();
+        foreach ($crop_models as $model)
+        {
+            $crop_array[] = array(
+                'type' => $model->type,
+                'src' => $model->src,
+                'height' => $model->height,
+                'width' => $model->width,
+                'primary' => $model->primary
+            );
+        }
+
+        return $crop_array;
+    }
+    
+    private function map_images($image_models)
+    {
+        $image_array = array();
+        foreach ($image_models as $model)
+        {
+            $image_array[] = array(
+                'crops' => $this->map_image_crops($model->Crop),
+                'type' => $model->type,
+                'width' => $model->width,
+                'src' => $model->src,
+                'hasBorder' => $model->hasBorder,
+                'title' => $model->title,
+                'caption' => $model->caption,
+                'link' => $model->link,
+                'producer' => $model->producer,
+                'provider' => $model->provider,
+                'providerUrl' => $model->providerUrl,
+                'copyright' => $model->copyright,
+                'enlargement' => $model->enlargement,
+                'enlargementCaption' => $model->enlargementCaption
+            );
+        }
+
+        return $image_array;
+    }
+
     private function map_organization($org_model)
     {
         $org_array = array();
@@ -104,6 +160,8 @@ class Npr_story_api
         $org_array = $this->map_organization($story->Organization);
         $thumbnail_array = $this->map_thumbnails($story->Thumbnail);
         $toenail_array = $this->map_thumbnails($story->Toenail);
+        $html_assets = $this->map_html_assets($story->HtmlAsset);
+        $images = $this->map_images($story->Image);
 
         $data = array(
             'id' => $story->id,
@@ -122,6 +180,7 @@ class Npr_story_api
             'pullQuote' => array(),
             'audioRunByDate' => $story->audioRunByDate,
             'audio' => $audio_array,
+            'html_assets' => $html_assets,
             'thumbnails' => $thumbnail_array,
             'toenails' => $toenail_array
         );
