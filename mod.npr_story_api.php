@@ -149,6 +149,21 @@ class Npr_story_api
         return $org_array;
     }
 
+    private function map_pullquotes($quote_models)
+    {
+        $quote_array = array();
+        foreach ($quote_models as $model)
+        {
+            $quote_array[] = array(
+                'person' => $model->person,
+                'date' => $model->date,
+                'text' => $model->text
+            );
+        }
+
+        return $quote_array;
+    }
+
     private function map_thumbnails($thumbnail_models)
     {
         $thumbnail_array = array();
@@ -175,6 +190,7 @@ class Npr_story_api
         $html_assets = $this->map_html_assets($story->HtmlAsset);
         $images = $this->map_images($story->Image);
         $permalink = $this->map_permalinks($story->Link);
+        $pullquotes = $this->map_pullquotes($story->PullQuote);
 
         $data = array(
             'id' => $story->id,
@@ -195,6 +211,7 @@ class Npr_story_api
             'audio' => $audio_array,
             'html_assets' => $html_assets,
             'permalink' => $permalink,
+            'pullquotes' => $pullquotes,
             'thumbnails' => $thumbnail_array,
             'toenails' => $toenail_array
         );
