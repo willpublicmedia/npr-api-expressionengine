@@ -31,6 +31,11 @@ class Npr_story_api
 
     private function map_audio($audio_models)
     {
+        if (count($audio_models) === 0)
+        {
+            return NULL;
+        }
+
         $audio_array = array();
         foreach ($audio_models as $model)
         {
@@ -46,7 +51,7 @@ class Npr_story_api
                 'rightsholder' => $model->rightsholder
             );
         }
-
+            
         return $audio_array;
     }
 
