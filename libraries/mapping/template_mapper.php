@@ -242,7 +242,12 @@ class Template_mapper
         $text_array = array();
         foreach ($text_models->sortBy('num') as $model)
         {
-            $text_array[] = "<p>{$model->text}</p>";
+            // check for paragraph tags before adding text.
+            $paragraph = mb_substr($model->text, 0, 2) === '<p' ?
+                $model->text :
+                "<p>$model->text</p>";
+
+            $text_array[] = $paragraph;
         }
 
         $text_array = implode($text_array);
