@@ -99,7 +99,7 @@ class Npr_story_api
 
         return $crop_array;
     }
-    
+
     private function map_images($image_models)
     {
         $image_array = array();
@@ -124,6 +124,18 @@ class Npr_story_api
         }
 
         return $image_array;
+    }
+
+    private function map_permalinks($link_models)
+    {
+        $model = $link_models->filter('type', '==', 'html')->first();
+        
+        if ($model === NULL)
+        {
+            return NULL;
+        }
+
+        return  $model->link;
     }
 
     private function map_organization($org_model)
@@ -162,6 +174,7 @@ class Npr_story_api
         $toenail_array = $this->map_thumbnails($story->Toenail);
         $html_assets = $this->map_html_assets($story->HtmlAsset);
         $images = $this->map_images($story->Image);
+        $permalink = $this->map_permalinks($story->Link);
 
         $data = array(
             'id' => $story->id,
@@ -181,6 +194,7 @@ class Npr_story_api
             'audioRunByDate' => $story->audioRunByDate,
             'audio' => $audio_array,
             'html_assets' => $html_assets,
+            'permalink' => $permalink,
             'thumbnails' => $thumbnail_array,
             'toenails' => $toenail_array
         );
