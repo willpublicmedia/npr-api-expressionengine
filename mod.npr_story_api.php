@@ -70,6 +70,18 @@ class Npr_story_api
         return $format_array;
     }
 
+    private function map_bylines($byline_models)
+    {
+        $byline_array = array();
+        foreach ($byline_models as $model)
+        {
+            $byline_array[] = array(
+                'name' => $model->name
+            );
+        }
+        return $byline_array;
+    }
+
     private function map_html_assets($asset_models)
     {
         $asset_array = array();
@@ -191,28 +203,29 @@ class Npr_story_api
         $images = $this->map_images($story->Image);
         $permalink = $this->map_permalinks($story->Link);
         $pullquotes = $this->map_pullquotes($story->PullQuote);
+        $bylines = $this->map_bylines($story->Byline);
 
         $data = array(
             'id' => $story->id,
-            'title' => $story->title,
-            'subtitle' => $story->subtitle,
-            'shortTitle' => $story->shortTitle,
-            'teaser' => $story->teaser,
+            'audio' => $audio_array,
+            'bylines' => $bylines,
+            'audioRunByDate' => $story->audioRunByDate,
+            'html_assets' => $html_assets,
+            'keywords' => $story->keywords,
+            'lastModifiedDate' => $story->lastModifiedDate,
             'miniTeaser' => $story->miniTeaser,
             'organization' => $org_array,
-            'slug' => $story->slug,
-            'storyDate' => $story->storyDate,
-            'pubDate' => $story->pubDate,
-            'lastModifiedDate' => $story->lastModifiedDate,
-            'keywords' => $story->keywords,
-            'priorityKeywords' => $story->priorityKeywords,
-            'pullQuote' => array(),
-            'audioRunByDate' => $story->audioRunByDate,
-            'audio' => $audio_array,
-            'html_assets' => $html_assets,
             'permalink' => $permalink,
+            'priorityKeywords' => $story->priorityKeywords,
+            'pubDate' => $story->pubDate,
             'pullquotes' => $pullquotes,
+            'shortTitle' => $story->shortTitle,
+            'slug' => $story->slug,
+            'subtitle' => $story->subtitle,
+            'storyDate' => $story->storyDate,
+            'teaser' => $story->teaser,
             'thumbnails' => $thumbnail_array,
+            'title' => $story->title,
             'toenails' => $toenail_array
         );
 
