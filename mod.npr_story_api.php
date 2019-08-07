@@ -242,6 +242,7 @@ class Npr_story_api
             'bylines' => $bylines,
             'corrections' => $corrections,
             'html_assets' => $html_assets,
+            'images' => $images,
             'keywords' => $story->keywords,
             'lastModifiedDate' => $story->lastModifiedDate,
             'miniTeaser' => $story->miniTeaser,
