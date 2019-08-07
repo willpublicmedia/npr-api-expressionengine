@@ -43,7 +43,7 @@ class Npr_story_api
                 'type' => $model->type,
                 'duration' => $model->duration,
                 'description' => $model->description,
-                'formats' => $this->map_audio_formats($model->Format),
+                'format' => $this->map_audio_formats($model->Format),
                 'rights' => $model->rights,
                 'permissions' => $model->permissions,
                 'title' => $model->title,
@@ -57,15 +57,28 @@ class Npr_story_api
 
     private function map_audio_formats($format_models)
     {
-        $format_array = array();
-        foreach ($format_models as $model)
+        $preference = array('mp4', 'mp3');
+        $model = NULL;
+        foreach ($preference as $format)
         {
-            $format_array[] = array(
-                'type' => $model->type,
-                'format' => $model->format,
-                'url' => $model->url
-            );
+            $model = $format_models->filter('format', '==', $format)->first();
+            if ($model != NULL)
+            {
+                break;
+            }
         }
+        
+        if ($model === NULL)
+        {
+            return;
+        }
+
+        $format_array = array();
+        $format_array[] = array(
+            'type' => $model->type,
+            'format' => $model->format,
+            'url' => $model->url
+        );
 
         return $format_array;
     }
