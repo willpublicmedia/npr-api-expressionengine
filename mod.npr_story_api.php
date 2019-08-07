@@ -1,4 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Template_mapper;
+
 class Npr_story_api 
 {
     public $return_data;
@@ -243,6 +246,8 @@ class Npr_story_api
 
     private function process_story($story)
     {
+        $mapper = new Template_mapper();
+        $data = $mapper->map($story);
         $audio_array = $this->map_audio($story->Audio);
         $org_array = $this->map_organization($story->Organization);
         $thumbnail_array = $this->map_thumbnails($story->Thumbnail);
