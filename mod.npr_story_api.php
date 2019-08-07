@@ -176,6 +176,19 @@ class Npr_story_api
         return $quote_array;
     }
 
+    private function map_text($text_models)
+    {
+        $text_array = array();
+        foreach ($text_models->sortBy('num') as $model)
+        {
+            $text_array[] = "<p>{$model->text}</p>";
+        }
+
+        $text_array = implode($text_array);
+
+        return $text_array;
+    }
+
     private function map_thumbnails($thumbnail_models)
     {
         $thumbnail_array = array();
@@ -204,6 +217,7 @@ class Npr_story_api
         $permalink = $this->map_permalinks($story->Link);
         $pullquotes = $this->map_pullquotes($story->PullQuote);
         $bylines = $this->map_bylines($story->Byline);
+        $text = $this->map_text($story->TextWithHtml);
 
         $data = array(
             'id' => $story->id,
@@ -224,6 +238,7 @@ class Npr_story_api
             'subtitle' => $story->subtitle,
             'storyDate' => $story->storyDate,
             'teaser' => $story->teaser,
+            'text' => $text,
             'thumbnails' => $thumbnail_array,
             'title' => $story->title,
             'toenails' => $toenail_array
