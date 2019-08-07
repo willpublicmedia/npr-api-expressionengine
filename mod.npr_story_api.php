@@ -82,6 +82,21 @@ class Npr_story_api
         return $byline_array;
     }
 
+    private function map_corrections($correction_models)
+    {
+        $correction_array = array();
+        foreach ($correction_models as $model)
+        {
+            $correction_array[] = array(
+                'title' => $model->correctionTitle,
+                'date' => $model->correctionDate,
+                'text' => $model->correctionText
+            );
+        }
+
+        return $correction_array;
+    }
+
     private function map_html_assets($asset_models)
     {
         $asset_array = array();
@@ -218,12 +233,14 @@ class Npr_story_api
         $pullquotes = $this->map_pullquotes($story->PullQuote);
         $bylines = $this->map_bylines($story->Byline);
         $text = $this->map_text($story->TextWithHtml);
+        $corrections = $this->map_corrections($story->Correction);
 
         $data = array(
             'id' => $story->id,
             'audio' => $audio_array,
-            'bylines' => $bylines,
             'audioRunByDate' => $story->audioRunByDate,
+            'bylines' => $bylines,
+            'corrections' => $corrections,
             'html_assets' => $html_assets,
             'keywords' => $story->keywords,
             'lastModifiedDate' => $story->lastModifiedDate,
