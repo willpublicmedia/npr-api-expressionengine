@@ -40,6 +40,11 @@ class Npr_story_api
         foreach ($audio_models as $model)
         {
             $stream = $this->map_audio_formats($model->Format);
+            if (isset($stream[0]))
+            {
+                $stream = $stream[0];
+            }
+
             $audio_array[] = array(
                 'type' => $model->type,
                 'duration' => $model->duration,
