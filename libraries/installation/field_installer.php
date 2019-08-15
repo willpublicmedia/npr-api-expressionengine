@@ -94,7 +94,7 @@ class Field_installer {
             $field->{$key} = $val;
         }
         
-        
+        $field->site_id = ee()->config->item('site_id');
         $field_group = $this->custom_field_group;
         $field->ChannelFieldGroups->add($field_group);
         
