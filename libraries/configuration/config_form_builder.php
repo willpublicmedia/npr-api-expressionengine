@@ -23,6 +23,15 @@ class Config_form_builder {
                 )
             ),
             array(
+                'title' => 'Org ID',
+                'fields' => array(
+                    'org_id' => array(
+                        'type' => 'text',
+                        'value' => ''
+                    )
+                )
+            ),
+            array(
                 'title' => 'Pull URL',
                 'fields' => array(
                     'pull_url' => array(
@@ -35,15 +44,6 @@ class Config_form_builder {
                 'title' => 'Push URL',
                 'fields' => array(
                     'push_url' => array(
-                        'type' => 'text',
-                        'value' => ''
-                    )
-                )
-            ),
-            array(
-                'title' => 'Org ID',
-                'fields' => array(
-                    'org_id' => array(
                         'type' => 'text',
                         'value' => ''
                     )
