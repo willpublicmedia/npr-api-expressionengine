@@ -11,6 +11,12 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Model\Channel\Default_npr_story_la
 
 class Layout_customizer {
     private $channel;
+    
+    private $member_group_blacklist = array(
+        'Banned',
+        'Guests',
+        'Pending'
+    );
 
     public function __construct($channel) {
         $this->channel = $channel;
@@ -56,7 +62,7 @@ class Layout_customizer {
         $channel_layout->field_layout = $field_layout;
         
         $member_groups = ee('Model')->get('MemberGroup')
-            ->filter('group_title', '==', 'Super Admin')
+            ->filter('group_title', 'NOT IN', $this->member_group_blacklist)
             ->all();
             
         $channel_layout->MemberGroups = $member_groups;
