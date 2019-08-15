@@ -58,11 +58,16 @@ class Channel_installer {
     }
 
     private function init_npr_story_channel($channel = null) {
+        $channel_name = 'npr_stories';
         $data = array(
-            'channel_name' => 'npr_stories',
+            'channel_name' => $channel_name,
             'channel_title' => 'NPR Stories',
-            'channel_url' => '{base_url}npr',
+            'channel_url' => "/$channel_name/",
             'channel_description' => 'Stories pulled from the NPR Story API.',
+            'comment_url' => "/$channel_name/story/",
+            'preview_url' => "/$channel_name/story/{entry_id}",
+            'rss_url' => "/$channel_name/rss",
+            'search_results_url' => "/$channel_name/story/"
         );
 
         if ($channel == null) {
