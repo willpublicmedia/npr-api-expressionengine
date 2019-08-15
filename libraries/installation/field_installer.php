@@ -106,10 +106,10 @@ class Field_installer {
     
     private function load_field_group($group_name) {
         $group = ee('Model')->get('ChannelFieldGroup')->filter('group_name', '==', $group_name)->first();
-
         if ($group == null) {
             $group = ee('Model')->make('ChannelFieldGroup');
             $group->group_name = $group_name;
+            $group->site_id = ee()->config->item('site_id');
             $group->save();
         }
         
