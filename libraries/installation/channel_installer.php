@@ -6,6 +6,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
+require_once(__DIR__ . '/layout_customizer.php');
 use EllisLab\ExpressionEngine\Model\Channel\Channel;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Layout_customizer;
 

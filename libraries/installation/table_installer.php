@@ -6,6 +6,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
+require_once(__DIR__ . '/../configuration/tables/table.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\ITable;
 
 /**

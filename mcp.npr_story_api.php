@@ -3,12 +3,10 @@
 }
 
 require_once __DIR__ . '/libraries/security/permissions-checker.php';
-use IllinoisPublicMedia\NprStoryApi\Libraries\Security\Permissions_checker;
-
 require_once __DIR__ . '/libraries/configuration/config_form_builder.php';
-use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_form_builder;
-
 require_once __DIR__ . '/libraries/validation/settings_validator.php';
+use IllinoisPublicMedia\NprStoryApi\Libraries\Security\Permissions_checker;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Config_form_builder;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Validation\Settings_validator;
 
 /**

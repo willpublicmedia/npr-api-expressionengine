@@ -12,6 +12,10 @@ if (!defined('BASEPATH')) {
 }
 
 require_once(__DIR__ . '/../../vendor/autoload.php');
+require_once(__DIR__ . '/../exceptions/configuration_exception.php');
+require_once(__DIR__ . '/../exceptions/npr_response_exception.php');
+require_once(__DIR__ . '/../dto/http/api_response.php');
+require_once(__DIR__ . '/../mapping/model_story_mapper.php');
 use \NPRAPI;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Configuration_exception;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Npr_response_exception;

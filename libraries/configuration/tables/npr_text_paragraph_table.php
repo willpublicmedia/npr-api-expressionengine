@@ -6,6 +6,7 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
+require_once(__DIR__ . '/table.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table;
 
 class npr_text_paragraph_table extends Table {

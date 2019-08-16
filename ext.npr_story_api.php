@@ -4,6 +4,7 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
+require_once(__DIR__ . '/libraries/publishing/npr_api_expressionengine.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 
 class Npr_story_api_ext {

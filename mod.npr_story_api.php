@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once(__DIR__ . '/libraries/mapping/template_mapper.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Template_mapper;
 
 class Npr_story_api 

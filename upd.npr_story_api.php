@@ -2,6 +2,15 @@
     exit('No direct script access allowed');
 }
 
+require_once(__DIR__ . '/constants.php');
+require_once(__DIR__ . '/libraries/installation/config_installer.php');
+require_once(__DIR__ . '/libraries/installation/field_installer.php');
+require_once(__DIR__ . '/libraries/installation/channel_installer.php');
+require_once(__DIR__ . '/libraries/installation/status_installer.php');
+require_once(__DIR__ . '/libraries/installation/extension_installer.php');
+require_once(__DIR__ . '/libraries/configuration/tables/table_loader.php');
+require_once(__DIR__ . '/libraries/configuration/tables/itable.php');
+require_once(__DIR__ . '/libraries/installation/table_installer.php');
 use IllinoisPublicMedia\NprStoryApi\Constants;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Config_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;

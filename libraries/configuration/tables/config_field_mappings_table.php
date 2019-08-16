@@ -6,6 +6,7 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
+require_once(__DIR__ . '/table.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table;
 
 class config_field_mappings_table extends Table {

@@ -6,6 +6,7 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access.');
 }
 
+require_once(__DIR__ . '/../model/channel/default_npr_story_layout.php');
 use EllisLab\ExpressionEngine\Model\Channel\Channel;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Model\Channel\Default_npr_story_layout;
 
