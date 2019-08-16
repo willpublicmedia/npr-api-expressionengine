@@ -55,6 +55,11 @@ class Template_mapper
         return $data;
     }
 
+    private function convert_audio_duration($raw)
+    {
+        return ltrim(gmdate('H:i:s', $raw), "00:");
+    }
+
     private function map_audio($audio_models)
     {
         if (count($audio_models) === 0)
@@ -73,7 +78,7 @@ class Template_mapper
 
             $audio_array[] = array(
                 'type' => $model->type,
-                'duration' => $model->duration,
+                'duration' => $this->convert_audio_duration($model->duration),
                 'description' => $model->description,
                 'format' => $stream['format'],
                 'url' => $stream['url'],
