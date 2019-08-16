@@ -18,5 +18,7 @@ class Constants
 
     const DOCS_URL = 'https://gitlab.engr.illinois.edu/willpublicmedia/npr_api_expressionengine';
 
+    const NAMESPACE = 'IllinoisPublicMedia\NprStoryApi';
+
     const VERSION = '0.0.0';
 }

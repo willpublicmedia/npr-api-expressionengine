@@ -7,7 +7,7 @@
         'author_url'        => Constants::AUTHOR_URL,
         'name'              => Constants::NAME,
         'description'       => Constants::DESCRIPTION,
-        'namespace'         => 'IllinoisPublicMedia\NprStoryApi',
+        'namespace'         => Constants::NAMESPACE,
         'version'           => Constants::VERSION,
         'settings_exist'    => TRUE,
         'models'            => array(
