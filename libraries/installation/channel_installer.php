@@ -6,9 +6,11 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
+require_once(__DIR__ . '/../utilities/autoloader.php');
 require_once(__DIR__ . '/layout_customizer.php');
 use EllisLab\ExpressionEngine\Model\Channel\Channel;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Layout_customizer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Autoloader;
 
 /**
  * Installs channels required by NPR Story API module.
@@ -43,6 +45,7 @@ class Channel_installer {
      * @return void
      */
     public function uninstall($channel, $layout_name) {
+        $this->preload_requirements();
         foreach($this->required_channels as $name) {
             $model = ee('Model')->get('Channel')->filter('channel_name', '==', $name)->first();
             $model->delete();
@@ -89,6 +92,18 @@ class Channel_installer {
         $draft->save();
 
         $this->customize_layout($channel);
+    }
+
+    private function preload_requirements() {
+        $dirs = array(
+            __DIR__ . '/../model/channel',
+            __DIR__ . '/../model/content',
+        );
+
+        $autoloader = new Autoloader();
+        foreach ($dirs as $dir) {
+            $autoloader->load_dir($dir);
+        }
     }
 
     private function update_channel_data($channel_name) {
