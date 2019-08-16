@@ -6,7 +6,9 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
+require_once(__DIR__ . '/../../utilities/autoloader.php');
 require_once(__DIR__ . '/itable.php');
+use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Autoloader;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\ITable;
 
 class Table_loader {
@@ -27,8 +29,7 @@ class Table_loader {
      * Require all classes in the specified directory.
      */
     private function preload_requirements($preload_dir) {
-        foreach(glob(__DIR__ . '/*.php') as $file) {
-            require_once($file);
-        }
+        $autoloader = new Autoloader();
+        $autoloader->load_dir($preload_dir);
     }
 }
