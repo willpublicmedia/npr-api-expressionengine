@@ -6,6 +6,7 @@ if (!defined('BASEPATH')) {
 
 require_once(__DIR__ . '/libraries/publishing/npr_api_expressionengine.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
+use EllisLab\ExpressionEngine\Service\Validation\Result as ValidationResult;
 
 class Npr_story_api_ext {
     private $fields = array(
@@ -62,6 +63,17 @@ class Npr_story_api_ext {
         $id_field = $this->fields['npr_story_id'];
         $npr_story_id = $values[$id_field];
         
+        $result = $this->validate_story_id($values);
+        if ($result instanceOf ValidationResult)
+        {
+            if ($result->isNotValid())
+            {
+                $vars['errors'] = $result;
+                $vars['entry'] = $entry;
+                return $vars;
+            }
+        }
+
         // WARNING: story pull executes loop. Story may be an array.
         $story = $this->pull_npr_story($npr_story_id);
         if (isset($story[0])) {
@@ -195,5 +207,25 @@ class Npr_story_api_ext {
         //         return;
         //     }
         // }
+    }
+
+    private function validate_story_id($values)
+    {
+        $validator = ee('Validation')->make();
+        $validator->defineRule('uniqueStoryId', function($key, $value, $parameters)
+        {
+            if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $value)->count() > 0)
+            {
+                return "An NPR story with id $value has already been created.";
+            }
+            return TRUE;
+        });
+
+        $validator->setRules(array(
+            $this->fields['npr_story_id'] => 'uniqueStoryId'
+        ));
+
+        $result = $validator->validate($values);
+        return $result;
     }
 }
