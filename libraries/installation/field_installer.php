@@ -6,8 +6,8 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
-require_once(__DIR__ . '/../configuration/fields/publish_field_definitions.php');
-use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Publish_field_definitions;
+require_once(__DIR__ . '/../configuration/fields/story_source_definitions.php');
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_source_definitions;
 
 class Field_installer {
     const DEFAULT_FIELD_GROUP_NAME = 'addon_fields';
@@ -18,7 +18,7 @@ class Field_installer {
 
     public function __construct()
     {
-        $field_definitions = Publish_field_definitions::$fields;
+        $field_definitions = Story_source_definitions::$fields;
     }
 
     public function install($field_group = self::DEFAULT_FIELD_GROUP_NAME) {

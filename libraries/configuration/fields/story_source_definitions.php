@@ -6,7 +6,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
-class Publish_field_definitions
+class Story_source_definitions
 {
     public static $fields = array(
         'channel_entry_source' => array(
