@@ -35,6 +35,28 @@ class Story_content_definitions
                 'field_fmt' => 'none',
                 'field_show_fmt' => 'n'
             )
-        )
+        ),
+        /**
+         *  'npr_audio' => $audio_array --> fluid
+         *  'npr_corrections' => $corrections,
+         *   'npr_html_assets' => $html_assets,
+         *   'npr_images' => $images --> grid? model after channel images
+         *   'npr_keywords' => $story->keywords --> text
+         *   'npr_lastModifiedDate' => $story->lastModifiedDate --> date
+         *   'npr_miniTeaser' => $story->miniTeaser --> text/text-area
+         *   'npr_organization' => $org_array
+         *   'npr_permalink' => $permalink --> url
+         *   'npr_priorityKeywords' => $story->priorityKeywords --> text
+         *   'npr_pubDate' => $story->pubDate --> date
+         *   'npr_pullquotes' => $pullquotes
+         *   'npr_shortTitle' => $story->shortTitle --> text
+         *   'npr_slug' => $story->slug --> text
+         *   'npr_subtitle' => $story->subtitle --> text
+         *   'npr_storyDate' => $story->storyDate --> date
+         *   'npr_teaser' => $story->teaser --> textarea
+         *   'npr_text' => $text --> textarea
+         *   'npr_thumbnails' => $thumbnail_array --> see images
+         *   'npr_toenails' => $toenail_array --> see images
+         */
     );
 }
