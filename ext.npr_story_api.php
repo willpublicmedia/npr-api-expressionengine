@@ -68,7 +68,7 @@ class Npr_story_api_ext {
         {
             if ($result->isNotValid())
             {
-                return $this->display_error($npr_story_id);
+                return $this->display_error($result);
             }
         }
 
@@ -104,13 +104,21 @@ class Npr_story_api_ext {
         return TRUE;
     }
 
-    private function display_error($npr_story_id)
+    private function display_error($errors)
     {
-            ee('CP/Alert')->makeInline('entries-form')
+        foreach ($errors->getAllErrors() as $field => $results)
+        {
+            $alert = ee('CP/Alert')->makeInline('entries-form')
                 ->asIssue()
-                ->withTitle('NPR Story save error.')
-                ->addToBody("An NPR Story with ID $npr_story_id has already been created. Content rejected.")
-                ->defer();
+                ->withTitle('NPR Story save error.');
+            
+            foreach ($results as $message)
+            {
+                $alert->addToBody($message);
+            }
+            
+            $alert->defer();
+        }
     }
 
     private function load_settings() {
@@ -223,7 +231,7 @@ class Npr_story_api_ext {
         {
             if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $value)->count() > 0)
             {
-                return "An NPR story with id $value has already been created. Content rejected.";
+                return "An NPR story with ID $value has already been created. Content rejected.";
             }
             return TRUE;
         });
