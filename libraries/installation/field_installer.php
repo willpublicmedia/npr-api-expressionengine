@@ -8,8 +8,8 @@ if (!defined('BASEPATH')) {
 
 require_once(__DIR__ . '/../configuration/fields/story_source_definitions.php');
 require_once(__DIR__ . '/../configuration/fields/story_content_definitions.php');
-use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_source_definitions;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_content_definitions;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_source_definitions as Story_source_definitions;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_content_definitions as Story_content_definitions;
 
 class Field_installer {
     const DEFAULT_FIELD_GROUP_NAME = 'npr_story_api_fields';
@@ -20,7 +20,7 @@ class Field_installer {
 
     public function __construct()
     {
-        $field_definitions = array(
+        $this->field_definitions = array(
             'source' => Story_source_definitions::$fields,
             'content' => Story_content_definitions::$fields
         );
