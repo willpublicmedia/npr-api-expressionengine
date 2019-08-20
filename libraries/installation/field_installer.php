@@ -7,7 +7,9 @@ if (!defined('BASEPATH')) {
 }
 
 require_once(__DIR__ . '/../configuration/fields/story_source_definitions.php');
+require_once(__DIR__ . '/../configuration/fields/story_content_definitions.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_source_definitions;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_content_definitions;
 
 class Field_installer {
     const DEFAULT_FIELD_GROUP_NAME = 'addon_fields';
