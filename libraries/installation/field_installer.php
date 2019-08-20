@@ -12,7 +12,7 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_source_
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_content_definitions;
 
 class Field_installer {
-    const DEFAULT_FIELD_GROUP_NAME = 'addon_fields';
+    const DEFAULT_FIELD_GROUP_NAME = 'npr_story_api_fields';
 
     private $field_definitions;
 
@@ -20,39 +20,57 @@ class Field_installer {
 
     public function __construct()
     {
-        $field_definitions = Story_source_definitions::$fields;
+        $field_definitions = array(
+            'source' => Story_source_definitions::$fields,
+            'content' => Story_content_definitions::$fields
+        );
     }
 
-    public function install($field_group = self::DEFAULT_FIELD_GROUP_NAME) {
+    public function install($field_group = self::DEFAULT_FIELD_GROUP_NAME) 
+    {
         $this->custom_field_group = $this->load_field_group($field_group);
 
-        foreach ($this->field_definitions as $name => $definition) {
-            if (ee('Model')->get('ChannelField')->filter('field_name', $name)->count() > 0) {
-                continue;
-            }
-            
-            $this->create_field($definition);
-        }
-    }
-
-    public function uninstall() {
-        foreach ($this->field_definitions as $name => $definition) {
-            $model = ee('Model')->get('ChannelField')->filter('field_name', '==', $name)->first();
-            if ($model != null) {
-                $model->delete();
+        foreach ($this->field_definitions as $type => $fields)
+        {
+            foreach ($fields as $name => $definition)
+            {
+                if (ee('Model')->get('ChannelField')->filter('field_name', $name)->count() > 0)
+                {
+                    continue;
+                }
+                
+                $this->create_field($definition);
             }
         }
     }
 
-    private function create_field($definition) {
+    public function uninstall()
+    {
+        foreach ($this->field_definitions as $type => $fields)
+        {
+            foreach ($fields as $name => $definition)
+            {
+                $model = ee('Model')->get('ChannelField')->filter('field_name', '==', $name)->first();
+                if ($model != null)
+                {
+                    $model->delete();
+                }
+            }
+        }
+    }
+
+    private function create_field($definition)
+    {
         $name = $definition['field_name'];
         $field = ee('Model')->get('ChannelField')->filter('field_name', '==', $definition['field_name'])->first();
         
-        if ($field == null) {
+        if ($field == null)
+        {
             $field = ee('Model')->make('ChannelField');
         }
         
-        foreach ($definition as $key => $val) {
+        foreach ($definition as $key => $val)
+        {
             $field->{$key} = $val;
         }
         
@@ -66,9 +84,11 @@ class Field_installer {
         $field = null;
     }
     
-    private function load_field_group($group_name) {
+    private function load_field_group($group_name)
+    {
         $group = ee('Model')->get('ChannelFieldGroup')->filter('group_name', '==', $group_name)->first();
-        if ($group == null) {
+        if ($group == null)
+        {
             $group = ee('Model')->make('ChannelFieldGroup');
             $group->group_name = $group_name;
             $group->site_id = ee()->config->item('site_id');
