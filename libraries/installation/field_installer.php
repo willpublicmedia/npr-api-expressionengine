@@ -36,6 +36,9 @@ class Field_installer {
             {
                 if (ee('Model')->get('ChannelField')->filter('field_name', $name)->count() > 0)
                 {
+                    $model = ee('Model')->get('ChannelField')->filter('field_name', $name)->first();
+                    $this->custom_field_group->ChannelFields->add($model);
+                    $this->custom_field_group->save();
                     continue;
                 }
                 
