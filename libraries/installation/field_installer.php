@@ -18,6 +18,8 @@ class Field_installer {
 
     private $custom_field_group;
 
+    private $preferred_wysiwyg_editor = 'wygwam';
+
     public function __construct()
     {
         $this->field_definitions = array(
@@ -71,6 +73,11 @@ class Field_installer {
         {
             $field = ee('Model')->make('ChannelField');
         }
+
+        if ($definition['field_type'] === 'rte')
+        {
+            $definition['field_type'] = $this->use_preferred_rte($this->preferred_wysiwyg_editor);
+        }
         
         foreach ($definition as $key => $val)
         {
@@ -99,5 +106,10 @@ class Field_installer {
         }
         
         return $group;
+    }
+
+    private function use_preferred_rte($editor_type_name)
+    {
+        return ee('Addon')->installed($editor_type_name) ? $editor_type_name : 'rte';
     }
 }
