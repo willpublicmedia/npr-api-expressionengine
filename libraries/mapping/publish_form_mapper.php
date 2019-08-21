@@ -9,4 +9,25 @@ if (!defined('BASEPATH'))
 
 class Publish_form_mapper
 {
+    /**
+     * @entry A ChannelEntry object.
+     * @values Post values returned by the publish form.
+     * @story An NPR Story object.
+     */
+    public function map($entry, $values, $story)
+    {
+        $values['title'] = $story->title;
+        if ($entry->isNew() && $entry->title != $values['title'])
+        {
+            $values['url_title'] = $this->generate_url_title($values['title']);
+            $entry->url_title = $values['url_title'];
+        }
+        
+        $entry->title = $values['title'];
+    }
+
+    private function generate_url_title($title)
+    {
+        return (string) ee('Format')->make('Text', $title)->urlSlug();
+    }
 }
