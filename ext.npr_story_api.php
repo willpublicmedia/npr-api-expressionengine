@@ -63,7 +63,7 @@ class Npr_story_api_ext {
         $id_field = $this->fields['npr_story_id'];
         $npr_story_id = $values[$id_field];
         
-        $result = $this->validate_story_id($values);
+        $result = $this->validate_story_id($entry, $values);
         if ($result instanceOf ValidationResult)
         {
             if ($result->isNotValid())
@@ -224,23 +224,48 @@ class Npr_story_api_ext {
         // }
     }
 
-    private function validate_story_id($values)
+    private function validate_story_id($entry, $values)
     {
+        $is_valid = TRUE;
+        $story_count = ee('Model')->get('npr_story_api:Npr_story')->filter('id', $value)->count();
+        if ($story_count > 0)
+        {
+            $is_valid = FALSE;
+        }
+
         $validator = ee('Validation')->make();
         $validator->defineRule('uniqueStoryId', function($key, $value, $parameters)
         {
-            if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $value)->count() > 0)
+            if ($parameters[0] === FALSE)
             {
                 return "An NPR story with ID $value has already been created. Content rejected.";
             }
+
             return TRUE;
         });
 
         $validator->setRules(array(
-            $this->fields['npr_story_id'] => 'uniqueStoryId'
+            $this->fields['npr_story_id'] => 'uniqueStoryId[$is_valid]'
         ));
 
         $result = $validator->validate($values);
         return $result;
+
+        // $validator = ee('Validation')->make();
+        // $validator->defineRule('uniqueStoryId', function($key, $value, $parameters)
+        // {
+        //     if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $value)->count() > 0)
+        //     {
+        //         return "An NPR story with ID $value has already been created. Content rejected.";
+        //     }
+        //     return TRUE;
+        // });
+
+        // $validator->setRules(array(
+        //     $this->fields['npr_story_id'] => 'uniqueStoryId'
+        // ));
+
+        // $result = $validator->validate($values);
+        // return $result;
     }
 }
