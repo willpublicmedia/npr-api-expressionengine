@@ -24,6 +24,14 @@ class Publish_form_mapper
         }
         
         $entry->title = $values['title'];
+
+        $objects = array(
+            'entry' => $entry,
+            'values' => $values,
+            'story' => $story
+        );
+
+        return $objects;
     }
 
     private function generate_url_title($title)

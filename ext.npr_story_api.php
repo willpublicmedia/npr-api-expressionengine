@@ -5,8 +5,10 @@ if (!defined('BASEPATH')) {
 }
 
 require_once(__DIR__ . '/libraries/publishing/npr_api_expressionengine.php');
+require_once(__DIR__ . '/libraries/mapping/publish_form_mapper.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 use EllisLab\ExpressionEngine\Service\Validation\Result as ValidationResult;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
 
 class Npr_story_api_ext {
     private $fields = array(
@@ -78,22 +80,13 @@ class Npr_story_api_ext {
             $story = $story[0];
         }
 
-        $values = $this->change_entry_title($story->title, $values);
+        $objects = $this->map_story_values($entry, $values, $story);
+        $story = $objects['story'];
+        $values = $objects['values'];
+        $entry = $objects['entry'];
 
-        $entry->title = $values['title'];
-        $entry->url_title = $values['url_title'];
         $story->ChannelEntry = $entry;
         $story->save();
-    }
-
-    private function change_entry_title($queried_title, $entry_values) {   
-        if ($entry_values['title'] != $queried_title)
-        {
-            $entry_values['title'] = $queried_title;
-            $entry_values['url_title'] = (string) ee('Format')->make('Text', $queried_title)->urlSlug();
-        }
-        
-        return $entry_values;
     }
 
     private function check_external_story_source($story_source) {
@@ -153,6 +146,18 @@ class Npr_story_api_ext {
         }
 
         $this->fields = $field_names;
+    }
+
+    /**
+     * @entry A ChannelEntry object.
+     * @values Post values returned by the publish form.
+     * @story An NPR Story object.
+     */
+    private function map_story_values($entry, $values, $story)
+    {
+        $mapper = new Publish_form_mapper();
+        $objects = $mapper->map($entry, $values, $story);
+        return $objects;
     }
 
     private function model_post_data()
