@@ -16,10 +16,12 @@ class Publish_form_mapper
      */
     public function map($entry, $values, $story)
     {
-        $url_title = $this->generate_url_title($entry, $story->title);
+        $byline = $this->map_bylines($story->Byline);
         $permalink = $this->map_permalinks($story->Link);
+        $url_title = $this->generate_url_title($entry, $story->title);
 
         $data = array(
+            'byline' => $byline,
             'permalink' => $permalink,
             'title' => $story->title,
             'url_title' => $url_title
@@ -46,6 +48,18 @@ class Publish_form_mapper
             $entry->url_title;
         
         return $url_title;
+    }
+
+    private function map_bylines($byline_models)
+    {
+        $names = array();
+        foreach ($byline_models as $model)
+        {
+            $names[] = $model->name;
+        }
+
+        $byline = implode(', ', $names);
+        return $byline;
     }
 
     private function map_permalinks($link_models)
