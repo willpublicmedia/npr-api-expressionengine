@@ -240,7 +240,7 @@ class Npr_story_api_ext {
                 ->where('id', $value)
                 ->limit(1)
                 ->get()
-                ->result_array()[0]['entry_id'];
+                ->row('entry_id');
 
             if ($owner_entry === $entry->entry_id)
             {
