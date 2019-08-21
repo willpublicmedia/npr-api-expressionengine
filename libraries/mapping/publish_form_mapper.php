@@ -16,14 +16,16 @@ class Publish_form_mapper
      */
     public function map($entry, $values, $story)
     {
-        $values['title'] = $story->title;
-        if ($entry->isNew() && $entry->title != $values['title'])
-        {
-            $values['url_title'] = $this->generate_url_title($values['title']);
-            $entry->url_title = $values['url_title'];
-        }
-        
+        $url_title = $this->generate_url_title($entry, $story->title);
+        $data = array(
+            'title' => $story->title,
+            'url_title' => $url_title,
+        );
+
+        $values['title'] = $data['title'];
+        $values['url_title'] = $data['url_title'];
         $entry->title = $values['title'];
+        $entry->url_title = $values['url_title'];
 
         $objects = array(
             'entry' => $entry,
@@ -34,8 +36,12 @@ class Publish_form_mapper
         return $objects;
     }
 
-    private function generate_url_title($title)
+    private function generate_url_title($entry, $story_title)
     {
-        return (string) ee('Format')->make('Text', $title)->urlSlug();
+        $url_title = $entry->isNew() ? 
+            (string) ee('Format')->make('Text', $story_title)->urlSlug() :
+            $entry->url_title;
+        
+        return $url_title;
     }
 }
