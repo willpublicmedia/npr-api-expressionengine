@@ -63,7 +63,7 @@ class Npr_story_api_ext {
         $id_field = $this->fields['npr_story_id'];
         $npr_story_id = $values[$id_field];
         
-        $result = $this->validate_story_id($values);
+        $result = $this->validate_story_id($entry, $values);
         if ($result instanceOf ValidationResult)
         {
             if ($result->isNotValid())
@@ -224,16 +224,30 @@ class Npr_story_api_ext {
         // }
     }
 
-    private function validate_story_id($values)
+    private function validate_story_id($entry, $values)
     {
         $validator = ee('Validation')->make();
-        $validator->defineRule('uniqueStoryId', function($key, $value, $parameters)
-        {
-            if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $value)->count() > 0)
+        $validator->defineRule('uniqueStoryId', function($key, $value, $parameters) use ($entry)
+        {          
+            $count = ee('Model')->get('npr_story_api:Npr_story')->filter('id', $value)->count();
+            if ($count === 0)
             {
-                return "An NPR story with ID $value has already been created. Content rejected.";
+                return TRUE;
             }
-            return TRUE;
+
+            $owner_entry = ee()->db->select('entry_id')
+                ->from('npr_story_api_stories')
+                ->where('id', $value)
+                ->limit(1)
+                ->get()
+                ->row('entry_id');
+
+            if ($owner_entry === $entry->entry_id)
+            {
+                return TRUE;
+            }
+
+            return "An NPR story with ID $value has already been created. Content rejected.";
         });
 
         $validator->setRules(array(
@@ -242,5 +256,22 @@ class Npr_story_api_ext {
 
         $result = $validator->validate($values);
         return $result;
+
+        // $validator = ee('Validation')->make();
+        // $validator->defineRule('uniqueStoryId', function($key, $value, $parameters)
+        // {
+        //     if (ee('Model')->get('npr_story_api:Npr_story')->filter('id', $value)->count() > 0)
+        //     {
+        //         return "An NPR story with ID $value has already been created. Content rejected.";
+        //     }
+        //     return TRUE;
+        // });
+
+        // $validator->setRules(array(
+        //     $this->fields['npr_story_id'] => 'uniqueStoryId'
+        // ));
+
+        // $result = $validator->validate($values);
+        // return $result;
     }
 }

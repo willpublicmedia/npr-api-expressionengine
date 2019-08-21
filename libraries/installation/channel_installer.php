@@ -7,8 +7,10 @@ if (!defined('BASEPATH')) {
 }
 
 require_once(__DIR__ . '/../utilities/autoloader.php');
+require_once(__DIR__ . '/field_installer.php');
 require_once(__DIR__ . '/layout_customizer.php');
 use EllisLab\ExpressionEngine\Model\Channel\Channel;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Layout_customizer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Autoloader;
 
@@ -82,7 +84,7 @@ class Channel_installer {
             $channel->{$key} = $val;
         }
 
-        $channel->FieldGroups = ee('Model')->get('ChannelFieldGroup')->filter('group_name', '==', 'addon_fields')->all();
+        $channel->FieldGroups = ee('Model')->get('ChannelFieldGroup')->filter('group_name', '==', Field_installer::DEFAULT_FIELD_GROUP_NAME)->all();
         
         $draft = ee('Model')->get('Status')->filter('status', '==', 'draft')->first();
         $channel->Statuses->add($draft);
