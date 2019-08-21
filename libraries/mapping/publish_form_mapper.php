@@ -17,9 +17,12 @@ class Publish_form_mapper
     public function map($entry, $values, $story)
     {
         $url_title = $this->generate_url_title($entry, $story->title);
+        $permalink = $this->map_permalinks($story->Link);
+
         $data = array(
+            'permalink' => $permalink,
             'title' => $story->title,
-            'url_title' => $url_title,
+            'url_title' => $url_title
         );
 
         $values['title'] = $data['title'];
@@ -43,5 +46,17 @@ class Publish_form_mapper
             $entry->url_title;
         
         return $url_title;
+    }
+
+    private function map_permalinks($link_models)
+    {
+        $model = $link_models->filter('type', '==', 'html')->first();
+        
+        if ($model === NULL)
+        {
+            return NULL;
+        }
+
+        return  $model->link;
     }
 }
