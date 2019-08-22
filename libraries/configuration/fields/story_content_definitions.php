@@ -49,7 +49,38 @@ class Story_content_definitions
             'field_settings' => array(
                 'grid_min_rows' => 0,
                 'grid_max_rows' => '',
-                'allow_reorder' => 'y'
+                'allow_reorder' => 'y',
+                'grid' => array(
+                    'cols' => array(
+                        'new_0' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Correction Text',
+                            'col_name' => 'correction_text',
+                            'col_instructions' => 'The full text of the correction.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_1' => array(
+                            'col_type' => 'date',
+                            'col_label' => 'Correction Date',
+                            'col_name' => 'correction_date',
+                            'col_instructions' => 'The date of the latest update to the correction.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'localize' => 'n'
+                            )
+                        )
+                    )
+                )
             )
         ),
         'keywords' => array(
