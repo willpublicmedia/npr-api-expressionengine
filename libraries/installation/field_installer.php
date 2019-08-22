@@ -88,6 +88,12 @@ class Field_installer {
         $field_group = $this->custom_field_group;
         $field->ChannelFieldGroups->add($field_group);
         
+        $validation_result = $field->validate();
+        if ($validation_result->isNotValid())
+        {
+            throw new \Exception("Field definition error. Could not create $field->field_name.");
+        }
+
         $field->save();
         $field_group->save();
 
