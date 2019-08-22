@@ -36,6 +36,22 @@ class Story_content_definitions
                 'field_show_fmt' => 'n'
             )
         ),
+        'corrections' => array(
+            'field_name' => 'corrections',
+            'field_label' => 'Corrections',
+            'field_instructions' => 'Information about corrections to the story. Not present if there are no corrections.',
+            'field_type' => 'grid',
+            'field_list_items' => '',
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1,
+            'field_settings' => array(
+                'grid_min_rows' => 0,
+                'grid_max_rows' => '',
+                'allow_reorder' => 'y'
+            )
+        ),
         'keywords' => array(
             'field_name' => 'keywords',
             'field_label' => 'Keywords',
