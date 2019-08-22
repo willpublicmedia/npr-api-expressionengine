@@ -22,6 +22,7 @@ class Publish_form_mapper
         $url_title = $this->generate_url_title($entry, $story->title);
 
         $data = array(
+            'audio_runby_date' => strtotime($story->audioRunByDate),
             'byline' => $byline,
             'keywords' => $story->keywords,
             'last_modified_date' => strtotime($story->lastModifiedDate),
