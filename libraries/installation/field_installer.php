@@ -64,6 +64,18 @@ class Field_installer {
         }
     }
 
+    private function add_grid_columns($definition, $field)
+    {
+        $settings = array(
+            'field_id' => $field->field_id,
+            'grid' => $definition['field_settings']['grid']
+        );
+
+        // Loader strips trailing slashes. Use path relative to Loader class.
+		ee()->load->library('../../EllisLab/Addons/grid/libraries/Grid_lib.php');
+        ee()->grid_lib->apply_settings($settings);
+    }
+
     private function create_field($definition)
     {
         $name = $definition['field_name'];
@@ -79,15 +91,20 @@ class Field_installer {
             $definition['field_type'] = $this->use_preferred_rte($this->preferred_wysiwyg_editor);
         }
         
+        $field->site_id = ee()->config->item('site_id');
         foreach ($definition as $key => $val)
         {
+            if ($key === 'grid')
+            {
+                continue;
+            }
+
             $field->{$key} = $val;
         }
-        
-        $field->site_id = ee()->config->item('site_id');
+
         $field_group = $this->custom_field_group;
         $field->ChannelFieldGroups->add($field_group);
-        
+
         $validation_result = $field->validate();
         if ($validation_result->isNotValid())
         {
@@ -95,9 +112,11 @@ class Field_installer {
         }
 
         $field->save();
-        $field_group->save();
 
-        $field = null;
+        if ($definition['field_type'] === 'grid')
+        {
+            $this->add_grid_columns($definition, $field);
+        }
     }
     
     private function load_field_group($group_name)
