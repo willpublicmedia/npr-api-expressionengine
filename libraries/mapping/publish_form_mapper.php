@@ -18,11 +18,23 @@ class Publish_form_mapper
     {
         $byline = $this->map_bylines($story->Byline);
         $permalink = $this->map_permalinks($story->Link);
+        $text = $this->map_text($story->TextWithHtml);
         $url_title = $this->generate_url_title($entry, $story->title);
 
         $data = array(
             'byline' => $byline,
+            'keywords' => $story->keywords,
+            'lastModifiedDate' => $story->lastModifiedDate,
+            'miniTeaser' => $story->miniTeaser,
             'permalink' => $permalink,
+            'priorityKeywords' => $story->priorityKeywords,
+            'pubDate' => $story->pubDate,
+            'shortTitle' => $story->shortTitle,
+            'slug' => $story->slug,
+            'subtitle' => $story->subtitle,
+            'storyDate' => $story->storyDate,
+            'teaser' => $story->teaser,
+            'text' => $text,
             'title' => $story->title,
             'url_title' => $url_title
         );
@@ -72,5 +84,23 @@ class Publish_form_mapper
         }
 
         return  $model->link;
+    }
+
+    private function map_text($text_models)
+    {
+        $text_array = array();
+        foreach ($text_models->sortBy('num') as $model)
+        {
+            // check for paragraph tags before adding text.
+            $paragraph = mb_substr($model->text, 0, 2) === '<p' ?
+                $model->text :
+                "<p>$model->text</p>";
+
+            $text_array[] = $paragraph;
+        }
+
+        $text_array = implode($text_array);
+
+        return $text_array;
     }
 }
