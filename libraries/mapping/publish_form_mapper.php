@@ -24,30 +24,42 @@ class Publish_form_mapper
         $data = array(
             'byline' => $byline,
             'keywords' => $story->keywords,
-            'last_modified_date' => $story->lastModifiedDate,
+            'last_modified_date' => strtotime($story->lastModifiedDate),
             'mini_teaser' => $story->miniTeaser,
             'permalink' => $permalink,
             'priority_keywords' => $story->priorityKeywords,
-            'pub_date' => $story->pubDate,
+            'pub_date' => strtotime($story->pubDate),
             'short_title' => $story->shortTitle,
             'slug' => $story->slug,
             'subtitle' => $story->subtitle,
-            'story_date' => $story->storyDate,
+            'story_date' => strtotime($story->storyDate),
             'teaser' => $story->teaser,
             'text' => $text,
             'title' => $story->title,
             'url_title' => $url_title
         );
 
-        $values['title'] = $data['title'];
-        $values['url_title'] = $data['url_title'];
-        $entry->title = $values['title'];
-        $entry->url_title = $values['url_title'];
+        $objects = $this->assign_data_to_entry($data, $entry, $values);
+        $objects['story'] = $story;
+        return $objects;
+    }
+
+    private function assign_data_to_entry($data, $entry, $values)
+    {
+        foreach ($data as $field => $value)
+        {
+            if ($field !== 'title' && $field !== 'url_title')
+            {
+                $field = $this->get_field_name($field);
+            }
+
+            $values[$field] = $value;
+            $entry->{$field} = $value;
+        }
 
         $objects = array(
             'entry' => $entry,
             'values' => $values,
-            'story' => $story
         );
 
         return $objects;
@@ -60,6 +72,23 @@ class Publish_form_mapper
             $entry->url_title;
         
         return $url_title;
+    }
+
+    private function get_field_name($name)
+    {
+        $field = ee('Model')->get('ChannelField')
+            ->filter('field_name', $name)
+            ->first();
+
+        if ($field === NULL)
+        {
+            return '';
+        }
+
+        $field_id = $field->field_id;
+        $field_name = "field_id_{$field_id}";
+        
+        return $field_name;
     }
 
     private function map_bylines($byline_models)
