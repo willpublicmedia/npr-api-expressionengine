@@ -102,9 +102,6 @@ class Field_installer {
             $field->{$key} = $val;
         }
 
-        $field_group = $this->custom_field_group;
-        $field->ChannelFieldGroups->add($field_group);
-
         $validation_result = $field->validate();
         if ($validation_result->isNotValid())
         {
@@ -112,11 +109,16 @@ class Field_installer {
         }
 
         $field->save();
+        
+        $field_group = $this->custom_field_group;
+        $field->ChannelFieldGroups->add($field_group);
 
         if ($definition['field_type'] === 'grid')
         {
             $this->add_grid_columns($definition, $field);
         }
+
+        $field->save();
     }
     
     private function load_field_group($group_name)
