@@ -123,9 +123,9 @@ class Story_content_definitions
                 'field_show_fmt' => 'n'
             )
         ),
-        'permalink' => array(
-            'field_name' => 'permalink',
-            'field_label' => 'Permalink',
+        'permalinks' => array(
+            'field_name' => 'permalinks',
+            'field_label' => 'Permalinks',
             'field_instructions' => "Permanent link to story on the story's original website",
             'field_type' => 'text',
             'field_list_items' => '',
