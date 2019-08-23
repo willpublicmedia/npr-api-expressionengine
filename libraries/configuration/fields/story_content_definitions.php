@@ -61,7 +61,7 @@ class Story_content_definitions
                             'col_search' => 'n',
                             'col_width' => '',
                             'col_settings' => array(
-                                'field_maxl' => '',
+                                'field_maxl' => '1024',
                                 'field_fmt' => 'none',
                                 'field_text_direction' => 'ltr',
                                 'field_content_type' => 'all'
