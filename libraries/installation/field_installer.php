@@ -67,12 +67,12 @@ class Field_installer {
     private function add_grid_columns($definition, $field)
     {
         $settings = array(
+            'content_type' => 'channel',
             'field_id' => $field->field_id,
             'grid' => $definition['field_settings']['grid']
         );
 
-        // Loader strips trailing slashes. Use path relative to Loader class.
-		ee()->load->library('../../EllisLab/Addons/grid/libraries/Grid_lib.php');
+        $this->load_grid_lib($settings);
         ee()->grid_lib->apply_settings($settings);
     }
 
@@ -132,6 +132,29 @@ class Field_installer {
         
         return $group;
     }
+
+    /**
+	 * Loads Grid library and assigns relevant field information to it
+	 */
+	private function load_grid_lib($settings)
+	{
+        // Loader strips trailing slashes. Use path relative to Loader class.
+        ee()->load->library('../../EllisLab/Addons/grid/libraries/Grid_lib.php');
+
+		// Attempt to get an entry ID first
+		$entry_id = (isset($settings['entry_id']))
+            ? $settings['entry_id'] : 
+            ee()->input->get_post('entry_id');
+
+        // ee()->grid_lib->entry_id = ($this->content_id() == NULL) ? $entry_id : $this->content_id();
+        ee()->grid_lib->entry_id = $entry_id;
+		ee()->grid_lib->field_id = $settings['field_id'];
+		ee()->grid_lib->field_name = $settings['field_name'];
+		ee()->grid_lib->content_type = $settings['content_type'];
+		ee()->grid_lib->fluid_field_data_id = (isset($settings['fluid_field_data_id'])) ? $settings['fluid_field_data_id'] : 0;
+		ee()->grid_lib->in_modal_context = FALSE;
+		ee()->grid_lib->settings_form_field_name = 'grid';
+	}
 
     private function use_preferred_rte($editor_type_name)
     {
