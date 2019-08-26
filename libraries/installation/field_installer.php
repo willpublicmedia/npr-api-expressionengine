@@ -76,30 +76,39 @@ class Field_installer {
         ee()->grid_lib->apply_settings($settings);
     }
 
+    private function assign_field_group($field)
+    {
+        $this->custom_field_group->ChannelFields->getAssociation()->add($field);
+        $this->custom_field_group->save();
+    }
+
     private function create_field($definition)
     {
         $name = $definition['field_name'];
         $field = ee('Model')->get('ChannelField')->filter('field_name', '==', $definition['field_name'])->first();
-        
-        if ($field == null)
-        {
-            $field = ee('Model')->make('ChannelField');
-        }
 
+        if ($field != null)
+        {
+            $this->assign_field_group($field);
+            return;
+        }
+            
+        $field = ee('Model')->make('ChannelField');
+        $field->site_id = ee()->config->item('site_id');
+        
         if ($definition['field_type'] === 'rte')
         {
             $definition['field_type'] = $this->use_preferred_rte($this->preferred_wysiwyg_editor);
         }
         
-        $field->site_id = ee()->config->item('site_id');
-        foreach ($definition as $key => $val)
+        foreach ($definition as $key => $value)
         {
             if ($key === 'grid')
             {
                 continue;
             }
 
-            $field->{$key} = $val;
+            $field->{$key} = $value;
         }
 
         $validation_result = $field->validate();
@@ -107,18 +116,16 @@ class Field_installer {
         {
             throw new \Exception("Field definition error. Could not create $field->field_name.");
         }
-
-        $field->save();
         
-        $field_group = $this->custom_field_group;
-        $field->ChannelFieldGroups->add($field_group);
-
-        if ($definition['field_type'] === 'grid')
-        {
-            $this->add_grid_columns($definition, $field);
-        }
-
         $field->save();
+        $this->assign_field_group($field);
+        
+        // if ($definition['field_type'] === 'grid')
+        // {
+        //     $field->save();
+        //     $this->add_grid_columns($definition, $field);
+        //     $field = ee('Model')->get('ChannelField')->filter('field_id', $field->field_id)->first();
+        // }
     }
     
     private function load_field_group($group_name)
