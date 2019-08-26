@@ -68,6 +68,7 @@ class Field_installer {
     {
         $settings = array(
             'content_type' => 'channel',
+            'settings_form_field_name' => 'grid',
             'field_id' => $field->field_id,
             'grid' => $definition['field_settings']['grid']
         );
@@ -120,12 +121,10 @@ class Field_installer {
         $field->save();
         $this->assign_field_group($field);
         
-        // if ($definition['field_type'] === 'grid')
-        // {
-        //     $field->save();
-        //     $this->add_grid_columns($definition, $field);
-        //     $field = ee('Model')->get('ChannelField')->filter('field_id', $field->field_id)->first();
-        // }
+        if ($definition['field_type'] === 'grid')
+        {
+            $this->add_grid_columns($definition, $field);
+        }
     }
     
     private function load_field_group($group_name)
