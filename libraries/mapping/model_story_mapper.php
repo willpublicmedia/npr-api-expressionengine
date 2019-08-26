@@ -29,6 +29,14 @@ class Model_story_mapper
         $model->keywords = $story->keywords->value;
         $model->priorityKeywords = $story->keywords->value;
         
+        if (property_exists($story, 'correction'))
+        {
+            $correction = is_array($story->correction) ?
+                $this->process_corrections($story->correction) :
+                $this->process_correction($story->correction);
+            $model->Correction = $correction;
+        }
+
         if (property_exists($story, 'organization'))
         {
             $model->Organization = $this->load_organization($story->organization);
@@ -249,6 +257,39 @@ class Model_story_mapper
         }
 
         return $bylines;
+    }
+
+    private function process_correction(\NPRMLElement $correction_element)
+    {
+        $date = $correction_element->correctionDate->value;
+
+        $correction;
+        if (ee('Model')->get('npr_story_api:Npr_pull_correction')->filter('correctionDate', $date)->count() > 0)
+        {
+            $correction = ee('Model')->get('npr_story_api:Npr_pull_correction')->filter('correctionDate', $date)->first();
+        }
+        else
+        {
+            $correction = ee('Model')->make('npr_story_api:Npr_pull_correction');
+            $correction->correctionDate = $date;
+        }
+
+        $correction->correctionText = $correction_element->correctionText->value;
+        $correction->correctionTitle = $correction_element->correctionTitle->value;
+
+        return $correction;
+    }
+
+    private function process_corrections(array $corrections_element_array)
+    {
+        $corrections = array();
+        foreach ($corrections_element_array as $correction_element)
+        {
+            $correction = $this->process_correction($correction_element);
+            $corrections[] = $correction;
+        }
+
+        return $corrections;
     }
 
     private function process_image(\NPRMLElement $image_element)

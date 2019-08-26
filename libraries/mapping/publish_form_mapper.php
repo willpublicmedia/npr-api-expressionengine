@@ -17,6 +17,7 @@ class Publish_form_mapper
     public function map($entry, $values, $story)
     {
         $byline = $this->map_bylines($story->Byline);
+        $corrections = $this->map_corrections($story->Correction);
         $permalink = $this->map_permalinks($story->Link);
         $text = $this->map_text($story->TextWithHtml);
         $url_title = $this->generate_url_title($entry, $story->title);
@@ -102,6 +103,12 @@ class Publish_form_mapper
 
         $byline = implode(', ', $names);
         return $byline;
+    }
+
+    private function map_corrections($correction_models)
+    {
+        $corrections = array();
+        return $corrections;
     }
 
     private function map_permalinks($link_models)
