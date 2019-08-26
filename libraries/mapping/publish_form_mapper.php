@@ -25,6 +25,7 @@ class Publish_form_mapper
         $data = array(
             'audio_runby_date' => strtotime($story->audioRunByDate),
             'byline' => $byline,
+            'corrections' => $corrections,
             'keywords' => $story->keywords,
             'last_modified_date' => strtotime($story->lastModifiedDate),
             'mini_teaser' => $story->miniTeaser,
@@ -107,7 +108,21 @@ class Publish_form_mapper
 
     private function map_corrections($correction_models)
     {
-        $corrections = array();
+        $corrections = array(
+            'rows' => array()
+        );
+        
+        $count = 0;
+        foreach ($correction_models as $model)
+        {
+            $correction = array(
+                    'correction_date' => $model->correctionDate, // col_id => value?
+                    'correction_text' => $model->correctionText
+            );
+            $corrections['rows']["new_row_$count"] = $correction;
+            $count++;
+        }
+     
         return $corrections;
     }
 
