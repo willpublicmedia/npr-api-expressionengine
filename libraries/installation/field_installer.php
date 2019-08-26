@@ -39,8 +39,12 @@ class Field_installer {
                 if (ee('Model')->get('ChannelField')->filter('field_name', $name)->count() > 0)
                 {
                     $model = ee('Model')->get('ChannelField')->filter('field_name', $name)->first();
-                    $this->custom_field_group->ChannelFields->add($model);
-                    $this->custom_field_group->save();
+
+                    if ($model->field_type === $definition['field_type'])
+                    {
+                        $this->assign_field_group($model);
+                    }
+                    
                     continue;
                 }
                 
@@ -85,15 +89,6 @@ class Field_installer {
 
     private function create_field($definition)
     {
-        $name = $definition['field_name'];
-        $field = ee('Model')->get('ChannelField')->filter('field_name', '==', $definition['field_name'])->first();
-
-        if ($field != null)
-        {
-            $this->assign_field_group($field);
-            return;
-        }
-            
         $field = ee('Model')->make('ChannelField');
         $field->site_id = ee()->config->item('site_id');
         
