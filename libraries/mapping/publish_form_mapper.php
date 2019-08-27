@@ -17,7 +17,7 @@ class Publish_form_mapper
     public function map($entry, $values, $story)
     {
         $byline = $this->map_bylines($story->Byline);
-        $corrections = $this->map_corrections($story->Correction);
+        $corrections = $this->map_corrections($story->Correction, $entry->entry_id);
         $permalink = $this->map_permalinks($story->Link);
         $text = $this->map_text($story->TextWithHtml);
         $url_title = $this->generate_url_title($entry, $story->title);
@@ -77,6 +77,16 @@ class Publish_form_mapper
         return $url_title;
     }
 
+    private function get_field_id($name)
+    {
+        $field_id = ee('Model')->get('ChannelField')
+            ->filter('field_name', $field_name)
+            ->fields('field_id')
+            ->first()
+            ->field_id;
+        return $field_id;
+    }
+
     private function get_field_name($name)
     {
         $field = ee('Model')->get('ChannelField')
@@ -94,14 +104,8 @@ class Publish_form_mapper
         return $field_name;
     }
 
-    private function get_grid_column_names($field_name)
+    private function get_grid_column_names($field_id)
     {
-        $field_id = ee('Model')->get('ChannelField')
-            ->filter('field_name', $field_name)
-            ->fields('field_id')
-            ->first()
-            ->field_id;
-
         $columns = ee()->grid_model->get_columns_for_field($field_id, 'channel');
         return $columns;
     }
@@ -118,13 +122,14 @@ class Publish_form_mapper
         return $byline;
     }
 
-    private function map_corrections($correction_models)
+    private function map_corrections($correction_models, $entry_id)
     {
         $corrections = array();
-        // grid_model->get_entry_rows()
-        // 
+        
         /* get column names */
-        $grid_column_names = $this->get_grid_column_names('corrections');
+        $field_id = $this->get_field_id('corrections');
+        $grid_column_names = $this->get_grid_column_names($field_id);
+        $entry_rows = ee()->grid_model->get_entry($entry_id, $field_id, 'channel');
 
         $count = 1;
         foreach ($correction_models as $model)
