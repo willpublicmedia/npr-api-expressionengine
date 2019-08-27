@@ -135,9 +135,9 @@ class Publish_form_mapper
         foreach ($correction_models as $model)
         {
             /* check row exists */
-            // $row_name = $this->grid_row_exists($model) ?
-            //     "row_id_x" :
-            //     "new_row_$count";
+            $row_name = count($entry_rows) > 0 ?
+                "new_row_$count" : // should be row_id_x
+                "new_row_$count";
 
             /* assign values */
             // $correction = array(
