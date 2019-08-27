@@ -80,10 +80,11 @@ class Publish_form_mapper
     private function get_field_id($name)
     {
         $field_id = ee('Model')->get('ChannelField')
-            ->filter('field_name', $field_name)
+            ->filter('field_name', $name)
             ->fields('field_id')
             ->first()
             ->field_id;
+        
         return $field_id;
     }
 
@@ -140,10 +141,10 @@ class Publish_form_mapper
                 "new_row_$count";
 
             /* assign values */
-            // $correction = array(
-            //         $grid_column_names['correction_date'] => $model->correctionDate, // col_id => value?
-            //         $grid_column_names['correction_text'] => $model->correctionText
-            // );
+            $correction = array(
+                    $grid_column_names['correction_date'] => $model->correctionDate, // col_id => value?
+                    $grid_column_names['correction_text'] => $model->correctionText
+            );
 
             /* assign value */
             // $corrections['rows'][$row_name] = $correction;
