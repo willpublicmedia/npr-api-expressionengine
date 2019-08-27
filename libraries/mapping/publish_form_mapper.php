@@ -62,7 +62,8 @@ class Publish_form_mapper
 
             if ($this->field_is_grid($name))
             {
-                print_r("$field is grid.");
+                // Grid_ft->post_save stomps data values with cache.
+                ee()->session->set_cache('Grid_ft', $field, $value);
             }
         }
 
@@ -155,23 +156,19 @@ class Publish_form_mapper
         /* get column names */
         $field_id = $this->get_field_id('corrections');
         $grid_column_names = $this->get_grid_column_names($field_id);
-        $entry_rows = ee()->grid_model->get_entry($entry_id, $field_id, 'channel');
+        // $entry_rows = ee()->grid_model->get_entry($entry_id, $field_id, 'channel');
 
         $count = 1;
         foreach ($correction_models as $model)
         {
-            /* check row exists */
-            $row_name = count($entry_rows) > 0 ?
-                "new_row_$count" : // should be row_id_x
-                "new_row_$count";
+            // should be row_id_x if row exists, but this doesn't seem to duplicate entries.
+            $row_name = "new_row_$count";
 
-            /* assign values */
             $correction = array(
                     $grid_column_names['correction_date'] => $model->correctionDate, // col_id => value?
                     $grid_column_names['correction_text'] => $model->correctionText
             );
 
-            /* assign value */
             $corrections['rows'][$row_name] = $correction;
             $count++;
         }
