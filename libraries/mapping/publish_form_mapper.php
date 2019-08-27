@@ -94,6 +94,18 @@ class Publish_form_mapper
         return $field_name;
     }
 
+    private function get_grid_column_names($field_name)
+    {
+        $field_id = ee('Model')->get('ChannelField')
+            ->filter('field_name', $field_name)
+            ->fields('field_id')
+            ->first()
+            ->field_id;
+
+        $columns = ee()->grid_model->get_columns_for_field($field_id, 'channel');
+        return $columns;
+    }
+
     private function map_bylines($byline_models)
     {
         $names = array();
@@ -108,18 +120,28 @@ class Publish_form_mapper
 
     private function map_corrections($correction_models)
     {
-        $corrections = array(
-            'rows' => array()
-        );
-        
-        $count = 0;
+        $corrections = array();
+        // grid_model->get_entry_rows()
+        // 
+        /* get column names */
+        $grid_column_names = $this->get_grid_column_names('corrections');
+
+        $count = 1;
         foreach ($correction_models as $model)
         {
-            $correction = array(
-                    'correction_date' => $model->correctionDate, // col_id => value?
-                    'correction_text' => $model->correctionText
-            );
-            $corrections['rows']["new_row_$count"] = $correction;
+            /* check row exists */
+            // $row_name = $this->grid_row_exists($model) ?
+            //     "row_id_x" :
+            //     "new_row_$count";
+
+            /* assign values */
+            // $correction = array(
+            //         $grid_column_names['correction_date'] => $model->correctionDate, // col_id => value?
+            //         $grid_column_names['correction_text'] => $model->correctionText
+            // );
+
+            /* assign value */
+            // $corrections['rows'][$row_name] = $correction;
             $count++;
         }
      
