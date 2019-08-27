@@ -107,7 +107,15 @@ class Publish_form_mapper
 
     private function get_grid_column_names($field_id)
     {
-        $columns = ee()->grid_model->get_columns_for_field($field_id, 'channel');
+        $ids = ee()->grid_model->get_columns_for_field($field_id, 'channel');
+
+        $columns = array();
+        foreach ($ids as $id => $data)
+        {
+            $name = $data['col_name'];
+            $columns[$name] = "col_id_$id";
+        }
+
         return $columns;
     }
 
@@ -147,7 +155,7 @@ class Publish_form_mapper
             );
 
             /* assign value */
-            // $corrections['rows'][$row_name] = $correction;
+            $corrections['rows'][$row_name] = $correction;
             $count++;
         }
      
