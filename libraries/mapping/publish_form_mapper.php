@@ -51,6 +51,7 @@ class Publish_form_mapper
     {
         foreach ($data as $field => $value)
         {
+            $name = $field;
             if ($field !== 'title' && $field !== 'url_title')
             {
                 $field = $this->get_field_name($field);
@@ -58,6 +59,11 @@ class Publish_form_mapper
 
             $values[$field] = $value;
             $entry->{$field} = $value;
+
+            if ($this->field_is_grid($name))
+            {
+                print_r("$field is grid.");
+            }
         }
 
         $objects = array(
@@ -66,6 +72,17 @@ class Publish_form_mapper
         );
 
         return $objects;
+    }
+
+    private function field_is_grid($name)
+    {
+        $type = ee('Model')->get('ChannelField')
+            ->filter('field_name', $name)
+            ->fields('field_type')
+            ->first()
+            ->field_type;
+        
+        return $type === 'grid';
     }
 
     private function generate_url_title($entry, $story_title)
