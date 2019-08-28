@@ -9,6 +9,173 @@ if (!defined('BASEPATH')) {
 class Story_content_definitions
 {
     public static $fields = array(
+        'audio' => array(
+            'field_name' => 'audio',
+            'field_label' => 'Audio',
+            'field_instructions' => 'All available audio associated with the returned story. This will include all formats to which NPR has the rights to distribute.',
+            'field_type' => 'grid',
+            'field_list_items' => '',
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1,
+            'field_settings' => array(
+                'grid_min_rows' => 0,
+                'grid_max_rows' => '',
+                'allow_reorder' => 'y',
+                'grid' => array(
+                    'cols' => array(
+                        'new_0' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Type',
+                            'col_name' => 'audio_type',
+                            'col_instructions' => 'The type of audio file.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_1' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Duration',
+                            'col_name' => 'audio_duration',
+                            'col_instructions' => 'The duration of the have the same duration.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_2' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Description',
+                            'col_name' => 'audio_description',
+                            'col_instructions' => 'A short, sentence-like description of the audio.',
+                            'col_required' => 'n',
+                            'col_search' => 'y',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_3' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Format',
+                            'col_name' => 'audio_format',
+                            'col_instructions' => 'The audio format.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_4' => array(
+                            'col_type' => 'url',
+                            'col_label' => 'Audio URL',
+                            'col_name' => 'audio_url',
+                            'col_instructions' => 'The URL for the audio asset.',
+                            'col_required' => 'n',
+                            'col_search' => 'y',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'url_scheme_placeholder' => 'https://'
+                            )
+                        ),
+                        'new_5' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Rights',
+                            'col_name' => 'audio_rights',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'y',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_6' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Permissions',
+                            'col_name' => 'audio_permissions',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'y',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )                            
+                        ),
+                        'new_7' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Title',
+                            'col_name' => 'audio_title',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'y',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_8' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Region',
+                            'col_name' => 'audio_region',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'y',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_9' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Rightsholder',
+                            'col_name' => 'audio_rightsholder',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'y',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            ) 
+                        )
+                    )
+                )
+            )
+        ),
         'audio_runby_date' => array(
             'field_name' => 'audio_runby_date',
             'field_label' => 'Audio Run-By Date',
