@@ -116,7 +116,7 @@ class Story_content_definitions
                             'col_type' => 'text',
                             'col_label' => 'Audio Permissions',
                             'col_name' => 'audio_permissions',
-                            'col_instructions' => '',
+                            'col_instructions' => 'A comma-separated list of allowed uses.',
                             'col_required' => 'n',
                             'col_search' => 'y',
                             'col_width' => '',
