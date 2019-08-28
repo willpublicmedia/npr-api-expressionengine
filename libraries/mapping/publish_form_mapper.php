@@ -16,6 +16,7 @@ class Publish_form_mapper
      */
     public function map($entry, $values, $story)
     {
+        $audio = $this->map_audio($story->Audio);
         $byline = $this->map_bylines($story->Byline);
         $corrections = $this->map_corrections($story->Correction, $entry->entry_id);
         $permalinks = $this->map_permalinks($story->Link);
@@ -23,6 +24,7 @@ class Publish_form_mapper
         $url_title = $this->generate_url_title($entry, $story->title);
 
         $data = array(
+            'audio_files' => $audio,
             'audio_runby_date' => strtotime($story->audioRunByDate),
             'byline' => $byline,
             'corrections' => $corrections,
@@ -73,6 +75,11 @@ class Publish_form_mapper
         );
 
         return $objects;
+    }
+
+    private function convert_audio_duration($raw)
+    {
+        return ltrim(gmdate('H:i:s', $raw), "00:");
     }
 
     private function field_is_grid($name)
@@ -135,6 +142,74 @@ class Publish_form_mapper
         }
 
         return $columns;
+    }
+
+    private function map_audio($audio_models)
+    {
+        $audio_array = array();
+        
+        /* get column names */
+        $field_id = $this->get_field_id('audio_files');
+        $grid_column_names = $this->get_grid_column_names($field_id);
+        
+        $count = 1;
+        foreach ($audio_models as $model)
+        {
+            $stream = $this->map_audio_formats($model->Format);
+            if (isset($stream[0]))
+            {
+                $stream = $stream[0];
+            }
+
+            // should be row_id_x if row exists, but this doesn't seem to duplicate entries.
+            $row_name = "new_row_$count";
+
+            $audio = array(
+                    $grid_column_names['audio_type'] => $model->type, // col_id => value?
+                    $grid_column_names['audio_duration'] => $this->convert_audio_duration($model->duration),
+                    $grid_column_names['audio_description'] => $model->description,
+                    $grid_column_names['audio_format'] => $stream['format'],
+                    $grid_column_names['audio_url'] => $stream['url'],
+                    $grid_column_names['audio_rights'] => $model->rights,
+                    $grid_column_names['audio_permissions'] => $model->permissions,
+                    $grid_column_names['audio_title'] => $model->title,
+                    $grid_column_names['audio_region'] => $model->region,
+                    $grid_column_names['audio_rightsholder'] => $model->rightsholder
+            );
+
+            $audio_array['rows'][$row_name] = $audio;
+            $count++;
+        }
+   
+        return $audio_array;
+    }
+
+    private function map_audio_formats($format_models)
+    {
+        $preference = array('mp4', 'mp3');
+        $model = NULL;
+        foreach ($preference as $format)
+        {
+            $model = $format_models->filter('format', '==', $format)->first();
+            if ($model != NULL)
+            {
+                break;
+            }
+        }
+        
+        if ($model === NULL)
+        {
+            return;
+        }
+
+        $format_array = array();
+        $format_array[] = array(
+            'type' => $model->type,
+            'format' => $model->format,
+            'url' => $model->url
+        );
+
+        return $format_array;
     }
 
     private function map_bylines($byline_models)
