@@ -18,7 +18,7 @@ class Publish_form_mapper
     {
         $byline = $this->map_bylines($story->Byline);
         $corrections = $this->map_corrections($story->Correction, $entry->entry_id);
-        $permalink = $this->map_permalinks($story->Link);
+        $permalinks = $this->map_permalinks($story->Link);
         $text = $this->map_text($story->TextWithHtml);
         $url_title = $this->generate_url_title($entry, $story->title);
 
@@ -29,7 +29,7 @@ class Publish_form_mapper
             'keywords' => $story->keywords,
             'last_modified_date' => strtotime($story->lastModifiedDate),
             'mini_teaser' => $story->miniTeaser,
-            'permalink' => $permalink,
+            'permalinks' => $permalinks,
             'priority_keywords' => $story->priorityKeywords,
             'pub_date' => strtotime($story->pubDate),
             'short_title' => $story->shortTitle,
