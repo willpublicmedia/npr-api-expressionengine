@@ -290,6 +290,198 @@ class Story_content_definitions
                 'field_show_fmt' => 'n'
             )
         ),
+        'images' => array(
+            'field_name' => 'images',
+            'field_label' => 'Images',
+            'field_instructions' => 'All images associated with the story.',
+            'field_type' => 'grid',
+            'field_list_items' => '',
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1,
+            'field_settings' => array(
+                'grid_min_rows' => 0,
+                'grid_max_rows' => '',
+                'allow_reorder' => 'y',
+                'grid' => array(
+                    'cols' => array(
+                        'new_0' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Crop Type',
+                            'col_name' => 'crop_type',
+                            'col_instructions' => 'The general crop size (e.g., small).',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_1' => array(
+                            'col_type' => 'url',
+                            'col_label' => 'Crop Source',
+                            'col_name' => 'crop_src',
+                            'col_instructions' => 'The URL for the image asset.',
+                            'col_required' => 'y',
+                            'col_search' => 'y',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'url_scheme_placeholder' => 'https://'
+                            )
+                        ),
+                        'new_2' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Crop Height',
+                            'col_name' => 'crop_height',
+                            'col_instructions' => 'The height of the image in pixels.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'integer'
+                            )
+                        ),
+                        'new_3' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Crop Width',
+                            'col_name' => 'crop_width',
+                            'col_instructions' => 'The width of the image in pixels.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'integer'
+                            )
+                        ),
+                        'new_4' => array(
+                            'col_type' => 'toggle',
+                            'col_label' => 'Primary',
+                            'col_name' => 'crop_primary',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_default_value' => 0
+                            )
+                        ),
+                        'new_5' => array(
+                            'col_type' => 'toggle',
+                            'col_label' => 'Has Border',
+                            'col_name' => 'crop_has_border',
+                            'col_instructions' => 'Indicates if the image has a border in the asset itself.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_default_value' => 0
+                            )
+                        ),
+                        'new_6' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Crop Title',
+                            'col_name' => 'crop_title',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_7' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Crop Caption',
+                            'col_name' => 'crop_caption',
+                            'col_instructions' => "The caption for the image, describing the contents of the image and/or the image's relationship to the returned story.",
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_8' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Crop Producer',
+                            'col_name' => 'crop_producer',
+                            'col_instructions' => 'The actual producer of the image, to whom the image will get credited.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_9' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Provider',
+                            'col_name' => 'crop_provider',
+                            'col_instructions' => 'The owner or provider of the image, which may be independent from the image producer.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_10' => array(
+                            'col_type' => 'url',
+                            'col_label' => 'Provider URL',
+                            'col_name' => 'crop_provider_url',
+                            'col_instructions' => 'The URL of the provider. This is used for attribution purposes and must be conveyed with the image.',
+                            'col_required' => 'y',
+                            'col_search' => 'y',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'url_scheme_placeholder' => 'https://'
+                            )
+                        ),
+                        'new_11' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Copyright',
+                            'col_name' => 'crop_copyright',
+                            'col_instructions' => 'The copyright information (year) for the image. 	',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'integer'
+                            )
+                        ),
+                    // 
+                    // 'link' => $model->link
+                    // 'enlargement' => $model->enlargement,
+                    // 'enlargementCaption' => $model->enlargementCaption
+                    )
+                )
+            )
+        ),
         'permalinks' => array(
             'field_name' => 'permalinks',
             'field_label' => 'Permalinks',
