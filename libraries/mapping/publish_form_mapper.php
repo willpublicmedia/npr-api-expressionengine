@@ -171,7 +171,7 @@ class Publish_form_mapper
                     $grid_column_names['audio_format'] => $stream['format'],
                     $grid_column_names['audio_url'] => $stream['url'],
                     $grid_column_names['audio_rights'] => $model->rights,
-                    $grid_column_names['audio_permissions'] => $model->permissions,
+                    $grid_column_names['audio_permissions'] => $this->parse_audio_permissions($model->permissions),
                     $grid_column_names['audio_title'] => $model->title,
                     $grid_column_names['audio_region'] => $model->region,
                     $grid_column_names['audio_rightsholder'] => $model->rightsholder
@@ -279,5 +279,11 @@ class Publish_form_mapper
         $text_array = implode($text_array);
 
         return $text_array;
+    }
+
+    private function parse_audio_permissions(array $permissions)
+    {
+        $allowed = array_keys($permissions, 'true');
+        return implode(", ", $allowed);
     }
 }
