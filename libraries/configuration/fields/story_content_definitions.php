@@ -587,6 +587,71 @@ class Story_content_definitions
                 'field_show_fmt' => 'n'
             )
         ),
+        'pullquotes' => array(
+            'field_name' => 'pullquotes',
+            'field_label' => 'Pullquotes',
+            'field_instructions' => 'Quotes from the story that have been identified as particularly compelling by NPR editorial staff.',
+            'field_type' => 'grid',
+            'field_list_items' => '',
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1,
+            'field_settings' => array(
+                'grid_min_rows' => 0,
+                'grid_max_rows' => '',
+                'allow_reorder' => 'y',
+                'grid' => array(
+                    'cols' => array(
+                        'new_0' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Person',
+                            'col_name' => 'quote_person',
+                            'col_instructions' => ' 	The person or people responsible for the quote.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_1' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Date',
+                            'col_name' => 'quote_date',
+                            'col_instructions' => 'The date of the quote. This can be anything from a specific moment in time to a year.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_2' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Text',
+                            'col_name' => 'quote_text',
+                            'col_instructions' => 'The pullquote text.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                    )
+                )
+            )
+        ),
         'short_title' => array(
             'field_name' => 'short_title',
             'field_label' => 'Short Title',
