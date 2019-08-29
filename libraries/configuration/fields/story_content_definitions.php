@@ -482,6 +482,81 @@ class Story_content_definitions
                 )
             )
         ),
+        'organization' => array(
+            'field_name' => 'organization',
+            'field_label' => 'Organization',
+            'field_instructions' => 'The owner organization of the story.',
+            'field_type' => 'grid',
+            'field_list_items' => '',
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1,
+            'field_settings' => array(
+                'grid_min_rows' => 0,
+                'grid_max_rows' => '1',
+                'allow_reorder' => 'y',
+                'grid' => array(
+                    'cols' => array(
+                        'new_0' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Org ID',
+                            'col_name' => 'org_id',
+                            'col_instructions' => 'The organization\'s unique ID number.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'integer'
+                            )
+                        ),
+                        'new_1' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Org Abbreviation',
+                            'col_name' => 'org_abbr',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_2' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Org Name',
+                            'col_name' => 'org_name',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_3' => array(
+                            'col_type' => 'url',
+                            'col_label' => 'Org Website',
+                            'col_name' => 'org_website',
+                            'col_instructions' => '',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array()
+                        )
+                    )
+                )
+            )
+        ),
         'permalinks' => array(
             'field_name' => 'permalinks',
             'field_label' => 'Permalinks',
