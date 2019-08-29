@@ -250,46 +250,6 @@ class Story_content_definitions
                 )
             )
         ),
-        'keywords' => array(
-            'field_name' => 'keywords',
-            'field_label' => 'Keywords',
-            'field_instructions' => 'A comma-delimited list of key terms describing the returned story. This field is seldom used for NPR.org.',
-            'field_type' => 'text',
-            'field_pre_populate' => 'n',
-            'field_list_items' => '',
-            'field_pre_field_id' => 0,
-            'field_pre_channel_id' => 0,
-            'field_order' => 1,
-            'field_settings' => array(
-                'field_fmt' => 'none',
-                'field_show_fmt' => 'n'
-            )
-        ),
-        'last_modified_date' => array(
-            'field_name' => 'last_modified_date',
-            'field_label' => 'Last Modified Date',
-            'field_instructions' => 'Date that a pulled story was last modified.',
-            'field_type' => 'date',
-            'field_list_items' => '',
-            'field_pre_field_id' => 0,
-            'field_pre_channel_id' => 0,
-            'field_order' => 1
-        ),
-        'mini_teaser' => array(
-            'field_name' => 'mini_teaser',
-            'field_label' => 'Mini Teaser',
-            'field_instructions' => 'An abbreviated abstract for the returned story, describing what the story is about.',
-            'field_type' => 'text',
-            'field_list_items' => '',
-            'field_pre_populate' => 'n',
-            'field_pre_field_id' => 0,
-            'field_pre_channel_id' => 0,
-            'field_order' => 1,
-            'field_settings' => array(
-                'field_fmt' => 'none',
-                'field_show_fmt' => 'n'
-            )
-        ),
         'images' => array(
             'field_name' => 'npr_images',
             'field_label' => 'Images',
@@ -480,6 +440,46 @@ class Story_content_definitions
                     // 'enlargementCaption' => $model->enlargementCaption
                     )
                 )
+            )
+        ),
+        'keywords' => array(
+            'field_name' => 'keywords',
+            'field_label' => 'Keywords',
+            'field_instructions' => 'A comma-delimited list of key terms describing the returned story. This field is seldom used for NPR.org.',
+            'field_type' => 'text',
+            'field_pre_populate' => 'n',
+            'field_list_items' => '',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1,
+            'field_settings' => array(
+                'field_fmt' => 'none',
+                'field_show_fmt' => 'n'
+            )
+        ),
+        'last_modified_date' => array(
+            'field_name' => 'last_modified_date',
+            'field_label' => 'Last Modified Date',
+            'field_instructions' => 'Date that a pulled story was last modified.',
+            'field_type' => 'date',
+            'field_list_items' => '',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1
+        ),
+        'mini_teaser' => array(
+            'field_name' => 'mini_teaser',
+            'field_label' => 'Mini Teaser',
+            'field_instructions' => 'An abbreviated abstract for the returned story, describing what the story is about.',
+            'field_type' => 'text',
+            'field_list_items' => '',
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1,
+            'field_settings' => array(
+                'field_fmt' => 'none',
+                'field_show_fmt' => 'n'
             )
         ),
         'organization' => array(
