@@ -19,6 +19,7 @@ class Publish_form_mapper
         $audio = $this->map_audio($story->Audio);
         $byline = $this->map_bylines($story->Byline);
         $corrections = $this->map_corrections($story->Correction, $entry->entry_id);
+        $images = $this->map_images($story->Image);
         $permalinks = $this->map_permalinks($story->Link);
         $text = $this->map_text($story->TextWithHtml);
         $url_title = $this->generate_url_title($entry, $story->title);
@@ -31,6 +32,7 @@ class Publish_form_mapper
             'keywords' => $story->keywords,
             'last_modified_date' => strtotime($story->lastModifiedDate),
             'mini_teaser' => $story->miniTeaser,
+            'npr_images' => $images,
             'permalinks' => $permalinks,
             'priority_keywords' => $story->priorityKeywords,
             'pub_date' => strtotime($story->pubDate),
@@ -249,6 +251,62 @@ class Publish_form_mapper
         }
      
         return $corrections;
+    }
+
+    private function map_image_crops($crop_models)
+    {
+        $crop_array = array();
+        foreach ($crop_models as $model)
+        {
+            $crop_array[] = array(
+                'type' => $model->type,
+                'src' => $model->src,
+                'height' => $model->height,
+                'width' => $model->width,
+                'primary' => $model->primary
+            );
+        }
+
+        return $crop_array;
+    }
+
+    private function map_images($image_models)
+    {
+        $image_array = array();
+
+        $field_id = $this->get_field_id('npr_images');
+        $grid_column_names = $this->get_grid_column_names($field_id);
+ 
+        $count = 1;
+        foreach ($image_models as $model)
+        {
+            $crops = $this->map_image_crops($model->Crop);
+            foreach ($crops as $crop)
+            {
+                // should be row_id_x if row exists, but this doesn't seem to duplicate entries.
+                $row_name = "new_row_$count";
+                
+                $image = array(
+                    $grid_column_names['crop_type'] => $crop['type'],
+                    $grid_column_names['crop_src'] => $crop['src'],
+                    $grid_column_names['crop_height'] => $crop['height'],
+                    $grid_column_names['crop_width'] => $crop['width'],
+                    $grid_column_names['crop_primary'] => $crop['primary'],
+                    $grid_column_names['crop_has_border'] => $model->hasBorder,
+                    $grid_column_names['crop_title'] => $model->title,
+                    $grid_column_names['crop_caption'] => $model->caption,
+                    $grid_column_names['crop_producer'] => $model->producer,
+                    $grid_column_names['crop_provider'] => $model->provider,
+                    $grid_column_names['crop_provider_url'] => $model->providerUrl,
+                    $grid_column_names['copyright'] => $model->copyright,
+                );
+                
+                $image_array['rows'][$row_name] = $image;
+                $count++;
+            }
+        }
+
+        return $image_array;
     }
 
     private function map_permalinks($link_models)
