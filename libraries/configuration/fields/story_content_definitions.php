@@ -9,7 +9,7 @@ if (!defined('BASEPATH')) {
 class Story_content_definitions
 {
     public static $fields = array(
-        'audio_files' => array(
+        'audio' => array(
             'field_name' => 'audio_files',
             'field_label' => 'Audio Files',
             'field_instructions' => 'All available audio associated with the returned story. This will include all formats to which NPR has the rights to distribute.',
@@ -291,7 +291,7 @@ class Story_content_definitions
             )
         ),
         'images' => array(
-            'field_name' => 'images',
+            'field_name' => 'npr_images',
             'field_label' => 'Images',
             'field_instructions' => 'All images associated with the story.',
             'field_type' => 'grid',
