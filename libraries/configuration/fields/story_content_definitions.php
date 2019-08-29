@@ -452,7 +452,7 @@ class Story_content_definitions
                             'col_label' => 'Provider URL',
                             'col_name' => 'crop_provider_url',
                             'col_instructions' => 'The URL of the provider. This is used for attribution purposes and must be conveyed with the image.',
-                            'col_required' => 'y',
+                            'col_required' => 'n',
                             'col_search' => 'y',
                             'col_width' => '',
                             'col_settings' => array(
