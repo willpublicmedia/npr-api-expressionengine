@@ -20,6 +20,7 @@ class Publish_form_mapper
         $byline = $this->map_bylines($story->Byline);
         $corrections = $this->map_corrections($story->Correction, $entry->entry_id);
         $images = $this->map_images($story->Image);
+        $org = $this->map_organization($story->Organization);
         $permalinks = $this->map_permalinks($story->Link);
         $text = $this->map_text($story->TextWithHtml);
         $url_title = $this->generate_url_title($entry, $story->title);
@@ -33,6 +34,7 @@ class Publish_form_mapper
             'last_modified_date' => strtotime($story->lastModifiedDate),
             'mini_teaser' => $story->miniTeaser,
             'npr_images' => $images,
+            'organization' => $org,
             'permalinks' => $permalinks,
             'priority_keywords' => $story->priorityKeywords,
             'pub_date' => strtotime($story->pubDate),
@@ -307,6 +309,23 @@ class Publish_form_mapper
         }
 
         return $image_array;
+    }
+
+    private function map_organization($org_model)
+    {
+        $org_array = array();
+
+        $field_id = $this->get_field_id('organization');
+        $grid_column_names = $this->get_grid_column_names($field_id);
+ 
+        $org_array['rows']['new_row_1'] = array(
+            $grid_column_names['org_id'] => $org_model->orgId,
+            $grid_column_names['org_abbr'] => $org_model->orgAbbr,
+            $grid_column_names['org_name'] => $org_model->name,
+            $grid_column_names['org_website'] => $org_model->website
+        );      
+    
+        return $org_array;
     }
 
     private function map_permalinks($link_models)
