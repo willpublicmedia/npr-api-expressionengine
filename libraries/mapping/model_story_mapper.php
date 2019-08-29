@@ -327,7 +327,10 @@ class Model_story_mapper
 
         if (property_exists($image_element, 'crop'))
         {
-            $model->Crop = $this->process_image_crops($image_element->crop);
+            $crops = is_array($image_element->crop) ?
+                $image_element->crop :
+                array($image_element->crop);
+            $model->Crop = $this->process_image_crops($crops);
         }
 
         $model->save();
