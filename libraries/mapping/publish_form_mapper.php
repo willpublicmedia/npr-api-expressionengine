@@ -22,6 +22,7 @@ class Publish_form_mapper
         $images = $this->map_images($story->Image);
         $org = $this->map_organization($story->Organization);
         $permalinks = $this->map_permalinks($story->Link);
+        $pullquotes = $this->map_pullquotes($story->PullQuote);
         $text = $this->map_text($story->TextWithHtml);
         $url_title = $this->generate_url_title($entry, $story->title);
 
@@ -38,6 +39,7 @@ class Publish_form_mapper
             'permalinks' => $permalinks,
             'priority_keywords' => $story->priorityKeywords,
             'pub_date' => strtotime($story->pubDate),
+            'pullquotes' => $pullquotes,
             'short_title' => $story->shortTitle,
             'slug' => $story->slug,
             'subtitle' => $story->subtitle,
@@ -338,6 +340,31 @@ class Publish_form_mapper
         }
 
         return  $model->link;
+    }
+
+    private function map_pullquotes($quote_models)
+    {
+        $quote_array = array();
+
+        $field_id = $this->get_field_id('pullquotes');
+        $grid_column_names = $this->get_grid_column_names($field_id);
+
+        $count = 1;
+        foreach ($quote_models as $model)
+        {
+            $row_name = "new_row_$count";
+
+            $quote = array(
+                $grid_column_names['quote_person'] = $model->person,
+                $grid_column_names['quote_date'] = $model->date,
+                $grid_column_names['quote_text'] = $model->text
+            );
+
+            $quote_array['rows'][$row_name] = $quote;
+            $count++;
+        }
+
+        return $quote_array;
     }
 
     private function map_text($text_models)
