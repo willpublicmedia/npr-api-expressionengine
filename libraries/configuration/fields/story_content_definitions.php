@@ -9,7 +9,7 @@ if (!defined('BASEPATH')) {
 class Story_content_definitions
 {
     public static $fields = array(
-        'audio' => array(
+        'audio_files' => array(
             'field_name' => 'audio_files',
             'field_label' => 'Audio Files',
             'field_instructions' => 'All available audio associated with the returned story. This will include all formats to which NPR has the rights to distribute.',
