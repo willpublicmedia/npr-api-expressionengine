@@ -250,7 +250,7 @@ class Story_content_definitions
                 )
             )
         ),
-        'images' => array(
+        'npr_images' => array(
             'field_name' => 'npr_images',
             'field_label' => 'Images',
             'field_instructions' => 'All images associated with the story.',
