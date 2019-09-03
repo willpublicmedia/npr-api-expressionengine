@@ -26,6 +26,23 @@ class Story_source_definitions
             'field_pre_channel_id' => 0,
             'field_order' => 1
         ),
+        'entry_pull_mode' => array(
+            'field_name' => 'entry_pull_mode',
+            'field_label' => 'Pull Mode',
+            'field_instructions' => 'Choose whether to use original or modified values on save.',
+            'field_type' => 'radio',
+            'field_list_items' => '',
+            'field_settings' => array(
+                'value_label_pairs' => array(
+                    'pull' => 'Pull',
+                    'edit' => 'Edit'
+                )
+            ),
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1
+        ),
         'npr_story_id' => array(
             'field_name' => 'npr_story_id',
             'field_label' => 'NPR Story ID',
