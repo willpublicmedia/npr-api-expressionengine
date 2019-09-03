@@ -14,11 +14,13 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_content
 class Field_installer {
     const DEFAULT_FIELD_GROUP_NAME = 'npr_story_api_fields';
 
-    private $field_definitions;
-
     private $custom_field_group;
-
+    
+    private $field_definitions;
+    
     private $preferred_wysiwyg_editor = 'wygwam';
+    
+    private $validation_errors;
 
     public function __construct()
     {
@@ -51,6 +53,8 @@ class Field_installer {
                 $this->create_field($definition);
             }
         }
+
+        $this->display_installation_status();
     }
 
     public function uninstall()
@@ -110,7 +114,8 @@ class Field_installer {
         $validation_result = $field->validate();
         if ($validation_result->isNotValid())
         {
-            throw new \Exception("Field definition error. Could not create $field->field_name.");
+            $this->store_creation_error($validation_result);
+            return;
         }
         
         $field->save();
@@ -120,6 +125,11 @@ class Field_installer {
         {
             $this->add_grid_columns($definition, $field);
         }
+    }
+
+    private function display_installation_status()
+    {
+        throw new \Exception('not implemented');
     }
     
     private function load_field_group($group_name)
@@ -157,7 +167,12 @@ class Field_installer {
 		ee()->grid_lib->fluid_field_data_id = (isset($settings['fluid_field_data_id'])) ? $settings['fluid_field_data_id'] : 0;
 		ee()->grid_lib->in_modal_context = FALSE;
 		ee()->grid_lib->settings_form_field_name = 'grid';
-	}
+    }
+    
+    private function store_validation_error($validation_result)
+    {
+        $this->validation_errors[] = $validation_result;
+    }
 
     private function use_preferred_rte($editor_type_name)
     {
