@@ -57,9 +57,11 @@ class Npr_story_api_ext {
     public function query_api($entry, $values) {
         $source_field = $this->fields['channel_entry_source'];
         $is_external_story = $this->check_external_story_source($values[$source_field]);
+        $overwrite_field = $this->fields['entry_pull_mode'];
+        $overwrite = $values[$overwrite_field];
 
         // WARNING: check for push stories!
-        if (!$is_external_story) {
+        if (!$is_external_story || !$overwrite) {
             return;
         }
 
