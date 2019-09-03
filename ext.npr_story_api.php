@@ -88,6 +88,10 @@ class Npr_story_api_ext {
         $values = $objects['values'];
         $entry = $objects['entry'];
 
+        // Flip overwrite value
+        $values[$overwrite_field] = FALSE;
+        $entry->{$overwrite_field} = FALSE;
+
         $story->ChannelEntry = $entry;
         $story->save();
     }
