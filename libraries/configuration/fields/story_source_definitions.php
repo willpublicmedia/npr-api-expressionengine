@@ -29,19 +29,18 @@ class Story_source_definitions
         'entry_pull_mode' => array(
             'field_name' => 'entry_pull_mode',
             'field_label' => 'Pull Mode',
-            'field_instructions' => 'Choose whether to use original or modified values on save.',
+            'field_instructions' => 'Enable to overwrite local edits with pulled values.',
             'field_type' => 'radio',
             'field_list_items' => '',
-            'field_settings' => array(
-                'value_label_pairs' => array(
-                    'pull' => 'Pull',
-                    'edit' => 'Edit'
-                )
-            ),
+            'field_type' => 'toggle',
+            'field_list_items' => '',
             'field_pre_populate' => 'n',
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
-            'field_order' => 1
+            'field_order' => 1,
+            'field_settings' => array(
+                'field_default_value' => 0
+            )
         ),
         'npr_story_id' => array(
             'field_name' => 'npr_story_id',
