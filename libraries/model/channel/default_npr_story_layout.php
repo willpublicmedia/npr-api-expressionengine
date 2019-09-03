@@ -11,7 +11,7 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 	private $custom_options_fields = array(
 		'channel_entry_source' => NULL,
 		'npr_story_id' => NULL,
-		'entry_pull_mode' => NULL,
+		'overwrite_local_values' => NULL,
 		'publish_to_npr' => NULL
 	);
 
@@ -120,7 +120,7 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 				'collapsed' => FALSE
 			),
 			array(
-				'field' => $this->custom_options_fields['entry_pull_mode'],
+				'field' => $this->custom_options_fields['overwrite_local_values'],
 				'visible' => TRUE,
 				'collapsed' => FALSE
 			),

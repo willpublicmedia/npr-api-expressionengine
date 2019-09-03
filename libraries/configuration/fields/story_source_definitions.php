@@ -26,12 +26,10 @@ class Story_source_definitions
             'field_pre_channel_id' => 0,
             'field_order' => 1
         ),
-        'entry_pull_mode' => array(
-            'field_name' => 'entry_pull_mode',
+        'overwrite_local_values' => array(
+            'field_name' => 'overwrite_local_values',
             'field_label' => 'Overwrite Local',
             'field_instructions' => 'Enable to overwrite local edits with pulled values.',
-            'field_type' => 'radio',
-            'field_list_items' => '',
             'field_type' => 'toggle',
             'field_list_items' => '',
             'field_pre_populate' => 'n',

@@ -14,7 +14,7 @@ class Npr_story_api_ext {
     private $fields = array(
         'npr_story_id' => NULL,
         'channel_entry_source' => NULL,
-        'entry_pull_mode' => NULL
+        'overwrite_local_values' => NULL
     );
     
     private $required_extensions = array(
@@ -57,7 +57,7 @@ class Npr_story_api_ext {
     public function query_api($entry, $values) {
         $source_field = $this->fields['channel_entry_source'];
         $is_external_story = $this->check_external_story_source($values[$source_field]);
-        $overwrite_field = $this->fields['entry_pull_mode'];
+        $overwrite_field = $this->fields['overwrite_local_values'];
         $overwrite = $values[$overwrite_field];
 
         // WARNING: check for push stories!
