@@ -13,7 +13,8 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
 class Npr_story_api_ext {
     private $fields = array(
         'npr_story_id' => NULL,
-        'channel_entry_source' => NULL
+        'channel_entry_source' => NULL,
+        'entry_pull_mode' => NULL
     );
     
     private $required_extensions = array(
