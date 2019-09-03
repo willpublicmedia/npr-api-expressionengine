@@ -28,7 +28,7 @@ class Story_source_definitions
         ),
         'entry_pull_mode' => array(
             'field_name' => 'entry_pull_mode',
-            'field_label' => 'Pull Mode',
+            'field_label' => 'Overwrite Local',
             'field_instructions' => 'Enable to overwrite local edits with pulled values.',
             'field_type' => 'radio',
             'field_list_items' => '',
