@@ -151,7 +151,7 @@ class Field_installer {
 	 */
 	private function load_grid_lib($settings)
 	{
-        // Loader strips trailing slashes. Use path relative to Loader class.
+        // Loader strips leading slashes. Use path relative to Loader class.
         ee()->load->library('../../EllisLab/Addons/grid/libraries/Grid_lib.php');
 
 		// Attempt to get an entry ID first
