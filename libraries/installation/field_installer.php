@@ -114,7 +114,7 @@ class Field_installer {
         $validation_result = $field->validate();
         if ($validation_result->isNotValid())
         {
-            $this->store_creation_error($validation_result);
+            $this->store_validation_error($field->field_name, $validation_result);
             return;
         }
         
@@ -129,7 +129,28 @@ class Field_installer {
 
     private function display_installation_status()
     {
-        throw new \Exception('not implemented');
+        ee()->lang->loadfile('admin_content');
+        if ($this->validation_errors === NULL)
+        {
+            return;
+        }
+
+        
+        foreach ($this->validation_errors as $name => $result)
+        {
+            foreach ($result->getAllErrors() as $field => $errors)
+            {
+                $alert = ee('CP/Alert')->makeInline("npr-api-field-creation-$name")
+                ->asWarning()
+                ->withTitle('NPR field creation warning.')
+                ->addToBody("Could not create $name field.");
+                foreach ($errors as $message)
+                {
+                    $alert->addToBody(lang($message));
+                }
+                $alert->defer();
+            }
+        }
     }
     
     private function load_field_group($group_name)
@@ -169,9 +190,9 @@ class Field_installer {
 		ee()->grid_lib->settings_form_field_name = 'grid';
     }
     
-    private function store_validation_error($validation_result)
+    private function store_validation_error($field_name, $validation_result)
     {
-        $this->validation_errors[] = $validation_result;
+        $this->validation_errors[$field_name] = $validation_result;
     }
 
     private function use_preferred_rte($editor_type_name)
