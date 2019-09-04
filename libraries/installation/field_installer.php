@@ -47,6 +47,7 @@ class Field_installer {
                     if ($model->field_type === $definition['field_type'])
                     {
                         $this->assign_field_group($model);
+                        $this->notify_field_reuse($model->field_name, $model->field_type);
                     }
                     
                     continue;
@@ -164,6 +165,17 @@ class Field_installer {
 		ee()->grid_lib->settings_form_field_name = 'grid';
     }
     
+    private function notify_field_reuse($field_name, $field_type)
+    {
+        ee('CP/Alert')->makeInline("npr-api-field-creation-$field_name")
+            ->asAttention()
+            ->withTitle('NPR field creation notice.')
+            ->addToBody(
+                "A field with the name $field_name and type $field_type was found and assigned to the " . 
+                Field_installer::DEFAULT_FIELD_GROUP_NAME . " group.")
+            ->defer();
+    }
+
     private function store_validation_error($field_name, $validation_result)
     {
         foreach ($validation_result->getAllErrors() as $key => $errors)
