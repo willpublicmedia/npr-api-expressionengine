@@ -49,6 +49,10 @@ class Field_installer {
                         $this->assign_field_group($model);
                         $this->notify_field_reuse($model->field_name, $model->field_type);
                     }
+                    else
+                    {
+                        $this->warn_type_mismatch($model->field_name, $model->field_type, $definition['field_type']);
+                    }
                     
                     continue;
                 }
@@ -197,5 +201,15 @@ class Field_installer {
     private function use_preferred_rte($editor_type_name)
     {
         return ee('Addon')->installed($editor_type_name) ? $editor_type_name : 'rte';
+    }
+
+    private function warn_type_mismatch($original_field_name, $original_field_type, $new_field_type)
+    {
+        ee('CP/Alert')->makeInline("npr-api-field-creation-$field_name")
+            ->asWarning()
+            ->withTitle('NPR field creation warning.')
+            ->addToBody(
+                "The $original_field_name field with type $new_field_type could not be reused or created because a field with the same name already exists with type $original_field_type.")
+            ->defer();
     }
 }
