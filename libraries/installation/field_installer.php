@@ -173,6 +173,7 @@ class Field_installer {
     {
         ee('CP/Alert')->makeInline("npr-api-field-creation-$field_name")
             ->asAttention()
+            ->canClose()
             ->withTitle('NPR field creation notice.')
             ->addToBody(
                 "A field with the name $field_name and type $field_type was found and assigned to the " . 
