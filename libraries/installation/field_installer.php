@@ -205,7 +205,7 @@ class Field_installer {
 
     private function warn_type_mismatch($original_field_name, $original_field_type, $new_field_type)
     {
-        ee('CP/Alert')->makeInline("npr-api-field-creation-$field_name")
+        ee('CP/Alert')->makeInline("npr-api-field-creation-$original_field_name")
             ->asWarning()
             ->withTitle('NPR field creation warning.')
             ->addToBody(
