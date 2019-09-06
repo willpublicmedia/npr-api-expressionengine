@@ -36,6 +36,9 @@ class Nprml_mapper
             'attr' => array( 'type' => 'html' ),
             'text' => $this->get_permalink($entry),
         );
+
+        throw new \Exception('not implemented below this point');
+        
         $use_custom = get_option( 'dp_npr_push_use_custom_map' );
 
         //get the list of metas available for this post
