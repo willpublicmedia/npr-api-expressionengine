@@ -18,7 +18,8 @@ class Npr_story_api_ext {
     );
     
     private $required_extensions = array(
-        'query_api' => 'before_channel_entry_save',
+        'push_to_api' => 'after_channel_entry_save',
+        'query_api' => 'before_channel_entry_save'
     );
 
     public $version;
@@ -52,6 +53,11 @@ class Npr_story_api_ext {
 
     public function disable_extension() {
         ee('Model')->get('Extension')->filter('class', __CLASS__)->delete();
+    }
+
+    public function push_to_api($entry, $values)
+    {
+        throw new \Exception('not implemented');
     }
 
     public function query_api($entry, $values) {
