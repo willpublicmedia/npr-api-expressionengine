@@ -13,7 +13,7 @@ class Nprml_mapper
 {
     public function map($entry, $values)
     {
-        $npr_story = $this->nprstory_post_to_nprml_story( $post );
+        $npr_story = $this->nprstory_post_to_nprml_story($entry, $values);
         $doc = array();
         $doc[] = array(
             'tag' => 'list',
@@ -23,13 +23,18 @@ class Nprml_mapper
         return $nprml;
     }
 
-    private function nprstory_post_to_nprml_story($post)
+    private function get_permalink($entry)
+    {
+        return $entry->url_title;
+    }
+
+    private function nprstory_post_to_nprml_story($entry, $values)
     {
         $story = array();
         $story[] = array(
             'tag' => 'link',
             'attr' => array( 'type' => 'html' ),
-            'text' => get_permalink( $post ),
+            'text' => $this->get_permalink($entry),
         );
         $use_custom = get_option( 'dp_npr_push_use_custom_map' );
 
