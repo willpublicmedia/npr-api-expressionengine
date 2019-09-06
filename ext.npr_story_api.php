@@ -5,16 +5,19 @@ if (!defined('BASEPATH')) {
 }
 
 require_once(__DIR__ . '/libraries/publishing/npr_api_expressionengine.php');
+require_once(__DIR__ . '/libraries/mapping/nprml_mapper.php');
 require_once(__DIR__ . '/libraries/mapping/publish_form_mapper.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 use EllisLab\ExpressionEngine\Service\Validation\Result as ValidationResult;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Nprml_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
 
 class Npr_story_api_ext {
     private $fields = array(
         'npr_story_id' => NULL,
         'channel_entry_source' => NULL,
-        'overwrite_local_values' => NULL
+        'overwrite_local_values' => NULL,
+        'publish_to_npr' => NULL
     );
     
     private $required_extensions = array(
@@ -57,7 +60,40 @@ class Npr_story_api_ext {
 
     public function push_to_api($entry, $values)
     {
-        throw new \Exception('not implemented');
+        $push_field = $this->fields['publish_to_npr'];
+        $push_story = $values[$push_field];
+
+        if (!$push_story)
+        {
+            return;
+        }
+        $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
+        $params = array(
+            'id' => $npr_story_id,
+            'dateType' => 'story',
+            'output' => 'NPRML',
+            'apiKey' => $api_key
+        );
+        
+        $push_url = isset($this->settings['push_url']) ? $this->settings['push_url'] : null;
+        $nprml = $this->create_nprml($entry, $values);
+        
+        $api_service = new Npr_api_expressionengine();
+        // $api_service->request($params, 'query', $push_url);
+        // $api_service->parse();
+        
+        // $stories = array();
+        // foreach ($api_service->stories as $story) {
+        //     $stories[] = $api_service->save_clean_response($story);
+        // }
+
+        // return $stories;
+
+        ee('CP/Alert')->makeInline('story-push')
+            ->asSuccess()
+            ->withTitle('NPR Stories')
+            ->addToBody("Story pushed.")
+            ->defer();
     }
 
     public function query_api($entry, $values) {
@@ -108,6 +144,14 @@ class Npr_story_api_ext {
         }
 
         return TRUE;
+    }
+
+    private function create_nprml($entry, $values)
+    {
+        $mapper = new Nprml_mapper();
+        $nprml = $mapper->map($entry, $values);
+        
+        return $nprml;
     }
 
     private function display_error($errors)
