@@ -25,7 +25,7 @@ class Nprml_mapper
 
     private function get_permalink($entry)
     {
-        return $entry->url_title;
+        return $entry->entry_id;
     }
 
     private function nprstory_post_to_nprml_story($entry, $values)
@@ -38,7 +38,7 @@ class Nprml_mapper
         );
 
         throw new \Exception('not implemented below this point');
-        
+
         $use_custom = get_option( 'dp_npr_push_use_custom_map' );
 
         //get the list of metas available for this post
