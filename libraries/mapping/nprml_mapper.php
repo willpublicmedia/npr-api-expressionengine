@@ -23,6 +23,18 @@ class Nprml_mapper
         return $nprml;
     }
 
+    private function get_bylines($entry)
+    {
+        $byline_field = $this->get_field_name('byline');
+        $byline_value = $entry->{$byline_field};
+        
+        $bylines = empty($byline_value) ?
+            array($entry->author) :
+            explode(", ", $byline_value);
+
+        return $bylines;
+    }
+
     private function get_content($entry)
     {
         $content_field = $this->get_field_name('text');
@@ -153,63 +165,21 @@ class Nprml_mapper
         );
         
 
-        /*
-        * If there is a custom byline configured, send that.
-        *
-        * If the site is using the coauthurs plugin, and get_coauthors exists, send the display names
-        * If no cool things are going on, just send the display name for the post_author field.
-        */
-        $byline = FALSE;
-        $custom_byline_meta = get_option( 'ds_npr_api_mapping_byline' );
-        // Custom field mapping byline
-        if (
-            $use_custom
-            && ! empty( $custom_byline_meta )
-            && $custom_byline_meta != '#NONE#'
-            && in_array( $custom_content_meta, $post_metas )
-        ) {
-            $byline = TRUE;
+        /**
+         * Bylines
+         * 
+         * Use byline contributor values if present. Otherwise use the post author.
+         */
+        $bylines = $this->get_bylines($entry);
+        foreach($bylines as $contributor) {
             $story[] = array(
                 'tag' => 'byline',
                 'children' => array(
                     array(
                         'tag' => 'name',
-                        'text' => get_post_meta( $post->ID, $custom_byline_meta, true ),
+                        'text' => $contributor,
                     )
-                ),
-            );
-        }
-        // Co-Authors Plus support overrides the NPR custom byline
-        if ( function_exists( 'get_coauthors' ) ) {
-            $coauthors = get_coauthors( $post->ID );
-            if ( ! empty( $coauthors ) ) {
-                $byline = TRUE;
-                foreach( $coauthors as $i=>$co ) {
-                    $story[] = array(
-                        'tag' => 'byline',
-                        'children' => array(
-                            array(
-                                'tag' => 'name',
-                                'text' => $co->display_name,
-                            )
-                        )
-                    );
-                }
-            } else {
-                nprstory_error_log( 'we do not have co authors' );
-            }
-        } else {
-            nprstory_error_log('can not find get_coauthors');
-        }
-        if ( ! $byline ) {
-            $story[] = array(
-                'tag' => 'byline',
-                'children' => array (
-                    array(
-                        'tag' => 'name',
-                        'text' => get_the_author_meta( 'display_name', $post->post_author ),
-                    )
-                ),
+                )
             );
         }
 
