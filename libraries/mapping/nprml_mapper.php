@@ -59,8 +59,11 @@ class Nprml_mapper
             case 'dp_npr_push_use_custom_map':
                 $option_value = FALSE;
                 break;
+            case 'ds_npr_api_mapping_body':
+                $option_value = array();
+                break;
             default:
-                FALSE;
+                $option_value = FALSE;
         }
         return $option_value;
     }
@@ -95,29 +98,6 @@ class Nprml_mapper
 
         $teaser_text = $this->get_teaser($entry);
         
-        /*
-        * Custom content
-        */
-        $custom_content_meta = get_option( 'ds_npr_api_mapping_body' );
-        if (
-            $use_custom
-            && ! empty( $custom_content_meta )
-            && $custom_content_meta != '#NONE#'
-            && in_array( $custom_content_meta, $post_metas )
-        ){
-            $content = get_post_meta( $post->ID, $custom_content_meta, true);
-            $post_for_teaser = $post;
-            $post_for_teaser->post_content = $content;
-            if ( empty( $teaser_text ) ){
-                $teaser_text = nprstory_nai_get_excerpt( $post_for_teaser );
-            }
-        } else {
-            $content = $post->post_content;
-            if ( empty( $teaser_text ) ) {
-                $teaser_text = nprstory_nai_get_excerpt( $post );
-            }
-        }
-
         /*
         * Clean up the content by applying shortcodes and then stripping any remaining shortcodes.
         */
