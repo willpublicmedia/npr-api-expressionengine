@@ -91,6 +91,23 @@ class Nprml_mapper
         return $teaser_text;
     }
 
+    private function nprstory_nai_get_excerpt($text, $word_count = 30)
+    {
+        $text = str_replace( ']]>', ']]&gt;', $text );
+        $text = strip_tags( $text );
+
+        $words = preg_split( "/[\n\r\t ]+/", $text, $excerpt_length + 1, 
+                             PREG_SPLIT_NO_EMPTY );
+        if ( count( $words ) > $excerpt_length ) {
+            array_pop( $words );
+            $text = implode( ' ', $words );
+            //$text = $text . $excerpt_more;
+        } else {
+            $text = implode( ' ', $words );
+        }
+        return $text;
+    }
+
     private function nprstory_post_to_nprml_story($entry, $values)
     {
         $story = array();
