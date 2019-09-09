@@ -23,6 +23,34 @@ class Nprml_mapper
         return $nprml;
     }
 
+    private function get_field_id($name)
+    {
+        $field_id = ee('Model')->get('ChannelField')
+            ->filter('field_name', $name)
+            ->fields('field_id')
+            ->first()
+            ->field_id;
+        
+        return $field_id;
+    }
+
+    private function get_field_name($name)
+    {
+        $field = ee('Model')->get('ChannelField')
+            ->filter('field_name', $name)
+            ->first();
+
+        if ($field === NULL)
+        {
+            return '';
+        }
+
+        $field_id = $field->field_id;
+        $field_name = "field_id_{$field_id}";
+        
+        return $field_name;
+    }
+
     private function get_option($option_name)
     {
         $option_value;
