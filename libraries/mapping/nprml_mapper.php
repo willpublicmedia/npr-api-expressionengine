@@ -189,7 +189,8 @@ class Nprml_mapper
         * If the box is checked, the value here is '1'
         * @see nprstory_save_send_to_one
         */
-        $nprapi = get_post_meta( $post->ID, '_send_to_one', true ); // 0 or 1
+        // $nprapi = get_post_meta( $post->ID, '_send_to_one', true ); // 0 or 1
+        $nprapi = 0;
         if ( ! empty( $nprapi ) && ( '1' === $nprapi || 1 === $nprapi ) ) {
             $story[] = array(
                 'tag' => 'parent',
@@ -202,7 +203,7 @@ class Nprml_mapper
         *
         * @see nprstory_save_nprone_featured
         */
-        $nprapi = get_post_meta( $post->ID, '_nprone_featured', true ); // 0 or 1
+        // $nprapi = get_post_meta( $post->ID, '_nprone_featured', true ); // 0 or 1
         if ( ! empty( $nprapi ) && ( '1' === $nprapi || 1 === $nprapi ) ) {
             $story[] = array(
                 'tag' => 'parent',
