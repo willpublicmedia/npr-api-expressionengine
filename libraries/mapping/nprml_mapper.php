@@ -41,6 +41,20 @@ class Nprml_mapper
         return $entry->{$content_field};
     }
 
+    private function get_date($format = 'D, d M Y H:i:s +0000', $field, $localize, $entry)
+    {
+        $field_name = $this->get_field_name($field);
+        $data = $entry->{$field_name};
+        if (empty($data))
+        {
+            return FALSE;
+        }
+
+        $date = ee()->localize->format_date($format, $data, $localize);
+
+        return $date;
+    }
+
     private function get_field_id($name)
     {
         $field_id = ee('Model')->get('ChannelField')
@@ -223,15 +237,15 @@ class Nprml_mapper
         */
         $story[] = array(
             'tag' => 'storyDate',
-            'text' => mysql2date( 'D, d M Y H:i:s +0000', $post->post_date_gmt ),
+            'text' => $this->get_date('D, d M Y H:i:s +0000', 'entry_date', FALSE, $entry)
         );
         $story[] = array(
             'tag' => 'pubDate',
-            'text' => mysql2date( 'D, d M Y H:i:s +0000', $post->post_modified_gmt ),
+            'text' => $this->get_date('D, d M Y H:i:s +0000', 'entry_date', FALSE, $entry),
         );
         $story[] = array(
             'tag' => 'lastModifiedDate',
-            'text' => mysql2date( 'D, d M Y H:i:s +0000', $post->post_modified_gmt ), 
+            'text' => $this->get_date('D, d M Y H:i:s +0000', 'entry_date', FALSE, $entry) 
         );
         $story[] = array(
             'tag' => 'partnerId',
