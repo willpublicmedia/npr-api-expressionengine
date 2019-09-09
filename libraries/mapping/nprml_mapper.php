@@ -110,6 +110,9 @@ class Nprml_mapper
 
     private function nprstory_post_to_nprml_story($entry, $values)
     {
+        /**
+         * permalink
+         */
         $story = array();
         $story[] = array(
             'tag' => 'link',
@@ -117,9 +120,19 @@ class Nprml_mapper
             'text' => $this->get_permalink($entry),
         );
 
+        /**
+         * map custom fields
+         */
         $use_custom = $this->get_option('dp_npr_push_use_custom_map');
 
+        /**
+         * content
+         */
         $content = $this->get_content($entry);
+
+        /**
+         * teaser
+         */
         $teaser_text = $this->get_teaser($entry);
         if (empty($teaser_text))
         {
@@ -132,26 +145,13 @@ class Nprml_mapper
         );
 
         /*
-        * Custom title
+        * title
         */
-        $custom_title_meta = get_option( 'ds_npr_api_mapping_title' );
-        if (
-            $use_custom
-            && !empty( $custom_title_meta )
-            && $custom_title_meta != '#NONE#'
-            && in_array( $custom_content_meta, $post_metas )
-        ){
-            $custom_title = get_post_meta( $post->ID, $custom_title_meta, true );
-            $story[] = array(
-                'tag' => 'title',
-                'text' => $custom_title,
-            );
-        } else {
-            $story[] = array(
-                'tag' => 'title',
-                'text' => $post->post_title,
-            );
-        }
+        $story[] = array(
+            'tag' => 'title',
+            'text' => $entry->title,
+        );
+        
 
         /*
         * If there is a custom byline configured, send that.
