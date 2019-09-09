@@ -23,6 +23,20 @@ class Nprml_mapper
         return $nprml;
     }
 
+    private function get_option($option_name)
+    {
+        $option_value;
+        switch ($option_name)
+        {
+            case 'dp_npr_push_use_custom_map':
+                $option_value = FALSE;
+                break;
+            default:
+                FALSE;
+        }
+        return $option_value;
+    }
+
     private function get_permalink($entry)
     {
         return $entry->entry_id;
@@ -37,9 +51,7 @@ class Nprml_mapper
             'text' => $this->get_permalink($entry),
         );
 
-        throw new \Exception('not implemented below this point');
-
-        $use_custom = get_option( 'dp_npr_push_use_custom_map' );
+        $use_custom = $this->get_option('dp_npr_push_use_custom_map');
 
         //get the list of metas available for this post
         $post_metas = get_post_custom_keys( $post->ID );
