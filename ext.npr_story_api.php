@@ -1,6 +1,7 @@
 <?php
 
-if (!defined('BASEPATH')) {
+if (!defined('BASEPATH')) 
+{
     exit ('No direct script access allowed.');
 }
 
@@ -12,7 +13,8 @@ use EllisLab\ExpressionEngine\Service\Validation\Result as ValidationResult;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Nprml_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
 
-class Npr_story_api_ext {
+class Npr_story_api_ext 
+{
     private $fields = array(
         'npr_story_id' => NULL,
         'channel_entry_source' => NULL,
@@ -27,19 +29,23 @@ class Npr_story_api_ext {
 
     public $version;
 
-    function __construct() {
+    function __construct()
+    {
         $addon = ee('Addon')->get('npr_story_api');
         $this->version = $addon->getVersion();
         $this->settings = $this->load_settings();
         $this->map_model_fields(array_keys($this->fields));
     }
 
-    public function activate_extension() {
-        if (ee('Model')->get('Extension')->filter('class', __CLASS__)->count() > 0) {
+    public function activate_extension()
+    {
+        if (ee('Model')->get('Extension')->filter('class', __CLASS__)->count() > 0)
+        {
             return;
         }
 
-        foreach ($this->required_extensions as $method => $hook) {
+        foreach ($this->required_extensions as $method => $hook)
+        {
             $data = array(
                 'class' => __CLASS__,
                 'method' => $method,
@@ -54,7 +60,8 @@ class Npr_story_api_ext {
         }
     }
 
-    public function disable_extension() {
+    public function disable_extension()
+    {
         ee('Model')->get('Extension')->filter('class', __CLASS__)->delete();
     }
 
@@ -96,14 +103,16 @@ class Npr_story_api_ext {
             ->defer();
     }
 
-    public function query_api($entry, $values) {
+    public function query_api($entry, $values)
+    {
         $source_field = $this->fields['channel_entry_source'];
         $is_external_story = $this->check_external_story_source($values[$source_field]);
         $overwrite_field = $this->fields['overwrite_local_values'];
         $overwrite = $values[$overwrite_field];
 
         // WARNING: check for push stories!
-        if (!$is_external_story || !$overwrite) {
+        if (!$is_external_story || !$overwrite)
+        {
             return;
         }
 
@@ -121,7 +130,8 @@ class Npr_story_api_ext {
 
         // WARNING: story pull executes loop. Story may be an array.
         $story = $this->pull_npr_story($npr_story_id);
-        if (isset($story[0])) {
+        if (isset($story[0]))
+        {
             $story = $story[0];
         }
 
@@ -138,8 +148,10 @@ class Npr_story_api_ext {
         $story->save();
     }
 
-    private function check_external_story_source($story_source) {
-        if ($story_source == NULL || $story_source == 'local') {
+    private function check_external_story_source($story_source)
+    {
+        if ($story_source == NULL || $story_source == 'local')
+        {
             return FALSE;
         }
 
@@ -171,13 +183,15 @@ class Npr_story_api_ext {
         }
     }
 
-    private function load_settings() {
+    private function load_settings()
+    {
         $settings = ee()->db->select('*')
             ->from('npr_story_api_settings')
             ->get()
             ->result_array();
 
-        if (isset($settings[0])) {
+        if (isset($settings[0]))
+        {
             $settings = $settings[0];
         }
         
@@ -244,7 +258,8 @@ class Npr_story_api_ext {
         return $model;
     }
 
-    private function pull_npr_story($npr_story_id) {
+    private function pull_npr_story($npr_story_id)
+    {
         $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
         $params = array(
             'id' => $npr_story_id,
@@ -260,7 +275,8 @@ class Npr_story_api_ext {
         $api_service->parse();
         
         $stories = array();
-        foreach ($api_service->stories as $story) {
+        foreach ($api_service->stories as $story)
+        {
             $stories[] = $api_service->save_clean_response($story);
         }
 
