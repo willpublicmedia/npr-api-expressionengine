@@ -70,6 +70,18 @@ class Nprml_mapper
         return $entry->entry_id;
     }
 
+    private function get_teaser($entry)
+    {   
+        $teaser_field = $this->get_field_name('teaser');
+        
+        $teaser_text = '';
+        if ( ! empty( $entry->{$teaser_field} ) ){
+            $teaser_text = $entry->{$teaser_field};
+        }
+
+        return $teaser_text;
+    }
+
     private function nprstory_post_to_nprml_story($entry, $values)
     {
         $story = array();
@@ -81,15 +93,8 @@ class Nprml_mapper
 
         $use_custom = $this->get_option('dp_npr_push_use_custom_map');
 
-        // TODO: rewrite as entry model property lookup.
-        // //get the list of metas available for this post
-        // $post_metas = get_post_custom_keys( $post->ID );
-
-        $teaser_text = '';
-        if ( ! empty( $post->post_excerpt ) ){
-            $teaser_text = $post->post_excerpt;
-        }
-
+        $teaser_text = $this->get_teaser($entry);
+        
         /*
         * Custom content
         */
