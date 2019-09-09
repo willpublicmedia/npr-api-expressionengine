@@ -23,6 +23,12 @@ class Nprml_mapper
         return $nprml;
     }
 
+    private function get_content($entry)
+    {
+        $content_field = $this->get_field_name('text');
+        return $entry->{$content_field};
+    }
+
     private function get_field_id($name)
     {
         $field_id = ee('Model')->get('ChannelField')
@@ -96,10 +102,13 @@ class Nprml_mapper
 
         $use_custom = $this->get_option('dp_npr_push_use_custom_map');
 
+        $content = $this->get_content($entry);
         $teaser_text = $this->get_teaser($entry);
+        if (empty($teaser_text))
+        {
+            $teaser_text = $this->nprstory_nai_get_excerpt($content);
+        }
         
-        $content = apply_filters( 'the_content', $content );
-
         $story[] = array(
             'tag' => 'teaser',
             'text' => $teaser_text,
