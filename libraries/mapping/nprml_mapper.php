@@ -53,8 +53,9 @@ class Nprml_mapper
 
         $use_custom = $this->get_option('dp_npr_push_use_custom_map');
 
-        //get the list of metas available for this post
-        $post_metas = get_post_custom_keys( $post->ID );
+        // TODO: rewrite as entry model property lookup.
+        // //get the list of metas available for this post
+        // $post_metas = get_post_custom_keys( $post->ID );
 
         $teaser_text = '';
         if ( ! empty( $post->post_excerpt ) ){
