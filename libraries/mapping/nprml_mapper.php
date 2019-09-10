@@ -100,6 +100,15 @@ class Nprml_mapper
         return $option_value;
     }
 
+    private function get_partnerId()
+    {
+        $id = ee()->db->get('npr_story_api_settings')
+            ->limit(1)
+            ->row('org_id');
+
+        return $id;
+    }
+
     private function get_permalink($entry)
     {
         return $entry->entry_id;
@@ -247,9 +256,10 @@ class Nprml_mapper
             'tag' => 'lastModifiedDate',
             'text' => $this->get_date('D, d M Y H:i:s +0000', 'entry_date', FALSE, $entry) 
         );
+
         $story[] = array(
             'tag' => 'partnerId',
-            'text' => $post->guid,
+            'text' => $this->get_partnerId(),
         );
 
         // NPR One audio run-by date
