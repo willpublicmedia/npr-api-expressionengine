@@ -30,10 +30,10 @@ class Npr_api_expressionengine extends NPRAPI {
      * 
      * @param string $url -- the full url to query.
      */
-    public function query_by_url($url) {
+    public function query_by_url($url, $method) {
         $this->request->request_url = $url;
 
-        $response = $this->connect_as_curl($url);
+        $response = $this->connect_as_curl($url, $method);
         
         if ($response->body) {
             $this->xml = $response->body;
@@ -67,7 +67,7 @@ class Npr_api_expressionengine extends NPRAPI {
 
         $request_url = $this->build_request($params, $path, $base, $method);
 
-        $response = $this->query_by_url($request_url);
+        $response = $this->query_by_url($request_url, $method);
         $this->response = $response;
     }
 

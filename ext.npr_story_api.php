@@ -102,7 +102,7 @@ class Npr_story_api_ext
         {
             return;
         }
-        
+
         $nprml = $this->create_nprml($entry, $values);
         
         $params = array(
@@ -115,7 +115,7 @@ class Npr_story_api_ext
 
         // TODO: deduplicate request methods
         $api_service = new Npr_api_expressionengine();
-        $api_service->request($params, 'story', $push_url, 'push');
+        $api_service->request($params, 'story', $push_url, 'post');
         
         ee('CP/Alert')->makeInline('story-push')
             ->asSuccess()
