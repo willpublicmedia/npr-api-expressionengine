@@ -19,7 +19,7 @@ class Nprml_mapper
             'tag' => 'list',
             'children' => array( array( 'tag' => 'story', 'children' => $npr_story ), ),
         );
-        $nprml = nprstory_nprml_array_to_xml( 'nprml', array( 'version' => '0.93' ), $doc );
+        $nprml = $this->nprstory_nprml_array_to_xml( 'nprml', array( 'version' => '0.93' ), $doc );
         return $nprml;
     }
 
@@ -114,8 +114,10 @@ class Nprml_mapper
 
     private function get_partnerId()
     {
-        $id = ee()->db->get('npr_story_api_settings')
+        $id = ee()->db->select('org_id')
+            ->from('npr_story_api_settings')
             ->limit(1)
+            ->get()
             ->row('org_id');
 
         return $id;
@@ -186,6 +188,24 @@ class Nprml_mapper
         return $text;
     }
 
+    /**
+     * convert a PHP array to XML
+     */
+    function nprstory_nprml_array_to_xml( $tag, $attrs, $data ) {
+        $xml = new \DOMDocument();
+        $xml->formatOutput = true;
+        $root = $xml->createElement( $tag );
+        foreach ( $attrs as $k => $v ) {
+            $root->setAttribute( $k, $v );
+        }
+        foreach ( $data as $item ) {
+            $elemxml = $this->nprstory_nprml_item_to_xml( $item, $xml );
+            $root->appendChild( $elemxml );
+        }
+        $xml->appendChild( $root );
+        return $xml->saveXML();
+    }
+
     private function nprstory_nprml_split_paragraphs( $html ) {
         $parts = array_filter( 
             array_map( 'trim', preg_split( "/<\/?p>/", $html ) ) 
@@ -203,6 +223,44 @@ class Nprml_mapper
         return $graphs;
     }
     
+    /**
+     * convert a loosely-defined item to XML
+     *
+     * @todo figure out way for this to safely fail
+     *
+     * @param Array $item Must have a key 'tag'
+     * @param DOMDocument $xml
+     */
+    function nprstory_nprml_item_to_xml( $item, $xml ) {
+        if ( ! array_key_exists( 'tag', $item ) ) {
+            error_log( "Unable to convert NPRML item to XML: no tag for: " . print_r( $item, true ) ); // debug use
+            // this should actually be a serious error
+        }
+        $elem = $xml->createElement( $item[ 'tag' ] );
+        if ( array_key_exists( 'children', $item ) ) {
+            foreach ( $item[ 'children' ] as $child ) {
+                $childxml = $this->nprstory_nprml_item_to_xml( $child, $xml );
+                $elem->appendChild( $childxml );
+            }
+        }
+        if ( array_key_exists( 'text', $item ) ) { 
+            $elem->appendChild(
+                $xml->createTextNode( $item[ 'text' ] )
+            );
+        }
+        if ( array_key_exists( 'cdata', $item ) ) { 
+            $elem->appendChild(
+                $xml->createCDATASection( $item[ 'cdata' ] )
+            );
+        }
+        if ( array_key_exists( 'attr', $item ) ) { 
+            foreach ( $item[ 'attr' ] as $attr => $val ) {
+                $elem->setAttribute( $attr, $val );
+            }
+        }
+        return $elem;
+    }
+
     private function nprstory_post_to_nprml_story($entry, $values)
     {
         /**
