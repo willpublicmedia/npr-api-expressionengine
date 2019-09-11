@@ -174,6 +174,23 @@ class Nprml_mapper
         return $text;
     }
 
+    private function nprstory_nprml_split_paragraphs( $html ) {
+        $parts = array_filter( 
+            array_map( 'trim', preg_split( "/<\/?p>/", $html ) ) 
+        );
+        $graphs = array();
+        $num = 1;
+        foreach ( $parts as $part ) {
+            $graphs[] = array( 
+                'tag' => 'paragraph',
+                'attr' => array( 'num' => $num ),
+                'cdata' => $part,
+            );
+            $num++;
+        }
+        return $graphs;
+    }
+    
     private function nprstory_post_to_nprml_story($entry, $values)
     {
         /**
@@ -313,7 +330,7 @@ class Nprml_mapper
         */
         $story[] = array(
             'tag' => 'textWithHtml',
-            'children' => nprstory_nprml_split_paragraphs( $content ),
+            'children' => $this->nprstory_nprml_split_paragraphs( $content ),
         );
 
         $perms_group = get_option( 'ds_npr_story_default_permission' );
