@@ -474,41 +474,6 @@ class Nprml_mapper
         }
 
         /*
-        * Support for Powerpress enclosures
-        *
-        * This logic is specifically driven by enclosure metadata items that are
-        * created by the PowerPress podcasting plug-in. It will likely have to be
-        * re-worked if we need to accomodate other plug-ins that use enclosures.
-        */
-        if ( $enclosures = get_metadata( 'post', $post->ID, 'enclosure' ) ) {
-            foreach( $enclosures as $enclosure ) {
-                $pieces = explode( "\n", $enclosure );
-                if ( !empty( $pieces[3] ) ) {
-                    $metadata = unserialize( $pieces[3] );
-                    $duration = ( ! empty($metadata['duration'] ) ) ? nprstory_convert_duration_to_seconds( $metadata['duration'] ) : NULL;
-                }
-                $story[] = array(
-                    'tag' => 'audio',
-                    'children' => array(
-                        array(
-                            'tag' => 'duration',
-                            'text' => ( !empty($duration) ) ? $duration : 0,
-                        ),
-                        array(
-                            'tag' => 'format',
-                            'children' => array(
-                                array(
-                                'tag' => 'mp3',
-                                'text' => $pieces[0],
-                                ),
-                            ),
-                        ),
-                    ),
-                );
-            }
-        }
-
-        /*
         * The story has been assembled; now we shall return it
         */
         return $story;
