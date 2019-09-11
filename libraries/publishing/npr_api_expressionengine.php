@@ -31,11 +31,6 @@ class Npr_api_expressionengine extends NPRAPI {
      * @param string $url -- the full url to query.
      */
     public function query_by_url($url) {
-        //check to see if the API key is included, if not, add the one from the options
-        if ( ! stristr( $url, 'apiKey=' ) ) {
-            throw new Configuration_exception('NPR API key not found. Configure key in NPR Story API module settings.');
-        }
-
         $this->request->request_url = $url;
 
         $response = $this->connect_as_curl($url);

@@ -74,21 +74,35 @@ class Npr_story_api_ext
         {
             return;
         }
-        
+
+        $abort = false;
         $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
-        
-        $push_url = isset($this->settings['push_url']) ? $this->settings['push_url'] : null;
-        if ($push_url === null)
+        if ($api_key === '')
         {
-            ee('CP/Alert')->makeInline('story-push')
+            $abort = true;
+            ee('CP/Alert')->makeInline('story-push-api-key')
                 ->asAlert()
                 ->withTitle('NPR Stories')
                 ->addToBody("No push url set. Can't push story.")
                 ->defer();
-
-            return;
         }
 
+        $push_url = isset($this->settings['push_url']) ? $this->settings['push_url'] : null;
+        if ($push_url === null)
+        {
+            $abort = true;
+            ee('CP/Alert')->makeInline('story-push-push-url')
+                ->asAlert()
+                ->withTitle('NPR Stories')
+                ->addToBody("No push url set. Can't push story.")
+                ->defer();
+        }
+
+        if ($abort)
+        {
+            return;
+        }
+        
         $nprml = $this->create_nprml($entry, $values);
         
         $params = array(
@@ -268,6 +282,11 @@ class Npr_story_api_ext
     private function pull_npr_story($npr_story_id)
     {
         $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
+        if ($api_key === '')
+        {
+            throw new Configuration_exception('NPR API key not found. Configure key in NPR Story API module settings.');
+        }
+
         $params = array(
             'id' => $npr_story_id,
             'dateType' => 'story',
