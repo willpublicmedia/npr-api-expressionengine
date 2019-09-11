@@ -126,6 +126,37 @@ class Nprml_mapper
         return $teaser_text;
     }
 
+    /**
+     * Helper function to get the post expiry datetime
+     *
+     * The datetime is stored in post meta _nprone_expiry_8601
+     * This assumes that the post has been published
+     *
+     * @param WP_Post|int $post the post ID or WP_Post object
+     * @return DateTime the DateTime object created from the post expiry date
+     * @see note on DATE_ATOM and DATE_ISO8601 https://secure.php.net/manual/en/class.datetime.php#datetime.constants.types
+     * @uses nprstory_get_datetimezone
+     * @since 1.7
+     * @todo rewrite this to use fewer queries, so it's using the WP_Post internally instead of the post ID
+     */
+    function nprstory_get_post_expiry_datetime( $post )
+    {
+        // TODO: Not implemented
+        $expiration_field = $this->get_field_name('audio_expiration_date');
+        $expiration = $post->{$expiration_field};
+        // $timezone = nprstory_get_datetimezone();
+
+        // if ( empty( $iso_8601 ) ) {
+        //     // return DateTime for the publish date plus seven days
+        //     $future = get_the_date( DATE_ATOM, $post ); // publish date
+        //     return date_add( date_create( $future, $timezone ), new DateInterval( 'P7D' ) );
+        // } else {
+        //     // return DateTime for the expiry date
+        //     return date_create( $iso_8601, $timezone );
+        // }
+        return $expiration;
+    }
+
     private function nprstory_nai_get_excerpt($text, $word_count = 30)
     {
         $text = str_replace( ']]>', ']]&gt;', $text );
@@ -263,7 +294,7 @@ class Nprml_mapper
         );
 
         // NPR One audio run-by date
-        $datetime = nprstory_get_post_expiry_datetime( $post ); // if expiry date is not set, returns publication date plus 7 days
+        $datetime = $this->nprstory_get_post_expiry_datetime( $post ); // if expiry date is not set, returns publication date plus 7 days
         if ( $datetime instanceof DateTime ) {
             $story[] = array(
                 'tag' => 'audioRunByDate',
