@@ -61,13 +61,16 @@ class Npr_api_expressionengine extends NPRAPI {
      *
      * @param string $base
      *   The base URL of the request (i.e., HTTP://EXAMPLE.COM/path) with no trailing slash.
+     * 
+     * @param string $method
+     *   The HTTP request method (i.e., get, post, update, put, delete).
      */
-    public function request($params = array(), $path = 'query', $base = self::NPRAPI_PULL_URL) {
+    public function request($params = array(), $path = 'query', $base = self::NPRAPI_PULL_URL, $method = 'get') {
         if (!isset($params['apiKey']) || $params['apiKey'] === '') {
             throw new Configuration_exception('NPR API key not found. Configure key in NPR Story API module settings.');
         }
 
-        $request_url = $this->build_request($params, $path, $base);
+        $request_url = $this->build_request($params, $path, $base, $method);
 
         $response = $this->query_by_url($request_url);
         $this->response = $response;
@@ -585,26 +588,41 @@ class Npr_api_expressionengine extends NPRAPI {
         return $queries;
     }
 
-    private function build_request($params, $path, $base) {
+    private function build_request($params, $path, $base, $method) {
         // prevent null value from stomping default.
         $base = $base?: self::NPRAPI_PULL_URL;
         $this->request->params = $params;
         $this->request->path = $path;
         $this->request->base = $base;
 
-        $queries = $this->build_query_params($params);
+        $request_url = $this->request->base . '/' . $this->request->path;
         
-        $request_url = $this->request->base . '/' . $this->request->path . '?' . implode('&', $queries);
+        $queries = $this->build_query_params($params);
 
+        if ($method === 'get')
+        {
+            $request_url = $request_url . '?' . implode('&', $queries);
+        } 
+        elseif ($method === 'post')
+        {
+            $this->request->postfields = $queries;
+        }
+        
         return $request_url;
     }
 
-    private function connect_as_curl($url) {
+    private function connect_as_curl($url, $method) {
         $ch =  curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
         // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);     
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+        
+        if ($method === 'post')
+        {
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->request->postfields);
+        }
 
         $raw = curl_exec($ch);
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
