@@ -600,7 +600,7 @@ class Npr_api_expressionengine extends NPRAPI {
         } 
         elseif ($method === 'post')
         {
-            $this->request->postfields = $queries;
+            $this->request->postfields = implode('&', $queries);
         }
         
         return $request_url;
@@ -611,7 +611,8 @@ class Npr_api_expressionengine extends NPRAPI {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_URL, $url);
         // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        // curl_setopt($ch, CURLOPT_VERBOSE, true);
         
         if ($method === 'post')
         {
@@ -620,6 +621,7 @@ class Npr_api_expressionengine extends NPRAPI {
         }
 
         $raw = curl_exec($ch);
+        // $debug = curl_getinfo($ch);
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
