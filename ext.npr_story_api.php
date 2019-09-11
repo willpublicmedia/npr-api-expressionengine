@@ -101,7 +101,7 @@ class Npr_story_api_ext
 
         // TODO: deduplicate request methods
         $api_service = new Npr_api_expressionengine();
-        $api_service->request($params, null, $push_url);
+        $api_service->request($params, 'story', $push_url);
         
         ee('CP/Alert')->makeInline('story-push')
             ->asSuccess()
