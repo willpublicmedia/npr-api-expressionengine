@@ -83,6 +83,18 @@ class Nprml_mapper
         return $field_name;
     }
 
+    private function get_media_agency($entry)
+    {
+        // todo: pull from crops
+        return false;
+    }
+
+    private function get_media_credit($entry)
+    {
+        // todo: pull from crops
+        return false;
+    }
+
     private function get_option($option_name)
     {
         $option_value;
@@ -346,13 +358,8 @@ class Nprml_mapper
             );
         }
 
-        $custom_media_credit = get_option( 'ds_npr_api_mapping_media_credit' );
-        $custom_media_agency = get_option( 'ds_npr_api_mapping_media_agency' );
-
-        /* remove this for now until we decide if we're going to actually do this...km
-        $dist_media_option = get_option('ds_npr_api_mapping_distribute_media');
-        $dist_media_polarity = get_option('ds_npr_api_mapping_distribute_media_polarity');
-        */
+        $custom_media_credit = $this->get_media_credit($entry);
+        $custom_media_agency = $this->get_media_agency($entry);
 
         /*
         * Attach images to the post
@@ -360,7 +367,7 @@ class Nprml_mapper
         $args = array(
             'order'=> 'DESC',
             'post_mime_type' => 'image',
-            'post_parent' => $post->ID,
+            'post_parent' => $entry->id,
             'post_status' => null,
             'post_type' => 'attachment'
         );
