@@ -86,6 +86,67 @@ class Npr_api_expressionengine extends NPRAPI {
     }
 
     /**
+     * This function will send the push request to the NPR API to add/update a story.
+     * 
+     * @see NPRAPI::send_request()
+     *
+     * @param string $nprml
+     * @param int $post_ID
+     */
+    function send_request ( $nprml, $post_ID ) {
+        $error_text = '';
+        $org_id = get_option( 'ds_npr_api_org_id' );
+        if ( ! empty( $org_id ) ) {
+            $url = add_query_arg( array(
+                'orgId'  => $org_id,
+                'apiKey' => get_option( 'ds_npr_api_key' )
+            ), get_option( 'ds_npr_api_push_url' ) . '/story' );
+
+            nprstory_error_log( 'Sending nprml = ' . $nprml );
+
+            $result = wp_remote_post( $url, array( 'body' => $nprml ) );
+            if ( ! is_wp_error( $result ) ) {
+                if ( $result['response']['code'] == 200 ) {
+                    $body = wp_remote_retrieve_body( $result );
+                    if ( $body ) {
+                        $response_xml = simplexml_load_string( $body );
+                        $npr_story_id = (string) $response_xml->list->story['id'];
+                        update_post_meta( $post_ID, NPR_STORY_ID_META_KEY, $npr_story_id );
+                    } else {
+                        error_log( 'Error returned from NPR Story API with status code 200 OK but failed wp_remote_retrieve_body: ' . print_r( $result, true ) ); // debug use
+                    }
+                } else {
+                    $error_text = '';
+                    if ( ! empty( $result['response']['message'] ) ) {
+                        $error_text = 'Error pushing story with post_id = '. $post_ID .' for url='.$url . ' HTTP Error response =  '. $result['response']['message'];
+                    }
+                    $body = wp_remote_retrieve_body( $result );
+
+                    if ( $body ) {
+                        $response_xml = simplexml_load_string( $body );
+                        $error_text .= '  API Error Message = ' . $response_xml->message->text;
+                    }
+                    error_log('Error returned from NPR Story API with status code other than 200 OK: ' . $error_text); // debug use
+                }
+            } else {
+                $error_text = 'WP_Error returned when sending story with post_ID ' . $post_ID . ' for url ' . $url . ' to NPR Story API:'. $result->get_error_message();
+                error_log( $error_text ); // debug use
+            }
+        } else {
+            $error_text = 'OrgID was not set when tried to push post_ID ' . $post_ID . ' to the NPR Story API.';
+            error_log ( $error_text ); // debug use
+        }
+
+        // Add errors to the post that you just tried to push
+        if ( ! empty( $error_text ) ) {
+                    update_post_meta( $post_ID, NPR_PUSH_STORY_ERROR, $error_text );
+        }
+        else {
+            delete_post_meta( $post_ID, NPR_PUSH_STORY_ERROR );
+        }
+    }
+
+    /**
      *
      * This function will go through the list of stories in the object and check to see if there are updates
      * available from the NPR API if the pubDate on the API is after the pubDate originally stored locally.

@@ -74,28 +74,35 @@ class Npr_story_api_ext
         {
             return;
         }
+        
         $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
+        
+        $push_url = isset($this->settings['push_url']) ? $this->settings['push_url'] : null;
+        if ($push_url === null)
+        {
+            ee('CP/Alert')->makeInline('story-push')
+                ->asAlert()
+                ->withTitle('NPR Stories')
+                ->addToBody("No push url set. Can't push story.")
+                ->defer();
+
+            return;
+        }
+
+        $nprml = $this->create_nprml($entry, $values);
+        
         $params = array(
             'id' => $npr_story_id,
             'dateType' => 'story',
             'output' => 'NPRML',
-            'apiKey' => $api_key
+            'apiKey' => $api_key,
+            'body' => $nprml
         );
-        
-        $push_url = isset($this->settings['push_url']) ? $this->settings['push_url'] : null;
-        $nprml = $this->create_nprml($entry, $values);
-        
+
+        // TODO: deduplicate request methods
         $api_service = new Npr_api_expressionengine();
-        // $api_service->request($params, 'query', $push_url);
-        // $api_service->parse();
+        $api_service->request($params, null, $push_url);
         
-        // $stories = array();
-        // foreach ($api_service->stories as $story) {
-        //     $stories[] = $api_service->save_clean_response($story);
-        // }
-
-        // return $stories;
-
         ee('CP/Alert')->makeInline('story-push')
             ->asSuccess()
             ->withTitle('NPR Stories')
