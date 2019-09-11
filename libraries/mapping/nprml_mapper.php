@@ -345,140 +345,144 @@ class Nprml_mapper
             'children' => $this->nprstory_nprml_split_paragraphs( $content ),
         );
 
-        $perms_group = get_option( 'ds_npr_story_default_permission' );
-        if (!empty( $perms_group ) ) {
-            $story[] = array(
-                'tag' => 'permissions',
-                'children' => array (
-                    array( 
-                        'tag' => 'permGroup',
-                        'attr' => array( 'id' => $perms_group ),
-                    )
-                ),
-            );
-        }
+        /**
+         * Not implemented below this point
+         */
+        
+        // $perms_group = get_option( 'ds_npr_story_default_permission' );
+        // if (!empty( $perms_group ) ) {
+        //     $story[] = array(
+        //         'tag' => 'permissions',
+        //         'children' => array (
+        //             array( 
+        //                 'tag' => 'permGroup',
+        //                 'attr' => array( 'id' => $perms_group ),
+        //             )
+        //         ),
+        //     );
+        // }
 
-        $custom_media_credit = $this->get_media_credit($entry);
-        $custom_media_agency = $this->get_media_agency($entry);
+        // $custom_media_credit = $this->get_media_credit($entry);
+        // $custom_media_agency = $this->get_media_agency($entry);
 
-        /*
-        * Attach images to the post
-        */
-        $args = array(
-            'order'=> 'DESC',
-            'post_mime_type' => 'image',
-            'post_parent' => $entry->id,
-            'post_status' => null,
-            'post_type' => 'attachment'
-        );
+        // /*
+        // * Attach images to the post
+        // */
+        // $args = array(
+        //     'order'=> 'DESC',
+        //     'post_mime_type' => 'image',
+        //     'post_parent' => $entry->id,
+        //     'post_status' => null,
+        //     'post_type' => 'attachment'
+        // );
 
-        $images = get_children( $args );
-        $primary_image = get_post_thumbnail_id( $post->ID );
+        // $images = get_children( $args );
+        // $primary_image = get_post_thumbnail_id( $post->ID );
 
-        foreach ( $images as $image ) {
-            $custom_credit = '';
-            $custom_agency = '';
-            $image_metas = get_post_custom_keys( $image->ID );
-            if ( $use_custom && !empty( $custom_media_credit ) && $custom_media_credit != '#NONE#' && in_array( $custom_media_credit,$image_metas ) ) {
-                $custom_credit = get_post_meta( $image->ID, $custom_media_credit, true );
-            }
-            if ( $use_custom && ! empty( $custom_media_agency ) && $custom_media_agency != '#NONE#' && in_array( $custom_media_agency,$image_metas ) ) {
-                $custom_agency = get_post_meta( $image->ID, $custom_media_agency, true);
-            }
+        // foreach ( $images as $image ) {
+        //     $custom_credit = '';
+        //     $custom_agency = '';
+        //     $image_metas = get_post_custom_keys( $image->ID );
+        //     if ( $use_custom && !empty( $custom_media_credit ) && $custom_media_credit != '#NONE#' && in_array( $custom_media_credit,$image_metas ) ) {
+        //         $custom_credit = get_post_meta( $image->ID, $custom_media_credit, true );
+        //     }
+        //     if ( $use_custom && ! empty( $custom_media_agency ) && $custom_media_agency != '#NONE#' && in_array( $custom_media_agency,$image_metas ) ) {
+        //         $custom_agency = get_post_meta( $image->ID, $custom_media_agency, true);
+        //     }
 
-            if ( $use_custom && !empty( $dist_media_option ) && $dist_media_option != '#NONE#' && in_array( $dist_media_option,$image_metas ) ) {
-                $dist_media = get_post_meta( $image->ID, $dist_media_option, true );
-            }
+        //     if ( $use_custom && !empty( $dist_media_option ) && $dist_media_option != '#NONE#' && in_array( $dist_media_option,$image_metas ) ) {
+        //         $dist_media = get_post_meta( $image->ID, $dist_media_option, true );
+        //     }
 
-            // If the image field for distribute is set and polarity then send it.
-            // All kinds of other math when polarity is negative or the field isn't set.
-            $image_type = 'standard';
-            if ( $image->ID == $primary_image ) {
-                $image_type = 'primary';
-            }
+        //     // If the image field for distribute is set and polarity then send it.
+        //     // All kinds of other math when polarity is negative or the field isn't set.
+        //     $image_type = 'standard';
+        //     if ( $image->ID == $primary_image ) {
+        //         $image_type = 'primary';
+        //     }
 
-            // Is the image in the content?  If so, tell the API with a flag that CorePublisher knows.
-            // WordPress may add something like "-150X150" to the end of the filename, before the extension.
-            // Isn't that nice? Let's remove that.
-            $image_name_parts = explode( ".", $image_guid );
-            $image_regex = "/" . $image_name_parts[0] . "\-[a-zA-Z0-9]*" . $image_name_parts[1] . "/"; 
-            $in_body = "";
-            if ( preg_match( $image_regex, $content ) ) {
-                if ( strstr( $image->guid, '?') ) {
-                    $in_body = "&origin=body";
-                } else {
-                    $in_body = "?origin=body";
-                }
-            }
-            $story[] = array(
-                'tag' => 'image',
-                'attr' => array( 'src' => $image->guid . $in_body, 'type' => $image_type ),
-                'children' => array(
-                    array(
-                        'tag' => 'title',
-                        'text' => $image->post_title,
-                    ),
-                    array(
-                        'tag' => 'caption',
-                        'text' => $image->post_excerpt,
-                    ),
-                    array(
-                        'tag' => 'producer',
-                        'text' => $custom_credit
-                    ),
-                    array(
-                        'tag' => 'provider',
-                        'text' => $custom_agency
-                    )
-                ),
-            );
-        }
+        //     // Is the image in the content?  If so, tell the API with a flag that CorePublisher knows.
+        //     // WordPress may add something like "-150X150" to the end of the filename, before the extension.
+        //     // Isn't that nice? Let's remove that.
+        //     $image_name_parts = explode( ".", $image_guid );
+        //     $image_regex = "/" . $image_name_parts[0] . "\-[a-zA-Z0-9]*" . $image_name_parts[1] . "/"; 
+        //     $in_body = "";
+        //     if ( preg_match( $image_regex, $content ) ) {
+        //         if ( strstr( $image->guid, '?') ) {
+        //             $in_body = "&origin=body";
+        //         } else {
+        //             $in_body = "?origin=body";
+        //         }
+        //     }
+        //     $story[] = array(
+        //         'tag' => 'image',
+        //         'attr' => array( 'src' => $image->guid . $in_body, 'type' => $image_type ),
+        //         'children' => array(
+        //             array(
+        //                 'tag' => 'title',
+        //                 'text' => $image->post_title,
+        //             ),
+        //             array(
+        //                 'tag' => 'caption',
+        //                 'text' => $image->post_excerpt,
+        //             ),
+        //             array(
+        //                 'tag' => 'producer',
+        //                 'text' => $custom_credit
+        //             ),
+        //             array(
+        //                 'tag' => 'provider',
+        //                 'text' => $custom_agency
+        //             )
+        //         ),
+        //     );
+        // }
 
-        /*
-        * Attach audio to the post
-        *
-        * Should be able to do the same as image for audio, with post_mime_type = 'audio' or something.
-        */
-        $args = array(
-            'order'=> 'DESC',
-            'post_mime_type' => 'audio',
-            'post_parent' => $post->ID,
-            'post_status' => null,
-            'post_type' => 'attachment'
-        );
-        $audios = get_children( $args );
+        // /*
+        // * Attach audio to the post
+        // *
+        // * Should be able to do the same as image for audio, with post_mime_type = 'audio' or something.
+        // */
+        // $args = array(
+        //     'order'=> 'DESC',
+        //     'post_mime_type' => 'audio',
+        //     'post_parent' => $post->ID,
+        //     'post_status' => null,
+        //     'post_type' => 'attachment'
+        // );
+        // $audios = get_children( $args );
 
-        foreach ( $audios as $audio ) {
-            $audio_meta = wp_get_attachment_metadata( $audio->ID );
-            $caption = $audio->post_excerpt;
-            // If we don't have excerpt filled in, try content
-            if ( empty( $caption ) ) {
-                $caption = $audio->post_content;
-            }
+        // foreach ( $audios as $audio ) {
+        //     $audio_meta = wp_get_attachment_metadata( $audio->ID );
+        //     $caption = $audio->post_excerpt;
+        //     // If we don't have excerpt filled in, try content
+        //     if ( empty( $caption ) ) {
+        //         $caption = $audio->post_content;
+        //     }
 
-            $story[] = array(
-                'tag' => 'audio',
-                'children' => array(
-                    array(
-                        'tag' => 'format',
-                        'children' => array (
-                            array(
-                                'tag' => 'mp3',
-                                'text' => $audio->guid,
-                            )
-                        ),
-                    ),
-                    array(
-                        'tag' => 'description',
-                        'text' => $caption,
-                    ),
-                    array(
-                        'tag' => 'duration',
-                        'text' => $audio_meta['length'],
-                    ),
-                ),
-            );
-        }
+        //     $story[] = array(
+        //         'tag' => 'audio',
+        //         'children' => array(
+        //             array(
+        //                 'tag' => 'format',
+        //                 'children' => array (
+        //                     array(
+        //                         'tag' => 'mp3',
+        //                         'text' => $audio->guid,
+        //                     )
+        //                 ),
+        //             ),
+        //             array(
+        //                 'tag' => 'description',
+        //                 'text' => $caption,
+        //             ),
+        //             array(
+        //                 'tag' => 'duration',
+        //                 'text' => $audio_meta['length'],
+        //             ),
+        //         ),
+        //     );
+        // }
 
         /*
         * The story has been assembled; now we shall return it
