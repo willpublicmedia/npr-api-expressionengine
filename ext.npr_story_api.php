@@ -115,12 +115,12 @@ class Npr_story_api_ext
 
         // TODO: deduplicate request methods
         $api_service = new Npr_api_expressionengine();
-        $api_service->request($params, 'story', $push_url, 'post');
+        // $api_service->request($params, 'story', $push_url, 'post');
         
         ee('CP/Alert')->makeInline('story-push')
             ->asSuccess()
             ->withTitle('NPR Stories')
-            ->addToBody("Story pushed.")
+            ->addToBody("Story mapping not implemented. Skipping push to NPR.")
             ->defer();
     }
 
