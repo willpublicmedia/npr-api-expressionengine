@@ -106,7 +106,7 @@ class Npr_story_api_ext
         $nprml = $this->create_nprml($entry, $values);
         
         $params = array(
-            'id' => $npr_story_id,
+            'id' => $npr_story_id, // story id should be returned by api
             'dateType' => 'story',
             'output' => 'NPRML',
             'apiKey' => $api_key,
@@ -115,7 +115,8 @@ class Npr_story_api_ext
 
         // TODO: deduplicate request methods
         $api_service = new Npr_api_expressionengine();
-        // $api_service->request($params, 'story', $push_url, 'post');
+        $api_service->request($params, 'story', $push_url, 'post');
+        $api_service->process_push_response();
         
         ee('CP/Alert')->makeInline('story-push')
             ->asSuccess()

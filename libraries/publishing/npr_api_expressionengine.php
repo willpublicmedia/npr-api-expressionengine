@@ -72,6 +72,14 @@ class Npr_api_expressionengine extends NPRAPI {
     }
 
     /**
+     * Perform housekeeping related to story push.
+     */
+    public function process_push_response()
+    {
+        throw new \Exception('not implemented');
+    }
+
+    /**
      * Save story as received from NPR Story API.
      *
      * @param  mixed $story
