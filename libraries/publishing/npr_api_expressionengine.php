@@ -76,7 +76,8 @@ class Npr_api_expressionengine extends NPRAPI {
      */
     public function process_push_response()
     {
-        throw new \Exception('not implemented');
+        $id = $this->response->body ? intval($this->response->body) : null;
+        return $id;
     }
 
     /**
