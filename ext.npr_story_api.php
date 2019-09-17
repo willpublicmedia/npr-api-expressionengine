@@ -116,7 +116,14 @@ class Npr_story_api_ext
         // TODO: deduplicate request methods
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'story', $push_url, 'post');
-        $api_service->process_push_response();
+        $npr_story_id = $api_service->process_push_response();
+
+        // don't assign npr_story_id if entry already has one
+        if ($entry->{$this->fields['npr_story_id']} === '')
+        {
+            $entry->{$this->fields['npr_story_id']} = $npr_story_id;
+            $entry->save();
+        }
         
         ee('CP/Alert')->makeInline('story-push')
             ->asSuccess()
