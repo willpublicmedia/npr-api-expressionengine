@@ -86,7 +86,11 @@ class Npr_api_expressionengine extends NPRAPI {
             throw new Npr_response_exception('Error returned from NPR Story API with status code 200 OK but failed to retreive message body.');
         }
         
-        $response_xml = simplexml_load_string($this->response->body);
+        // IPM's mock api response includes headers in body.
+        // May not be needed in production.
+        list($headers, $body) = explode("\r\n\r\n", $this->response->body, 2);
+        $response_xml = simplexml_load_string($body);
+        
         $npr_story_id = (string) $response_xml->list->story['id'];
         
         return $npr_story_id;
