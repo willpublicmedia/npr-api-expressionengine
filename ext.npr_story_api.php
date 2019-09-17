@@ -106,7 +106,7 @@ class Npr_story_api_ext
         $nprml = $this->create_nprml($entry, $values);
         
         $params = array(
-            'id' => $npr_story_id, // story id should be returned by api
+            'orgId' => $this->settings['org_id'],
             'dateType' => 'story',
             'output' => 'NPRML',
             'apiKey' => $api_key,
