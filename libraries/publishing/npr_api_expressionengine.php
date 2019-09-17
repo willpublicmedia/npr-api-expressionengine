@@ -76,6 +76,11 @@ class Npr_api_expressionengine extends NPRAPI {
      */
     public function process_push_response()
     {
+        if ($this->response->code != 200)
+        {
+            throw new \Exception('Couldn\'t push story. Connection error: ' . $this->response->code);
+        }
+        
         $id = $this->response->body ? intval($this->response->body) : null;
         return $id;
     }
