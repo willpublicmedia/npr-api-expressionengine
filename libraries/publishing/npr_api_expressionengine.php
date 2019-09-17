@@ -640,7 +640,8 @@ class Npr_api_expressionengine extends NPRAPI {
             curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/xml',
-                'Connection: Keep-Alive'
+                'Connection: Keep-Alive',
+                'Accept: application/xml'
                 ));
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $this->request->postfields);
