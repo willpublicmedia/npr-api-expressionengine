@@ -128,7 +128,7 @@ class Npr_story_api_ext
         ee('CP/Alert')->makeInline('story-push')
             ->asSuccess()
             ->withTitle('NPR Stories')
-            ->addToBody("Story mapping not implemented. Skipping push to NPR.")
+            ->addToBody("Story pushed to NPR.")
             ->defer();
     }
 
