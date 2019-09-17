@@ -78,12 +78,12 @@ class Npr_api_expressionengine extends NPRAPI {
     {
         if ($this->response->code != 200)
         {
-            throw new \Exception('Couldn\'t push story. Connection error: ' . $this->response->code);
+            throw new Npr_response_exception('Couldn\'t push story. Connection error: ' . $this->response->code);
         }
 
         if (!$this->response->body)
         {
-            throw new \Exception('Error returned from NPR Story API with status code 200 OK but failed to retreive message body.');
+            throw new Npr_response_exception('Error returned from NPR Story API with status code 200 OK but failed to retreive message body.');
         }
         
         $response_xml = simplexml_load_string($this->response->body);
