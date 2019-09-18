@@ -134,12 +134,7 @@ class Npr_api_expressionengine extends NPRAPI {
         $method = 'delete';
 
         $request_url = $this->build_request($params, $path, $base, $method);
-        // $handle = curl_init();
-        // curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, 'DELETE' );
-        // curl_setopt( $handle, CURLOPT_URL, $url );
-        // curl_setopt( $handle, CURLOPT_RETURNTRANSFER, TRUE );
-		// curl_exec( $handle );
-		// curl_close( $handle );
+        $this->connect_as_curl($request_url, $method);
     }
 
     /**
@@ -194,14 +189,19 @@ class Npr_api_expressionengine extends NPRAPI {
         
         if ($method === 'post')
         {
-            curl_setopt($ch, CURLOPT_HEADER, 1);
+            curl_setopt($ch, CURLOPT_HEADER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/xml',
                 'Connection: Keep-Alive',
                 'Accept: application/xml'
                 ));
-            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $this->request->postfields);
+        }
+
+        if ($method === 'delete')
+        {
+            curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, 'DELETE' );
         }
 
         $raw = curl_exec($ch);
