@@ -110,6 +110,33 @@ class Npr_api_expressionengine extends NPRAPI {
 
     /**
      *
+     * Because expression engine doesn't support remote posts, we needed to write a curl version to send delete 
+     * requests to the NPR API
+     *
+     * @param  $api_id The NPR Story ID.
+     */
+    public function send_delete($api_id)
+    {
+        throw new \Exception('not implemented');
+        // $url = add_query_arg( array(
+        //     'orgId'  => get_option( 'ds_npr_api_org_id' ),
+        //     'apiKey' => get_option( 'ds_npr_api_key' ),
+		// 	'id' => $api_id
+        // ), get_option( 'ds_npr_api_push_url' ) . '/story' );
+
+		// //wp doesn't let me do a wp_remote_post with method=DELETE so we have to make our own curl request.  fun
+		// //a lot of this code came from WP's class-http object
+		// //$result = wp_remote_post( $url, array( 'method' => 'DELETE' ) );
+        // $handle = curl_init();
+        // curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, 'DELETE' );
+        // curl_setopt( $handle, CURLOPT_URL, $url );
+        // curl_setopt( $handle, CURLOPT_RETURNTRANSFER, TRUE );
+		// curl_exec( $handle );
+		// curl_close( $handle );
+    }
+
+    /**
+     *
      * This function will go through the list of stories in the object and check to see if there are updates
      * available from the NPR API if the pubDate on the API is after the pubDate originally stored locally.
      *
