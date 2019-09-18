@@ -131,7 +131,7 @@ class Npr_api_expressionengine extends NPRAPI {
 
         $path = '/story';
         $base = $settings['push_url'];
-        $method = 'DELETE';
+        $method = 'delete';
 
         $request_url = $this->build_request($params, $path, $base, $method);
         // $handle = curl_init();
@@ -175,13 +175,13 @@ class Npr_api_expressionengine extends NPRAPI {
         
         $queries = $this->build_query_params($params);
 
-        if ($method === 'get')
-        {
-            $request_url = $request_url . '?' . implode('&', $queries);
-        } 
-        elseif ($method === 'post')
+        if ($method === 'post')
         {
             $this->request->postfields = implode('&', $queries);
+        } 
+        else 
+        {
+            $request_url = $request_url . '?' . implode('&', $queries);
         }
         
         return $request_url;
