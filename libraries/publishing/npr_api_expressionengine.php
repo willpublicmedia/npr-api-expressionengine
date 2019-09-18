@@ -117,16 +117,23 @@ class Npr_api_expressionengine extends NPRAPI {
      */
     public function send_delete($api_id)
     {
-        throw new \Exception('not implemented');
-        // $url = add_query_arg( array(
-        //     'orgId'  => get_option( 'ds_npr_api_org_id' ),
-        //     'apiKey' => get_option( 'ds_npr_api_key' ),
-		// 	'id' => $api_id
-        // ), get_option( 'ds_npr_api_push_url' ) . '/story' );
+        $settings = ee()->db->select('*')
+            ->from('npr_story_api_settings')
+            ->limit(1)
+            ->get()
+            ->result_array();
+        
+        $params = array(
+            'orgId' => $settings['org_id'],
+            'apiKey' => $settings['api_key'],
+            'id' => $api_id
+        );
 
-		// //wp doesn't let me do a wp_remote_post with method=DELETE so we have to make our own curl request.  fun
-		// //a lot of this code came from WP's class-http object
-		// //$result = wp_remote_post( $url, array( 'method' => 'DELETE' ) );
+        $path = '/story';
+        $base = $settings['push_url'];
+        $method = 'DELETE';
+
+        $request_url = $this->build_request($params, $path, $base, $method);
         // $handle = curl_init();
         // curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, 'DELETE' );
         // curl_setopt( $handle, CURLOPT_URL, $url );
