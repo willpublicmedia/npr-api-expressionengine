@@ -23,6 +23,7 @@ class Npr_story_api_ext
     );
     
     private $required_extensions = array(
+        'nprstory_api_delete' => 'before_channel_entry_delete',
         'push_to_api' => 'after_channel_entry_save',
         'query_api' => 'before_channel_entry_save'
     );
@@ -63,6 +64,31 @@ class Npr_story_api_ext
     public function disable_extension()
     {
         ee('Model')->get('Extension')->filter('class', __CLASS__)->delete();
+    }
+
+    public function nprstory_api_delete($entry, $values)
+    {
+        $npr_story_id = $entry->{$this->fields['npr_story_id']};
+        $was_pulled = $entry->{$this->fields['channel_entry_source']} === 'npr';
+        $was_pushed = $entry->{$this->fields['channel_entry_source']} !== 'npr' && $npr_story_id !== '';
+
+        if (!$was_pulled && !$was_pushed)
+        {
+            return;
+        }
+
+        if ($was_pushed)
+        {
+            $api = new Npr_api_expressionengine();
+            $api->send_delete($npr_story_id);
+        }
+        
+        if ($was_pulled)
+        {
+            // delete clean model
+        }
+
+        return;
     }
 
     public function push_to_api($entry, $values)
