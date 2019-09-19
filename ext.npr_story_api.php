@@ -24,7 +24,7 @@ class Npr_story_api_ext
     
     private $required_extensions = array(
         'nprstory_api_delete' => 'before_channel_entry_delete',
-        'push_to_api' => 'after_channel_entry_save',
+        'push_to_api' => 'before_channel_entry_save',
         'query_api' => 'before_channel_entry_save'
     );
 
@@ -148,7 +148,6 @@ class Npr_story_api_ext
         if ($entry->{$this->fields['npr_story_id']} === '')
         {
             $entry->{$this->fields['npr_story_id']} = $npr_story_id;
-            $entry->save();
         }
         
         ee('CP/Alert')->makeInline('story-push')
