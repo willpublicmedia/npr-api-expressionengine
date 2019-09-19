@@ -23,9 +23,18 @@ class Npr_story_api_ext
     );
     
     private $required_extensions = array(
-        'nprstory_api_delete' => 'before_channel_entry_delete',
-        'push_to_api' => 'before_channel_entry_save',
-        'query_api' => 'before_channel_entry_save'
+        'nprstory_api_delete' => array(
+            'hook' => 'before_channel_entry_delete',
+            'priority' => 10
+        ),
+        'push_to_api' => array(
+            'hook' => 'before_channel_entry_save',
+            'priority' => 15
+        ),
+        'query_api' => array(
+            'hook' => 'before_channel_entry_save',
+            'priority' => 10
+        )
     );
 
     public $version;
@@ -45,13 +54,13 @@ class Npr_story_api_ext
             return;
         }
 
-        foreach ($this->required_extensions as $method => $hook)
+        foreach ($this->required_extensions as $method => $settings)
         {
             $data = array(
                 'class' => __CLASS__,
                 'method' => $method,
-                'hook' => $hook,
-                'priority' => 10,
+                'hook' => $settings['hook'],
+                'priority' => $settings['priority'],
                 'version' => $this->version,
                 'settings' => '',
                 'enabled' => 'y'
