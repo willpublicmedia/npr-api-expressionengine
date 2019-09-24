@@ -201,7 +201,7 @@ class Npr_api_expressionengine extends NPRAPI {
 
         if ($method === 'delete')
         {
-            curl_setopt( $handle, CURLOPT_CUSTOMREQUEST, 'DELETE' );
+            curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'DELETE' );
         }
 
         $raw = curl_exec($ch);
