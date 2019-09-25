@@ -88,8 +88,15 @@ class Npr_api_expressionengine extends NPRAPI {
         
         // IPM's mock api response includes headers in body.
         // May not be needed in production.
-        list($headers, $body) = explode("\r\n\r\n", $this->response->body, 2);
         $response_xml = simplexml_load_string($body);
+        $header_count = 0;
+        while ($response_xml === false && $header_count < 3)
+        {
+            list($headers, $body) = explode("\r\n\r\n", $this->response->body, 2);
+            $this->response->body = $body;
+            $response_xml = simplexml_load_string($body);
+            $header_count++;
+        }
         
         $npr_story_id = (string) $response_xml->list->story['id'];
         
