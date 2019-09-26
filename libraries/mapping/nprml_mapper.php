@@ -381,7 +381,7 @@ class Nprml_mapper
         );
 
         // NPR One audio run-by date
-        $datetime = $this->nprstory_get_post_expiry_datetime( $post ); // if expiry date is not set, returns publication date plus 7 days
+        $datetime = $this->nprstory_get_post_expiry_datetime( $entry ); // if expiry date is not set, returns publication date plus 7 days
         if ( $datetime instanceof DateTime ) {
             $story[] = array(
                 'tag' => 'audioRunByDate',
