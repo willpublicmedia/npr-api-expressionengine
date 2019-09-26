@@ -368,14 +368,17 @@ class Nprml_mapper
             'tag' => 'storyDate',
             'text' => $story_date
         );
-        
+
         $story[] = array(
             'tag' => 'pubDate',
             'text' => $this->get_date('D, d M Y H:i:s +0000', 'entry_date', FALSE, $entry),
         );
+
+        $edit_date = ee()->localize->format_date('D, d M Y H:i:s +0000', $entry->edit_date, false);
+        $entry->{$this->get_field_name('last_modified_date')} = $edit_date;
         $story[] = array(
             'tag' => 'lastModifiedDate',
-            'text' => $this->get_date('D, d M Y H:i:s +0000', 'entry_date', FALSE, $entry) 
+            'text' => $edit_date
         );
 
         $story[] = array(
