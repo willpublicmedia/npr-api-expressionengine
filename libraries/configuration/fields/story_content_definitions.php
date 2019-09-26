@@ -747,16 +747,6 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1
-        ),
-        /**
-         *  'npr_audio' => $audio_array --> fluid
-         *  'npr_corrections' => $corrections,
-         *   'npr_html_assets' => $html_assets,
-         *   'npr_images' => $images --> grid? model after channel images
-         *   'npr_organization' => $org_array
-         *   'npr_pullquotes' => $pullquotes
-         *   'npr_thumbnails' => $thumbnail_array --> see images
-         *   'npr_toenails' => $toenail_array --> see images
-         */
+        )
     );
 }
