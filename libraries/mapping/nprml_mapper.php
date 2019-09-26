@@ -11,7 +11,7 @@ use \NPRMLElement;
 
 class Nprml_mapper
 {
-    public function map($entry, $values)
+    public function map(&$entry, $values)
     {
         $npr_story = $this->nprstory_post_to_nprml_story($entry, $values);
         $doc = array();
@@ -261,7 +261,7 @@ class Nprml_mapper
         return $elem;
     }
 
-    private function nprstory_post_to_nprml_story($entry, $values)
+    private function nprstory_post_to_nprml_story(&$entry, $values)
     {
         /**
          * permalink

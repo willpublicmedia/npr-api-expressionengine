@@ -128,6 +128,7 @@ class Npr_story_api_ext
             return;
         }
 
+        // note pass-by-reference! entry date fields will be modified!
         $nprml = $this->create_nprml($entry, $values);
         
         $params = array(
