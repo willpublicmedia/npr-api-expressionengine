@@ -81,23 +81,13 @@ class Npr_story_api_ext
         $was_pulled = $entry->{$this->fields['channel_entry_source']} === 'npr';
         $was_pushed = $entry->{$this->fields['channel_entry_source']} !== 'npr' && $npr_story_id !== '';
 
-        if (!$was_pulled && !$was_pushed)
+        if ($was_pulled || !$was_pushed)
         {
             return;
         }
 
-        if ($was_pushed)
-        {
-            $api = new Npr_api_expressionengine();
-            $api->send_delete($npr_story_id);
-        }
-        
-        if ($was_pulled)
-        {
-            // delete clean model
-        }
-
-        return;
+        $api = new Npr_api_expressionengine();
+        $api->send_delete($npr_story_id);
     }
 
     public function push_to_api($entry, $values)
