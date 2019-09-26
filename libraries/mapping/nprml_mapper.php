@@ -153,11 +153,19 @@ class Nprml_mapper
      * @since 1.7
      * @todo rewrite this to use fewer queries, so it's using the WP_Post internally instead of the post ID
      */
-    function nprstory_get_post_expiry_datetime( $post )
+    function nprstory_get_post_expiry_datetime( $entry )
     {
         // TODO: Not implemented
-        $expiration_field = $this->get_field_name('audio_expiration_date');
-        $expiration = $post->{$expiration_field};
+        $expiration_field = $this->get_field_name('audio_runby_date');
+        $expiration = $entry->{$expiration_field};
+
+        if ($expiration == '')
+        {
+            $entry_date = new \DateTime();
+            $entry_date->setTimestamp($entry->entry_date);
+            $expiration = $entry_date->add(new \DateInterval('P7D'));
+        }
+
         // $timezone = nprstory_get_datetimezone();
 
         // if ( empty( $iso_8601 ) ) {
@@ -389,11 +397,13 @@ class Nprml_mapper
 
         // NPR One audio run-by date
         $datetime = $this->nprstory_get_post_expiry_datetime( $entry ); // if expiry date is not set, returns publication date plus 7 days
-        if ( $datetime instanceof DateTime ) {
+        if ( $datetime instanceof \DateTime ) {
             $story[] = array(
                 'tag' => 'audioRunByDate',
                 'text' => date_format( $datetime, 'j M Y H:i:00 O' ) // 1 Oct 2017 01:00:00 -0400, 29 Feb 2020 23:59:00 -0500
             );
+
+            $entry->{$this->get_field_name('audio_runby_date')} = $datetime->getTimestamp();
         }
 
 
