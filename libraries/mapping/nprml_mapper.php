@@ -362,10 +362,13 @@ class Nprml_mapper
         /*
         * Dates and times
         */
+        $story_date = ee()->localize->format_date('D, d M Y H:i:s +0000', $entry->entry_date, false);
+        $entry->{$this->get_field_name('story_date')} = $story_date;
         $story[] = array(
             'tag' => 'storyDate',
-            'text' => $this->get_date('D, d M Y H:i:s +0000', 'entry_date', FALSE, $entry)
+            'text' => $story_date
         );
+        
         $story[] = array(
             'tag' => 'pubDate',
             'text' => $this->get_date('D, d M Y H:i:s +0000', 'entry_date', FALSE, $entry),
