@@ -419,24 +419,23 @@ class Nprml_mapper
             'tag' => 'textWithHtml',
             'children' => $this->nprstory_nprml_split_paragraphs( $content ),
         );
+       
+        $perms_group = get_option( 'ds_npr_story_default_permission' );
+        if (!empty( $perms_group ) ) {
+            $story[] = array(
+                'tag' => 'permissions',
+                'children' => array (
+                    array( 
+                        'tag' => 'permGroup',
+                        'attr' => array( 'id' => $perms_group ),
+                    )
+                ),
+            );
+        }
 
         /**
          * Not implemented below this point
          */
-        
-        // $perms_group = get_option( 'ds_npr_story_default_permission' );
-        // if (!empty( $perms_group ) ) {
-        //     $story[] = array(
-        //         'tag' => 'permissions',
-        //         'children' => array (
-        //             array( 
-        //                 'tag' => 'permGroup',
-        //                 'attr' => array( 'id' => $perms_group ),
-        //             )
-        //         ),
-        //     );
-        // }
-
         // $custom_media_credit = $this->get_media_credit($entry);
         // $custom_media_agency = $this->get_media_agency($entry);
 
