@@ -124,20 +124,19 @@ class Npr_api_expressionengine extends NPRAPI {
      */
     public function send_delete($api_id)
     {
-        $settings = ee()->db->select('*')
-            ->from('npr_story_api_settings')
+        $settings = ee()->db
             ->limit(1)
-            ->get()
-            ->result_array();
+            ->get('npr_story_api_settings')
+            ->row();
         
         $params = array(
-            'orgId' => $settings['org_id'],
-            'apiKey' => $settings['api_key'],
+            'orgId' => $settings->org_id,
+            'apiKey' => $settings->api_key,
             'id' => $api_id
         );
 
         $path = '/story';
-        $base = $settings['push_url'];
+        $base = $settings->push_url;
         $method = 'delete';
 
         $request_url = $this->build_request($params, $path, $base, $method);
