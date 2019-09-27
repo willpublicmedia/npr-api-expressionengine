@@ -95,6 +95,18 @@ class Nprml_mapper
         return false;
     }
 
+    /**
+     * If you have configured any Permissions Groups for content you distribute through the NPR Story API you can optionally add them in the NPR Permissions setting. 
+     * Note that by default all content in the NPR Story API is open to everyone, unless you restrict access to a Permissions Group.
+     * For more on setting these up see the 
+     * [NPR Story API Content Permissions Control page](https://nprsupport.desk.com/customer/en/portal/articles/1995557-npr-api-content-permissions-control).
+     */
+    private function get_npr_story_default_permission()
+    {   
+        // use defaults.
+        return array();
+    }
+
     private function get_option($option_name)
     {
         $option_value;
@@ -420,7 +432,7 @@ class Nprml_mapper
             'children' => $this->nprstory_nprml_split_paragraphs( $content ),
         );
        
-        $perms_group = get_option( 'ds_npr_story_default_permission' );
+        $perms_group = $this->get_npr_story_default_permission();
         if (!empty( $perms_group ) ) {
             $story[] = array(
                 'tag' => 'permissions',
