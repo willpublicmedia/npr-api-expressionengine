@@ -85,8 +85,10 @@ class Nprml_mapper
 
     private function get_images($entry)
     {
-        $images = array();
-        return $images;
+        ee()->load->model('grid_model');
+        $image_field_id = $this->get_field_id('npr_images');
+        $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $image_field_id, 'channel', null);
+        // return $images;
     }
 
     private function get_media_agency($entry)
