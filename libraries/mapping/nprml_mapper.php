@@ -86,13 +86,13 @@ class Nprml_mapper
     private function get_media_agency($entry)
     {
         // todo: pull from crops
-        return false;
+        return array();
     }
 
     private function get_media_credit($entry)
     {
         // todo: pull from crops
-        return false;
+        return array();
     }
 
     /**
@@ -445,12 +445,12 @@ class Nprml_mapper
             );
         }
 
+        $custom_media_credit = $this->get_media_credit($entry);
+        $custom_media_agency = $this->get_media_agency($entry);
+        
         /**
          * Not implemented below this point
          */
-        // $custom_media_credit = $this->get_media_credit($entry);
-        // $custom_media_agency = $this->get_media_agency($entry);
-
         // /*
         // * Attach images to the post
         // */
