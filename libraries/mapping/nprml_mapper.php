@@ -87,7 +87,13 @@ class Nprml_mapper
     {
         ee()->load->model('grid_model');
         $image_field_id = $this->get_field_id('npr_images');
+        // map column names
+        throw new \Exception('not implemented');
+        // get entry data
         $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $image_field_id, 'channel', null);
+        // loop entry data rows
+        // // map column data to column names
+        
         // return $images;
     }
 
