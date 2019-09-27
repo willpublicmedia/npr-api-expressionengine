@@ -83,6 +83,12 @@ class Nprml_mapper
         return $field_name;
     }
 
+    private function get_images($entry)
+    {
+        $images = array();
+        return $images;
+    }
+
     private function get_media_agency($entry)
     {
         // todo: pull from crops
@@ -448,21 +454,11 @@ class Nprml_mapper
         $custom_media_credit = $this->get_media_credit($entry);
         $custom_media_agency = $this->get_media_agency($entry);
         
-        /**
-         * Not implemented below this point
-         */
-        // /*
-        // * Attach images to the post
-        // */
-        // $args = array(
-        //     'order'=> 'DESC',
-        //     'post_mime_type' => 'image',
-        //     'post_parent' => $entry->id,
-        //     'post_status' => null,
-        //     'post_type' => 'attachment'
-        // );
-
-        // $images = get_children( $args );
+        /*
+        * Attach images to the post
+        */
+        $images = $this->get_images($entry);
+        
         // $primary_image = get_post_thumbnail_id( $post->ID );
 
         // foreach ( $images as $image ) {
@@ -524,6 +520,9 @@ class Nprml_mapper
         //     );
         // }
 
+        /**
+         * Not implemented below this point
+         */
         // /*
         // * Attach audio to the post
         // *
