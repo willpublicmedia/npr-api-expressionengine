@@ -145,6 +145,26 @@ class Nprml_mapper
         return $field_name;
     }
 
+    private function get_file_id($file_src)
+    {
+        $image_url_data = parse_url($file_src);
+        $image_path = ltrim($image_url_data['path'], '/');
+        $image_path_elements = explode('/', $image_path);
+        $filename = array_pop($image_path_elements);
+        
+        $file_id = ee()->db->select('file_id')
+            ->from('files')
+            ->where(array(
+                'file_name' => $filename
+                ))
+                ->limit(1)
+                ->get()
+                ->row()
+                ->file_id;
+        
+        return $file_id;
+    }
+
     private function get_images($entry)
     {
         $content_type = 'channel';
@@ -171,6 +191,10 @@ class Nprml_mapper
                 $row_col_data = $row[$row_column];
                 $row_data[$column_name] = $row_col_data;
             }
+
+            // get filename from possible url
+            $file_id = $this->get_file_id($row_data['crop_src']);
+            $row_data['file_id'] = $file_id;
 
             $images[] = $row_data;
         }
