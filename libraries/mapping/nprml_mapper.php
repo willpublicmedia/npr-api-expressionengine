@@ -85,15 +85,29 @@ class Nprml_mapper
 
     private function get_images($entry)
     {
+        $content_type = 'channel';
         ee()->load->model('grid_model');
         $image_field_id = $this->get_field_id('npr_images');
+        
         // map column names
-        throw new \Exception('not implemented');
+        $columns = ee()->grid_model->get_columns_for_field($image_field_id, $content_type);
+		$column_names = array();
+        $relationships = array();
+
+		foreach ($columns as $col)
+		{
+			$column_names[$col['col_name']] = $col;
+
+			if ($col['col_type'] == 'relationship')
+			{
+				$relationships[$col['col_name']] = $col['col_id'];
+			}
+		}
         // get entry data
-        $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $image_field_id, 'channel', null);
+        $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $image_field_id, $content_type, null);
         // loop entry data rows
         // // map column data to column names
-        
+
         // return $images;
     }
 
