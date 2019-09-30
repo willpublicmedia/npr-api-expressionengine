@@ -26,6 +26,7 @@ class Nprml_mapper
     private function convert_images($image_data, $custom_media_credit, $custom_media_agency, $dist_media_option = array())
     {
         $use_custom = false;
+        $images = array();
         foreach ($image_data as $data)
         {
             $custom_credit = '';
@@ -41,16 +42,11 @@ class Nprml_mapper
             if ( $use_custom && !empty( $dist_media_option ) && $dist_media_option != '#NONE#' && in_array( $dist_media_option,$data ) ) {
                 $dist_media = get_post_meta( $image->ID, $dist_media_option, true );
             }
+
+            // set default crop type
+            $image_type = $data['crop_primary'] == true ? 'primary' : 'standard';
         }
         // foreach ( $images as $image ) {
-        //     
-        //     // If the image field for distribute is set and polarity then send it.
-        //     // All kinds of other math when polarity is negative or the field isn't set.
-        //     $image_type = 'standard';
-        //     if ( $image->ID == $primary_image ) {
-        //         $image_type = 'primary';
-        //     }
-    
         //     // Is the image in the content?  If so, tell the API with a flag that CorePublisher knows.
         //     // WordPress may add something like "-150X150" to the end of the filename, before the extension.
         //     // Isn't that nice? Let's remove that.
