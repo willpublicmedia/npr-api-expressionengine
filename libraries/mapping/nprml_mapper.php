@@ -32,16 +32,19 @@ class Nprml_mapper
             $custom_credit = '';
             $custom_agency = '';
 
-            if ( $use_custom && !empty( $custom_media_credit ) && $custom_media_credit != '#NONE#' && in_array( $custom_media_credit,$data ) ) {
-                $custom_credit = get_post_meta( $image->ID, $custom_media_credit, true );
-            }
-            if ( $use_custom && ! empty( $custom_media_agency ) && $custom_media_agency != '#NONE#' && in_array( $custom_media_agency,$data ) ) {
-                $custom_agency = get_post_meta( $image->ID, $custom_media_agency, true);
-            }
+            /**
+             * Todo: de-wordpress
+             */
+            // if ( $use_custom && !empty( $custom_media_credit ) && $custom_media_credit != '#NONE#' && in_array( $custom_media_credit,$data ) ) {
+            //     $custom_credit = get_post_meta( $image->ID, $custom_media_credit, true );
+            // }
+            // if ( $use_custom && ! empty( $custom_media_agency ) && $custom_media_agency != '#NONE#' && in_array( $custom_media_agency,$data ) ) {
+            //     $custom_agency = get_post_meta( $image->ID, $custom_media_agency, true);
+            // }
     
-            if ( $use_custom && !empty( $dist_media_option ) && $dist_media_option != '#NONE#' && in_array( $dist_media_option,$data ) ) {
-                $dist_media = get_post_meta( $image->ID, $dist_media_option, true );
-            }
+            // if ( $use_custom && !empty( $dist_media_option ) && $dist_media_option != '#NONE#' && in_array( $dist_media_option,$data ) ) {
+            //     $dist_media = get_post_meta( $image->ID, $dist_media_option, true );
+            // }
 
             // Check for image in content and assign a corepublisher flag.
             // WordPress may add something like "-150X150" to the end of the filename, before the extension.
@@ -60,15 +63,15 @@ class Nprml_mapper
             $image_type = $data['crop_primary'] == true ? 'primary' : 'standard';
             $images[] = array(
                 'tag' => 'image',
-                'attr' => array( 'src' => $image->guid . $in_body, 'type' => $image_type ),
+                'attr' => array( 'src' => $data['crop_src'] . $in_body, 'type' => $image_type ),
                 'children' => array(
                     array(
                         'tag' => 'title',
-                        'text' => $image->post_title,
+                        'text' => $data['crop_title'],
                     ),
                     array(
                         'tag' => 'caption',
-                        'text' => $image->post_excerpt,
+                        'text' => $data['crop_caption'],
                     ),
                     array(
                         'tag' => 'producer',
