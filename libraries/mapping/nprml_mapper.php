@@ -43,6 +43,19 @@ class Nprml_mapper
                 $dist_media = get_post_meta( $image->ID, $dist_media_option, true );
             }
 
+            // Check for image in content and assign a corepublisher flag.
+            // WordPress may add something like "-150X150" to the end of the filename, before the extension.
+            $image_name_parts = explode( ".", $image_guid );
+            $image_regex = "/" . $image_name_parts[0] . "\-[a-zA-Z0-9]*" . $image_name_parts[1] . "/"; 
+            $in_body = "";
+            if ( preg_match( $image_regex, $content ) ) {
+                if ( strstr( $image->guid, '?') ) {
+                    $in_body = "&origin=body";
+                } else {
+                    $in_body = "?origin=body";
+                }
+            }
+
             // set default crop type
             $image_type = $data['crop_primary'] == true ? 'primary' : 'standard';
             $images[] = array(
@@ -68,20 +81,6 @@ class Nprml_mapper
                 ),
             );
         }
-        // foreach ( $images as $image ) {
-        //     // Is the image in the content?  If so, tell the API with a flag that CorePublisher knows.
-        //     // WordPress may add something like "-150X150" to the end of the filename, before the extension.
-        //     // Isn't that nice? Let's remove that.
-        //     $image_name_parts = explode( ".", $image_guid );
-        //     $image_regex = "/" . $image_name_parts[0] . "\-[a-zA-Z0-9]*" . $image_name_parts[1] . "/"; 
-        //     $in_body = "";
-        //     if ( preg_match( $image_regex, $content ) ) {
-        //         if ( strstr( $image->guid, '?') ) {
-        //             $in_body = "&origin=body";
-        //         } else {
-        //             $in_body = "?origin=body";
-        //         }
-        //     }
 
         return $images;
     }
