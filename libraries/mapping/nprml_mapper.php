@@ -91,18 +91,7 @@ class Nprml_mapper
         
         // map column names
         $columns = ee()->grid_model->get_columns_for_field($image_field_id, $content_type);
-		$column_names = array();
-        $relationships = array();
-
-		foreach ($columns as $col)
-		{
-			$column_names[$col['col_name']] = $col;
-
-			if ($col['col_type'] == 'relationship')
-			{
-				$relationships[$col['col_name']] = $col['col_id'];
-			}
-		}
+		
         // get entry data
         $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $image_field_id, $content_type, null);
         
