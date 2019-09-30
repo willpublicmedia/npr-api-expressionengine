@@ -105,10 +105,26 @@ class Nprml_mapper
 		}
         // get entry data
         $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $image_field_id, $content_type, null);
+        
         // loop entry data rows
-        // // map column data to column names
+        $images = array();
+        foreach ($entry_data[$entry->entry_id] as $row)
+        {
+            $row_data = array();
 
-        // return $images;
+            // map column data to column names
+            foreach ($columns as $column_id => $column_details)
+            {
+                $column_name = $column_details['col_name'];
+                $row_column = "col_id_$column_id";
+                $row_col_data = $row[$row_column];
+                $row_data[$column_name] = $row_col_data;
+            }
+
+            $images[] = $row_data;
+        }
+
+        return $images;
     }
 
     private function get_media_agency($entry)
