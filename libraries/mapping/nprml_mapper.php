@@ -45,6 +45,28 @@ class Nprml_mapper
 
             // set default crop type
             $image_type = $data['crop_primary'] == true ? 'primary' : 'standard';
+            $images[] = array(
+                'tag' => 'image',
+                'attr' => array( 'src' => $image->guid . $in_body, 'type' => $image_type ),
+                'children' => array(
+                    array(
+                        'tag' => 'title',
+                        'text' => $image->post_title,
+                    ),
+                    array(
+                        'tag' => 'caption',
+                        'text' => $image->post_excerpt,
+                    ),
+                    array(
+                        'tag' => 'producer',
+                        'text' => $custom_credit
+                    ),
+                    array(
+                        'tag' => 'provider',
+                        'text' => $custom_agency
+                    )
+                ),
+            );
         }
         // foreach ( $images as $image ) {
         //     // Is the image in the content?  If so, tell the API with a flag that CorePublisher knows.
@@ -60,30 +82,8 @@ class Nprml_mapper
         //             $in_body = "?origin=body";
         //         }
         //     }
-        //     $story[] = array(
-        //         'tag' => 'image',
-        //         'attr' => array( 'src' => $image->guid . $in_body, 'type' => $image_type ),
-        //         'children' => array(
-        //             array(
-        //                 'tag' => 'title',
-        //                 'text' => $image->post_title,
-        //             ),
-        //             array(
-        //                 'tag' => 'caption',
-        //                 'text' => $image->post_excerpt,
-        //             ),
-        //             array(
-        //                 'tag' => 'producer',
-        //                 'text' => $custom_credit
-        //             ),
-        //             array(
-        //                 'tag' => 'provider',
-        //                 'text' => $custom_agency
-        //             )
-        //         ),
-        //     );
 
-            return array();
+        return $images;
     }
 
     private function get_bylines($entry)
