@@ -259,15 +259,26 @@ class Publish_form_mapper
 
     private function map_image_crops($crop_models)
     {
+        if (!($crop_models instanceof \EllisLab\ExpressionEngine\Service\Model\Collection))
+        {
+            $crop_models = array($crop_models);
+        }
+
         $crop_array = array();
         foreach ($crop_models as $model)
         {
+            $primary = $model->type === 'primary';
+            if (property_exists($model, 'primary') && $model->primary)
+            {
+                $primary = true;
+            }
+
             $crop_array[] = array(
                 'type' => $model->type,
                 'src' => $model->src,
-                'height' => $model->height,
-                'width' => $model->width,
-                'primary' => $model->primary
+                'height' => property_exists($model, 'height') ? $model->height : '',
+                'width' => property_exists($model, 'width') ? $model->width : '',
+                'primary' => $primary
             );
         }
 
@@ -285,6 +296,7 @@ class Publish_form_mapper
         foreach ($image_models as $model)
         {
             $crops = $this->map_image_crops($model->Crop);
+            $crops[] = $this->map_image_crops($model)[0];
             foreach ($crops as $crop)
             {
                 // should be row_id_x if row exists, but this doesn't seem to duplicate entries.
