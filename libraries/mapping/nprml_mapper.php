@@ -88,6 +88,43 @@ class Nprml_mapper
         return $images;
     }
 
+    private function get_audio($entry)
+    {
+        $content_type = 'channel';
+        ee()->load->model('grid_model');
+        $audio_field_id = $this->get_field_id('audio_files');
+        
+        // map column names
+        $columns = ee()->grid_model->get_columns_for_field($audio_field_id, $content_type);
+		
+        // get entry data
+        $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $audio_field_id, $content_type, null);
+        
+        // loop entry data rows
+        $audio = array();
+        foreach ($entry_data[$entry->entry_id] as $row)
+        {
+            $row_data = array();
+
+            // map column data to column names
+            foreach ($columns as $column_id => $column_details)
+            {
+                $column_name = $column_details['col_name'];
+                $row_column = "col_id_$column_id";
+                $row_col_data = $row[$row_column];
+                $row_data[$column_name] = $row_col_data;
+            }
+
+            // get filename from possible url
+            $file_id = $this->get_file_id($row_data['crop_src']);
+            $row_data['file_id'] = $file_id;
+
+            $audio[] = $row_data;
+        }
+
+        return $audio;
+    }
+
     private function get_bylines($entry)
     {
         $byline_field = $this->get_field_name('byline');
@@ -580,22 +617,12 @@ class Nprml_mapper
             $story[] = $image;
         }
 
-        /**
-         * Not implemented below this point
-         */
-        // /*
-        // * Attach audio to the post
-        // *
-        // * Should be able to do the same as image for audio, with post_mime_type = 'audio' or something.
-        // */
-        // $args = array(
-        //     'order'=> 'DESC',
-        //     'post_mime_type' => 'audio',
-        //     'post_parent' => $post->ID,
-        //     'post_status' => null,
-        //     'post_type' => 'attachment'
-        // );
-        // $audios = get_children( $args );
+        /*
+        * Attach audio to the post
+        *
+        * Should be able to do the same as image for audio, with post_mime_type = 'audio' or something.
+        */
+        $audios = $this->get_audio($entry);
 
         // foreach ( $audios as $audio ) {
         //     $audio_meta = wp_get_attachment_metadata( $audio->ID );
