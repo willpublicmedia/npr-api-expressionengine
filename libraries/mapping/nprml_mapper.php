@@ -87,44 +87,7 @@ class Nprml_mapper
 
         return $images;
     }
-
-    private function get_audio($entry)
-    {
-        $content_type = 'channel';
-        ee()->load->model('grid_model');
-        $audio_field_id = $this->get_field_id('audio_files');
-        
-        // map column names
-        $columns = ee()->grid_model->get_columns_for_field($audio_field_id, $content_type);
-		
-        // get entry data
-        $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $audio_field_id, $content_type, null);
-        
-        // loop entry data rows
-        $audio = array();
-        foreach ($entry_data[$entry->entry_id] as $row)
-        {
-            $row_data = array();
-
-            // map column data to column names
-            foreach ($columns as $column_id => $column_details)
-            {
-                $column_name = $column_details['col_name'];
-                $row_column = "col_id_$column_id";
-                $row_col_data = $row[$row_column];
-                $row_data[$column_name] = $row_col_data;
-            }
-
-            // get filename from possible url
-            $file_id = $this->get_file_id($row_data['crop_src']);
-            $row_data['file_id'] = $file_id;
-
-            $audio[] = $row_data;
-        }
-
-        return $audio;
-    }
-
+    
     private function get_bylines($entry)
     {
         $byline_field = $this->get_field_name('byline');
@@ -205,20 +168,20 @@ class Nprml_mapper
         return $file_id;
     }
 
-    private function get_images($entry)
+    private function get_media($entry, $field_name)
     {
         $content_type = 'channel';
         ee()->load->model('grid_model');
-        $image_field_id = $this->get_field_id('npr_images');
+        $media_field_id = $this->get_field_id($field_name);
         
         // map column names
-        $columns = ee()->grid_model->get_columns_for_field($image_field_id, $content_type);
+        $columns = ee()->grid_model->get_columns_for_field($media_field_id, $content_type);
 		
         // get entry data
-        $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $image_field_id, $content_type, null);
+        $entry_data = ee()->grid_model->get_entry_rows($entry->entry_id, $media_field_id, $content_type, null);
         
         // loop entry data rows
-        $images = array();
+        $media = array();
         foreach ($entry_data[$entry->entry_id] as $row)
         {
             $row_data = array();
@@ -236,10 +199,10 @@ class Nprml_mapper
             $file_id = $this->get_file_id($row_data['crop_src']);
             $row_data['file_id'] = $file_id;
 
-            $images[] = $row_data;
+            $media[] = $row_data;
         }
 
-        return $images;
+        return $media;
     }
 
     private function get_media_agency($entry)
@@ -610,7 +573,7 @@ class Nprml_mapper
         /*
         * Attach images to the post
         */
-        $images = $this->get_images($entry);
+        $images = $this->get_media($entry, 'npr_images');
         $images = $this->convert_images($images, $custom_media_credit, $custom_media_agency);
         foreach ($images as $image)
         {
@@ -619,10 +582,8 @@ class Nprml_mapper
 
         /*
         * Attach audio to the post
-        *
-        * Should be able to do the same as image for audio, with post_mime_type = 'audio' or something.
         */
-        $audios = $this->get_audio($entry);
+        $audio = $this->get_media($entry, 'audio_files');
 
         // foreach ( $audios as $audio ) {
         //     $audio_meta = wp_get_attachment_metadata( $audio->ID );
