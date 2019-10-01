@@ -23,6 +23,41 @@ class Nprml_mapper
         return $nprml;
     }
 
+    private function convert_audio($audio_data)
+    {
+        $audio = array();
+        foreach ($audio_data as $data) {
+            $caption = $data['audio_description'] == '' ? 
+                $data['audio_title'] : 
+                $data['audio_description'];
+
+            $audio[] = array(
+                'tag' => 'audio',
+                'children' => array(
+                    array(
+                        'tag' => 'format',
+                        'children' => array (
+                            array(
+                                'tag' => $data['audio_format'],
+                                'text' => $data['audio_url'],
+                            )
+                        ),
+                    ),
+                    array(
+                        'tag' => 'description',
+                        'text' => $caption,
+                    ),
+                    array(
+                        'tag' => 'duration',
+                        'text' => $data['audio_duration'],
+                    ),
+                ),
+            );
+        }
+        
+        return $audio;
+    }
+
     private function convert_images($image_data, $custom_media_credit, $custom_media_agency, $dist_media_option = array())
     {
         $use_custom = false;
@@ -584,39 +619,12 @@ class Nprml_mapper
         * Attach audio to the post
         */
         $audio = $this->get_media($entry, 'audio_files');
-
-        // foreach ( $audios as $audio ) {
-        //     $audio_meta = wp_get_attachment_metadata( $audio->ID );
-        //     $caption = $audio->post_excerpt;
-        //     // If we don't have excerpt filled in, try content
-        //     if ( empty( $caption ) ) {
-        //         $caption = $audio->post_content;
-        //     }
-
-        //     $story[] = array(
-        //         'tag' => 'audio',
-        //         'children' => array(
-        //             array(
-        //                 'tag' => 'format',
-        //                 'children' => array (
-        //                     array(
-        //                         'tag' => 'mp3',
-        //                         'text' => $audio->guid,
-        //                     )
-        //                 ),
-        //             ),
-        //             array(
-        //                 'tag' => 'description',
-        //                 'text' => $caption,
-        //             ),
-        //             array(
-        //                 'tag' => 'duration',
-        //                 'text' => $audio_meta['length'],
-        //             ),
-        //         ),
-        //     );
-        // }
-
+        $audio = $this->convert_audio($audio);
+        foreach ($audio as $item)
+        {
+            $story[] = $item;
+        }
+        
         /*
         * The story has been assembled; now we shall return it
         */
