@@ -44,7 +44,7 @@ class Story_content_definitions
                             'col_type' => 'text',
                             'col_label' => 'Audio Duration',
                             'col_name' => 'audio_duration',
-                            'col_instructions' => 'The duration of the have the same duration.',
+                            'col_instructions' => 'The duration of the audio asset. All formats for the audio will have the same duration.',
                             'col_required' => 'n',
                             'col_search' => 'n',
                             'col_width' => '',
