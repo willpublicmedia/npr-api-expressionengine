@@ -79,11 +79,12 @@ class Field_installer {
 
     private function add_grid_columns($definition, $field)
     {
+        $grid_type = $definition['field_type'];
         $settings = array(
             'content_type' => 'channel',
-            'settings_form_field_name' => 'grid',
+            'settings_form_field_name' => $grid_type,
             'field_id' => $field->field_id,
-            'grid' => $definition['field_settings']['grid']
+            'grid' => $definition['field_settings'][$grid_type]
         );
 
         $this->load_grid_lib($settings);
@@ -108,7 +109,7 @@ class Field_installer {
         
         foreach ($definition as $key => $value)
         {
-            if ($key === 'grid')
+            if ($key === 'grid' || $key === 'file_grid')
             {
                 continue;
             }
@@ -126,7 +127,7 @@ class Field_installer {
         $field->save();
         $this->assign_field_group($field);
         
-        if ($definition['field_type'] === 'grid')
+        if ($definition['field_type'] === 'grid' || $definition['field_type'] === 'file_grid')
         {
             $this->add_grid_columns($definition, $field);
         }
