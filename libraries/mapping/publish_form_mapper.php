@@ -96,7 +96,8 @@ class Publish_form_mapper
             ->first()
             ->field_type;
         
-        return $type === 'grid';
+        $is_grid = ($type === 'grid' || $type === 'file_grid');
+        return $is_grid;
     }
 
     private function generate_url_title($entry, $story_title)
