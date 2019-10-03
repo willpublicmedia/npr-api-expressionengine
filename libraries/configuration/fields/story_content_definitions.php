@@ -13,7 +13,7 @@ class Story_content_definitions
             'field_name' => 'audio_files',
             'field_label' => 'Audio Files',
             'field_instructions' => 'All available audio associated with the returned story. This will include all formats to which NPR has the rights to distribute.',
-            'field_type' => 'grid',
+            'field_type' => 'file_grid',
             'field_list_items' => '',
             'field_pre_populate' => 'n',
             'field_pre_field_id' => 0,
@@ -23,9 +23,23 @@ class Story_content_definitions
                 'grid_min_rows' => 0,
                 'grid_max_rows' => '',
                 'allow_reorder' => 'y',
-                'grid' => array(
+                'file_grid' => array(
                     'cols' => array(
                         'new_0' => array(
+                            'col_type' => "file",
+                            'col_label' => "File",
+                            'col_instructions' => "",
+                            'col_required' => "n",
+                            'col_search' => "n",
+                            'col_width' => "",
+                            'col_settings' => array(
+                                'field_content_type' => "all",
+                                'allowed_directories' => "all",
+                                'show_existing' => "y",
+                                'num_existing' => "50"
+                            )
+                        ),
+                        'new_1' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Type',
                             'col_name' => 'audio_type',
@@ -40,7 +54,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_1' => array(
+                        'new_2' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Duration',
                             'col_name' => 'audio_duration',
@@ -55,7 +69,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_2' => array(
+                        'new_3' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Description',
                             'col_name' => 'audio_description',
@@ -70,7 +84,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_3' => array(
+                        'new_4' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Format',
                             'col_name' => 'audio_format',
@@ -85,7 +99,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_4' => array(
+                        'new_5' => array(
                             'col_type' => 'url',
                             'col_label' => 'Audio URL',
                             'col_name' => 'audio_url',
@@ -97,7 +111,7 @@ class Story_content_definitions
                                 'url_scheme_placeholder' => 'https://'
                             )
                         ),
-                        'new_5' => array(
+                        'new_6' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Rights',
                             'col_name' => 'audio_rights',
@@ -112,7 +126,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_6' => array(
+                        'new_7' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Permissions',
                             'col_name' => 'audio_permissions',
@@ -127,7 +141,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )                            
                         ),
-                        'new_7' => array(
+                        'new_8' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Title',
                             'col_name' => 'audio_title',
@@ -142,7 +156,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_8' => array(
+                        'new_9' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Region',
                             'col_name' => 'audio_region',
@@ -157,7 +171,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_9' => array(
+                        'new_10' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Rightsholder',
                             'col_name' => 'audio_rightsholder',
