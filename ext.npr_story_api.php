@@ -78,8 +78,9 @@ class Npr_story_api_ext
     public function nprstory_api_delete($entry, $values)
     {
         $npr_story_id = $entry->{$this->fields['npr_story_id']};
-        $was_pulled = $entry->{$this->fields['channel_entry_source']} === 'npr';
-        $was_pushed = $entry->{$this->fields['channel_entry_source']} !== 'npr' && $npr_story_id !== '';
+        $source_field = $this->fields['channel_entry_source'];
+        $was_pulled = $this->check_external_story_source($source_field);
+        $was_pushed = !$was_pulled && $npr_story_id !== '';
 
         if ($was_pulled || !$was_pushed)
         {
