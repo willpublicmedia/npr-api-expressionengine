@@ -64,8 +64,6 @@ class Nprml_mapper
         $images = array();
         foreach ($image_data as $data)
         {
-            $custom_credit = '';
-            
             // Check for image in content and assign a corepublisher flag.
             // WordPress may add something like "-150X150" to the end of the filename, before the extension.
             $image_name_parts = explode( ".", $image_guid );
@@ -95,7 +93,7 @@ class Nprml_mapper
                     ),
                     array(
                         'tag' => 'producer',
-                        'text' => $custom_credit
+                        'text' => $custom_media_credit
                     ),
                     array(
                         'tag' => 'provider',
@@ -239,10 +237,18 @@ class Nprml_mapper
         return $media_agency;
     }
 
-    private function get_media_credit($entry)
+    private function get_media_credit($image_data)
     {
-        // todo: pull from crops
-        return array();
+        $media_credit = '';
+        foreach ($image_data as $data)
+        {
+            if ($data['crop_primary'] === 1)
+            {
+                $media_credit = $data['crop_producer'];
+            }
+        }
+        
+        return $media_credit;
     }
 
     /**
@@ -600,7 +606,7 @@ class Nprml_mapper
         */
         $images = $this->get_media($entry, 'npr_images');
         $custom_media_agency = $this->get_media_agency($images);
-        $custom_media_credit = $this->get_media_credit($entry);
+        $custom_media_credit = $this->get_media_credit($images);
         $images = $this->convert_images($images, $custom_media_credit, $custom_media_agency);
         foreach ($images as $image)
         {
