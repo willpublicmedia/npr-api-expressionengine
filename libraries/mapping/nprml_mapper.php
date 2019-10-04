@@ -65,22 +65,7 @@ class Nprml_mapper
         foreach ($image_data as $data)
         {
             $custom_credit = '';
-            $custom_agency = '';
-
-            /**
-             * Todo: de-wordpress
-             */
-            // if ( $use_custom && !empty( $custom_media_credit ) && $custom_media_credit != '#NONE#' && in_array( $custom_media_credit,$data ) ) {
-            //     $custom_credit = get_post_meta( $image->ID, $custom_media_credit, true );
-            // }
-            // if ( $use_custom && ! empty( $custom_media_agency ) && $custom_media_agency != '#NONE#' && in_array( $custom_media_agency,$data ) ) {
-            //     $custom_agency = get_post_meta( $image->ID, $custom_media_agency, true);
-            // }
-    
-            // if ( $use_custom && !empty( $dist_media_option ) && $dist_media_option != '#NONE#' && in_array( $dist_media_option,$data ) ) {
-            //     $dist_media = get_post_meta( $image->ID, $dist_media_option, true );
-            // }
-
+            
             // Check for image in content and assign a corepublisher flag.
             // WordPress may add something like "-150X150" to the end of the filename, before the extension.
             $image_name_parts = explode( ".", $image_guid );
@@ -114,7 +99,7 @@ class Nprml_mapper
                     ),
                     array(
                         'tag' => 'provider',
-                        'text' => $custom_agency
+                        'text' => $custom_media_agency
                     )
                 ),
             );
@@ -240,10 +225,18 @@ class Nprml_mapper
         return $media;
     }
 
-    private function get_media_agency($entry)
+    private function get_media_agency($image_data)
     {
-        // todo: pull from crops
-        return array();
+        $media_agency = '';
+        foreach ($image_data as $data)
+        {
+            if ($data['crop_primary'] === 1)
+            {
+                $media_agency = $data['crop_provider'];
+            }
+        }
+        
+        return $media_agency;
     }
 
     private function get_media_credit($entry)
@@ -601,14 +594,13 @@ class Nprml_mapper
                 ),
             );
         }
-
-        $custom_media_credit = $this->get_media_credit($entry);
-        $custom_media_agency = $this->get_media_agency($entry);
         
         /*
         * Attach images to the post
         */
         $images = $this->get_media($entry, 'npr_images');
+        $custom_media_agency = $this->get_media_agency($images);
+        $custom_media_credit = $this->get_media_credit($entry);
         $images = $this->convert_images($images, $custom_media_credit, $custom_media_agency);
         foreach ($images as $image)
         {
