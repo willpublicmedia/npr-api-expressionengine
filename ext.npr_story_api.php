@@ -146,6 +146,15 @@ class Npr_story_api_ext
         if ($entry->{$this->fields['npr_story_id']} === '')
         {
             $entry->{$this->fields['npr_story_id']} = $npr_story_id;
+
+            // ee deletes custom field data before channel entry hooks run,
+            // so mark this entry as having been pushed.
+            ee()->db->insert(
+                'npr_story_api_pushed_stories',
+                array(
+                    'entry_id' => $entry->entry_id,
+                    'npr_story_id' => $npr_story_id
+                ));
         }
         
         ee('CP/Alert')->makeInline('story-push')
