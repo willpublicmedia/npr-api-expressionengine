@@ -269,7 +269,7 @@ class Story_content_definitions
             'field_name' => 'npr_images',
             'field_label' => 'Images',
             'field_instructions' => 'All images associated with the story.',
-            'field_type' => 'grid',
+            'field_type' => 'file_grid',
             'field_list_items' => '',
             'field_pre_populate' => 'n',
             'field_pre_field_id' => 0,
@@ -279,9 +279,24 @@ class Story_content_definitions
                 'grid_min_rows' => 0,
                 'grid_max_rows' => '',
                 'allow_reorder' => 'y',
-                'grid' => array(
+                'file_grid' => array(
                     'cols' => array(
                         'new_0' => array(
+                            'col_type' => "file",
+                            'col_label' => "File",
+                            'col_name' => "audio_file",
+                            'col_instructions' => "",
+                            'col_required' => "n",
+                            'col_search' => "n",
+                            'col_width' => "",
+                            'col_settings' => array(
+                                'field_content_type' => "all",
+                                'allowed_directories' => "all",
+                                'show_existing' => "y",
+                                'num_existing' => "50"
+                            )
+                        ),
+                        'new_1' => array(
                             'col_type' => 'text',
                             'col_label' => 'Crop Type',
                             'col_name' => 'crop_type',
@@ -296,7 +311,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_1' => array(
+                        'new_2' => array(
                             'col_type' => 'url',
                             'col_label' => 'Crop Source',
                             'col_name' => 'crop_src',
@@ -308,7 +323,7 @@ class Story_content_definitions
                                 'url_scheme_placeholder' => 'https://'
                             )
                         ),
-                        'new_2' => array(
+                        'new_3' => array(
                             'col_type' => 'text',
                             'col_label' => 'Crop Height',
                             'col_name' => 'crop_height',
@@ -323,7 +338,7 @@ class Story_content_definitions
                                 'field_content_type' => 'integer'
                             )
                         ),
-                        'new_3' => array(
+                        'new_4' => array(
                             'col_type' => 'text',
                             'col_label' => 'Crop Width',
                             'col_name' => 'crop_width',
@@ -338,7 +353,7 @@ class Story_content_definitions
                                 'field_content_type' => 'integer'
                             )
                         ),
-                        'new_4' => array(
+                        'new_5' => array(
                             'col_type' => 'toggle',
                             'col_label' => 'Primary',
                             'col_name' => 'crop_primary',
@@ -350,7 +365,7 @@ class Story_content_definitions
                                 'field_default_value' => 0
                             )
                         ),
-                        'new_5' => array(
+                        'new_6' => array(
                             'col_type' => 'toggle',
                             'col_label' => 'Has Border',
                             'col_name' => 'crop_has_border',
@@ -362,7 +377,7 @@ class Story_content_definitions
                                 'field_default_value' => 0
                             )
                         ),
-                        'new_6' => array(
+                        'new_7' => array(
                             'col_type' => 'text',
                             'col_label' => 'Crop Title',
                             'col_name' => 'crop_title',
@@ -377,7 +392,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_7' => array(
+                        'new_8' => array(
                             'col_type' => 'text',
                             'col_label' => 'Crop Caption',
                             'col_name' => 'crop_caption',
@@ -392,7 +407,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_8' => array(
+                        'new_9' => array(
                             'col_type' => 'text',
                             'col_label' => 'Crop Producer',
                             'col_name' => 'crop_producer',
@@ -407,7 +422,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_9' => array(
+                        'new_10' => array(
                             'col_type' => 'text',
                             'col_label' => 'Provider',
                             'col_name' => 'crop_provider',
@@ -422,7 +437,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_10' => array(
+                        'new_11' => array(
                             'col_type' => 'url',
                             'col_label' => 'Provider URL',
                             'col_name' => 'crop_provider_url',
@@ -434,7 +449,7 @@ class Story_content_definitions
                                 'url_scheme_placeholder' => 'https://'
                             )
                         ),
-                        'new_11' => array(
+                        'new_12' => array(
                             'col_type' => 'text',
                             'col_label' => 'Copyright',
                             'col_name' => 'crop_copyright',
