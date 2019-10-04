@@ -34,6 +34,10 @@ class Npr_story_api_ext
         'query_api' => array(
             'hook' => 'before_channel_entry_save',
             'priority' => 10
+        ),
+        'register_pushed_stories' => array(
+            'hook' => 'after_channel_entry_save',
+            'priority' => 10
         )
     );
 
@@ -146,15 +150,6 @@ class Npr_story_api_ext
         if ($entry->{$this->fields['npr_story_id']} === '')
         {
             $entry->{$this->fields['npr_story_id']} = $npr_story_id;
-
-            // ee deletes custom field data before channel entry hooks run,
-            // so mark this entry as having been pushed.
-            ee()->db->insert(
-                'npr_story_api_pushed_stories',
-                array(
-                    'entry_id' => $entry->entry_id,
-                    'npr_story_id' => $npr_story_id
-                ));
         }
         
         ee('CP/Alert')->makeInline('story-push')
@@ -207,6 +202,45 @@ class Npr_story_api_ext
 
         $story->ChannelEntry = $entry;
         $story->save();
+    }
+
+    /**
+     * ee deletes custom field data before channel entry hooks run,
+     * so mark this entry as having been pushed.
+     */
+    public function register_pushed_stories($entry, $values)
+    {
+        $source_field = $this->fields['channel_entry_source'];
+        $was_pulled = $this->check_external_story_source($entry->{$source_field});
+
+        $push_field = $this->fields['publish_to_npr'];
+        $was_pushed = $entry->{$push_field} === 1;
+
+        if ($was_pulled || !$was_pushed)
+        {
+            return;
+        }
+
+        $already_registered = ee()->db->select('entry_id')
+            ->from('npr_story_api_pushed_stories')
+            ->where(array('entry_id' => $entry->entry_id))
+            ->get()
+            ->num_rows() > 0;
+
+        if ($already_registered)
+        {
+            return;
+        }
+
+        $story_field = $this->fields['npr_story_id'];
+        $npr_story_id = $entry->{$story_field};
+
+        ee()->db->insert(
+            'npr_story_api_pushed_stories',
+            array(
+                'entry_id' => $entry->entry_id,
+                'npr_story_id' => $npr_story_id
+            ));
     }
 
     private function check_external_story_source($story_source)
