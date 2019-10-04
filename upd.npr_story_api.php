@@ -53,7 +53,8 @@ class Npr_story_api_upd
             // rewrite related link for push-only.
             // 'npr_related_link',
             'npr_text_paragraph',
-            'npr_thumbnail'
+            'npr_thumbnail',
+            'pushed_stories'
         )
     );
 
