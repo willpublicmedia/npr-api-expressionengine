@@ -77,12 +77,9 @@ class Npr_story_api_ext
 
     public function nprstory_api_delete($entry, $values)
     {
-        $npr_story_id = $entry->{$this->fields['npr_story_id']};
-        $source_field = $this->fields['channel_entry_source'];
-        $was_pulled = $this->check_external_story_source($source_field);
-        $was_pushed = !$was_pulled && $npr_story_id !== '';
+        $delete_remote = $this->should_delete_remote_entry($entry);
 
-        if ($was_pulled || !$was_pushed)
+        if ($delete_remote === false)
         {
             return;
         }
@@ -360,6 +357,33 @@ class Npr_story_api_ext
         //         return;
         //     }
         // }
+    }
+
+    private function should_delete_remote_entry($entry)
+    {
+        $push_field = $this->fields['publish_to_npr'];
+        $was_pushed = $entry->{$push_field};
+
+        if ($was_pushed === 1)
+        {
+            return true;
+        }
+
+        $source_field = $this->fields['channel_entry_source'];
+        $entry_source = $entry->{$source_field};
+        $was_pulled = $this->check_external_story_source($entry_source);
+
+        if ($was_pulled === true)
+        {
+            // story was not pushed
+            return false;
+        }
+
+        $story_id_field = $this->fields['npr_story_id'];
+        $npr_story_id = $entry->{$story_id_field};
+        $has_story_id = $npr_story_id !== null;
+
+        return $has_story_id === true;
     }
 
     private function validate_story_id($entry, $values)
