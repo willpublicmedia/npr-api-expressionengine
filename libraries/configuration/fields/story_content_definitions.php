@@ -475,8 +475,9 @@ class Story_content_definitions
         'keywords' => array(
             'field_name' => 'keywords',
             'field_label' => 'Keywords',
-            'field_instructions' => 'A comma-delimited list of key terms describing the returned story. This field is seldom used for NPR.org.',
-            'field_type' => 'text',
+            'field_instructions' => 'A list of key terms describing the returned story. This field is seldom used for NPR.org.',
+            // this field type may be specific to IPM.
+            'field_type' => 'tagger',
             'field_pre_populate' => 'n',
             'field_list_items' => '',
             'field_pre_field_id' => 0,
