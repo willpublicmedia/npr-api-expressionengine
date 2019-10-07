@@ -81,7 +81,7 @@ class Npr_story_api_ext
 
     public function nprstory_api_delete($entry, $values)
     {
-        $npr_story_id = $this->should_delete_remote_entry($entry->entry_id);
+        $npr_story_id = $this->check_pushed_story_registry($entry->entry_id);
 
         if ($npr_story_id == null)
         {
@@ -253,6 +253,18 @@ class Npr_story_api_ext
         return TRUE;
     }
 
+    private function check_pushed_story_registry($entry_id)
+    {
+        $npr_story_id = ee()->db->select('npr_story_id')
+            ->from('npr_story_api_pushed_stories')
+            ->where(array('entry_id' => $entry_id))
+            ->limit(1)
+            ->get()
+            ->row('npr_story_id');
+
+        return $npr_story_id;
+    }
+
     private function create_nprml($entry, $values)
     {
         $mapper = new Nprml_mapper();
@@ -400,18 +412,6 @@ class Npr_story_api_ext
         //         return;
         //     }
         // }
-    }
-
-    private function should_delete_remote_entry($entry_id)
-    {
-        $npr_story_id = ee()->db->select('npr_story_id')
-            ->from('npr_story_api_pushed_stories')
-            ->where(array('entry_id' => $entry_id))
-            ->limit(1)
-            ->get()
-            ->row('npr_story_id');
-
-        return $npr_story_id;
     }
 
     private function validate_story_id($entry, $values)
