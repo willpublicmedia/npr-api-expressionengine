@@ -53,11 +53,11 @@ class Field_installer {
                             $this->warn_type_mismatch($model->field_name, $model->field_type, $definition['field_type']);
                             continue;
                         }
-
-                        $this->assign_field_group($model);
-                        $this->notify_field_reuse($model->field_name, $model->field_type);
-                        continue;
                     }
+
+                    $this->assign_field_group($model);
+                    $this->notify_field_reuse($model->field_name, $model->field_type);
+                    continue;
                 }
                 
                 $this->create_field($definition);
