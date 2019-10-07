@@ -40,27 +40,27 @@ class Field_installer {
         {
             foreach ($fields as $name => $definition)
             {
-                if (ee('Model')->get('ChannelField')->filter('field_name', $name)->count() > 0)
+                if (ee('Model')->get('ChannelField')->filter('field_name', $name)->count() === 0)
                 {
-                    $model = ee('Model')->get('ChannelField')->filter('field_name', $name)->first();
-
-                    if ($model->field_type !== $definition['field_type'])
-                    {
-                        $is_compatible = $this->check_fieldtype_compatibility($model, $definition['field_type']);
-
-                        if ($is_compatible === false)
-                        {
-                            $this->warn_type_mismatch($model->field_name, $model->field_type, $definition['field_type']);
-                            continue;
-                        }
-                    }
-
-                    $this->assign_field_group($model);
-                    $this->notify_field_reuse($model->field_name, $model->field_type);
+                    $this->create_field($definition);
                     continue;
                 }
-                
-                $this->create_field($definition);
+
+                $model = ee('Model')->get('ChannelField')->filter('field_name', $name)->first();
+
+                if ($model->field_type !== $definition['field_type'])
+                {
+                    $is_compatible = $this->check_fieldtype_compatibility($model, $definition['field_type']);
+
+                    if ($is_compatible === false)
+                    {
+                        $this->warn_type_mismatch($model->field_name, $model->field_type, $definition['field_type']);
+                        continue;
+                    }
+                }
+
+                $this->assign_field_group($model);
+                $this->notify_field_reuse($model->field_name, $model->field_type);
             }
         }
     }
