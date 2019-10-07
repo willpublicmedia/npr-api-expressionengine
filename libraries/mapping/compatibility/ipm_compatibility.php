@@ -10,7 +10,10 @@ class Ipm_compatibility
 {
     public function apply_cdata($text)
     {
-        throw new \Exception('not implemented');
+        $cdata_prefix = '&lt;![CDATA[';
+        $cdata_suffix = ']]&gt;';
+        
+        return $cdata_prefix . $text . $cdata_suffix;
     }
 
     public function strip_tags($text)
