@@ -208,7 +208,7 @@ class Field_installer {
             ->canClose()
             ->withTitle('NPR field creation notice.')
             ->addToBody(
-                "A field with the name $field_name and type $field_type was found and assigned to the " . 
+                "A field with the name $field_name and compatible type $field_type was found and assigned to the " . 
                 Field_installer::DEFAULT_FIELD_GROUP_NAME . " group.")
             ->defer();
     }
@@ -242,7 +242,7 @@ class Field_installer {
             ->asWarning()
             ->withTitle('NPR field creation warning.')
             ->addToBody(
-                "The $original_field_name field with type $new_field_type could not be reused or created because a field with the same name already exists with type $original_field_type.")
+                "The $original_field_name field with type $new_field_type could not be reused or created because a field with the same name already exists with incompatible type $original_field_type.")
             ->defer();
     }
 }
