@@ -44,17 +44,20 @@ class Field_installer {
                 {
                     $model = ee('Model')->get('ChannelField')->filter('field_name', $name)->first();
 
-                    if ($model->field_type === $definition['field_type'])
+                    if ($model->field_type !== $definition['field_type'])
                     {
+                        $is_compatible = $this->check_fieldtype_compatibility($model, $definition['field_type']);
+
+                        if ($is_compatible === false)
+                        {
+                            $this->warn_type_mismatch($model->field_name, $model->field_type, $definition['field_type']);
+                            continue;
+                        }
+
                         $this->assign_field_group($model);
                         $this->notify_field_reuse($model->field_name, $model->field_type);
+                        continue;
                     }
-                    else
-                    {
-                        $this->warn_type_mismatch($model->field_name, $model->field_type, $definition['field_type']);
-                    }
-                    
-                    continue;
                 }
                 
                 $this->create_field($definition);
@@ -95,6 +98,34 @@ class Field_installer {
     {
         $this->custom_field_group->ChannelFields->getAssociation()->add($field);
         $this->custom_field_group->save();
+    }
+
+    private function check_fieldtype_compatibility($installed_field, $target_compat_type)
+    {
+        $compatibility = array();
+
+        $installed = ee('Addon')->get($installed_field->field_type);
+        foreach ($installed->get('fieldtypes', array()) as $fieldtype => $metadata)
+        {
+            if (isset($metadata['compatibility']))
+            {
+                $compatibility[$fieldtype] = $metadata['compatibility'];
+            }
+        }
+
+        $target = ee('Addon')->get($target_compat_type);
+        foreach ($target->get('fieldtypes', array()) as $fieldtype => $metadata)
+        {
+            if (isset($metadata['compatibility']))
+            {
+                if (in_array($metadata['compatibility'], $compatibility))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private function create_field($definition)
