@@ -81,9 +81,9 @@ class Npr_story_api_ext
 
     public function nprstory_api_delete($entry, $values)
     {
-        $delete_remote = $this->should_delete_remote_entry($entry);
+        $npr_story_id = $this->should_delete_remote_entry($entry->entry_id);
 
-        if ($delete_remote === false)
+        if ($npr_story_id == null)
         {
             return;
         }
@@ -402,31 +402,16 @@ class Npr_story_api_ext
         // }
     }
 
-    private function should_delete_remote_entry($entry)
+    private function should_delete_remote_entry($entry_id)
     {
-        $push_field = $this->fields['publish_to_npr'];
-        $was_pushed = $entry->{$push_field};
+        $npr_story_id = ee()->db->select('npr_story_id')
+            ->from('npr_story_api_pushed_stories')
+            ->where(array('entry_id' => $entry_id))
+            ->limit(1)
+            ->get()
+            ->row('npr_story_id');
 
-        if ($was_pushed === 1)
-        {
-            return true;
-        }
-
-        $source_field = $this->fields['channel_entry_source'];
-        $entry_source = $entry->{$source_field};
-        $was_pulled = $this->check_external_story_source($entry_source);
-
-        if ($was_pulled === true)
-        {
-            // story was not pushed
-            return false;
-        }
-
-        $story_id_field = $this->fields['npr_story_id'];
-        $npr_story_id = $entry->{$story_id_field};
-        $has_story_id = $npr_story_id !== null;
-
-        return $has_story_id === true;
+        return $npr_story_id;
     }
 
     private function validate_story_id($entry, $values)
