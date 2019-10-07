@@ -50,7 +50,7 @@ class Field_installer {
 
                 if ($model->field_type !== $definition['field_type'])
                 {
-                    $is_compatible = $this->check_fieldtype_compatibility($model, $definition['field_type']);
+                    $is_compatible = $this->check_fieldtype_compatibility($model->field_type, $definition['field_type']);
 
                     if ($is_compatible === false)
                     {
@@ -100,11 +100,11 @@ class Field_installer {
         $this->custom_field_group->save();
     }
 
-    private function check_fieldtype_compatibility($installed_field, $target_compat_type)
+    private function check_fieldtype_compatibility($installed_field_type, $target_compat_type)
     {
         $compatibility = array();
 
-        $installed = ee('Addon')->get($installed_field->field_type);
+        $installed = ee('Addon')->get($installed_field_type);
         foreach ($installed->get('fieldtypes', array()) as $fieldtype => $metadata)
         {
             if (isset($metadata['compatibility']))
