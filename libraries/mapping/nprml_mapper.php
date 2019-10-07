@@ -7,7 +7,9 @@ if (!defined('BASEPATH')) {
 }
 
 require_once(__DIR__ . '/../../vendor/autoload.php');
+require_once(__DIR__ . '/compatibility/ipm_compatibility.php');
 use \NPRMLElement;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Compatibility\Ipm_compatibility;
 
 class Nprml_mapper
 {
@@ -300,10 +302,15 @@ class Nprml_mapper
     {   
         $teaser_field = $this->get_field_name('teaser');
         
-        $teaser_text = '';
-        if ( ! empty( $entry->{$teaser_field} ) ){
-            $teaser_text = $entry->{$teaser_field};
+        if ( empty( $entry->{$teaser_field} ) )
+        {
+            return '';
         }
+        
+        $teaser_text = $entry->{$teaser_field};
+        
+        $compat = new Ipm_compatibility();
+        $teaser_text = $compat->strip_tags($teaser_text);
 
         return $teaser_text;
     }
