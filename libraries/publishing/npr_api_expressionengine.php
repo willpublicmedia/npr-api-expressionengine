@@ -141,6 +141,7 @@ class Npr_api_expressionengine extends NPRAPI {
 
         $request_url = $this->build_request($params, $path, $base, $method);
         $this->connect_as_curl($request_url, $method);
+        $this->remove_push_registry($api_id);
     }
 
     /**
@@ -242,6 +243,14 @@ class Npr_api_expressionengine extends NPRAPI {
         $model = $mapper->map_parsed_story($parsed_story);
 
         return $model;
+    }
+
+    private function remove_push_registry($npr_story_id)
+    {
+        ee()->db->delete(
+            'npr_story_api_pushed_stories',
+            array('npr_story_id' => $npr_story_id)
+        );
     }
 
     private function set_response_code($simplexml) {
