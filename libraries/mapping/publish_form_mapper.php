@@ -20,6 +20,7 @@ class Publish_form_mapper
         $byline = $this->map_bylines($story->Byline);
         $corrections = $this->map_corrections($story->Correction, $entry->entry_id);
         $images = $this->map_images($story->Image);
+        $keywords = $this->map_keywords($story->keywords);
         $org = $this->map_organization($story->Organization);
         $permalinks = $this->map_permalinks($story->Link);
         $pullquotes = $this->map_pullquotes($story->PullQuote);
@@ -31,7 +32,7 @@ class Publish_form_mapper
             'audio_runby_date' => strtotime($story->audioRunByDate),
             'byline' => $byline,
             'corrections' => $corrections,
-            'keywords' => $story->keywords,
+            'keywords' => $keywords,
             'last_modified_date' => strtotime($story->lastModifiedDate),
             'mini_teaser' => $story->miniTeaser,
             'npr_images' => $images,
@@ -324,6 +325,18 @@ class Publish_form_mapper
         }
 
         return $image_array;
+    }
+
+    private function map_keywords($keywords)
+    {
+        $keyword_tags = array();
+        $keywords = explode(", ", $keywords);
+        foreach ($keywords as $word)
+        {
+
+        }
+
+        return $keyword_tags;
     }
 
     private function map_organization($org_model)
