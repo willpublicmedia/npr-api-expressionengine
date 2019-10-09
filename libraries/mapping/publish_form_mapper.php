@@ -329,14 +329,8 @@ class Publish_form_mapper
 
     private function map_keywords($keywords)
     {
-        $keyword_tags = array();
-        $keywords = explode(", ", $keywords);
-        foreach ($keywords as $word)
-        {
-
-        }
-
-        return $keyword_tags;
+        // not implemented.
+        // no examples of stories with keywords found.
     }
 
     private function map_organization($org_model)
