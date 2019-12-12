@@ -78,6 +78,7 @@ class Config_form_builder {
      * @return mixed Control panel form.
      */
     public function build_api_settings_form($settings) {
+        $this->api_settings_form[0][] = $this->get_upload_destinations();
         $this->add_form_values($settings);
         $form_data = $this->api_settings_form;
 
@@ -94,5 +95,20 @@ class Config_form_builder {
 
             $item['fields'][$field_name]['value'] = $value;
         }
+    }
+
+    private function get_upload_destinations() {
+        $upload_field = array(
+            'title' => 'Image Upload Destination',
+            'fields' => array(
+                'npr_upload_destination' => array(
+                    'type' => 'radio',
+                    'choices' => ['meat', 'pineapple'],
+                    'value' => 'meat'
+                )
+            )
+        );
+
+        return $upload_field;
     }
 }
