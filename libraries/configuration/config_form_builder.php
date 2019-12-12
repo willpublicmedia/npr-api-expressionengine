@@ -98,15 +98,24 @@ class Config_form_builder {
     }
 
     private function get_upload_destinations() {
+        $destinations = ee('Model')->get('UploadDestination')
+            ->filter('site_id', ee()->config->item('site_id'))
+            ->filter('module_id', 0) // limit selection to user-defined destinations
+            ->all();
+        $file_choices = array();
+        foreach ($destinations as $dest) { $file_choices[] = $dest->name; }
+            
+        
         $upload_field = array(
             'title' => 'Image Upload Destination',
             'fields' => array(
                 'npr_upload_destination' => array(
                     'type' => 'radio',
-                    'choices' => ['meat', 'pineapple'],
-                    'value' => 'meat'
+                    'choices' => $file_choices,
+                    'value' => ''
                 )
-            )
+            ),
+            'required' => true
         );
 
         return $upload_field;
