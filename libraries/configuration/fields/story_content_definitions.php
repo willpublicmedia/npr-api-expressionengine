@@ -28,7 +28,7 @@ class Story_content_definitions
                         'new_0' => array(
                             'col_type' => "file",
                             'col_label' => "File",
-                            'col_name' => "audio_file",
+                            'col_name' => "file",
                             'col_instructions' => "",
                             'col_required' => "n",
                             'col_search' => "n",
@@ -284,7 +284,7 @@ class Story_content_definitions
                         'new_0' => array(
                             'col_type' => "file",
                             'col_label' => "File",
-                            'col_name' => "image_file",
+                            'col_name' => "file",
                             'col_instructions' => "",
                             'col_required' => "n",
                             'col_search' => "n",
