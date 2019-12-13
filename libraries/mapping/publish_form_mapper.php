@@ -271,8 +271,6 @@ class Publish_form_mapper
 
     private function map_image_crops($crop_models)
     {
-        $destination = $this->settings->npr_image_destination;
-
         if (!($crop_models instanceof \EllisLab\ExpressionEngine\Service\Model\Collection))
         {
             $crop_models = array($crop_models);
@@ -281,6 +279,8 @@ class Publish_form_mapper
         $crop_array = array();
         foreach ($crop_models as $model)
         {
+            $file = $this->sideload_file($model);
+
             $primary = $model->type === 'primary';
             if (property_exists($model, 'primary') && $model->primary)
             {
@@ -421,5 +421,21 @@ class Publish_form_mapper
     {
         $allowed = array_keys($permissions, 'true');
         return implode(", ", $allowed);
+    }
+
+    private function sideload_file($model, $field = 'file')
+    {
+        $destination = $this->settings->npr_image_destination;
+
+        $raw = file_get_contents($model->src);
+        $tmpfile = '/tmp/' . basename($model->src);
+        file_put_contents($tmpfile, $raw);
+        
+        ee()->load->library('filemanager');
+        $response = ee()->filemanager->save_file($tmpfile, $destination);
+        
+        unlink($tmpfile);
+
+        return;
     }
 }
