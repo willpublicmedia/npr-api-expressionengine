@@ -288,6 +288,7 @@ class Publish_form_mapper
             }
 
             $crop_array[] = array(
+                'file' => $file,
                 'type' => $model->type,
                 'src' => $model->src,
                 'height' => property_exists($model, 'height') ? $model->height : '',
@@ -448,6 +449,7 @@ class Publish_form_mapper
 
         $file = ee('Model')->make('File', $file_data);
         $file->UploadDestination = $destination;
+        $file->save();
 
         return $file;
     }
