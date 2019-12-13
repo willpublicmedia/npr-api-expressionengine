@@ -49,6 +49,7 @@ class Config_form_builder {
                     )
                 )
             )
+            // npr_upload_destination added dynamically
         )
     );
 
