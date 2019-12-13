@@ -85,8 +85,11 @@ class Config_form_builder {
             ->filter('site_id', ee()->config->item('site_id'))
             ->filter('module_id', 0) // limit selection to user-defined destinations
             ->all();
+
         $file_choices = array();
-        foreach ($destinations as $dest) { $file_choices[] = $dest->name; }
+        foreach ($destinations as $dest) { 
+            $file_choices[$dest->id] = $dest->name;
+        }
             
         
         $upload_field = array(
