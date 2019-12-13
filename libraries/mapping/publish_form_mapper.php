@@ -162,6 +162,19 @@ class Publish_form_mapper
         return $columns;
     }
 
+    private function get_destination_id($name)
+    {
+        $destinations = ee('Model')->get('UploadDestination')
+            ->filter('site_id', ee()->config->item('site_id'))
+            ->filter('module_id', 0) // limit selection to user-defined destinations
+            // ->filter('id', $name)
+            // ->limit(1)
+            ->all();
+
+        $id;
+        return '';
+    }
+
     private function map_audio($audio_models)
     {
         $audio_array = array();
@@ -271,8 +284,8 @@ class Publish_form_mapper
 
     private function map_image_crops($crop_models)
     {
-        $destination = $this->settings->npr_image_destination;
-        
+        $destination = $this->get_destination_id($this->settings->npr_image_destination);
+
         if (!($crop_models instanceof \EllisLab\ExpressionEngine\Service\Model\Collection))
         {
             $crop_models = array($crop_models);
