@@ -91,6 +91,8 @@ class Config_form_builder {
         
         $upload_field = array(
             'title' => 'Image Upload Destination',
+            // should be able to use BASE here, but url swaps session token and uri.
+            'desc' => 'Choose an appropriate image gallery from the <a href="/admin.php?cp/files">Files</a> menu.',
             'fields' => array(
                 'npr_upload_destination' => array(
                     'type' => 'radio',
