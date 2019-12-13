@@ -439,12 +439,13 @@ class Publish_form_mapper
 
         unlink($tmpfile);
 
+        $is_crop = property_exists($model, 'image_id') ? true : false;
         $file_data = array(
-            'title' => $model->title,
-            'description' => $model->caption,
+            'title' => $is_crop ? $model->Image->title : $model->title,
+            'description' => $is_crop ? $model->Image->caption : $model->caption,
             'location' => $destination->server_path,
             'file_name' => basename($model->src),
-            'credit' => $model->provider
+            'credit' => $is_crop ? $model->Image->provider : $model->provider
         );
 
         $file = ee('Model')->make('File', $file_data);
