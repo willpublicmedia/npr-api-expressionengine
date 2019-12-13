@@ -423,16 +423,28 @@ class Publish_form_mapper
         return implode(", ", $allowed);
     }
 
-    private function sideload_file($model, $field = 'file')
+    private function sideload_file($model, $field = 'userfile')
     {
-        $destination = $this->settings->npr_image_destination;
-
         $raw = file_get_contents($model->src);
         $tmpfile = '/tmp/' . basename($model->src);
         file_put_contents($tmpfile, $raw);
         
-        ee()->load->library('filemanager');
-        $response = ee()->filemanager->save_file($tmpfile, $destination);
+        $upload_data = array(
+            'name' => basename($model->src),
+            'error' => 0,
+            'tmp_name' => $tmpfile
+            , 'size' => 0
+            , 'type' => ''
+        );
+
+        $destination = ee('Model')->get('UploadDestination', $this->settings->npr_image_destination)
+			->filter('site_id', ee()->config->item('site_id'))
+			->first();
+
+        ee()->load->library('upload', array('upload_path' => dirname($destination->server_path)));
+        // prep upload expectations
+        $response = ee()->upload->raw_upload(basename($model->src), $raw);
+
         
         unlink($tmpfile);
 
