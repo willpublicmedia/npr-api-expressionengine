@@ -429,25 +429,26 @@ class Publish_form_mapper
         $tmpfile = '/tmp/' . basename($model->src);
         file_put_contents($tmpfile, $raw);
         
-        $upload_data = array(
-            'name' => basename($model->src),
-            'error' => 0,
-            'tmp_name' => $tmpfile
-            , 'size' => 0
-            , 'type' => ''
-        );
-
         $destination = ee('Model')->get('UploadDestination', $this->settings->npr_image_destination)
 			->filter('site_id', ee()->config->item('site_id'))
 			->first();
 
         ee()->load->library('upload', array('upload_path' => dirname($destination->server_path)));
-        // prep upload expectations
-        $response = ee()->upload->raw_upload(basename($model->src), $raw);
+        ee()->upload->raw_upload(basename($model->src), $raw);
 
-        
         unlink($tmpfile);
 
-        return;
+        $file_data = array(
+            'title' => $model->title,
+            'description' => $model->caption,
+            'location' => $destination->server_path,
+            'file_name' => basename($model->src),
+            'credit' => $model->provider
+        );
+
+        $file = ee('Model')->make('File', $file_data);
+        $file->UploadDestination = $destination;
+
+        return $file;
     }
 }
