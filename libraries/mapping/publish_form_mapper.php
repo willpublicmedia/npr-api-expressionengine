@@ -9,6 +9,16 @@ if (!defined('BASEPATH'))
 
 class Publish_form_mapper
 {
+    private $settings;
+
+    public function __construct()
+    {
+        $this->settings = ee()->db
+            ->limit(1)
+            ->get('npr_story_api_settings')
+            ->row();
+    }
+    
     /**
      * @entry A ChannelEntry object.
      * @values Post values returned by the publish form.
