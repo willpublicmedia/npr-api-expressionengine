@@ -33,7 +33,7 @@ class config_settings_table extends Table {
             'type' => 'varchar',
             'constraint' => 256
         ),
-        'npr_upload_destination' => array(
+        'npr_image_destination' => array(
             'type' => 'varchar',
             'constraint' => 64
         ),

@@ -49,7 +49,7 @@ class Config_form_builder {
                     )
                 )
             )
-            // npr_upload_destination added dynamically
+            // npr_image_destination added dynamically
         )
     );
 
@@ -94,7 +94,7 @@ class Config_form_builder {
             // should be able to use BASE here, but url swaps session token and uri.
             'desc' => 'Choose an appropriate image gallery from the <a href="/admin.php?cp/files">Files</a> menu.',
             'fields' => array(
-                'npr_upload_destination' => array(
+                'npr_image_destination' => array(
                     'type' => 'radio',
                     'choices' => $file_choices,
                     'value' => ''

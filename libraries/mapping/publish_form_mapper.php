@@ -18,7 +18,7 @@ class Publish_form_mapper
             ->get('npr_story_api_settings')
             ->row();
     }
-    
+
     /**
      * @entry A ChannelEntry object.
      * @values Post values returned by the publish form.
@@ -271,6 +271,8 @@ class Publish_form_mapper
 
     private function map_image_crops($crop_models)
     {
+        $destination = $this->settings->npr_image_destination;
+        
         if (!($crop_models instanceof \EllisLab\ExpressionEngine\Service\Model\Collection))
         {
             $crop_models = array($crop_models);
