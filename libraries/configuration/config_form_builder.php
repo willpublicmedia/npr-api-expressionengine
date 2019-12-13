@@ -48,24 +48,6 @@ class Config_form_builder {
                         'value' => ''
                     )
                 )
-            ),
-            array(
-                'title' => 'NPR Pull Post Type',
-                'fields' => array(
-                    'npr_pull_post_type' => array(
-                        'type' => 'text',
-                        'value' => ''
-                    )
-                )
-            ),
-            array(
-                'title' => 'NPR Push Post Type',
-                'fields' => array(
-                    'npr_push_post_type' => array(
-                        'type' => 'text',
-                        'value' => ''
-                    )
-                )
             )
         )
     );

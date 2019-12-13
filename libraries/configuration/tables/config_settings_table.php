@@ -13,8 +13,6 @@ class config_settings_table extends Table {
     protected $_defaults = array(
         'api_key' => '',
         'npr_permissions' => '',
-        'npr_pull_post_type' => '',
-        'npr_push_post_type' => '',
         'org_id' => null,
         'pull_url' => '',
         'push_url' => ''
@@ -34,14 +32,6 @@ class config_settings_table extends Table {
         'npr_permissions' => array(
             'type' => 'varchar',
             'constraint' => 256
-        ),
-        'npr_pull_post_type' => array(
-            'type' => 'varchar',
-            'constraint' => 64
-        ),
-        'npr_push_post_type' => array(
-            'type' => 'varchar',
-            'constraint' => 64
         ),
         'org_id' => array(
             'type' => 'int',
