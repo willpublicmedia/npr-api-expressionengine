@@ -426,11 +426,24 @@ class Publish_form_mapper
 
     private function sideload_file($model, $field = 'userfile')
     {
+        $file = ee('Model')->get('File')
+            ->filter('upload_location_id', $this->settings->npr_image_destintation)
+            ->filter('file_name', basename($model->src))
+            ->first();
+        
+        if ($file != null)
+        {
+            array(
+                'dir' => '{filedir_' . $this->settings->npr_image_destination . '}',
+                'file' => $file
+            ); 
+        }
+
         $destination = ee('Model')->get('UploadDestination')
             ->filter('id', $this->settings->npr_image_destination)
 			->filter('site_id', ee()->config->item('site_id'))
-			->first();
-
+            ->first();
+        
         ee()->load->library('upload', array('upload_path' => $destination->server_path));
         
         $raw = file_get_contents($model->src);
@@ -486,7 +499,7 @@ class Publish_form_mapper
         $is_crop = property_exists($model, 'image_id') ? true : false;
         
         $file_data['title'] = $is_crop ? $model->Image->title : $model->title;
-        $file_data['description'] = $is_crop ? $model->Image->caption : $model->caption['value'];
+        $file_data['description'] = $is_crop ? $model->Image->caption : $model->caption->value;
         $file_data['credit'] = $is_crop ? $model->Image->provider : $model->provider;
 
         $saved = ee()->filemanager->save_file($upload_data['full_path'], $destination->id, $upload_data);
