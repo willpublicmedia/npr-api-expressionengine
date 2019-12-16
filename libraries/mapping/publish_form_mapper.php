@@ -482,23 +482,24 @@ class Publish_form_mapper
 			'max_width'				=> $destination->max_width,
 			'max_height'			=> $destination->max_height
         );
+
+        $is_crop = property_exists($model, 'image_id') ? true : false;
         
+        $file_data['title'] = $is_crop ? $model->Image->title : $model->title;
+        $file_data['description'] = $is_crop ? $model->Image->caption : $model->caption;
+        $file_data['credit'] = $is_crop ? $model->Image->provider : $model->provider;
+
         $saved = ee()->filemanager->save_file($upload_data['full_path'], $destination->id, $upload_data);
 
-        // unlink($tmpfile);
+        $file = ee('Model')->get('File')
+            ->filter('file_id', $saved['file_id'])
+            ->limit(1)
+            ->first();
 
-        // $is_crop = property_exists($model, 'image_id') ? true : false;
-        
-        // $file_data = array(
-        //     'title' => $is_crop ? $model->Image->title : $model->title,
-        //     'description' => $is_crop ? $model->Image->caption : $model->caption,
-        //     'location' => $destination->server_path,
-        //     'file_name' => basename($model->src),
-        //     'credit' => $is_crop ? $model->Image->provider : $model->provider
-        // );
-
-        // $file = ee('Model')->get('File', $result['file_id'])->first();
-        // $file->upload_location_id = $destination->id;
+        $file->title = $file_data['title'];
+        $file->description = $file_data['description'];
+        $file->credit = $file_data['credit'];
+        $file->save();
 
         return $file;
     }
