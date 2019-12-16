@@ -426,31 +426,79 @@ class Publish_form_mapper
 
     private function sideload_file($model, $field = 'userfile')
     {
-        $raw = file_get_contents($model->src);
-        $tmpfile = '/tmp/' . basename($model->src);
-        file_put_contents($tmpfile, $raw);
-        
-        $destination = ee('Model')->get('UploadDestination', $this->settings->npr_image_destination)
+        $destination = ee('Model')->get('UploadDestination')
+            ->filter('id', $this->settings->npr_image_destination)
 			->filter('site_id', ee()->config->item('site_id'))
 			->first();
 
-        ee()->load->library('upload', array('upload_path' => dirname($destination->server_path)));
-        ee()->upload->raw_upload(basename($model->src), $raw);
+        ee()->load->library('upload', array('upload_path' => $destination->server_path));
+        
+        $raw = file_get_contents($model->src);
+        
+        if (ee()->upload->raw_upload(basename($model->src), $raw) === FALSE)
+        {
+            ee('CP/Alert')->makeInline('shared-form')
+                ->asIssue()
+                ->withTitle(lang('upload_filedata_error'))
+                ->addToBody('')
+                ->now();
+            
+            return FALSE;
+        }
+        
+        // from filemanager
+        $upload_data = ee()->upload->data();
+        
+        // (try to) Set proper permissions
+		@chmod($upload_data['full_path'], FILE_WRITE_MODE);
+        // --------------------------------------------------------------------
+		// Add file the database
 
-        unlink($tmpfile);
+        ee()->load->library('filemanager', array('upload_path' => dirname($destination->server_path)));
+        $thumb_info = ee()->filemanager->get_thumb($upload_data['file_name'], $destination->id);
+        
+        // Build list of information to save and return
+		$file_data = array(
+			'upload_location_id'	=> $destination->id,
+			'site_id'				=> ee()->config->item('site_id'),
 
-        $is_crop = property_exists($model, 'image_id') ? true : false;
-        $file_data = array(
-            'title' => $is_crop ? $model->Image->title : $model->title,
-            'description' => $is_crop ? $model->Image->caption : $model->caption,
-            'location' => $destination->server_path,
-            'file_name' => basename($model->src),
-            'credit' => $is_crop ? $model->Image->provider : $model->provider
+			'file_name'				=> $upload_data['file_name'],
+			'orig_name'				=> basename($model->src), // name before any upload library processing
+			'file_data_orig_name'	=> $upload_data['orig_name'], // name after upload lib but before duplicate checks
+
+			'is_image'				=> $upload_data['is_image'],
+			'mime_type'				=> $upload_data['file_type'],
+
+			'file_thumb'			=> $thumb_info['thumb'],
+			'thumb_class' 			=> $thumb_info['thumb_class'],
+
+			'modified_by_member_id' => ee()->session->userdata('member_id'),
+			'uploaded_by_member_id'	=> ee()->session->userdata('member_id'),
+
+			'file_size'				=> $upload_data['file_size'] * 1024, // Bring it back to Bytes from KB
+			'file_height'			=> $upload_data['image_height'],
+			'file_width'			=> $upload_data['image_width'],
+			'file_hw_original'		=> $upload_data['image_height'].' '.$upload_data['image_width'],
+			'max_width'				=> $destination->max_width,
+			'max_height'			=> $destination->max_height
         );
+        
+        $saved = ee()->filemanager->save_file($upload_data['full_path'], $destination->id, $upload_data);
 
-        $file = ee('Model')->make('File', $file_data);
-        $file->UploadDestination = $destination;
-        $file->save();
+        // unlink($tmpfile);
+
+        // $is_crop = property_exists($model, 'image_id') ? true : false;
+        
+        // $file_data = array(
+        //     'title' => $is_crop ? $model->Image->title : $model->title,
+        //     'description' => $is_crop ? $model->Image->caption : $model->caption,
+        //     'location' => $destination->server_path,
+        //     'file_name' => basename($model->src),
+        //     'credit' => $is_crop ? $model->Image->provider : $model->provider
+        // );
+
+        // $file = ee('Model')->get('File', $result['file_id'])->first();
+        // $file->upload_location_id = $destination->id;
 
         return $file;
     }
