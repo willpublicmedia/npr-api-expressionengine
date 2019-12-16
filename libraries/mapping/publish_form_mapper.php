@@ -288,7 +288,7 @@ class Publish_form_mapper
             }
 
             $crop_array[] = array(
-                'file' => $file,
+                'file' => $file['dir'] . $file['file']->file_name,
                 'type' => $model->type,
                 'src' => $model->src,
                 'height' => property_exists($model, 'height') ? $model->height : '',
@@ -501,6 +501,11 @@ class Publish_form_mapper
         $file->credit = $file_data['credit'];
         $file->save();
 
-        return $file;
+        $results = array(
+            'dir' => '{filedir_' . $destination->id . '}',
+            'file' => $file
+        );
+
+        return $results;
     }
 }
