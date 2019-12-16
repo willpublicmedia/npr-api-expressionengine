@@ -504,6 +504,11 @@ class Publish_form_mapper
 
         $saved = ee()->filemanager->save_file($upload_data['full_path'], $destination->id, $upload_data);
 
+        if ($saved['status'] === false)
+        {
+            return;
+        }
+
         $file = ee('Model')->get('File')
             ->filter('file_id', $saved['file_id'])
             ->limit(1)
