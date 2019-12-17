@@ -318,6 +318,7 @@ class Publish_form_mapper
                 $row_name = "new_row_$count";
                 
                 $image = array(
+                    $grid_column_names['file'] => $crop['file'],
                     $grid_column_names['crop_type'] => $crop['type'],
                     $grid_column_names['crop_src'] => $crop['src'],
                     $grid_column_names['crop_height'] => $crop['height'],
@@ -427,7 +428,7 @@ class Publish_form_mapper
     private function sideload_file($model, $field = 'userfile')
     {
         $file = ee('Model')->get('File')
-            ->filter('upload_location_id', $this->settings->npr_image_destintation)
+            ->filter('upload_location_id', $this->settings->npr_image_destination)
             ->filter('file_name', basename($model->src))
             ->first();
         
