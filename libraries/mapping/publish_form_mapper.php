@@ -433,7 +433,7 @@ class Publish_form_mapper
         
         if ($file != null)
         {
-            array(
+            return array(
                 'dir' => '{filedir_' . $this->settings->npr_image_destination . '}',
                 'file' => $file
             ); 
