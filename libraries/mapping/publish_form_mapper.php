@@ -447,6 +447,13 @@ class Publish_form_mapper
         ee()->load->library('upload', array('upload_path' => $destination->server_path));
         
         $raw = file_get_contents($model->src);
+
+        // rename file if it'll be problematic.
+        // $query_string = parse_url($model->src, PHP_URL_QUERY);
+        // if ($query_string)
+        // {
+        //     $filename = basename($model->src);
+        // }
         
         if (ee()->upload->raw_upload(basename($model->src), $raw) === FALSE)
         {
