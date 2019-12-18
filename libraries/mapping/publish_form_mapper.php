@@ -322,6 +322,7 @@ class Publish_form_mapper
         $count = 1;
         foreach ($image_models as $model)
         {
+            $caption = $model->caption->value ? $model->caption->value : $model->title;
             $credit = $this->map_image_credit($model);
             $crops = $this->map_image_crops($model->Crop);
             $crops[] = $this->map_image_crops($model)[0];
