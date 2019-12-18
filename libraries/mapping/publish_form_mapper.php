@@ -518,7 +518,7 @@ class Publish_form_mapper
         
         $file_data['title'] = $filename;
         $file_data['description'] = $is_crop ? $model->Image->caption : $model->caption->value;
-        $file_data['credit'] = $is_crop ? $model->Image->provider : $model->provider;
+        $file_data['credit'] = $is_crop ? $this->map_image_credit($model->Image) : $this->map_image_credit($model);
 
         $saved = ee()->filemanager->save_file($upload_data['full_path'], $destination->id, $upload_data);
 
