@@ -407,36 +407,36 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_9' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Crop Producer',
-                            'col_name' => 'crop_producer',
-                            'col_instructions' => 'The actual producer of the image, to whom the image will get credited.',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            )
-                        ),
-                        'new_10' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Provider',
-                            'col_name' => 'crop_provider',
-                            'col_instructions' => 'The owner or provider of the image, which may be independent from the image producer.',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            )
-                        ),
+                        // 'new_9' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Crop Producer',
+                        //     'col_name' => 'crop_producer',
+                        //     'col_instructions' => 'The actual producer of the image, to whom the image will get credited.',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     )
+                        // ),
+                        // 'new_10' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Provider',
+                        //     'col_name' => 'crop_provider',
+                        //     'col_instructions' => 'The owner or provider of the image, which may be independent from the image producer.',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     )
+                        // ),
                         'new_11' => array(
                             'col_type' => 'url',
                             'col_label' => 'Provider URL',
@@ -464,6 +464,21 @@ class Story_content_definitions
                         //         'field_content_type' => 'integer'
                         //     )
                         // ),
+                        'new_13' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Credit',
+                            'col_name' => 'crop_credit',
+                            'col_instructions' => 'Image copyright information.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
                     // 
                     // 'link' => $model->link
                     // 'enlargement' => $model->enlargement,
