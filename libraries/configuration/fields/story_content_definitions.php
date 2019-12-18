@@ -323,21 +323,21 @@ class Story_content_definitions
                                 'url_scheme_placeholder' => 'https://'
                             )
                         ),
-                        'new_3' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Crop Height',
-                            'col_name' => 'crop_height',
-                            'col_instructions' => 'The height of the image in pixels.',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'integer'
-                            )
-                        ),
+                        // 'new_3' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Crop Height',
+                        //     'col_name' => 'crop_height',
+                        //     'col_instructions' => 'The height of the image in pixels.',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'integer'
+                        //     )
+                        // ),
                         'new_4' => array(
                             'col_type' => 'text',
                             'col_label' => 'Crop Width',
@@ -365,18 +365,18 @@ class Story_content_definitions
                                 'field_default_value' => 0
                             )
                         ),
-                        'new_6' => array(
-                            'col_type' => 'toggle',
-                            'col_label' => 'Has Border',
-                            'col_name' => 'crop_has_border',
-                            'col_instructions' => 'Indicates if the image has a border in the asset itself.',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_default_value' => 0
-                            )
-                        ),
+                        // 'new_6' => array(
+                        //     'col_type' => 'toggle',
+                        //     'col_label' => 'Has Border',
+                        //     'col_name' => 'crop_has_border',
+                        //     'col_instructions' => 'Indicates if the image has a border in the asset itself.',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_default_value' => 0
+                        //     )
+                        // ),
                         'new_7' => array(
                             'col_type' => 'text',
                             'col_label' => 'Crop Title',
@@ -449,21 +449,21 @@ class Story_content_definitions
                                 'url_scheme_placeholder' => 'https://'
                             )
                         ),
-                        'new_12' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Copyright',
-                            'col_name' => 'crop_copyright',
-                            'col_instructions' => 'The copyright information (year) for the image. 	',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'integer'
-                            )
-                        ),
+                        // 'new_12' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Copyright',
+                        //     'col_name' => 'crop_copyright',
+                        //     'col_instructions' => 'The copyright information (year) for the image. 	',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'integer'
+                        //     )
+                        // ),
                     // 
                     // 'link' => $model->link
                     // 'enlargement' => $model->enlargement,
