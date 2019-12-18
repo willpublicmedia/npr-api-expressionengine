@@ -502,7 +502,7 @@ class Publish_form_mapper
 
         $is_crop = property_exists($model, 'image_id') ? true : false;
         
-        $file_data['title'] = $is_crop ? $model->Image->title : $model->title;
+        $file_data['title'] = $filename;
         $file_data['description'] = $is_crop ? $model->Image->caption : $model->caption->value;
         $file_data['credit'] = $is_crop ? $model->Image->provider : $model->provider;
 
