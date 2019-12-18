@@ -269,6 +269,18 @@ class Publish_form_mapper
         return $corrections;
     }
 
+    private function map_image_credit($image_model)
+    {
+        $credit = "{$image_model->producer}/{$image_model->provider}";
+
+        if ($image_model->copyright !== 0)
+        {
+            $credit = "Copyright {$image_model->copyright} {$credit}";
+        }
+
+        return $credit;
+    }
+
     private function map_image_crops($crop_models)
     {
         if (!($crop_models instanceof \EllisLab\ExpressionEngine\Service\Model\Collection))
@@ -310,6 +322,7 @@ class Publish_form_mapper
         $count = 1;
         foreach ($image_models as $model)
         {
+            $credit = $this->map_image_credit($model);
             $crops = $this->map_image_crops($model->Crop);
             $crops[] = $this->map_image_crops($model)[0];
             foreach ($crops as $crop)
@@ -327,10 +340,11 @@ class Publish_form_mapper
                     // $grid_column_names['crop_has_border'] => $model->hasBorder,
                     $grid_column_names['crop_title'] => $model->title,
                     $grid_column_names['crop_caption'] => $model->caption->value,
-                    $grid_column_names['crop_producer'] => $model->producer,
-                    $grid_column_names['crop_provider'] => $model->provider,
+                    // $grid_column_names['crop_producer'] => $model->producer,
+                    // $grid_column_names['crop_provider'] => $model->provider,
                     $grid_column_names['crop_provider_url'] => $model->providerUrl,
                     // $grid_column_names['copyright'] => $model->copyright,
+                    $grid_column_names['crop_credit'] => $credit
                 );
                 
                 $image_array['rows'][$row_name] = $image;
