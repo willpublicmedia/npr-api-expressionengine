@@ -427,9 +427,12 @@ class Publish_form_mapper
 
     private function sideload_file($model, $field = 'userfile')
     {
+        // rename file if it'll be problematic.
+        $filename = $this->strip_sideloaded_query_strings($model->src);
+
         $file = ee('Model')->get('File')
             ->filter('upload_location_id', $this->settings->npr_image_destination)
-            ->filter('file_name', basename($model->src))
+            ->filter('file_name', $filename)
             ->first();
         
         if ($file != null)
@@ -448,15 +451,8 @@ class Publish_form_mapper
         ee()->load->library('upload', array('upload_path' => $destination->server_path));
         
         $raw = file_get_contents($model->src);
-
-        // rename file if it'll be problematic.
-        // $query_string = parse_url($model->src, PHP_URL_QUERY);
-        // if ($query_string)
-        // {
-        //     $filename = basename($model->src);
-        // }
         
-        if (ee()->upload->raw_upload(basename($model->src), $raw) === FALSE)
+        if (ee()->upload->raw_upload($filename, $raw) === FALSE)
         {
             ee('CP/Alert')->makeInline('shared-form')
                 ->asIssue()
@@ -484,7 +480,7 @@ class Publish_form_mapper
 			'site_id'				=> ee()->config->item('site_id'),
 
 			'file_name'				=> $upload_data['file_name'],
-			'orig_name'				=> basename($model->src), // name before any upload library processing
+			'orig_name'				=> $filename, // name before any upload library processing
 			'file_data_orig_name'	=> $upload_data['orig_name'], // name after upload lib but before duplicate checks
 
 			'is_image'				=> $upload_data['is_image'],
@@ -533,5 +529,20 @@ class Publish_form_mapper
         );
 
         return $results;
+    }
+
+    private function strip_sideloaded_query_strings($url)
+    {
+        $url_data = parse_url($url);
+        $filename = basename($url_data['path']);
+        
+        if (!array_key_exists('query', $url_data)) {
+            return $filename;
+        }
+
+        $path_data = pathinfo($filename);
+        $filename = "{$path_data['filename']}-{$url_data['query']}.{$path_data['extension']}";
+
+        return $filename;
     }
 }
