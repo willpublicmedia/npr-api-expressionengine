@@ -377,21 +377,21 @@ class Story_content_definitions
                         //         'field_default_value' => 0
                         //     )
                         // ),
-                        'new_7' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Crop Title',
-                            'col_name' => 'crop_title',
-                            'col_instructions' => '',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            )
-                        ),
+                        // 'new_7' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Crop Title',
+                        //     'col_name' => 'crop_title',
+                        //     'col_instructions' => '',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     )
+                        // ),
                         'new_8' => array(
                             'col_type' => 'text',
                             'col_label' => 'Crop Caption',

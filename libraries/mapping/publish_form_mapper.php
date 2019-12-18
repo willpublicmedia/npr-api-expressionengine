@@ -338,7 +338,7 @@ class Publish_form_mapper
                     $grid_column_names['crop_width'] => $crop['width'],
                     $grid_column_names['crop_primary'] => $crop['primary'],
                     // $grid_column_names['crop_has_border'] => $model->hasBorder,
-                    $grid_column_names['crop_title'] => $model->title,
+                    // $grid_column_names['crop_title'] => $model->title,
                     $grid_column_names['crop_caption'] => $model->caption->value,
                     // $grid_column_names['crop_producer'] => $model->producer,
                     // $grid_column_names['crop_provider'] => $model->provider,
