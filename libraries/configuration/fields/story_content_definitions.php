@@ -357,7 +357,7 @@ class Story_content_definitions
                             'col_type' => 'toggle',
                             'col_label' => 'Primary',
                             'col_name' => 'crop_primary',
-                            'col_instructions' => '',
+                            'col_instructions' => 'Toggle to select featured images.',
                             'col_required' => 'n',
                             'col_search' => 'n',
                             'col_width' => '',
