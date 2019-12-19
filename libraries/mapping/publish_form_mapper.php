@@ -558,6 +558,9 @@ class Publish_form_mapper
         $path_data = pathinfo($filename);
         $filename = "{$path_data['filename']}-{$url_data['query']}.{$path_data['extension']}";
 
+        ee()->load->library('upload');
+        $filename = ee()->upload->clean_file_name($filename);
+
         return $filename;
     }
 }
