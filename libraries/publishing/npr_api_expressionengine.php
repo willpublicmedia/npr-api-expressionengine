@@ -158,9 +158,9 @@ class Npr_api_expressionengine extends NPRAPI {
 
     private function build_query_params($params) {
         $queries = array();
-        foreach ( $this->request->params as $k => $v ) {
+        foreach ( $params as $k => $v ) {
           $queries[] = "$k=$v";
-          $this->request->param[$k] = $v;
+          $param[$k] = $v;
         }
 
         return $queries;
@@ -175,16 +175,16 @@ class Npr_api_expressionengine extends NPRAPI {
 
         $request_url = $this->request->base . '/' . $this->request->path;
         
-        $queries = $this->build_query_params($params);
-
+        
         if ($method === 'post')
         {
-            $this->request->postfields = implode('&', $queries);
-        } 
-        else 
-        {
-            $request_url = $request_url . '?' . implode('&', $queries);
+            // $this->request->postfields = implode('&', $queries);
+            $this->request->postfields = $params['body'];
+            unset($params['body']);
         }
+        
+        $queries = $this->build_query_params($params);
+        $request_url = $request_url . '?' . implode('&', $queries);
         
         return $request_url;
     }
@@ -198,9 +198,9 @@ class Npr_api_expressionengine extends NPRAPI {
         {
             curl_setopt($ch, CURLOPT_HEADER, true);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/xml',
+                'Content-Type: text/xml;charset=UTF-8',
                 'Connection: Keep-Alive',
-                'Accept: application/xml'
+                'Vary: Accept-Encoding'
             ));
             $field_count = count($this->request->params);
             curl_setopt($ch, CURLOPT_POST, $field_count);
@@ -212,7 +212,11 @@ class Npr_api_expressionengine extends NPRAPI {
             curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'DELETE' );
         }
 
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+
         $raw = curl_exec($ch);
+        $debug = curl_getinfo($ch);
+        print_r($debug);
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);

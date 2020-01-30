@@ -135,8 +135,8 @@ class Npr_story_api_ext
         
         $params = array(
             'orgId' => $this->settings['org_id'],
-            'dateType' => 'story',
-            'output' => 'NPRML',
+            // 'dateType' => 'story',
+            // 'output' => 'NPRML',
             'apiKey' => $api_key,
             'body' => $nprml
         );
