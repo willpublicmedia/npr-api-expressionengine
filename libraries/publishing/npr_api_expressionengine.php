@@ -215,8 +215,7 @@ class Npr_api_expressionengine extends NPRAPI {
         curl_setopt($ch, CURLOPT_VERBOSE, true);
 
         $raw = curl_exec($ch);
-        $debug = curl_getinfo($ch);
-        print_r($debug);
+        // print_r($raw);
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
