@@ -545,13 +545,17 @@ class Nprml_mapper
         /*
         * Dates and times
         */
-        $pub_date = ee()->localize->format_date('%r', $entry->entry_date, true);
+        if ($entry->{$this->get_field_name('pub_date')} === null)
+        {
+            $entry->{$this->get_field_name('pub_date')} = $entry->edit_date;
+        }
+
         $story[] = array(
             'tag' => 'pubDate',
-            'text' => $pub_date
+            'text' => ee()->localize->format_date('%r', $entry->{$this->get_field_name('pub_date')}, true)
         );
 
-        if (null === $entry->{$this->get_field_name('story_date')})
+        if ($entry->{$this->get_field_name('story_date')} === null)
         {
             $entry->{$this->get_field_name('story_date')} = $entry->localize->now;
         }
