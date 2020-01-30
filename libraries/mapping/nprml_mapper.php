@@ -551,7 +551,7 @@ class Nprml_mapper
             'text' => $pub_date
         );
 
-        $entry->{$this->get_field_name('story_date')} = $pub_date;
+        $entry->{$this->get_field_name('story_date')} = $entry->entry_date;
         $story[] = array(
             'tag' => 'storyDate',
             'text' => $pub_date
