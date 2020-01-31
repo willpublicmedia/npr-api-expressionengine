@@ -236,7 +236,13 @@ class Npr_api_expressionengine extends NPRAPI {
 
         $xml = simplexml_load_string($xmlstring);
 
-        $response->code = $this->set_response_code($xml);     
+        $data = $this->set_response_code($xml);
+        $response->code = $data['code'];
+        
+        if (array_key_exists('messages', $data))
+        {
+            $response->messages = $data['messages'];
+        }
 
         return $response;
     }
@@ -257,11 +263,18 @@ class Npr_api_expressionengine extends NPRAPI {
     }
 
     private function set_response_code($simplexml) {
-        if (!property_exists($simplexml, 'messages')) {
-            return self::NPRAPI_STATUS_OK;
+        if (!property_exists($simplexml, 'message')) {
+            return array('code' => self::NPRAPI_STATUS_OK);
         }
 
-        $messages = $simplexml->messages->message;
-        $code = (int)$messages[0]->attributes()->id;
+        $data = array(
+            'code' => (int)$simplexml->message->attributes()->id,
+            'messages' => array(
+                'message' => (string)$simplexml->message->text,
+                'level' => (string)$simplexml->message->attributes()->level
+            )
+        );
+
+        return $data;
     }
 }
