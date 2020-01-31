@@ -144,6 +144,12 @@ class Npr_story_api_ext
         // TODO: deduplicate request methods
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'story', $push_url, 'post');
+
+        if (array_key_exists('messages', $api_service->response))
+        {
+            return;
+        }
+
         $npr_story_id = $api_service->process_push_response();
 
         // don't assign npr_story_id if entry already has one
@@ -186,6 +192,11 @@ class Npr_story_api_ext
 
         // WARNING: story pull executes loop. Story may be an array.
         $story = $this->pull_npr_story($npr_story_id);
+        if (!$story)
+        {
+            return;
+        }
+
         if (isset($story[0]))
         {
             $story = $story[0];
@@ -384,6 +395,12 @@ class Npr_story_api_ext
         
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'query', $pull_url);
+        
+        if ($api_service->response === null || array_key_exists('messages', $api_service->response))
+        {
+            return;
+        }
+
         $api_service->parse();
         
         $stories = array();

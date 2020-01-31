@@ -34,6 +34,10 @@ class Npr_api_expressionengine extends NPRAPI {
         $this->request->request_url = $url;
 
         $response = $this->connect_as_curl($url, $method);
+        if (array_key_exists('messages', $response))
+        {
+            return;
+        }
         
         if ($response->body) {
             $this->xml = $response->body;
@@ -140,7 +144,12 @@ class Npr_api_expressionengine extends NPRAPI {
         $method = 'delete';
 
         $request_url = $this->build_request($params, $path, $base, $method);
-        $this->connect_as_curl($request_url, $method);
+        $response = $this->connect_as_curl($request_url, $method);
+        if (array_key_exists('messages', $response))
+        {
+            return;
+        }
+
         $this->remove_push_registry($api_id);
     }
 
@@ -223,8 +232,18 @@ class Npr_api_expressionengine extends NPRAPI {
         // parser expects an object, not xml string.
         $response = $this->convert_response($raw, $url);
 
-        if ($http_status != self::NPRAPI_STATUS_OK || $response->code != self::NPRAPI_STATUS_OK) {
-            throw new Npr_response_exception("Unable to retrieve story info for {$response->url}.");
+        if ($http_status != self::NPRAPI_STATUS_OK || $response->code != self::NPRAPI_STATUS_OK)
+        {
+            $code = array_key_exists('code', $response) ? $response->code : $http_status;
+            $message = array_key_exists('messages', $response) ? $response->messages[0]['message'] : "Error updating $url";
+
+            ee('CP/Alert')->makeInline('entries-form')
+                ->asIssue()
+                ->withTitle("NPR API response error: $code")
+                ->addToBody($message)
+                ->defer();
+            
+            return;
         }
 
         return $response;
@@ -270,8 +289,10 @@ class Npr_api_expressionengine extends NPRAPI {
         $data = array(
             'code' => (int)$simplexml->message->attributes()->id,
             'messages' => array(
-                'message' => (string)$simplexml->message->text,
-                'level' => (string)$simplexml->message->attributes()->level
+                array(
+                    'message' => (string)$simplexml->message->text,
+                    'level' => (string)$simplexml->message->attributes()->level
+                )
             )
         );
 
