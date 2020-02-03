@@ -468,7 +468,7 @@ class Story_content_definitions
                             'col_type' => 'text',
                             'col_label' => 'Credit',
                             'col_name' => 'crop_credit',
-                            'col_instructions' => 'Image copyright information.',
+                            'col_instructions' => 'Image copyright information in "Image Producer/Media Agency" format.',
                             'col_required' => 'n',
                             'col_search' => 'n',
                             'col_width' => '',
