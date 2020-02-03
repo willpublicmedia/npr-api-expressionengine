@@ -225,34 +225,6 @@ class Nprml_mapper
         return $media;
     }
 
-    private function get_media_agency($image_data)
-    {
-        $media_agency = '';
-        foreach ($image_data as $data)
-        {
-            if ($data['crop_primary'] === 1)
-            {
-                $media_agency = $data['crop_provider'];
-            }
-        }
-        
-        return $media_agency;
-    }
-
-    private function get_media_credit($image_data)
-    {
-        $media_credit = '';
-        foreach ($image_data as $data)
-        {
-            if ($data['crop_primary'] === 1)
-            {
-                $media_credit = $data['crop_producer'];
-            }
-        }
-        
-        return $media_credit;
-    }
-
     /**
      * If you have configured any Permissions Groups for content you distribute through the NPR Story API you can optionally add them in the NPR Permissions setting. 
      * Note that by default all content in the NPR Story API is open to everyone, unless you restrict access to a Permissions Group.
@@ -620,8 +592,9 @@ class Nprml_mapper
         * Attach images to the post
         */
         $images = $this->get_media($entry, 'npr_images');
-        $custom_media_agency = $this->get_media_agency($images);
-        $custom_media_credit = $this->get_media_credit($images);
+        $image_credits = $this->process_image_credits($images);
+        $custom_media_agency = $image_credits['media_agency'];
+        $custom_media_credit = $image_credits['media_credit'];
         $images = $this->convert_images($images, $custom_media_credit, $custom_media_agency);
         foreach ($images as $image)
         {
@@ -642,5 +615,20 @@ class Nprml_mapper
         * The story has been assembled; now we shall return it
         */
         return $story;
+    }
+
+    private function process_image_credits($image_data)
+    {
+        $credits = array();
+        foreach ($image_data as $data)
+        {
+            if ($data['crop_primary'] === 1)
+            {
+                $components = explode("/", $data['crop_credit']);
+                $credits['media_credit'] = $components[0];
+                $credits['media_agency'] = count($components) > 1 ? $components[1] : null;
+            }
+        }
+        return $credits;
     }
 }
