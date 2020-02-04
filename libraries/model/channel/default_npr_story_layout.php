@@ -23,6 +23,7 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 		// options
 		'channel_entry_source' => NULL,
 		'npr_story_id' => NULL,
+		'nprone_featured' => NULL,
 		'overwrite_local_values' => NULL,
 		'publish_to_npr' => NULL,
 		'send_to_one' => NULL
@@ -174,6 +175,11 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 			),
 			array(
 				'field' => $this->custom_options_fields['npr_story_id'],
+				'visible' => TRUE,
+				'collapsed' => FALSE
+			),
+			array(
+				'field' => $this->custom_options_fields['nprone_featured'],
 				'visible' => TRUE,
 				'collapsed' => FALSE
 			),
