@@ -200,7 +200,8 @@ class Story_content_definitions
             'field_pre_populate' => 'n',
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
-            'field_order' => 1
+            'field_order' => 1,
+            'field_is_hidden' => 'y'
         ),
         'byline' => array(
             'field_name' => 'byline',
@@ -228,6 +229,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'grid_min_rows' => 0,
                 'grid_max_rows' => '',
@@ -498,6 +500,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'field_fmt' => 'none',
                 'field_show_fmt' => 'n'
@@ -523,6 +526,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'field_fmt' => 'none',
                 'field_show_fmt' => 'n'
@@ -538,6 +542,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'grid_min_rows' => 0,
                 'grid_max_rows' => '1',
@@ -613,6 +618,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'field_fmt' => 'none',
                 'field_show_fmt' => 'n'
@@ -628,6 +634,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'field_fmt' => 'none',
                 'field_show_fmt' => 'n'
@@ -643,6 +650,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'grid_min_rows' => 0,
                 'grid_max_rows' => '',
@@ -709,6 +717,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'field_fmt' => 'none',
                 'field_show_fmt' => 'n'
@@ -735,6 +744,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'field_fmt' => 'none',
                 'field_show_fmt' => 'n'
@@ -751,6 +761,7 @@ class Story_content_definitions
             'field_pre_field_id' => 0,
             'field_pre_channel_id' => 0,
             'field_order' => 1,
+            'field_is_hidden' => 'y',
             'field_settings' => array(
                 'field_fmt' => 'none',
                 'field_show_fmt' => 'n'
