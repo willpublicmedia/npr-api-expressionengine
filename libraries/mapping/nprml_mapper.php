@@ -486,7 +486,7 @@ class Nprml_mapper
         * @see nprstory_save_send_to_one
         */
         $send_to_one = $entry->{$this->get_field_name('send_to_one')};
-        if ($send_to_one)
+        if ($send_to_one === 1)
         {
             $story[] = array(
                 'tag' => 'parent',
@@ -497,10 +497,11 @@ class Nprml_mapper
         /*
         * This story should be featured in NPR One
         *
+        * If the box is checked, the value here is '1'
         * @see nprstory_save_nprone_featured
         */
-        // $nprapi = get_post_meta( $post->ID, '_nprone_featured', true ); // 0 or 1
-        if ( ! empty( $nprapi ) && ( '1' === $nprapi || 1 === $nprapi ) ) {
+        $nprone_featured = $entry->{$this->get_field_name('send_to_one')};
+        if ($nprone_featured === 1) {
             $story[] = array(
                 'tag' => 'parent',
                 'attr' => array( 'id' => '500549367', 'type' => 'collection' ),
