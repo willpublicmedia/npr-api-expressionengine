@@ -213,7 +213,7 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 					$tab['fields'][] = array(
 						'field' => $field['field_id'],
 						'visible' => TRUE,
-						'collapsed' => FALSE
+						'collapsed' => $field['field_is_hidden'] === 'y' ? TRUE : FALSE
 					);
 				}
 
