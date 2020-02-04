@@ -179,11 +179,6 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 				'collapsed' => FALSE
 			),
 			array(
-				'field' => $this->custom_options_fields['nprone_featured'],
-				'visible' => TRUE,
-				'collapsed' => FALSE
-			),
-			array(
 				'field' => $this->custom_options_fields['overwrite_local_values'],
 				'visible' => TRUE,
 				'collapsed' => FALSE
@@ -196,7 +191,12 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 			array(
 				'field' => $this->custom_options_fields['send_to_one'],
 				'visible' => TRUE,
-				'collapsed' => FALSE
+				'collapsed' => TRUE
+			),
+			array(
+				'field' => $this->custom_options_fields['nprone_featured'],
+				'visible' => TRUE,
+				'collapsed' => TRUE
 			),
 			array(
 				'field' => 'status',
