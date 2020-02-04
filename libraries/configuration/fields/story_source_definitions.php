@@ -69,6 +69,22 @@ class Story_source_definitions
             'field_settings' => array(
                 'field_default_value' => 0
             )
-        )
+        ),
+        // nprml.php: 172
+        'send_to_one' => array(
+            'field_name' => 'send_to_one',
+            'field_label' => 'Send to NPR One',
+            'field_instructions' => '',
+            'field_type' => 'toggle',
+            'field_list_items' => '',
+            'field_pre_populate' => 'n',
+            'field_pre_field_id' => 0,
+            'field_pre_channel_id' => 0,
+            'field_order' => 1,
+            'field_settings' => array(
+                'field_default_value' => 0
+            )
+        ),
+
     );
 }
