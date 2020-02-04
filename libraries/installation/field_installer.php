@@ -12,7 +12,7 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_source_
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_content_definitions as Story_content_definitions;
 
 class Field_installer {
-    const DEFAULT_FIELD_GROUP_NAME = 'npr_story_api_fields';
+    const DEFAULT_FIELD_GROUP_NAME = 'NPR Story API';
 
     private $custom_field_group;
     
