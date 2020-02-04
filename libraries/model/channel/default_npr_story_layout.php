@@ -24,7 +24,8 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 		'channel_entry_source' => NULL,
 		'npr_story_id' => NULL,
 		'overwrite_local_values' => NULL,
-		'publish_to_npr' => NULL
+		'publish_to_npr' => NULL,
+		'send_to_one' => NULL
 	);
 
     /**
@@ -183,6 +184,11 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 			),
 			array(
 				'field' => $this->custom_options_fields['publish_to_npr'],
+				'visible' => TRUE,
+				'collapsed' => FALSE
+			),
+			array(
+				'field' => $this->custom_options_fields['send_to_one'],
 				'visible' => TRUE,
 				'collapsed' => FALSE
 			),
