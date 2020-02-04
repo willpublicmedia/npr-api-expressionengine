@@ -501,7 +501,7 @@ class Nprml_mapper
         * @see nprstory_save_nprone_featured
         */
         $nprone_featured = $entry->{$this->get_field_name('send_to_one')};
-        if ($nprone_featured === 1) {
+        if ($send_to_one === 1 && $nprone_featured === 1) {
             $story[] = array(
                 'tag' => 'parent',
                 'attr' => array( 'id' => '500549367', 'type' => 'collection' ),
