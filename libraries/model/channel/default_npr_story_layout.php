@@ -9,6 +9,12 @@ use EllisLab\ExpressionEngine\Model\Channel\Display\DefaultChannelLayout;
 
 class Default_npr_story_layout extends DefaultChannelLayout {
 	private $custom_options_fields = array(
+		// publish
+		'teaser' => NULL,
+		'byline' => NULL,
+		'audio_files' => NULL,
+		'npr_images' => NULL,
+		'text' => NULL,
 		// date
 		'audio_runby_date' => NULL,
 		'last_modified_date' => NULL,
@@ -45,6 +51,31 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 				),
 				array(
 					'field' => 'url_title',
+					'visible' => TRUE,
+					'collapsed' => FALSE
+				),
+				array(
+					'field' => $this->custom_options_fields['byline'],
+					'visible' => TRUE,
+					'collapsed' => FALSE
+				),
+				array(
+					'field' => $this->custom_options_fields['teaser'],
+					'visible' => TRUE,
+					'collapsed' => FALSE
+				),
+				array(
+					'field' => $this->custom_options_fields['text'],
+					'visible' => TRUE,
+					'collapsed' => FALSE
+				),
+				array(
+					'field' => $this->custom_options_fields['audio_files'],
+					'visible' => TRUE,
+					'collapsed' => FALSE
+				),
+				array(
+					'field' => $this->custom_options_fields['npr_images'],
 					'visible' => TRUE,
 					'collapsed' => FALSE
 				)
