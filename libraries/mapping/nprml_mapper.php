@@ -485,9 +485,9 @@ class Nprml_mapper
         * If the box is checked, the value here is '1'
         * @see nprstory_save_send_to_one
         */
-        // $nprapi = get_post_meta( $post->ID, '_send_to_one', true ); // 0 or 1
-        $nprapi = 0;
-        if ( ! empty( $nprapi ) && ( '1' === $nprapi || 1 === $nprapi ) ) {
+        $send_to_one = $entry->{$this->get_field_name('send_to_one')};
+        if ($send_to_one)
+        {
             $story[] = array(
                 'tag' => 'parent',
                 'attr' => array( 'id' => '319418027', 'type' => 'collection' ),
