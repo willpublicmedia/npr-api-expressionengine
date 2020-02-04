@@ -9,6 +9,12 @@ use EllisLab\ExpressionEngine\Model\Channel\Display\DefaultChannelLayout;
 
 class Default_npr_story_layout extends DefaultChannelLayout {
 	private $custom_options_fields = array(
+		// date
+		'audio_runby_date' => NULL,
+		'last_modified_date' => NULL,
+		'story_date' => NULL,
+		'pub_date' => NULL,
+		// options
 		'channel_entry_source' => NULL,
 		'npr_story_id' => NULL,
 		'overwrite_local_values' => NULL,
@@ -59,6 +65,26 @@ class Default_npr_story_layout extends DefaultChannelLayout {
 				'field' => 'expiration_date',
 				'visible' => TRUE,
 				'collapsed' => FALSE
+			),
+			array(
+				'field' => $this->custom_options_fields['pub_date'],
+				'visible' => TRUE,
+				'collapsed' => FALSE
+			),
+			array(
+				'field' => $this->custom_options_fields['last_modified_date'],
+				'visible' => TRUE,
+				'collapsed' => TRUE
+			),
+			array(
+				'field' => $this->custom_options_fields['story_date'],
+				'visible' => TRUE,
+				'collapsed' => TRUE
+			),
+			array(
+				'field' => $this->custom_options_fields['audio_runby_date'],
+				'visible' => TRUE,
+				'collapsed' => TRUE
 			)
 		);
 
