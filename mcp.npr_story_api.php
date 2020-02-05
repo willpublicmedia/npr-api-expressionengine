@@ -74,7 +74,9 @@ class Npr_story_api_mcp
             get()->
             result_array();
 
-        $settings = array_pop($results);
+        $raw = array_pop($results);
+        $raw['mapped_channels'] = explode("|", $raw['mapped_channels']);
+        $settings = $raw;
 
         $this->api_settings = $settings;
     }
@@ -87,6 +89,9 @@ class Npr_story_api_mcp
 
     private function save_settings($form_data, $table_name) {
         $changed = FALSE;
+        
+        $form_data['mapped_channels'] = implode('|', array_values($form_data['mapped_channels']));
+        
         foreach ($form_data as $key => $value) {
             if ($this->api_settings[$key] != $value) {
                 $changed = TRUE;
