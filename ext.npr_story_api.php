@@ -110,12 +110,22 @@ class Npr_story_api_ext
         if ($is_mapped_channel === false)
         {
             $abort = true;
+            ee('CP/Alert')->makeInline('story-push-not-mapped')
+                ->asIssue()
+                ->withTitle('NPR Stories Mapping Error')
+                ->addToBody('Channel not mapped to story API. See addon settings in control panel.')
+                ->defer();
         }
 
         $has_required_fields = $this->check_required_fields($entry->Channel->FieldGroups);
         if ($has_required_fields === false)
         {
             $abort = true;
+            ee('CP/Alert')->makeInline('story-push-missing-fields')
+                ->asIssue()
+                ->withTitle('NPR Stories Mapping Error')
+                ->addToBody('Channel must use the ' . Field_installer::DEFAULT_FIELD_GROUP_NAME . ' field group.')
+                ->defer();
         }
 
         $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
@@ -123,7 +133,7 @@ class Npr_story_api_ext
         {
             $abort = true;
             ee('CP/Alert')->makeInline('story-push-api-key')
-                ->asAlert()
+                ->asIssue()
                 ->withTitle('NPR Stories')
                 ->addToBody("No push url set. Can't push story.")
                 ->defer();
@@ -134,7 +144,7 @@ class Npr_story_api_ext
         {
             $abort = true;
             ee('CP/Alert')->makeInline('story-push-push-url')
-                ->asAlert()
+                ->asIssue()
                 ->withTitle('NPR Stories')
                 ->addToBody("No push url set. Can't push story.")
                 ->defer();
