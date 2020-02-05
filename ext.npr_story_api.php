@@ -103,6 +103,13 @@ class Npr_story_api_ext
         }
 
         $abort = false;
+
+        $is_mapped_channel = $this->check_mapped_channel($entry->channel_id);
+        if ($is_mapped_channel === false)
+        {
+            $abort = true;
+        }
+
         $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
         if ($api_key === '')
         {
@@ -262,6 +269,22 @@ class Npr_story_api_ext
         }
 
         return TRUE;
+    }
+
+    private function check_mapped_channel($channel_id)
+    {
+        $results = ee()->db->
+            select('mapped_channels')->
+            from('npr_story_api_settings')->
+            get()->
+            result_array();
+
+        $mapped_channels = (array_pop($results))['mapped_channels'];
+        $mapped_channels = explode("|", $mapped_channels);
+
+        $is_mapped = in_array($channel_id, $mapped_channels);
+    
+        return $is_mapped;
     }
 
     private function check_pushed_story_registry($entry_id)
