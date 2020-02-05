@@ -87,9 +87,26 @@ class Npr_story_api_mcp
         return $result;
     }
 
+    private function require_npr_channel($channel_array)
+    {
+        $npr_channel_id = ee('Model')->get('Channel')
+            ->filter('channel_name', 'npr_stories')
+            ->fields('channel_id')
+            ->first()
+            ->channel_id;
+        
+        if (!in_array($npr_channel_id, array_values($channel_array)))
+        {
+            $channel_array[] = "$npr_channel_id";
+        }
+
+        return $channel_array;
+    }
+
     private function save_settings($form_data, $table_name) {
         $changed = FALSE;
-        
+
+        $form_data['mapped_channels'] = $this->require_npr_channel($form_data['mapped_channels']);
         $form_data['mapped_channels'] = implode('|', array_values($form_data['mapped_channels']));
         
         foreach ($form_data as $key => $value) {
