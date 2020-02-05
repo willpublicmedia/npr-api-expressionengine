@@ -110,11 +110,6 @@ class Npr_story_api_ext
         if ($is_mapped_channel === false)
         {
             $abort = true;
-            ee('CP/Alert')->makeInline('story-push-not-mapped')
-                ->asIssue()
-                ->withTitle('NPR Stories Mapping Error')
-                ->addToBody('Channel not mapped to story API. See addon settings in control panel.')
-                ->defer();
         }
 
         $has_required_fields = $this->check_required_fields($entry->Channel->FieldGroups);
@@ -209,11 +204,6 @@ class Npr_story_api_ext
         if ($is_mapped_channel === false)
         {
             $abort = true;
-            ee('CP/Alert')->makeInline('story-push-not-mapped')
-                ->asIssue()
-                ->withTitle('NPR Stories Mapping Error')
-                ->addToBody('Channel not mapped to story API. See addon settings in control panel.')
-                ->defer();
         }
 
         $has_required_fields = $this->check_required_fields($entry->Channel->FieldGroups);
@@ -318,7 +308,7 @@ class Npr_story_api_ext
         return TRUE;
     }
 
-    private function check_mapped_channel($channel_id)
+    private function check_mapped_channel($channel_id, $display_error = true)
     {
         $results = ee()->db->
             select('mapped_channels')->
@@ -330,6 +320,15 @@ class Npr_story_api_ext
         $mapped_channels = explode("|", $mapped_channels);
 
         $is_mapped = in_array($channel_id, $mapped_channels);
+
+        if (!$is_mapped && $display_error)
+        {
+            ee('CP/Alert')->makeInline('story-push-not-mapped')
+                ->asIssue()
+                ->withTitle('NPR Stories Mapping Error')
+                ->addToBody('Channel not mapped to story API. See addon settings in control panel.')
+                ->defer();
+        }
     
         return $is_mapped;
     }
