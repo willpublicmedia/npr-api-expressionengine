@@ -50,6 +50,7 @@ class Config_form_builder {
                 )
             )
             // npr_image_destination added dynamically
+            // mapped_channels added dynamically
         )
     );
 
@@ -62,6 +63,7 @@ class Config_form_builder {
      */
     public function build_api_settings_form($settings) {
         $this->api_settings_form[0][] = $this->get_upload_destinations();
+        $this->api_settings_form[0][] = $this->get_mappable_channels();
         $this->add_form_values($settings);
         $form_data = $this->api_settings_form;
 
@@ -78,6 +80,35 @@ class Config_form_builder {
 
             $item['fields'][$field_name]['value'] = $value;
         }
+    }
+
+    private function get_mappable_channels()
+    {
+        $channels = ee('Model')->get('Channel')
+            ->filter('site_id', ee()->config->item('site_id'))
+            ->order('channel_title')
+            ->all();
+        
+        $mappable = array();
+        foreach ($channels as $channel)
+        {
+            $mappable[$channel->channel_id] = $channel->channel_title;
+        }
+
+        $channel_field = array(
+            'title' => 'Map channels to API',
+            'desc' => 'Select channels to use with the NPR story API. You must create a valid channel entry form for each mapped channel.',
+            'fields' => array(
+                'mapped_channels' => array(
+                    'type' => 'checkbox',
+                    'choices' => $mappable,
+                    'value' => ''
+                )
+            ),
+            'required' => false
+        );
+
+        return $channel_field;
     }
 
     private function get_upload_destinations() {
