@@ -31,8 +31,7 @@ class config_settings_table extends Table {
             'constraint' => 64
         ),
         'mapped_channels' => array(
-            'type' => 'varchar',
-            'constraint' => 128
+            'type' => 'text'
         ),
         'npr_permissions' => array(
             'type' => 'varchar',
