@@ -12,6 +12,7 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table;
 class config_settings_table extends Table {
     protected $_defaults = array(
         'api_key' => '',
+        'mapped_channels' => '',
         'npr_permissions' => '',
         'org_id' => null,
         'pull_url' => '',
@@ -28,6 +29,10 @@ class config_settings_table extends Table {
         'api_key' => array(
             'type' => 'varchar',
             'constraint' => 64
+        ),
+        'mapped_channels' => array(
+            'type' => 'varchar',
+            'constraint' => 128
         ),
         'npr_permissions' => array(
             'type' => 'varchar',
