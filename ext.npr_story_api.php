@@ -116,11 +116,6 @@ class Npr_story_api_ext
         if ($has_required_fields === false)
         {
             $abort = true;
-            ee('CP/Alert')->makeInline('story-push-missing-fields')
-                ->asIssue()
-                ->withTitle('NPR Stories Mapping Error')
-                ->addToBody('Channel must use the ' . Field_installer::DEFAULT_FIELD_GROUP_NAME . ' field group.')
-                ->defer();
         }
 
         $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
@@ -210,11 +205,6 @@ class Npr_story_api_ext
         if ($has_required_fields === false)
         {
             $abort = true;
-            ee('CP/Alert')->makeInline('story-push-missing-fields')
-                ->asIssue()
-                ->withTitle('NPR Stories Mapping Error')
-                ->addToBody('Channel must use the ' . Field_installer::DEFAULT_FIELD_GROUP_NAME . ' field group.')
-                ->defer();
         }
 
         if ($abort === true)
@@ -333,7 +323,7 @@ class Npr_story_api_ext
         return $is_mapped;
     }
 
-    private function check_required_fields($field_groups)
+    private function check_required_fields($field_groups, $display_error = true)
     {
         foreach ($field_groups as $group)
         {
@@ -341,6 +331,15 @@ class Npr_story_api_ext
             {
                 return true;
             }
+        }
+
+        if ($display_error)
+        {
+            ee('CP/Alert')->makeInline('story-push-missing-fields')
+                ->asIssue()
+                ->withTitle('NPR Stories Mapping Error')
+                ->addToBody('Channel must use the ' . Field_installer::DEFAULT_FIELD_GROUP_NAME . ' field group.')
+                ->defer();
         }
         
         return false;
