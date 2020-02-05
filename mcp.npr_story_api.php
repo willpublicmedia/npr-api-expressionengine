@@ -106,8 +106,10 @@ class Npr_story_api_mcp
     private function save_settings($form_data, $table_name) {
         $changed = FALSE;
 
-        $form_data['mapped_channels'] = $this->require_npr_channel($form_data['mapped_channels']);
-        $form_data['mapped_channels'] = implode('|', array_values($form_data['mapped_channels']));
+        $mapped = $form_data['mapped_channels'];
+        $mapped = $this->require_npr_channel($mapped);
+        $mapped = implode('|', array_values($form_data['mapped_channels']));
+        $form_data['mapped_channels'] = $mapped;
         
         foreach ($form_data as $key => $value) {
             if ($this->api_settings[$key] != $value) {
