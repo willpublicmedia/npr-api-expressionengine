@@ -8,10 +8,12 @@ if (!defined('BASEPATH'))
 require_once(__DIR__ . '/libraries/publishing/npr_api_expressionengine.php');
 require_once(__DIR__ . '/libraries/mapping/nprml_mapper.php');
 require_once(__DIR__ . '/libraries/mapping/publish_form_mapper.php');
+require_once(__DIR__ . '/libraries/installation/field_installer.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 use EllisLab\ExpressionEngine\Service\Validation\Result as ValidationResult;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Nprml_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 
 class Npr_story_api_ext 
 {
@@ -106,6 +108,12 @@ class Npr_story_api_ext
 
         $is_mapped_channel = $this->check_mapped_channel($entry->channel_id);
         if ($is_mapped_channel === false)
+        {
+            $abort = true;
+        }
+
+        $has_required_fields = $this->check_required_fields($entry->Channel->FieldGroups);
+        if ($has_required_fields === false)
         {
             $abort = true;
         }
@@ -285,6 +293,19 @@ class Npr_story_api_ext
         $is_mapped = in_array($channel_id, $mapped_channels);
     
         return $is_mapped;
+    }
+
+    private function check_required_fields($field_groups)
+    {
+        foreach ($field_groups as $group)
+        {
+            if ($group->group_name === Field_installer::DEFAULT_FIELD_GROUP_NAME)
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     private function check_pushed_story_registry($entry_id)
