@@ -72,6 +72,21 @@ class Story_content_definitions
                         ),
                         'new_3' => array(
                             'col_type' => 'text',
+                            'col_label' => 'Filesize',
+                            'col_name' => 'audio_filesize',
+                            'col_instructions' => 'The size of the audio file in bytes. Filesize will differ by type.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
+                        'new_4' => array(
+                            'col_type' => 'text',
                             'col_label' => 'Audio Description',
                             'col_name' => 'audio_description',
                             'col_instructions' => 'A short, sentence-like description of the audio.',
@@ -85,7 +100,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_4' => array(
+                        'new_5' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Format',
                             'col_name' => 'audio_format',
@@ -100,7 +115,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_5' => array(
+                        'new_6' => array(
                             'col_type' => 'url',
                             'col_label' => 'Audio URL',
                             'col_name' => 'audio_url',
@@ -112,7 +127,7 @@ class Story_content_definitions
                                 'url_scheme_placeholder' => 'https://'
                             )
                         ),
-                        'new_6' => array(
+                        'new_7' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Rights',
                             'col_name' => 'audio_rights',
@@ -127,7 +142,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_7' => array(
+                        'new_8' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Permissions',
                             'col_name' => 'audio_permissions',
@@ -142,7 +157,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )                            
                         ),
-                        'new_8' => array(
+                        'new_9' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Title',
                             'col_name' => 'audio_title',
@@ -157,7 +172,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_9' => array(
+                        'new_10' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Region',
                             'col_name' => 'audio_region',
@@ -172,7 +187,7 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_10' => array(
+                        'new_11' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Rightsholder',
                             'col_name' => 'audio_rightsholder',
