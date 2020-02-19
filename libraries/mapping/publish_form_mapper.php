@@ -209,7 +209,10 @@ class Publish_form_mapper
         $model = NULL;
         foreach ($preference as $format)
         {
-            $model = $format_models->filter('format', '==', $format)->first();
+            $model = $format_models->filter('format', '==', $format)
+                ->filter('filesize', '!=', '')
+                ->first();
+            
             if ($model != NULL)
             {
                 break;
