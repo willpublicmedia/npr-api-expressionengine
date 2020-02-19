@@ -39,6 +39,11 @@ class Npr_audio_format extends Model {
     protected $format;
 
     /**
+     * Audio filesize in bytes.
+     */
+    protected $filesize;
+
+    /**
      * The URL for the audio assets.
      */
     protected $url;
