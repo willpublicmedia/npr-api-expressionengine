@@ -21,6 +21,10 @@ class npr_audio_format_table extends Table {
             'type' => 'int',
             'constraint' => 64
         ),
+        'filesize' => array(
+            'type' => 'int',
+            'constraint' => 24
+        ),
         'format' => array(
             'type' => 'varchar',
             'constraint' => 24
