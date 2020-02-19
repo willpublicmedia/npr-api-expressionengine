@@ -218,6 +218,11 @@ class Model_story_mapper
                 $model->type = $format_data->type;
             }
 
+            if (\property_exists($format_data, 'fileSize'))
+            {
+                $model->filesize = $format_data->fileSize;
+            }
+
             $model->save();
             $formats[] = $model;
         }
