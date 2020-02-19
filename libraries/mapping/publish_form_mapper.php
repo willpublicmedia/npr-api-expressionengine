@@ -186,6 +186,7 @@ class Publish_form_mapper
                     $grid_column_names['audio_type'] => $model->type, // col_id => value?
                     $grid_column_names['audio_duration'] => $this->convert_audio_duration($model->duration),
                     $grid_column_names['audio_description'] => $model->description,
+                    $grid_column_names['audio_filesize'] => $stream['filesize'],
                     $grid_column_names['audio_format'] => $stream['format'],
                     $grid_column_names['audio_url'] => $stream['url'],
                     $grid_column_names['audio_rights'] => $model->rights,
@@ -223,6 +224,7 @@ class Publish_form_mapper
         $format_array = array();
         $format_array[] = array(
             'type' => $model->type,
+            'filesize' => $model->filesize,
             'format' => $model->format,
             'url' => $model->url
         );
