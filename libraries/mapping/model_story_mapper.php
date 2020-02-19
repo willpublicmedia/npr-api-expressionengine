@@ -209,20 +209,23 @@ class Model_story_mapper
                 }
             }
 
-            if (ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->count() > 0)
+            // $value is often a single-element array.
+            $format_data = is_array($value) ? array_pop($value) : $value;
+
+            $url = $format_data->value;
+            $type = $format_data->type;
+            
+            if (ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $url)->filter('type', $type)->count() > 0)
             {
-                $model = ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->first();
+                $model = ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $url)->filter('type', $type)->first();
             }
             else
             {
                 $model = ee('Model')->make('npr_story_api:Npr_audio_format');
             }
 
-            // $value is often a single-element array.
-            $format_data = is_array($value) ? array_pop($value) : $value;
-
             $model->format = $key;
-            $model->url = $format_data->value;
+            $model->url = $url;
 
             if (\property_exists($format_data, 'type')) {
                 $model->type = $format_data->type;
