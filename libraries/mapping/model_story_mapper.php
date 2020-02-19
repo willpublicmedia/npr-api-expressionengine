@@ -194,11 +194,21 @@ class Model_story_mapper
         return $audios;
     }
 
-    private function process_audio_format(\NPRMLElement $format_element)
+    private function process_audio_format(\NPRMLElement $format_element, $formats = array())
     {
-        $formats = array();
         foreach ($format_element as $key => $value)
         {
+            $is_nprml = $value instanceof \NPRMLElement;
+            if (is_array($value) && $is_nprml === false)
+            {
+                foreach ($value as $child)
+                {
+                    $element = new \NPRMLElement();
+                    $element->{$key} = $child;
+                    $formats = $this->process_audio_format($element, $formats);
+                }
+            }
+
             if (ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->count() > 0)
             {
                 $model = ee('Model')->get('npr_story_api:Npr_audio_format')->filter('url', $value)->first();
