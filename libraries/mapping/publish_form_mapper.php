@@ -205,7 +205,7 @@ class Publish_form_mapper
 
     private function map_audio_formats($format_models)
     {
-        $preference = array('mp4', 'mp3');
+        $preference = array('mp3', 'mp4');
         $model = NULL;
         foreach ($preference as $format)
         {
