@@ -120,7 +120,7 @@ class Story_content_definitions
                             'col_label' => 'Audio URL',
                             'col_name' => 'audio_url',
                             'col_instructions' => 'The URL for the audio asset.',
-                            'col_required' => 'n',
+                            'col_required' => 'y',
                             'col_search' => 'y',
                             'col_width' => '',
                             'col_settings' => array(
