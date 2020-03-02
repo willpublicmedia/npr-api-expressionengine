@@ -105,7 +105,7 @@ class Story_content_definitions
                             'col_label' => 'Audio Format',
                             'col_name' => 'audio_format',
                             'col_instructions' => 'The audio format.',
-                            'col_required' => 'n',
+                            'col_required' => 'y',
                             'col_search' => 'n',
                             'col_width' => '',
                             'col_settings' => array(
@@ -318,7 +318,7 @@ class Story_content_definitions
                             'col_label' => 'Crop Type',
                             'col_name' => 'crop_type',
                             'col_instructions' => 'The general crop size (e.g., small).',
-                            'col_required' => 'n',
+                            'col_required' => 'y',
                             'col_search' => 'n',
                             'col_width' => '',
                             'col_settings' => array(
