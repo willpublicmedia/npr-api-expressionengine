@@ -76,6 +76,11 @@ class Npr_story_api_upd
      */
     public function install()
     {
+        if ($this->check_dependencies() === false)
+        {
+            return false;
+        }
+
         $this->create_tables($this->tables['config']);
         $this->create_tables($this->tables['story']);
         $this->create_required_fields();
@@ -141,7 +146,17 @@ class Npr_story_api_upd
             return false;
         }
 
+        if ($this->check_dependencies() === false)
+        {
+            return false;
+        }
+
         return true;
+    }
+
+    private function check_dependencies()
+    {
+        return false;
     }
 
     private function create_required_channels() {
