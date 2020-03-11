@@ -15,7 +15,12 @@ class Dependency_manager
     public function check_dependencies($show_errors = true): bool
     {
         $missing = $this->check_php_modules($this->php_required_modules);
+
         $has_dependencies = empty($missing);
+        if (!$has_dependencies && $show_errors)
+        {
+            $this->show_errors($missing);
+        }
 
         return $has_dependencies;
     }
@@ -32,5 +37,17 @@ class Dependency_manager
         }
 
         return $failed;
+    }
+
+    private function show_errors(array $missing): void
+    {
+        foreach ($missing as $item)
+        {
+            ee('CP/Alert')->makeInline('npr-api-dependencies')
+                    ->asIssue()
+                    ->withTitle("NPR Story API: Missing Dependencies")
+                    ->addToBody("Cannot install NPR Story API. Missing php module: $item.")
+                    ->defer();
+        }
     }
 }

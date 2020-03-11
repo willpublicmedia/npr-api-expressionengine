@@ -68,8 +68,6 @@ class Npr_story_api_upd
      * @return void
      */
     public function __construct() {
-        print_r("<p>current version is ". ee('Addon')->get('npr_story_api')->getVersion() ."</p>");
-        print_r("<p> dependency check is ".$this->check_dependencies()."</p>");
         ee()->load->dbforge();
     }
 
