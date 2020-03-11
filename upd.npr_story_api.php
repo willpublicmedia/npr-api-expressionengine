@@ -68,6 +68,8 @@ class Npr_story_api_upd
      * @return void
      */
     public function __construct() {
+        print_r("<p>current version is ". ee('Addon')->get('npr_story_api')->getVersion() ."</p>");
+        print_r("<p> dependency check is ".$this->check_dependencies()."</p>");
         ee()->load->dbforge();
     }
 
@@ -156,17 +158,12 @@ class Npr_story_api_upd
         return true;
     }
 
-    private function check_dependencies()
+    private function check_dependencies(): bool
     {
         $manager = new Dependency_manager();
-        $failed = $manager->check_dependencies();
+        $has_dependencies = $manager->check_dependencies();
         
-        if ($failed === null || empty($failed))
-        {
-            return true;
-        }
-
-        return false;
+        return $has_dependencies;
     }
 
     private function create_required_channels() {

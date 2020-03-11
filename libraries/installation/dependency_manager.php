@@ -12,10 +12,12 @@ class Dependency_manager
         'xml'
     ];
 
-    public function check_dependencies(): array
+    public function check_dependencies($show_errors = true): bool
     {
-        $failed = $this->check_php_modules($this->php_required_modules);
-        return $failed;
+        $missing = $this->check_php_modules($this->php_required_modules);
+        $has_dependencies = empty($missing);
+
+        return $has_dependencies;
     }
 
     private function check_php_modules(array $modules): array
