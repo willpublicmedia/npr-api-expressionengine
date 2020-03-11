@@ -158,6 +158,14 @@ class Npr_story_api_upd
 
     private function check_dependencies()
     {
+        $manager = new Dependency_manager();
+        $failed = $manager->check_dependencies();
+        
+        if ($failed === null || empty($failed))
+        {
+            return true;
+        }
+
         return false;
     }
 
