@@ -7,8 +7,28 @@ if (!defined('BASEPATH')) {
 
 class Dependency_manager
 {
-    public function check_dependencies()
+    private $php_required_modules = [
+        'curl',
+        'xml'
+    ];
+
+    public function check_dependencies(): array
     {
-        return false;
+        $failed = $this->check_php_modules($this->php_required_modules);
+        return $failed;
+    }
+
+    private function check_php_modules(array $modules): array
+    {
+        $failed = array();
+        foreach($modules as $module)
+        {
+            if (!\extension_loaded($module))
+            {
+                $failed[] = $module;
+            }
+        }
+
+        return $failed;
     }
 }
