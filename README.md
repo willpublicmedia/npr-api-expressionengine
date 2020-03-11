@@ -74,4 +74,6 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 - ExpressionEngine 5
 - PHP 7
+- PHP curl module
+- PHP xml module
 - [Composer](https://getcomposer.org)
