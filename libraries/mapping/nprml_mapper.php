@@ -79,6 +79,9 @@ class Nprml_mapper
                 }
             }
 
+            $manipulations = $this->get_manipulations($data);
+            $crops = $this->create_image_crops($manipulations);
+
             // set default crop type
             $image_type = $data['crop_primary'] == true ? 'primary' : 'standard';
             $images[] = array(
@@ -100,12 +103,17 @@ class Nprml_mapper
                     array(
                         'tag' => 'provider',
                         'text' => $custom_media_agency
-                    )
-                ),
-            );
+                        )
+                    ),
+                );
         }
 
         return $images;
+    }
+
+    private function create_image_crops($manipulations)
+    {
+        return;
     }
     
     private function get_bylines($entry)
@@ -186,6 +194,34 @@ class Nprml_mapper
                 ->file_id;
         
         return $file_id;
+    }
+
+    private function get_manipulations($image_data): array
+    {
+        $file = ee('Model')->get('File')->filter('file_id', $image_data['file_id'])->first();
+        if ($file === null)
+        {
+            return array();
+        }
+
+        $destinations = $file->UploadDestination;
+        $dimensions = $destinations->FileDimensions; // short_name => /_short_name/filename
+        
+        $manipulations = array();
+        foreach ($dimensions as $dimension)
+        {
+            $src = $destinations->url . "/_" . $dimension->short_name . "/" . $file->file_name;
+            $manipulation = [
+                'type' => $dimension->short_name,
+                'src' => $src,
+                'height' => $dimension->height,
+                'width' => $dimension->width
+            ];
+
+            $manipulations[] = $manipulation;
+        }
+
+        return $manipulations;
     }
 
     private function get_media($entry, $field_name)
