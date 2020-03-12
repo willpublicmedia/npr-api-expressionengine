@@ -84,7 +84,7 @@ class Nprml_mapper
 
             // set default crop type
             $image_type = $data['crop_primary'] == true ? 'primary' : 'standard';
-            $images[] = array(
+            $tag_data = array(
                 'tag' => 'image',
                 'attr' => array( 'src' => $data['crop_src'] . $in_body, 'type' => $image_type ),
                 'children' => array(
@@ -104,8 +104,15 @@ class Nprml_mapper
                         'tag' => 'provider',
                         'text' => $custom_media_agency
                         )
-                    ),
+                    )
                 );
+
+            foreach ($crops as $crop)
+            {
+                $tag_data['children'][] = $crop;
+            }
+
+            $images[] = $tag_data;
         }
 
         return $images;
