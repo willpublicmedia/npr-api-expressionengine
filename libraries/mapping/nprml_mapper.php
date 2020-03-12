@@ -267,7 +267,14 @@ class Nprml_mapper
 
     private function get_permalink($entry)
     {
-        return $entry->entry_id;
+        $site_url = rtrim(ee()->config->item('site_url'), '/');
+
+        $channel_url = $entry->Channel->comment_url;
+        $channel_url = ltrim($channel_url, '/');
+        $channel_url = rtrim($channel_url, '/');
+        
+        $url = "$site_url/$channel_url/" . $entry->url_title;
+        return $url;
     }
 
     private function get_teaser($entry)
