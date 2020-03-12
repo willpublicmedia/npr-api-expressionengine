@@ -111,9 +111,25 @@ class Nprml_mapper
         return $images;
     }
 
-    private function create_image_crops($manipulations)
+    private function create_image_crops($manipulations): array
     {
-        return;
+        $crops = array();
+        foreach ($manipulations as $manipulation)
+        {
+            $crops[] = array(
+                array(
+                    'tag' => 'crop',
+                    'attr' => array(
+                        'type' => $manipulation['type'],
+                        'src' => $manipulation['src'],
+                        'height' => $manipulation['height'],
+                        'width' => $manipulation['width']
+                    )
+                )
+            );
+        }
+
+        return $crops;
     }
     
     private function get_bylines($entry)
