@@ -128,7 +128,7 @@ class Nprml_mapper
                 'attr' => array(
                     'type' => $manipulation['type'],
                     'src' => $manipulation['src'],
-                    'height' => $manipulation['height'],
+                    // 'height' => $manipulation['height'],
                     'width' => $manipulation['width']
                 )
             );
