@@ -228,12 +228,12 @@ class Nprml_mapper
         }
 
         $destinations = $file->UploadDestination;
-        $dimensions = $destinations->FileDimensions; // short_name => /_short_name/filename
+        $dimensions = $destinations->FileDimensions;
         
         $manipulations = array();
         foreach ($dimensions as $dimension)
         {
-            $src = $destinations->url . "/_" . $dimension->short_name . "/" . $file->file_name;
+            $src = rtrim($destinations->url, '/') . "/_" . $dimension->short_name . "/" . $file->file_name;
             $manipulation = [
                 'type' => $dimension->short_name,
                 'src' => $src,
