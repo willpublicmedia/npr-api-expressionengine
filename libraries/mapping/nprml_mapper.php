@@ -124,14 +124,12 @@ class Nprml_mapper
         foreach ($manipulations as $manipulation)
         {
             $crops[] = array(
-                array(
-                    'tag' => 'crop',
-                    'attr' => array(
-                        'type' => $manipulation['type'],
-                        'src' => $manipulation['src'],
-                        'height' => $manipulation['height'],
-                        'width' => $manipulation['width']
-                    )
+                'tag' => 'crop',
+                'attr' => array(
+                    'type' => $manipulation['type'],
+                    'src' => $manipulation['src'],
+                    'height' => $manipulation['height'],
+                    'width' => $manipulation['width']
                 )
             );
         }
