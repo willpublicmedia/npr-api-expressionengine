@@ -84,7 +84,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 - Check for php extension dependencies on install and update.
 
-### In Flight
+### 1.0.2
 
 - Bugfix: Use site_url + channel comment url + entry title as html permalink tag value on push.
 - Push [EE image manipulations](https://docs.expressionengine.com/latest/control-panel/file-manager.html#constrain-or-crop) as nprml image crops.
