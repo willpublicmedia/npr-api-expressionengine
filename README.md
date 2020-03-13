@@ -77,3 +77,14 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 - PHP curl module
 - PHP xml module
 - [Composer](https://getcomposer.org)
+
+## Changelog
+
+### 1.0.1
+
+- Check for php extension dependencies on install and update.
+
+### In Flight
+
+- Bugfix: Use site_url + channel comment url + entry title as html permalink tag value on push.
+- Push [EE image manipulations](https://docs.expressionengine.com/latest/control-panel/file-manager.html#constrain-or-crop) as nprml image crops.
