@@ -88,3 +88,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 - Bugfix: Use site_url + channel comment url + entry title as html permalink tag value on push.
 - Push [EE image manipulations](https://docs.expressionengine.com/latest/control-panel/file-manager.html#constrain-or-crop) as nprml image crops.
+
+### 1.0.3
+
+- Bugfix: Use unique partner ID.
