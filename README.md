@@ -92,3 +92,8 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 ### 1.0.3
 
 - Bugfix: Use unique partner ID.
+
+### Unreleased
+
+- Add byline splitting parameter to nprml mapper.
+- Bugfix: Correct nprml author assignment in empty byline.
