@@ -144,7 +144,8 @@ class Nprml_mapper
         
         if (empty($byline_value))
         {
-            return array($entry->author);
+            $author = $entry->Author->screen_name;
+            return array($author);
         }
 
         $bylines = $split_bylines ?
