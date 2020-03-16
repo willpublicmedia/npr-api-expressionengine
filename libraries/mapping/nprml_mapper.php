@@ -142,9 +142,14 @@ class Nprml_mapper
         $byline_field = $this->get_field_name('byline');
         $byline_value = $entry->{$byline_field};
         
-        $bylines = empty($byline_value) ?
-            array($entry->author) :
-            explode(", ", $byline_value);
+        if (empty($byline_value))
+        {
+            return array($entry->author);
+        }
+
+        $bylines = $split_bylines ?
+            explode(', ', $byline_value) :
+            array($byline_value);
 
         return $bylines;
     }
