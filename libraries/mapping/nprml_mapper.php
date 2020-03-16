@@ -137,7 +137,7 @@ class Nprml_mapper
         return $crops;
     }
     
-    private function get_bylines($entry, $split_bylines = true)
+    private function get_bylines($entry, $split_bylines = false)
     {
         $byline_field = $this->get_field_name('byline');
         $byline_value = $entry->{$byline_field};
