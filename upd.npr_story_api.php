@@ -11,6 +11,7 @@ require_once(__DIR__ . '/libraries/installation/extension_installer.php');
 require_once(__DIR__ . '/libraries/configuration/tables/table_loader.php');
 require_once(__DIR__ . '/libraries/configuration/tables/itable.php');
 require_once(__DIR__ . '/libraries/installation/table_installer.php');
+require_once(__DIR__ . '/libraries/installation/updates/updater_2_0_0.php');
 use IllinoisPublicMedia\NprStoryApi\Constants;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Dependency_manager;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
@@ -20,6 +21,7 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Extension_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table_loader;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\ITable;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Table_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Updates\Updater_2_0_0;
 
 /**
  * NPR Story API updater.
@@ -147,13 +149,26 @@ class Npr_story_api_upd
         if (version_compare($current, $this->version, '=')) {
             return false;
         }
-
+        
         if ($this->check_dependencies() === false)
         {
             return false;
         }
+        
+        $updated = true;
 
-        return true;
+        if (version_compare($current, '2.0.0', '<'))
+        {
+            $updater_2_0_0 = new Updater_2_0_0();
+            $success = $updater_2_0_0->update();
+
+            if (!$success)
+            {
+                $updated = false;
+            }
+        }
+
+        return $updated;
     }
 
     private function check_dependencies(): bool
