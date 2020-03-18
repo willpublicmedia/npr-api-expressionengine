@@ -50,5 +50,11 @@ class Updater_2_0_0
         return true;
     }
 
-    private function log_message() {}
+    private function log_message() {
+        ee('CP/Alert')->makeInline('npr-db-update')
+            ->asAttention()
+            ->withTitle("NPR Data Fields Updated")
+            ->addToBody("Removed format and url requirement from audio files field. Removed crop type and crop source requirement from npr images field.")
+            ->defer();
+    }
 }
