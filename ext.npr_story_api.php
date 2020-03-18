@@ -293,10 +293,12 @@ class Npr_story_api_ext
 
     private function autofill_media_values($entry, $values)
     {
+        $autofiller = new Field_autofiller();
+        
         // audio
 
         // images
-        
+
         $autofilled = array('entry' => $entry, 'values' => $values);
         return $autofilled;
     }
