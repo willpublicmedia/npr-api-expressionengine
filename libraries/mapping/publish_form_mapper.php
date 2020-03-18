@@ -8,7 +8,7 @@ if (!defined('BASEPATH'))
 }
 
 require_once(__DIR__ . '/../utilities/field_utils.php');
-use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utilities;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
 
 class Publish_form_mapper
 {

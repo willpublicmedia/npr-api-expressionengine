@@ -9,9 +9,9 @@ if (!defined('BASEPATH')) {
 require_once(__DIR__ . '/../../vendor/autoload.php');
 require_once(__DIR__ . '/compatibility/ipm_compatibility.php');
 require_once(__DIR__ . '/../utilities/field_utils.php');
-use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utilities;
 use \NPRMLElement;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Compatibility\Ipm_compatibility;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
 
 class Nprml_mapper
 {
