@@ -9,11 +9,13 @@ require_once(__DIR__ . '/libraries/publishing/npr_api_expressionengine.php');
 require_once(__DIR__ . '/libraries/mapping/nprml_mapper.php');
 require_once(__DIR__ . '/libraries/mapping/publish_form_mapper.php');
 require_once(__DIR__ . '/libraries/installation/field_installer.php');
+require_once(__DIR__ . '/libraries/mapping/field_autofiller.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 use EllisLab\ExpressionEngine\Service\Validation\Result as ValidationResult;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Nprml_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Field_autofiller;
 
 class Npr_story_api_ext 
 {
@@ -294,8 +296,7 @@ class Npr_story_api_ext
     private function autofill_media_values($entry, $values)
     {
         $autofiller = new Field_autofiller();
-        
-        // audio
+        $audio = $autofiller->autofill_audio('audio_files', $entry);
 
         // images
 

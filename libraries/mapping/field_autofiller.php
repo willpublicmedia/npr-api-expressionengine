@@ -16,6 +16,21 @@ class Field_autofiller
 
     public function __construct()
     {
-        $this->field_utils = new Field_utilities();
+        $this->field_utils = new Field_utils();
     }
+
+    public function autofill_audio($field_name, $entry)
+    {
+        $field_id = $this->field_utils->get_field_id($field_name);
+        $cols = $this->field_utils->get_grid_column_names($field_id);
+        $audio = $entry->field_id_45;
+        throw new \Exception('not implemented');
+    }
+
+    public function autofill_image($field_name)
+    {
+        throw new \Exception('not implemented');
+    }
+
+    
 }
