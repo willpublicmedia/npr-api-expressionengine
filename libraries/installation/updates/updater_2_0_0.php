@@ -29,11 +29,26 @@ class Updater_2_0_0
     {
         foreach ($fields as $k => $v)
         {
+            $parent_id = ee('Model')->get('ChannelField')
+                ->filter('field_name', $k)
+                ->fields('field_id')
+                ->first()
+                ->field_id;
+
             foreach ($v as $col)
             {
-                print_r("<p>Dealing with $k: $col</p>");
+                ee()->db->update(
+                    'exp_grid_columns', // table name
+                    array('col_required' => 'n'), // updated columns and values
+                    array('col_name' => $col, 'field_id' => $parent_id) // where clause
+                );
             }
+
+            $this->log_message();
         }
-        return false;
+
+        return true;
     }
+
+    private function log_message() {}
 }
