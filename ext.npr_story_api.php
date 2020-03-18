@@ -145,7 +145,10 @@ class Npr_story_api_ext
             return;
         }
 
-        // note pass-by-reference! entry date fields will be modified!
+        $autofilled = $this->autofill_media_values($entry, $values);
+        $entry = $autofilled['entry'];
+        $values = $autofilled['values'];
+
         $nprml = $this->create_nprml($entry, $values);
         
         $params = array(
@@ -286,6 +289,16 @@ class Npr_story_api_ext
                 'entry_id' => $entry->entry_id,
                 'npr_story_id' => $npr_story_id
             ));
+    }
+
+    private function autofill_media_values($entry, $values)
+    {
+        // audio
+
+        // images
+        
+        $autofilled = array('entry' => $entry, 'values' => $values);
+        return $autofilled;
     }
 
     private function check_external_story_source($story_source)
