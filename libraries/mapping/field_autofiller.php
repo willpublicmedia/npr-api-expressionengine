@@ -27,7 +27,9 @@ class Field_autofiller
 
         foreach ($audio_data as $item)
         {
-            $audio_data['audio_type'] = '';
+            $audio_data['audio_type'] = empty($audio_data['audio_type']) ?
+                $this->get_mimetype($audio_data['file']) :
+                $audio_data['audio_type'];
             $audio_data['audio_duration'] = '';
             $audio_data['audio_filesize'] = '';
             $audio_data['audio_description'] = '';
