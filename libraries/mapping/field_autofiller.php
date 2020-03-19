@@ -35,7 +35,7 @@ class Field_autofiller
                 ->first();
 
             $item['audio_type'] = empty($item['audio_type']) ?
-                $this->get_mimetype($item['file']) :
+                $file_model->mime_type :
                 $item['audio_type'];
             $item['audio_duration'] = '';
             $item['audio_filesize'] = '';
