@@ -27,19 +27,26 @@ class Field_autofiller
 
         foreach ($audio_data as $item)
         {
-            $audio_data['audio_type'] = empty($audio_data['audio_type']) ?
-                $this->get_mimetype($audio_data['file']) :
-                $audio_data['audio_type'];
-            $audio_data['audio_duration'] = '';
-            $audio_data['audio_filesize'] = '';
-            $audio_data['audio_description'] = '';
-            $audio_data['audio_format'] = '';
-            $audio_data['audio_url'] = '';
-            $audio_data['audio_rights'] = '';
-            $audio_data['audio_permissions'] = '';
-            $audio_data['audio_title'] = '';
-            $audio_data['audio_region'] = '';
-            $audio_data['audio_rightsholder'] = '';
+            $split = explode('}', $item['file']);
+            preg_match('/\d+$/', $split[0], $location_id);
+            $file_model = ee('Model')->get('File')
+                ->filter('file_name', $split[1])
+                ->filter('upload_location_id', $location_id[0])
+                ->first();
+
+            $item['audio_type'] = empty($item['audio_type']) ?
+                $this->get_mimetype($item['file']) :
+                $item['audio_type'];
+            $item['audio_duration'] = '';
+            $item['audio_filesize'] = '';
+            $item['audio_description'] = '';
+            $item['audio_format'] = '';
+            $item['audio_url'] = '';
+            $item['audio_rights'] = '';
+            $item['audio_permissions'] = '';
+            $item['audio_title'] = '';
+            $item['audio_region'] = '';
+            $item['audio_rightsholder'] = '';
         }
 
         
