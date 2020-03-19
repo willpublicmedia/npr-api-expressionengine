@@ -27,20 +27,21 @@ class Field_autofiller
 
         foreach ($audio_data as $item)
         {
-            $split = explode('}', $item['file']);
-            preg_match('/\d+$/', $split[0], $location_id);
-            $file_model = ee('Model')->get('File')
-                ->filter('file_name', $split[1])
-                ->filter('upload_location_id', $location_id[0])
-                ->first();
-
+            $file_model = $this->get_file_model($item['file']);
+            $format = $this->get_file_extension($item['file']);
+            
             $item['audio_type'] = empty($item['audio_type']) ?
                 $file_model->mime_type :
                 $item['audio_type'];
+    
             $item['audio_duration'] = '';
             $item['audio_filesize'] = '';
             $item['audio_description'] = '';
-            $item['audio_format'] = '';
+
+            $item['audio_format'] = empty($item['audio_format']) ?
+                $format :
+                $item['audio_format'];
+
             $item['audio_url'] = '';
             $item['audio_rights'] = '';
             $item['audio_permissions'] = '';
@@ -56,5 +57,23 @@ class Field_autofiller
     public function autofill_image($field_name)
     {
         throw new \Exception('not implemented');
+    }
+
+    private function get_file_extnesion($filename)
+    {
+        return end(explode('.', $filename));
+    }
+
+    private function get_file_model($entry_filepath)
+    {
+        $split = explode('}', $entry_filepath);
+        preg_match('/\d+$/', $split[0], $location_id);
+            
+        $file_model = ee('Model')->get('File')
+            ->filter('file_name', $split[1])
+            ->filter('upload_location_id', $location_id[0])
+            ->first();
+        
+        return $file_model;
     }
 }
