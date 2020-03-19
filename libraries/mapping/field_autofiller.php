@@ -25,7 +25,7 @@ class Field_autofiller
         $column_names = $this->field_utils->get_grid_column_names($field_id);
         $audio_data = $this->field_utils->get_grid_values($entry, $field_name);
 
-        foreach ($audio_data as $item)
+        foreach ($audio_data as $k => $item)
         {
             $file_model = $this->get_file_model($item['file']);
             $format = $this->get_file_extension($item['file']);
@@ -47,6 +47,8 @@ class Field_autofiller
             $item['audio_url'] = empty($item['audio_url']) ?
                 $this->build_url($file_model->getAbsoluteUrl()) :
                 $item['audio_url'];
+            
+            $audio[$k] = $item;
         }
 
         
