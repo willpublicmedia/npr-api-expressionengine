@@ -35,7 +35,10 @@ class Field_autofiller
                 $item['audio_type'];
     
             $item['audio_duration'] = '';
-            $item['audio_filesize'] = '';
+            $item['audio_filesize'] = empty($item['audio_filesize']) ?
+                $file_model->file_size :
+                $item['audio_filesize'];
+
             $item['audio_description'] = '';
 
             $item['audio_format'] = empty($item['audio_format']) ?
@@ -43,11 +46,11 @@ class Field_autofiller
                 $item['audio_format'];
 
             $item['audio_url'] = '';
-            $item['audio_rights'] = '';
-            $item['audio_permissions'] = '';
-            $item['audio_title'] = '';
-            $item['audio_region'] = '';
-            $item['audio_rightsholder'] = '';
+            // $item['audio_rights'] = '';
+            // $item['audio_permissions'] = '';
+            // $item['audio_title'] = '';
+            // $item['audio_region'] = '';
+            // $item['audio_rightsholder'] = '';
         }
 
         
