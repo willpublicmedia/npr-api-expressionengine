@@ -39,18 +39,14 @@ class Field_autofiller
                 $file_model->file_size :
                 $item['audio_filesize'];
 
-            $item['audio_description'] = '';
-
+                
             $item['audio_format'] = empty($item['audio_format']) ?
                 $format :
                 $item['audio_format'];
-
-            $item['audio_url'] = '';
-            // $item['audio_rights'] = '';
-            // $item['audio_permissions'] = '';
-            // $item['audio_title'] = '';
-            // $item['audio_region'] = '';
-            // $item['audio_rightsholder'] = '';
+                    
+            $item['audio_url'] = empty($item['audio_url']) ?
+                $this->build_url($file_model->getAbsoluteUrl()) :
+                $item['audio_url'];
         }
 
         
@@ -62,7 +58,17 @@ class Field_autofiller
         throw new \Exception('not implemented');
     }
 
-    private function get_file_extnesion($filename)
+    private function build_url($input)
+    {
+        $site_url = ee()->config->item('site_url');
+        $url = substr($input, 0, strlen($site_url)) === $site_url ?
+            $input :
+            $site_url . '/' . ltrim($input, '/');
+        
+        return $url;
+    }
+
+    private function get_file_extension($filename)
     {
         return end(explode('.', $filename));
     }
