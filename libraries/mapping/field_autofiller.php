@@ -19,7 +19,7 @@ class Field_autofiller
         $this->field_utils = new Field_utils();
     }
 
-    public function autofill_audio($field_name, $entry)
+    public function autofill_audio($field_name, $entry): bool
     {
         $field_id = $this->field_utils->get_field_id($field_name);
         $column_names = $this->field_utils->get_grid_column_names($field_id);
@@ -53,8 +53,7 @@ class Field_autofiller
         $prepared = $this->prepare_grid_data($audio_data, $column_names);
         $saved = $this->field_utils->save_grid_data($prepared);
         
-        throw new \Exception('not implemented');
-        return $entry;
+        return $saved;
     }
 
     public function autofill_image($field_name)

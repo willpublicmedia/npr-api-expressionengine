@@ -147,9 +147,7 @@ class Npr_story_api_ext
             return;
         }
 
-        $autofilled = $this->autofill_media_values($entry, $values);
-        $entry = $autofilled['entry'];
-        $values = $autofilled['values'];
+        $this->autofill_media_values($entry, $values);
 
         $nprml = $this->create_nprml($entry, $values);
         
@@ -293,15 +291,12 @@ class Npr_story_api_ext
             ));
     }
 
-    private function autofill_media_values($entry, $values)
+    private function autofill_media_values($entry, $values): void
     {
         $autofiller = new Field_autofiller();
         $audio = $autofiller->autofill_audio('audio_files', $entry);
 
         // images
-
-        $autofilled = array('entry' => $entry, 'values' => $values);
-        return $autofilled;
     }
 
     private function check_external_story_source($story_source)
