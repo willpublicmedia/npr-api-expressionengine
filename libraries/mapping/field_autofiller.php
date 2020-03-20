@@ -34,7 +34,6 @@ class Field_autofiller
                 $file_model->mime_type :
                 $item['audio_type'];
     
-            $item['audio_duration'] = '';
             $item['audio_filesize'] = empty($item['audio_filesize']) ?
                 $file_model->file_size :
                 $item['audio_filesize'];
