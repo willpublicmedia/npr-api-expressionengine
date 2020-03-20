@@ -51,7 +51,7 @@ class Field_autofiller
         }
 
         
-        throw new \Exception('not implemented');
+        return $entry;
     }
 
     public function autofill_image($field_name)
