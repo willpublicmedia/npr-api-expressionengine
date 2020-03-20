@@ -47,11 +47,13 @@ class Field_autofiller
                 $this->build_url($file_model->getAbsoluteUrl()) :
                 $item['audio_url'];
             
-            $audio[$k] = $item;
+            $audio_data[$k] = $item;
         }
 
+        $prepared = $this->prepare_grid_data($audio_data, $column_names);
         // grid_model->save_field_data()?
-        
+        // Grid_lib->save(array('row_id_x' => array('col_id_y' => 'foo')));
+        throw new \Exception('not implemented');
         return $entry;
     }
 
@@ -86,5 +88,32 @@ class Field_autofiller
             ->first();
         
         return $file_model;
+    }
+
+    private function prepare_grid_data(array $named_data, array $column_names): array
+    {
+        $data = array();
+        foreach ($named_data as $item)
+        {
+            $entry_id = $item['entry_id'];
+            $row_id = $item['row_id'];
+            
+            $row = array();
+            
+            foreach ($item as $name => $value)
+            {
+                if ($name === 'entry_id' || $name == 'row_id')
+                {
+                    continue;
+                }
+
+                $col = $column_names[$name];
+                $row[$col] = $value;
+            }
+
+            $data[$entry_id] = $row;
+        }
+
+        return $data;
     }
 }
