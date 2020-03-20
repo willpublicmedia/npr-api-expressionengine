@@ -50,7 +50,7 @@ class Field_autofiller
             $audio_data[$k] = $item;
         }
 
-        $prepared = $this->prepare_grid_data($audio_data, $column_names);
+        $prepared = $this->prepare_grid_data($entry_id, $field_id, $audio_data, $column_names);
         $saved = $this->field_utils->save_grid_data($prepared);
         
         return $saved;
@@ -89,12 +89,15 @@ class Field_autofiller
         return $file_model;
     }
 
-    private function prepare_grid_data(array $named_data, array $column_names): array
+    private function prepare_grid_data(int $entry_id, int $field_id, array $named_data, array $column_names): array
     {
-        $data = array();
+        $data = array(
+            'entry_id' => $entry_id,
+            'field_id' => $field_id
+        );
+
         foreach ($named_data as $item)
         {
-            $entry_id = $item['entry_id'];
             $row_id = $item['row_id'];
             
             $row = array();
@@ -110,7 +113,7 @@ class Field_autofiller
                 $row[$col] = $value;
             }
 
-            $data[$entry_id][$row_id] = $row;
+            $data['values'][$entry_id][$row_id] = $row;
         }
 
         return $data;

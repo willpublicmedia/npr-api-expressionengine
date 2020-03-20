@@ -89,14 +89,16 @@ class Field_utils
 
     public function save_grid_data(array $data): bool
     {
-        $validated = ee()->grid_lib->validate($data);
+        $validated = ee()->grid_lib->validate($data['values']);
         if ($validated === false)
         {
             return false;
         }
+        
+        // $saved = ee()->grid_lib->save($data);
+        $content_type = 'channel';
+        $to_be_deleted = ee()->grid_model->save_field_data($data['values'], $data['field_id'], $content_type, $data['entry_id'], $fluid_field_data_id = NULL);
 
-        $saved = ee()->grid_lib->save($data);
-
-        return $saved;
+        return true;
     }
 }
