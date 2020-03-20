@@ -50,7 +50,7 @@ class Field_autofiller
             $audio_data[$k] = $item;
         }
 
-        $prepared = $this->prepare_grid_data($entry_id, $field_id, $audio_data, $column_names);
+        $prepared = $this->prepare_grid_data($entry->entry_id, $field_id, $audio_data, $column_names);
         $saved = $this->field_utils->save_grid_data($prepared);
         
         return $saved;
@@ -113,7 +113,7 @@ class Field_autofiller
                 $row[$col] = $value;
             }
 
-            $data['values'][$entry_id][$row_id] = $row;
+            $data['values'][$entry_id]["row_id_$row_id"] = $row;
         }
 
         return $data;
