@@ -68,6 +68,10 @@ class Field_utils
         {
             $row_data = array();
 
+            // return row, entry ids in case save is needed.
+            $row_data['row_id'] = $row['row_id'];
+            $row_data['entry_id'] = $row['entry_id'];
+
             // map column data to column names
             foreach ($columns as $column_id => $column_details)
             {
