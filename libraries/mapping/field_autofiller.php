@@ -51,8 +51,8 @@ class Field_autofiller
         }
 
         $prepared = $this->prepare_grid_data($audio_data, $column_names);
-        // grid_model->save_field_data()?
-        // Grid_lib->save(array('row_id_x' => array('col_id_y' => 'foo')));
+        $saved = $this->field_utils->save_grid_data($prepared);
+        
         throw new \Exception('not implemented');
         return $entry;
     }

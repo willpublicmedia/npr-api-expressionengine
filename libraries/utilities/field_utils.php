@@ -86,4 +86,17 @@ class Field_utils
 
         return $media;
     }
+
+    public function save_grid_data(array $data): bool
+    {
+        $validated = ee()->grid_lib->validate($data);
+        if ($validated === false)
+        {
+            return false;
+        }
+
+        $saved = ee()->grid_lib->save($data);
+
+        return $saved;
+    }
 }
