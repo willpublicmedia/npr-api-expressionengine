@@ -110,7 +110,7 @@ class Field_autofiller
                 $row[$col] = $value;
             }
 
-            $data[$entry_id] = $row;
+            $data[$entry_id][$row_id] = $row;
         }
 
         return $data;
