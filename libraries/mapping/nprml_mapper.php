@@ -148,7 +148,7 @@ class Nprml_mapper
     
     private function get_bylines($entry, $split_bylines = false)
     {
-        $byline_field = $this->field_utils->get_field_name('byline');
+        $byline_field = $this->get_field_name('byline');
         $byline_value = $entry->{$byline_field};
         
         if (empty($byline_value))
@@ -166,13 +166,13 @@ class Nprml_mapper
 
     private function get_content($entry)
     {
-        $content_field = $this->field_utils->get_field_name('text');
+        $content_field = $this->get_field_name('text');
         return $entry->{$content_field};
     }
 
     private function get_date($format = 'D, d M Y H:i:s +0000', $field, $localize, $entry)
     {
-        $field_name = $this->field_utils->get_field_name($field);
+        $field_name = $this->get_field_name($field);
         $data = $entry->{$field_name};
         if (empty($data))
         {
@@ -340,7 +340,7 @@ class Nprml_mapper
 
     private function get_teaser($entry)
     {   
-        $teaser_field = $this->field_utils->get_field_name('teaser');
+        $teaser_field = $this->get_field_name('teaser');
         
         if ( empty( $entry->{$teaser_field} ) )
         {
@@ -371,7 +371,7 @@ class Nprml_mapper
     function nprstory_get_post_expiry_datetime( $entry )
     {
         // TODO: Not implemented
-        $expiration_field = $this->field_utils->get_field_name('audio_runby_date');
+        $expiration_field = $this->get_field_name('audio_runby_date');
         $expiration = $entry->{$expiration_field};
 
         if ($expiration == '')
@@ -553,7 +553,7 @@ class Nprml_mapper
         * If the box is checked, the value here is '1'
         * @see nprstory_save_send_to_one
         */
-        $send_to_one = $entry->{$this->field_utils->get_field_name('send_to_one')};
+        $send_to_one = $entry->{$this->get_field_name('send_to_one')};
         if ($send_to_one === 1)
         {
             $story[] = array(
@@ -568,7 +568,7 @@ class Nprml_mapper
         * If the box is checked, the value here is '1'
         * @see nprstory_save_nprone_featured
         */
-        $nprone_featured = $entry->{$this->field_utils->get_field_name('send_to_one')};
+        $nprone_featured = $entry->{$this->get_field_name('send_to_one')};
         if ($send_to_one === 1 && $nprone_featured === 1) {
             $story[] = array(
                 'tag' => 'parent',
@@ -586,29 +586,29 @@ class Nprml_mapper
         /*
         * Dates and times
         */
-        if ($entry->{$this->field_utils->get_field_name('pub_date')} === null)
+        if ($entry->{$this->get_field_name('pub_date')} === null)
         {
-            $entry->{$this->field_utils->get_field_name('pub_date')} = $entry->edit_date;
+            $entry->{$this->get_field_name('pub_date')} = $entry->edit_date;
         }
 
         $story[] = array(
             'tag' => 'pubDate',
-            'text' => ee()->localize->format_date('%r', $entry->{$this->field_utils->get_field_name('pub_date')}, true)
+            'text' => ee()->localize->format_date('%r', $entry->{$this->get_field_name('pub_date')}, true)
         );
 
-        if ($entry->{$this->field_utils->get_field_name('story_date')} === null)
+        if ($entry->{$this->get_field_name('story_date')} === null)
         {
-            $entry->{$this->field_utils->get_field_name('story_date')} = $entry->localize->now;
+            $entry->{$this->get_field_name('story_date')} = $entry->localize->now;
         }
 
         $story[] = array(
             'tag' => 'storyDate',
-            'text' => ee()->localize->format_date('%r', $entry->{$this->field_utils->get_field_name('story_date')}, true)
+            'text' => ee()->localize->format_date('%r', $entry->{$this->get_field_name('story_date')}, true)
         );
 
 
         $edit_date = ee()->localize->format_date('%r', $entry->edit_date, true);
-        $entry->{$this->field_utils->get_field_name('last_modified_date')} = $entry->edit_date;
+        $entry->{$this->get_field_name('last_modified_date')} = $entry->edit_date;
         $story[] = array(
             'tag' => 'lastModifiedDate',
             'text' => $edit_date
@@ -627,7 +627,7 @@ class Nprml_mapper
                 'text' => date_format( $datetime, 'j M Y H:i:00 O' ) // 1 Oct 2017 01:00:00 -0400, 29 Feb 2020 23:59:00 -0500
             );
 
-            $entry->{$this->field_utils->get_field_name('audio_runby_date')} = $datetime->getTimestamp();
+            $entry->{$this->get_field_name('audio_runby_date')} = $datetime->getTimestamp();
         }
 
 
