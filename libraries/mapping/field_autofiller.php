@@ -56,9 +56,37 @@ class Field_autofiller
         return $saved;
     }
 
-    public function autofill_image($field_name)
+    public function autofill_images($field_name, $entry)
     {
-        throw new \Exception('not implemented');
+        $field_id = $this->field_utils->get_field_id($field_name);
+        $column_names = $this->field_utils->get_grid_column_names($field_id);
+        $image_data = $this->field_utils->get_grid_values($entry, $field_name);
+
+        foreach ($image_data as $k => $item)
+        {
+            $file_model = $this->get_file_model($item['file']);
+            $format = $this->get_file_extension($item['file']);
+            $dimensions = $this->get_image_dimensions($file_model->file_hw_original);
+            
+            $item['crop_type'] = empty($item['crop_type']) ?
+                'default' :
+                $item['crop_type'];
+            
+            $item['crop_src'] = empty($item['crop_src']) ?
+                $this->build_url($file_model->getAbsoluteUrl()) :
+                $item['crop_src'];
+            
+            $item['crop_width'] = empty($item['crop_width']) ?
+                $dimensions['width'] :
+                $item['crop_width'];
+
+            $image_data[$k] = $item;
+        }
+        
+        $prepared = $this->prepare_grid_data($entry->entry_id, $field_id, $image_data, $column_names);
+        $saved = $this->field_utils->save_grid_data($prepared);
+        
+        return $saved;
     }
 
     private function build_url($input)
@@ -87,6 +115,17 @@ class Field_autofiller
             ->first();
         
         return $file_model;
+    }
+
+    private function get_image_dimensions($file_hw_property)
+    {
+        $hw = explode(' ', $file_hw_property);
+        $dimensions = [
+            'height' => intval($hw[0]),
+            'width' => intval($hw[1])
+        ];
+
+        return $dimensions;
     }
 
     private function prepare_grid_data(int $entry_id, int $field_id, array $named_data, array $column_names): array

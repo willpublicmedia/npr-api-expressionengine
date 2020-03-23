@@ -295,8 +295,7 @@ class Npr_story_api_ext
     {
         $autofiller = new Field_autofiller();
         $audio = $autofiller->autofill_audio('audio_files', $entry);
-
-        // images
+        $images = $autofiller->autofill_images('npr_images', $entry);
     }
 
     private function check_external_story_source($story_source)
