@@ -291,7 +291,7 @@ class Npr_story_api_ext
             ));
     }
 
-    private function autofill_media_values($entry, $values): void
+    private function autofill_media_values(&$entry, &$values): void
     {
         $autofiller = new Field_autofiller();
         $audio = $autofiller->autofill_audio('audio_files', $entry);
@@ -437,6 +437,9 @@ class Npr_story_api_ext
     {
         $mapper = new Publish_form_mapper();
         $objects = $mapper->map($entry, $values, $story);
+        $test_entry = $objects['entry'];
+        $test45 = $entry->field_id_45;
+        $test48 = $entry->field_id_48;
         return $objects;
     }
 
