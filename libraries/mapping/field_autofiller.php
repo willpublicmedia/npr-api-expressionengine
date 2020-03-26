@@ -19,7 +19,7 @@ class Field_autofiller
         $this->field_utils = new Field_utils();
     }
 
-    public function autofill_audio($field_name, $entry): bool
+    public function autofill_audio($field_name, $entry): array
     {
         $field_id = $this->field_utils->get_field_id($field_name);
         $column_names = $this->field_utils->get_grid_column_names($field_id);
@@ -51,9 +51,9 @@ class Field_autofiller
         }
 
         $prepared = $this->prepare_grid_data($entry->entry_id, $field_id, $audio_data, $column_names);
-        $saved = $this->field_utils->save_grid_data($prepared);
-        
-        return $saved;
+        $cached = $this->field_utils->save_grid_data($prepared);
+
+        return $cached;
     }
 
     public function autofill_images($field_name, $entry)
@@ -84,9 +84,9 @@ class Field_autofiller
         }
         
         $prepared = $this->prepare_grid_data($entry->entry_id, $field_id, $image_data, $column_names);
-        $saved = $this->field_utils->save_grid_data($prepared);
+        $cached = $this->field_utils->save_grid_data($prepared);
         
-        return $saved;
+        return $cached;
     }
 
     private function build_url($input)

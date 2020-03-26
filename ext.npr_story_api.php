@@ -296,6 +296,18 @@ class Npr_story_api_ext
         $autofiller = new Field_autofiller();
         $audio = $autofiller->autofill_audio('audio_files', $entry);
         $images = $autofiller->autofill_images('npr_images', $entry);
+
+        if ($audio['cached'])
+        {
+            $field_id = $audio['field_id'];
+            $entry->{"field_id_$field_id"} = $audio['cached'];
+        }
+
+        if ($images['cached'])
+        {
+            $field_id = $images['field_id'];
+            $entry->{"field_id_$field_id"} = $images['cached'];
+        }
     }
 
     private function check_external_story_source($story_source)
@@ -437,9 +449,7 @@ class Npr_story_api_ext
     {
         $mapper = new Publish_form_mapper();
         $objects = $mapper->map($entry, $values, $story);
-        $test_entry = $objects['entry'];
-        $test45 = $entry->field_id_45;
-        $test48 = $entry->field_id_48;
+        
         return $objects;
     }
 

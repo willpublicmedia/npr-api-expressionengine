@@ -8,6 +8,35 @@ if (!defined('BASEPATH')) {
 
 class Field_utils
 {
+    /**
+     * Grid_ft->post_save stomps data values with cache.
+     */
+    public function cache_grid_data(array $data): array
+    {
+        $entry_id = $data['entry_id'];
+        $field_id = $data['field_id'];
+        $field = "field_id_$field_id";
+
+        $cache = array(
+            'rows' => $data['values'][$entry_id]
+        );
+
+        // Expected:
+        // $entry->field_id_48 = array(
+        //     'rows' => array(
+        //         'new_row_1' => array(
+        //             'col_id_29' => 'foo',
+        //             'col_id_30' => 'bar'
+        //         )
+        //     )
+        // );
+
+        // Grid_ft->post_save stomps data values with cache.
+        ee()->session->set_cache('Grid_ft', $field, $cache);
+
+        return $cache;
+    }
+
     public function get_field_id($name)
     {
         $field_id = ee('Model')->get('ChannelField')
@@ -87,12 +116,20 @@ class Field_utils
         return $media;
     }
 
-    public function save_grid_data(array $data): bool
+    public function save_grid_data(array $data, $cache = true): array
     {
         $content_type = 'channel';
         $entry_id = $data['entry_id'];
         $to_be_deleted = ee()->grid_model->save_field_data($data['values'][$entry_id], $data['field_id'], $content_type, $entry_id, $fluid_field_data_id = NULL);
 
-        return true;
+        if (!$cache)
+        {
+            return array();
+        }
+
+        $cached = $this->cache_grid_data($data);
+        $data['cached'] = $cached;
+
+        return $data;
     }
 }
