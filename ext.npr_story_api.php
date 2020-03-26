@@ -297,13 +297,13 @@ class Npr_story_api_ext
         $audio = $autofiller->autofill_audio('audio_files', $entry);
         $images = $autofiller->autofill_images('npr_images', $entry);
 
-        if ($audio['cached'])
+        if (!empty($audio['cached']))
         {
             $field_id = $audio['field_id'];
             $entry->{"field_id_$field_id"} = $audio['cached'];
         }
 
-        if ($images['cached'])
+        if (!empty($images['cached']))
         {
             $field_id = $images['field_id'];
             $entry->{"field_id_$field_id"} = $images['cached'];
