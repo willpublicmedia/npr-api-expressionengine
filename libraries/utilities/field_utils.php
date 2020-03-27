@@ -116,6 +116,11 @@ class Field_utils
         return $media;
     }
 
+    public function get_posted_grid_values($field_id): array
+    {
+        return array();
+    }
+
     public function save_grid_data(array $data, $cache = true): array
     {
         $content_type = 'channel';
