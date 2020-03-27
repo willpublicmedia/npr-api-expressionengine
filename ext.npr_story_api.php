@@ -294,20 +294,20 @@ class Npr_story_api_ext
     private function autofill_media_values(&$entry, &$values): void
     {
         $autofiller = new Field_autofiller();
-        $audio = $autofiller->autofill_audio('audio_files', $entry);
+        $autofiller->autofill_audio('audio_files', $entry);
         $images = $autofiller->autofill_images('npr_images', $entry);
 
-        if (!empty($audio['cached']))
-        {
-            $field_id = $audio['field_id'];
-            $entry->{"field_id_$field_id"} = $audio['cached'];
-        }
+        // if (!empty($audio['cached']))
+        // {
+        //     $field_id = $audio['field_id'];
+        //     $entry->{"field_id_$field_id"} = $audio['cached'];
+        // }
 
-        if (!empty($images['cached']))
-        {
-            $field_id = $images['field_id'];
-            $entry->{"field_id_$field_id"} = $images['cached'];
-        }
+        // if (!empty($images['cached']))
+        // {
+        //     $field_id = $images['field_id'];
+        //     $entry->{"field_id_$field_id"} = $images['cached'];
+        // }
     }
 
     private function check_external_story_source($story_source)

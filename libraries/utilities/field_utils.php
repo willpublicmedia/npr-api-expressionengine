@@ -8,6 +8,11 @@ if (!defined('BASEPATH')) {
 
 class Field_utils
 {
+    public function __construct()
+    {
+        ee()->load->library('input');
+    }
+
     /**
      * Grid_ft->post_save stomps data values with cache.
      */
@@ -116,9 +121,14 @@ class Field_utils
         return $media;
     }
 
-    public function get_posted_grid_values($field_id): array
+    public function get_posted_grid_values($field_name): array
     {
-        return array();
+        $values = ee()->input->post($field_name);
+        if (empty($values))
+        {
+            $values = array();
+        }
+        return $values;
     }
 
     public function save_grid_data(array $data, $cache = true): array
