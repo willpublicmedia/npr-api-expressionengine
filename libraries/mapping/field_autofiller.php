@@ -66,33 +66,39 @@ class Field_autofiller
     {
         $field_id = $this->field_utils->get_field_id($field_name);
         $column_names = $this->field_utils->get_grid_column_names($field_id);
-        $image_data = $this->field_utils->get_grid_values($entry, $field_name);
+        $image_data = $this->field_utils->get_posted_grid_values("field_id_$field_id");
 
-        foreach ($image_data as $k => $item)
+        if (empty($image_data))
         {
-            $file_model = $this->get_file_model($item['file']);
-            $format = $this->get_file_extension($item['file']);
+            return;
+        }
+
+        foreach ($image_data['rows'] as $k => $item)
+        {
+            $file_col = $column_names['file'];
+            $file_model = $this->get_file_model($item[$file_col]);
+            $format = $this->get_file_extension($item[$file_col]);
             $dimensions = $this->get_image_dimensions($file_model->file_hw_original);
             
-            $item['crop_type'] = empty($item['crop_type']) ?
+            $crop_col = $column_names['crop_type'];
+            $item[$crop_col] = empty($item[$crop_col]) ?
                 'default' :
-                $item['crop_type'];
+                $item[$crop_col];
             
-            $item['crop_src'] = empty($item['crop_src']) ?
+            $src_col = $column_names['crop_src'];
+            $item[$src_col] = empty($item[$src_col]) ?
                 $this->build_url($file_model->getAbsoluteUrl()) :
-                $item['crop_src'];
+                $item[$src_col];
             
-            $item['crop_width'] = empty($item['crop_width']) ?
+            $width_col = $column_names['crop_width'];
+            $item[$width_col] = empty($item[$width_col]) ?
                 $dimensions['width'] :
-                $item['crop_width'];
+                $item[$width_col];
 
             $image_data[$k] = $item;
         }
         
-        $prepared = $this->prepare_grid_data($entry->entry_id, $field_id, $image_data, $column_names);
-        $cached = $this->field_utils->save_grid_data($prepared);
-        
-        return $cached;
+        $this->field_utils->save_posted_grid_values("field_id_$field_id", $image_data);
     }
 
     private function build_url($input)
