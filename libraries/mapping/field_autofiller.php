@@ -29,9 +29,7 @@ class Field_autofiller
         {
             return;
         }
-
-        // $audio_data = $this->field_utils->get_grid_values($entry, $field_name);
-        // $test = $_POST["field_id_$field_id"];
+        
         foreach ($audio_data['rows'] as $row => $columns)
         {
             $file_col = $column_names['file'];
@@ -39,41 +37,29 @@ class Field_autofiller
             $format = $this->get_file_extension($columns[$file_col]);
 
             $audio_type_col = $column_names['audio_type'];
-            // $item['audio_type'] = empty($item['audio_type']) ?
-            //     $file_model->mime_type :
-            //     $item['audio_type'];
+            $columns[$audio_type_col] = empty($columns[$audio_type_col]) ?
+                $file_model->mime_type :
+                $columns[$audio_type_col];
 
-            $filesize_col = $columns['audio_filesize'];
-            // $item['audio_filesize'] = empty($item['audio_filesize']) ?
-            //     $file_model->file_size :
-            //     $item['audio_filesize'];
+            $filesize_col = $column_names['audio_filesize'];
+            $columns[$filesize_col] = empty($columns[$filesize_col]) ?
+                $file_model->file_size :
+                $columns[$filesize_col];
 
-            $format_col = $columns['audio_format'];
-            // $item['audio_format'] = empty($item['audio_format']) ?
-            //     $format :
-            //     $item['audio_format'];
+            $format_col = $column_names['audio_format'];
+            $columns[$format_col] = empty($columns[$format_col]) ?
+                $format :
+                $columns[$format_col];
 
-            $url_col = $columns['audio_url'];
-            // $item['audio_url'] = empty($item['audio_url']) ?
-            //     $this->build_url($file_model->getAbsoluteUrl()) :
-            //     $item['audio_url'];            
-            
-            // $row: 'row_id_x' || 'new_row_x'
-            // $columns: array
-            foreach ($columns as $col => $value)
-            {
-                // $col: 'col_id_x'
-                // $value: 'foo';
-                $foo = 'bar';
-            }
-            
-            // $audio_data[$k] = $item;
+            $url_col = $column_names['audio_url'];
+            $columns[$url_col] = empty($columns[$url_col]) ?
+                $this->build_url($file_model->getAbsoluteUrl()) :
+                $columns[$url_col];
+
+            $audio_data['rows'][$row] = $columns;
         }
 
-        // $prepared = $this->prepare_grid_data($entry->entry_id, $field_id, $audio_data, $column_names);
-        // $cached = $this->field_utils->save_grid_data($prepared);
-
-        // return $cached;
+        $this->field_utils->save_posted_grid_values("field_id_$field_id", $audio_data);
     }
 
     public function autofill_images($field_name, $entry)

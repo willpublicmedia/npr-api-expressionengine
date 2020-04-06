@@ -147,4 +147,13 @@ class Field_utils
 
         return $data;
     }
+
+    public function save_posted_grid_values(string $field_name, array $data): void
+    {
+        $post_backup = $_POST;
+        if (array_key_exists($field_name, $_POST))
+        {
+            $_POST[$field_name] = $data;
+        }
+    }
 }
