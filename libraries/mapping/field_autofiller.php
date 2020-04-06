@@ -37,27 +37,35 @@ class Field_autofiller
             $file_col = $column_names['file'];
             $file_model = $this->get_file_model($columns[$file_col]);
             $format = $this->get_file_extension($columns[$file_col]);
-            foreach ($columns as $col => $value)
-            {
-$foo = 'bar';
-            }
-            
+
+            $audio_type_col = $column_names['audio_type'];
             // $item['audio_type'] = empty($item['audio_type']) ?
             //     $file_model->mime_type :
             //     $item['audio_type'];
-    
+
+            $filesize_col = $columns['audio_filesize'];
             // $item['audio_filesize'] = empty($item['audio_filesize']) ?
             //     $file_model->file_size :
             //     $item['audio_filesize'];
 
-                
+            $format_col = $columns['audio_format'];
             // $item['audio_format'] = empty($item['audio_format']) ?
             //     $format :
             //     $item['audio_format'];
-                    
+
+            $url_col = $columns['audio_url'];
             // $item['audio_url'] = empty($item['audio_url']) ?
             //     $this->build_url($file_model->getAbsoluteUrl()) :
-            //     $item['audio_url'];
+            //     $item['audio_url'];            
+            
+            // $row: 'row_id_x' || 'new_row_x'
+            // $columns: array
+            foreach ($columns as $col => $value)
+            {
+                // $col: 'col_id_x'
+                // $value: 'foo';
+                $foo = 'bar';
+            }
             
             // $audio_data[$k] = $item;
         }
