@@ -30,33 +30,33 @@ class Field_autofiller
             return;
         }
         
-        foreach ($audio_data['rows'] as $row => $columns)
+        foreach ($audio_data['rows'] as $row => $item)
         {
             $file_col = $column_names['file'];
-            $file_model = $this->get_file_model($columns[$file_col]);
-            $format = $this->get_file_extension($columns[$file_col]);
+            $file_model = $this->get_file_model($item[$file_col]);
+            $format = $this->get_file_extension($item[$file_col]);
 
             $audio_type_col = $column_names['audio_type'];
-            $columns[$audio_type_col] = empty($columns[$audio_type_col]) ?
+            $item[$audio_type_col] = empty($item[$audio_type_col]) ?
                 $file_model->mime_type :
-                $columns[$audio_type_col];
+                $item[$audio_type_col];
 
             $filesize_col = $column_names['audio_filesize'];
-            $columns[$filesize_col] = empty($columns[$filesize_col]) ?
+            $item[$filesize_col] = empty($item[$filesize_col]) ?
                 $file_model->file_size :
-                $columns[$filesize_col];
+                $item[$filesize_col];
 
             $format_col = $column_names['audio_format'];
-            $columns[$format_col] = empty($columns[$format_col]) ?
+            $item[$format_col] = empty($item[$format_col]) ?
                 $format :
-                $columns[$format_col];
+                $item[$format_col];
 
             $url_col = $column_names['audio_url'];
-            $columns[$url_col] = empty($columns[$url_col]) ?
+            $item[$url_col] = empty($item[$url_col]) ?
                 $this->build_url($file_model->getAbsoluteUrl()) :
-                $columns[$url_col];
+                $item[$url_col];
 
-            $audio_data['rows'][$row] = $columns;
+            $audio_data['rows'][$row] = $item;
         }
 
         $this->field_utils->save_posted_grid_values("field_id_$field_id", $audio_data);
@@ -73,7 +73,7 @@ class Field_autofiller
             return;
         }
 
-        foreach ($image_data['rows'] as $k => $item)
+        foreach ($image_data['rows'] as $row => $item)
         {
             $file_col = $column_names['file'];
             $file_model = $this->get_file_model($item[$file_col]);
@@ -95,7 +95,7 @@ class Field_autofiller
                 $dimensions['width'] :
                 $item[$width_col];
 
-            $image_data[$k] = $item;
+            $image_data[$row] = $item;
         }
         
         $this->field_utils->save_posted_grid_values("field_id_$field_id", $image_data);
