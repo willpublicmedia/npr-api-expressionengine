@@ -306,6 +306,55 @@ class Npr_story_api_ext
             ));
     }
 
+    /**
+     * Update Extension
+     *
+     * This function performs any necessary db updates when the extension
+     * page is visited
+     *
+     * @return  mixed   void on update / false if none
+     */
+    public function update_extension($current = '')
+    {
+        if ($current == '' OR $current == $this->version)
+        {
+            return FALSE;
+        }
+
+        if (ee('Model')->get('Extension')->filter('class', __CLASS__)->count() === count($this->required_extensions))
+        {
+            return;
+        }
+
+        $methods = ee('Model')->get('Extension')->filter('class', __CLASS__)->fields('method')->all()->pluck('method');
+
+        foreach ($this->required_extensions as $method => $settings)
+        {
+            if (in_array($method, $methods))
+            {
+                continue;
+            }
+
+            $data = array(
+                'class' => __CLASS__,
+                'method' => $method,
+                'hook' => $settings['hook'],
+                'priority' => $settings['priority'],
+                'version' => $this->version,
+                'settings' => '',
+                'enabled' => 'y'
+            );
+            
+            ee('Model')->make('Extension', $data)->save();
+        }
+
+        ee()->db->where('class', __CLASS__);
+        ee()->db->update(
+                'extensions',
+                array('version' => $this->version)
+        );
+    }
+
     private function autofill_media_values($entry, $values): void
     {
         $autofiller = new Field_autofiller();
