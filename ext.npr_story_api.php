@@ -355,7 +355,7 @@ class Npr_story_api_ext
         );
     }
 
-    private function autofill_media_values(&$entry, &$values): void
+    private function autofill_media_values($entry, $values): void
     {
         $autofiller = new Field_autofiller();
         $autofiller->autofill_audio('audio_files', $entry);

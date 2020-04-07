@@ -96,7 +96,7 @@ class Field_autofiller
                 $dimensions['width'] :
                 $item[$width_col];
 
-            $image_data[$row] = $item;
+            $image_data['rows'][$row] = $item;
         }
         
         $this->field_utils->save_posted_grid_values("field_id_$field_id", $image_data);
