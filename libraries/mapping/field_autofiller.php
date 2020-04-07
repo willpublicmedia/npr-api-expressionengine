@@ -60,7 +60,7 @@ class Field_autofiller
         }
 
         $this->field_utils->save_posted_grid_values("field_id_$field_id", $audio_data);
-        $this->field_utils->cache_posted_field($entry_id, "field_id_$field_id", $audio_data);
+        $this->field_utils->cache_posted_grid_values("field_id_$field_id", $audio_data);
 
         return $audio_data;
     }
@@ -102,7 +102,7 @@ class Field_autofiller
         }
         
         $this->field_utils->save_posted_grid_values("field_id_$field_id", $image_data);
-        $this->field_utils->cache_posted_field($entry_id, "field_id_$field_id", $image_data);
+        $this->field_utils->cache_posted_grid_values("field_id_$field_id", $image_data);
 
         return $image_data;
     }

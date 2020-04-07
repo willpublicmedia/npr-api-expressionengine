@@ -42,10 +42,20 @@ class Field_utils
         return $cache;
     }
 
-    public function cache_posted_field($entry_id, $field_name, $data)
+    public function cache_posted_grid_values($field_name, $data)
     {
-        $key = "/npr_story_api/entries/$entry_id/field/$field_id";
-        ee()->cache->save($key, $data);
+        // Expected:
+        // $entry->field_id_48 = array(
+        //     'rows' => array(
+        //         'new_row_1' => array(
+        //             'col_id_29' => 'foo',
+        //             'col_id_30' => 'bar'
+        //         )
+        //     )
+        // );
+
+        // Grid_ft->post_save stomps data values with cache.
+        ee()->session->set_cache('Grid_ft', $field, $cache);
     }
 
     public function get_field_id($name)
