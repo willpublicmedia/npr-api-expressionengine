@@ -358,18 +358,8 @@ class Npr_story_api_ext
     private function autofill_media_values(&$entry, &$values): void
     {
         $autofiller = new Field_autofiller();
-        $audio = $autofiller->autofill_audio('audio_files', $entry);
-        $images = $autofiller->autofill_images('npr_images', $entry);
-
-        if (!empty($audio))
-        {
-            //
-        }
-
-        if (!empty($images))
-        {
-            //
-        }
+        $autofiller->autofill_audio('audio_files', $entry);
+        $autofiller->autofill_images('npr_images', $entry);
     }
 
     private function check_external_story_source($story_source)

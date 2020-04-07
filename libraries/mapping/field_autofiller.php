@@ -19,7 +19,7 @@ class Field_autofiller
         $this->field_utils = new Field_utils();
     }
 
-    public function autofill_audio($field_name, $entry): array
+    public function autofill_audio($field_name, $entry): void
     {
         $field_id = $this->field_utils->get_field_id($field_name);
         $column_names = $this->field_utils->get_grid_column_names($field_id);
@@ -27,7 +27,7 @@ class Field_autofiller
 
         if (empty($audio_data))
         {
-            return array();
+            return;
         }
         
         foreach ($audio_data['rows'] as $row => $item)
@@ -61,11 +61,9 @@ class Field_autofiller
 
         $this->field_utils->save_posted_grid_values("field_id_$field_id", $audio_data);
         $this->field_utils->cache_posted_grid_values("field_id_$field_id", $audio_data);
-
-        return $audio_data;
     }
 
-    public function autofill_images($field_name, $entry): array
+    public function autofill_images($field_name, $entry): void
     {
         $field_id = $this->field_utils->get_field_id($field_name);
         $column_names = $this->field_utils->get_grid_column_names($field_id);
@@ -73,7 +71,7 @@ class Field_autofiller
 
         if (empty($image_data))
         {
-            return array();
+            return;
         }
 
         foreach ($image_data['rows'] as $row => $item)
@@ -103,8 +101,6 @@ class Field_autofiller
         
         $this->field_utils->save_posted_grid_values("field_id_$field_id", $image_data);
         $this->field_utils->cache_posted_grid_values("field_id_$field_id", $image_data);
-
-        return $image_data;
     }
 
     private function build_url($input)

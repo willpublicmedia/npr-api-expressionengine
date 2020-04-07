@@ -55,7 +55,7 @@ class Field_utils
         // );
 
         // Grid_ft->post_save stomps data values with cache.
-        ee()->session->set_cache('Grid_ft', $field, $cache);
+        ee()->session->set_cache('Grid_ft', $field_name, $data);
     }
 
     public function get_field_id($name)
