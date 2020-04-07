@@ -42,6 +42,12 @@ class Field_utils
         return $cache;
     }
 
+    public function cache_posted_field($entry_id, $field_name, $data)
+    {
+        $key = "/npr_story_api/entries/$entry_id/field/$field_id";
+        ee()->cache->save($key, $data);
+    }
+
     public function get_field_id($name)
     {
         $field_id = ee('Model')->get('ChannelField')
