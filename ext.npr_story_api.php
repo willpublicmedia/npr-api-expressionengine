@@ -27,6 +27,10 @@ class Npr_story_api_ext
     );
     
     private $required_extensions = array(
+        'autofill_media_fields' => array(
+            'hook' => 'before_channel_entry_save',
+            'priority' => 5
+        ),
         'nprstory_api_delete' => array(
             'hook' => 'before_channel_entry_delete',
             'priority' => 10
@@ -76,6 +80,18 @@ class Npr_story_api_ext
             
             ee('Model')->make('Extension', $data)->save();
         }
+    }
+
+    public function autofill_media_fields($entry, $values)
+    {
+        $autofill = false;
+
+        if (!$autofill)
+        {
+            return;
+        }
+
+        $this->autofill_media_values($entry, $values);
     }
 
     public function disable_extension()
@@ -146,8 +162,6 @@ class Npr_story_api_ext
         {
             return;
         }
-
-        $this->autofill_media_values($entry, $values);
 
         $nprml = $this->create_nprml($entry, $values);
         
