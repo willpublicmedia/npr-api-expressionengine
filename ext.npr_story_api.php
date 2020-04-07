@@ -20,8 +20,10 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Field_autofiller;
 class Npr_story_api_ext 
 {
     private $fields = array(
-        'npr_story_id' => NULL,
+        'audio_files' => NULL,
         'channel_entry_source' => NULL,
+        'npr_images' => NULL,
+        'npr_story_id' => NULL,
         'overwrite_local_values' => NULL,
         'publish_to_npr' => NULL
     );
@@ -84,9 +86,8 @@ class Npr_story_api_ext
 
     public function autofill_media_fields($entry, $values)
     {
-        $autofill = false;
-
-        if (!$autofill)
+        $is_mapped_channel = $this->check_mapped_channel($entry->channel_id);
+        if ($is_mapped_channel === false)
         {
             return;
         }
