@@ -82,9 +82,9 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ### 2.0.0
 
-- Remove required column constraints on `npr_images` and `audio_files` fields.
+- Breaking change: Remove required column constraints on `npr_images` and `audio_files` fields.
 - Extract field utilities class.
-- Autofill audio, image columns from media uploads.
+- Autofill audio, image columns from media uploads on all mapped channels.
 
 ### 1.0.4
 
