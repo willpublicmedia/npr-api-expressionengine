@@ -38,7 +38,8 @@ class Field_autofiller
 
             $audio_type_col = $column_names['audio_type'];
             $item[$audio_type_col] = empty($item[$audio_type_col]) ?
-                $file_model->mime_type :
+                // $file_model->mime_type :
+                $format :
                 $item[$audio_type_col];
 
             $filesize_col = $column_names['audio_filesize'];
