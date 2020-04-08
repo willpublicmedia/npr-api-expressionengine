@@ -124,6 +124,11 @@ class Publish_form_mapper
             (string) ee('Format')->make('Text', $story_title)->urlSlug() :
             $entry->url_title;
         
+        if (empty($url_title))
+        {
+            $url_title = $entry->url_title;
+        }
+        
         return $url_title;
     }
 
