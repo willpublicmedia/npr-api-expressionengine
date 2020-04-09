@@ -86,6 +86,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 - Extract field utilities class.
 - Autofill audio, image columns from media uploads on all mapped channels.
 - On pull, fall back to entry url_title if generated url title is empty.
+- Remove page-breaking debug code from pull function.
 
 ### 1.0.4
 
