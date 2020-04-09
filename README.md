@@ -80,20 +80,28 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
-### 1.0.1
+### 2.0.0
 
-- Check for php extension dependencies on install and update.
+- Breaking change: Remove required column constraints on `npr_images` and `audio_files` fields.
+- Extract field utilities class.
+- Autofill audio, image columns from media uploads on all mapped channels.
+- On pull, fall back to entry url_title if generated url title is empty.
+- Remove page-breaking debug code from pull function.
+
+### 1.0.4
+
+- Add byline splitting parameter to nprml mapper.
+- Bugfix: Correct nprml author assignment in empty byline.
+
+### 1.0.3
+
+- Bugfix: Use unique partner ID.
 
 ### 1.0.2
 
 - Bugfix: Use site_url + channel comment url + entry title as html permalink tag value on push.
 - Push [EE image manipulations](https://docs.expressionengine.com/latest/control-panel/file-manager.html#constrain-or-crop) as nprml image crops.
 
-### 1.0.3
+### 1.0.1
 
-- Bugfix: Use unique partner ID.
-
-### 1.0.4
-
-- Add byline splitting parameter to nprml mapper.
-- Bugfix: Correct nprml author assignment in empty byline.
+- Check for php extension dependencies on install and update.

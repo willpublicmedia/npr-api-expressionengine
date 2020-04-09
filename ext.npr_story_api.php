@@ -9,22 +9,30 @@ require_once(__DIR__ . '/libraries/publishing/npr_api_expressionengine.php');
 require_once(__DIR__ . '/libraries/mapping/nprml_mapper.php');
 require_once(__DIR__ . '/libraries/mapping/publish_form_mapper.php');
 require_once(__DIR__ . '/libraries/installation/field_installer.php');
+require_once(__DIR__ . '/libraries/mapping/field_autofiller.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 use EllisLab\ExpressionEngine\Service\Validation\Result as ValidationResult;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Nprml_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Field_autofiller;
 
 class Npr_story_api_ext 
 {
     private $fields = array(
-        'npr_story_id' => NULL,
+        'audio_files' => NULL,
         'channel_entry_source' => NULL,
+        'npr_images' => NULL,
+        'npr_story_id' => NULL,
         'overwrite_local_values' => NULL,
         'publish_to_npr' => NULL
     );
     
     private $required_extensions = array(
+        'autofill_media_fields' => array(
+            'hook' => 'before_channel_entry_save',
+            'priority' => 5
+        ),
         'nprstory_api_delete' => array(
             'hook' => 'before_channel_entry_delete',
             'priority' => 10
@@ -74,6 +82,17 @@ class Npr_story_api_ext
             
             ee('Model')->make('Extension', $data)->save();
         }
+    }
+
+    public function autofill_media_fields($entry, $values)
+    {
+        $is_mapped_channel = $this->check_mapped_channel($entry->channel_id);
+        if ($is_mapped_channel === false)
+        {
+            return;
+        }
+
+        $this->autofill_media_values($entry, $values);
     }
 
     public function disable_extension()
@@ -145,7 +164,6 @@ class Npr_story_api_ext
             return;
         }
 
-        // note pass-by-reference! entry date fields will be modified!
         $nprml = $this->create_nprml($entry, $values);
         
         $params = array(
@@ -288,6 +306,62 @@ class Npr_story_api_ext
             ));
     }
 
+    /**
+     * Update Extension
+     *
+     * This function performs any necessary db updates when the extension
+     * page is visited
+     *
+     * @return  mixed   void on update / false if none
+     */
+    public function update_extension($current = '')
+    {
+        if ($current == '' OR $current == $this->version)
+        {
+            return FALSE;
+        }
+
+        if (ee('Model')->get('Extension')->filter('class', __CLASS__)->count() === count($this->required_extensions))
+        {
+            return;
+        }
+
+        $methods = ee('Model')->get('Extension')->filter('class', __CLASS__)->fields('method')->all()->pluck('method');
+
+        foreach ($this->required_extensions as $method => $settings)
+        {
+            if (in_array($method, $methods))
+            {
+                continue;
+            }
+
+            $data = array(
+                'class' => __CLASS__,
+                'method' => $method,
+                'hook' => $settings['hook'],
+                'priority' => $settings['priority'],
+                'version' => $this->version,
+                'settings' => '',
+                'enabled' => 'y'
+            );
+            
+            ee('Model')->make('Extension', $data)->save();
+        }
+
+        ee()->db->where('class', __CLASS__);
+        ee()->db->update(
+                'extensions',
+                array('version' => $this->version)
+        );
+    }
+
+    private function autofill_media_values($entry, $values): void
+    {
+        $autofiller = new Field_autofiller();
+        $autofiller->autofill_audio('audio_files', $entry);
+        $autofiller->autofill_images('npr_images', $entry);
+    }
+
     private function check_external_story_source($story_source)
     {
         if ($story_source == NULL || $story_source == 'local')
@@ -427,6 +501,7 @@ class Npr_story_api_ext
     {
         $mapper = new Publish_form_mapper();
         $objects = $mapper->map($entry, $values, $story);
+        
         return $objects;
     }
 

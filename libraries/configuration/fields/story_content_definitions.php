@@ -105,7 +105,7 @@ class Story_content_definitions
                             'col_label' => 'Audio Format',
                             'col_name' => 'audio_format',
                             'col_instructions' => 'The audio format.',
-                            'col_required' => 'y',
+                            'col_required' => 'n',
                             'col_search' => 'n',
                             'col_width' => '',
                             'col_settings' => array(
@@ -120,7 +120,7 @@ class Story_content_definitions
                             'col_label' => 'Audio URL',
                             'col_name' => 'audio_url',
                             'col_instructions' => 'The URL for the audio asset.',
-                            'col_required' => 'y',
+                            'col_required' => 'n',
                             'col_search' => 'y',
                             'col_width' => '',
                             'col_settings' => array(
@@ -318,7 +318,7 @@ class Story_content_definitions
                             'col_label' => 'Crop Type',
                             'col_name' => 'crop_type',
                             'col_instructions' => 'The general crop size (e.g., small).',
-                            'col_required' => 'y',
+                            'col_required' => 'n',
                             'col_search' => 'n',
                             'col_width' => '',
                             'col_settings' => array(
@@ -333,7 +333,7 @@ class Story_content_definitions
                             'col_label' => 'Crop Source',
                             'col_name' => 'crop_src',
                             'col_instructions' => 'The URL for the image asset.',
-                            'col_required' => 'y',
+                            'col_required' => 'n',
                             'col_search' => 'y',
                             'col_width' => '',
                             'col_settings' => array(

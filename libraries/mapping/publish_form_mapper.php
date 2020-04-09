@@ -7,12 +7,19 @@ if (!defined('BASEPATH'))
     exit ('No direct script access allowed.');
 }
 
+require_once(__DIR__ . '/../utilities/field_utils.php');
+use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
+
 class Publish_form_mapper
 {
+    private $field_utils;
+
     private $settings;
 
     public function __construct()
     {
+        $this->field_utils = new Field_utils();
+
         $this->settings = ee()->db
             ->limit(1)
             ->get('npr_story_api_settings')
@@ -73,7 +80,7 @@ class Publish_form_mapper
             $name = $field;
             if ($field !== 'title' && $field !== 'url_title')
             {
-                $field = $this->get_field_name($field);
+                $field = $this->field_utils->get_field_name($field);
             }
 
             $values[$field] = $value;
@@ -117,49 +124,12 @@ class Publish_form_mapper
             (string) ee('Format')->make('Text', $story_title)->urlSlug() :
             $entry->url_title;
         
+        if (empty($url_title))
+        {
+            $url_title = $entry->url_title;
+        }
+        
         return $url_title;
-    }
-
-    private function get_field_id($name)
-    {
-        $field_id = ee('Model')->get('ChannelField')
-            ->filter('field_name', $name)
-            ->fields('field_id')
-            ->first()
-            ->field_id;
-        
-        return $field_id;
-    }
-
-    private function get_field_name($name)
-    {
-        $field = ee('Model')->get('ChannelField')
-            ->filter('field_name', $name)
-            ->first();
-
-        if ($field === NULL)
-        {
-            return '';
-        }
-
-        $field_id = $field->field_id;
-        $field_name = "field_id_{$field_id}";
-        
-        return $field_name;
-    }
-
-    private function get_grid_column_names($field_id)
-    {
-        $ids = ee()->grid_model->get_columns_for_field($field_id, 'channel');
-
-        $columns = array();
-        foreach ($ids as $id => $data)
-        {
-            $name = $data['col_name'];
-            $columns[$name] = "col_id_$id";
-        }
-
-        return $columns;
     }
 
     private function map_audio($audio_models)
@@ -167,8 +137,8 @@ class Publish_form_mapper
         $audio_array = array();
         
         /* get column names */
-        $field_id = $this->get_field_id('audio_files');
-        $grid_column_names = $this->get_grid_column_names($field_id);
+        $field_id = $this->field_utils->get_field_id('audio_files');
+        $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
         
         $count = 1;
         foreach ($audio_models as $model)
@@ -252,9 +222,8 @@ class Publish_form_mapper
         $corrections = array();
         
         /* get column names */
-        $field_id = $this->get_field_id('corrections');
-        $grid_column_names = $this->get_grid_column_names($field_id);
-        // $entry_rows = ee()->grid_model->get_entry($entry_id, $field_id, 'channel');
+        $field_id = $this->field_utils->get_field_id('corrections');
+        $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
 
         $count = 1;
         foreach ($correction_models as $model)
@@ -321,8 +290,8 @@ class Publish_form_mapper
     {
         $image_array = array();
 
-        $field_id = $this->get_field_id('npr_images');
-        $grid_column_names = $this->get_grid_column_names($field_id);
+        $field_id = $this->field_utils->get_field_id('npr_images');
+        $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
  
         $count = 1;
         foreach ($image_models as $model)
@@ -371,8 +340,8 @@ class Publish_form_mapper
     {
         $org_array = array();
 
-        $field_id = $this->get_field_id('organization');
-        $grid_column_names = $this->get_grid_column_names($field_id);
+        $field_id = $this->field_utils->get_field_id('organization');
+        $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
  
         $org_array['rows']['new_row_1'] = array(
             $grid_column_names['org_id'] => $org_model->orgId,
@@ -400,8 +369,8 @@ class Publish_form_mapper
     {
         $quote_array = array();
 
-        $field_id = $this->get_field_id('pullquotes');
-        $grid_column_names = $this->get_grid_column_names($field_id);
+        $field_id = $this->field_utils->get_field_id('pullquotes');
+        $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
 
         $count = 1;
         foreach ($quote_models as $model)
