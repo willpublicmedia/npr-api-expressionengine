@@ -86,7 +86,7 @@ class Npr_story_api_ext
 
     public function autofill_media_fields($entry, $values)
     {
-        $is_mapped_channel = $this->check_mapped_channel($entry->channel_id);
+        $is_mapped_channel = $this->check_mapped_channel($entry->channel_id, false);
         if ($is_mapped_channel === false)
         {
             return;

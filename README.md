@@ -80,6 +80,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 2.0.1
+
+- Don't display mapped channel error when autofilling media.
+
 ### 2.0.0
 
 - Breaking change: Remove required column constraints on `npr_images` and `audio_files` fields.
