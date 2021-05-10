@@ -596,7 +596,7 @@ class Nprml_mapper
         if ( $datetime instanceof \DateTime ) {
             $story[] = array(
                 'tag' => 'audioRunByDate',
-                'text' => ee()->localize->format_date('%r', $datetime, true)
+                'text' => date_format( $datetime, 'j M Y H:i:00 O' ) // 1 Oct 2017 01:00:00 -0400, 29 Feb 2020 23:59:00 -0500
             );
 
             $entry->{$this->field_utils->get_field_name('audio_runby_date')} = $datetime->getTimestamp();
