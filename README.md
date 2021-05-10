@@ -80,6 +80,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 2.0.2
+
+- Update audioRunbyDate format
+
 ### 2.0.1
 
 - Don't display mapped channel error when autofilling media.
