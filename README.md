@@ -80,9 +80,14 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 2.0.3
+
+- Roll back 2.0.2.
+- Check for invalid `pubDate` and `storyDate` values.
+
 ### 2.0.2
 
-- Update audioRunbyDate format
+- Update `audioRunbyDate` format
 
 ### 2.0.1
 
