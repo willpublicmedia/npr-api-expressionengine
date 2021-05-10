@@ -570,7 +570,7 @@ class Nprml_mapper
 
         if ($entry->{$this->field_utils->get_field_name('story_date')} === null)
         {
-            $entry->{$this->field_utils->get_field_name('story_date')} = $entry->localize->now;
+            $entry->{$this->field_utils->get_field_name('story_date')} = $entry->edit_date;
         }
 
         $story[] = array(
