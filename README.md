@@ -80,6 +80,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+## 2.0.4
+
+- Bump version constant.
+
 ### 2.0.3
 
 - Roll back 2.0.2.
