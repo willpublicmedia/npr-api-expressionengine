@@ -16,7 +16,7 @@ class Config_utils
         return $is_mapped;
     }
 
-    public function list_mapped_channels(): array
+    public function list_mapped_channels($with_names = false): array
     {
         $results = ee()->db->
             select('mapped_channels')->
@@ -27,6 +27,29 @@ class Config_utils
         $mapped_channels = (array_pop($results))['mapped_channels'];
         $mapped_channels = explode("|", $mapped_channels);
 
+        if ($with_names) {
+            $mapped_channels = $this->get_channel_names($mapped_channels);
+        }
+
         return $mapped_channels;
+    }
+
+    private function get_channel_names(array $channel_ids): array
+    {
+        $models = ee('Model')->get('Channel')
+            ->filter('channel_id', 'IN', $channel_ids)
+            ->fields('channel_id', 'channel_name', 'channel_title')
+            ->all();
+
+        $channels = [];
+        foreach ($models as $model) {
+            $channels[] = [
+                'id' => $model->channel_id,
+                'name' => $model->channel_name,
+                'title' => $model->channel_title,
+            ];
+        }
+
+        return $channels;
     }
 }
