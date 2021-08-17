@@ -80,6 +80,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+## 2.0.5
+
+- Add config utility class.
+
 ## 2.0.4
 
 - Bump version constant.
