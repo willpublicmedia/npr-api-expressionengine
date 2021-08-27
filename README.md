@@ -80,6 +80,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+## 2.0.6
+
+- add optional parameters to table loader class methods.
+
 ## 2.0.5
 
 - Add config utility class.
