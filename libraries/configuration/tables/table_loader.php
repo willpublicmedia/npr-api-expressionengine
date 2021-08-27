@@ -12,8 +12,12 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Autoloader;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\ITable;
 
 class Table_loader {
-    public function __construct() {
-        $this->preload_requirements(__DIR__);
+    /**
+     * @param $path Path to check for loadable files.
+     */
+    public function __construct(string $path = '') {
+        $path = $path === '' ? __DIR__ : $path;
+        $this->preload_requirements($path);
     }
 
     public function load(string $model_name): ITable {
