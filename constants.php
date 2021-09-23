@@ -3,7 +3,7 @@
 namespace IllinoisPublicMedia\NprStoryApi;
 
 if (!defined('BASEPATH')) {
-    exit ('No direct script access allowed.');
+    exit('No direct script access allowed.');
 }
 
 class Constants
@@ -18,7 +18,7 @@ class Constants
 
     const DOCS_URL = 'https://gitlab.engr.illinois.edu/willpublicmedia/npr_api_expressionengine';
 
-    const NAMESPACE = 'IllinoisPublicMedia\NprStoryApi';
+    const namespace  = 'IllinoisPublicMedia\NprStoryApi';
 
-    const VERSION = '2.0.6';
+    const VERSION = '2.0.7';
 }
