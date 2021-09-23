@@ -80,6 +80,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+## 2.0.9
+
+- Load required modules.
+
 ## 2.0.8
 
 - Correct constant name.
