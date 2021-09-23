@@ -2,15 +2,13 @@
 
 namespace IllinoisPublicMedia\NprStoryApi\Libraries\Mapping;
 
-if (!defined('BASEPATH'))
-{
-    exit ('No direct script access allowed.');
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed.');
 }
 
-require_once(__DIR__ . '/../utilities/field_utils.php');
-require_once(__DIR__ . '/../utilities/channel_entry_builder.php');
+require_once __DIR__ . '/../utilities/field_utils.php';
+require_once __DIR__ . '/../utilities/channel_entry_builder.php';
 use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Channel_entry_builder;
 
 class Publish_form_mapper
 {
@@ -67,7 +65,7 @@ class Publish_form_mapper
             'teaser' => $story->teaser,
             'text' => $text,
             'title' => $story->title,
-            'url_title' => $url_title
+            'url_title' => $url_title,
         );
 
         $objects = $this->assign_data_to_entry($data, $entry, $values);
@@ -77,19 +75,16 @@ class Publish_form_mapper
 
     private function assign_data_to_entry($data, $entry, $values)
     {
-        foreach ($data as $field => $value)
-        {
+        foreach ($data as $field => $value) {
             $name = $field;
-            if ($field !== 'title' && $field !== 'url_title')
-            {
+            if ($field !== 'title' && $field !== 'url_title') {
                 $field = $this->field_utils->get_field_name($field);
             }
 
             $values[$field] = $value;
             $entry->{$field} = $value;
 
-            if ($this->field_is_grid($name))
-            {
+            if ($this->field_is_grid($name)) {
                 // Grid_ft->post_save stomps data values with cache.
                 ee()->session->set_cache('Grid_ft', $field, $value);
             }
@@ -115,39 +110,36 @@ class Publish_form_mapper
             ->fields('field_type')
             ->first()
             ->field_type;
-        
+
         $is_grid = ($type === 'grid' || $type === 'file_grid');
         return $is_grid;
     }
 
     private function generate_url_title($entry, $story_title)
     {
-        $url_title = $entry->isNew() ? 
-            (string) ee('Format')->make('Text', $story_title)->urlSlug() :
-            $entry->url_title;
-        
-        if (empty($url_title))
-        {
+        $url_title = $entry->isNew() ?
+        (string) ee('Format')->make('Text', $story_title)->urlSlug() :
+        $entry->url_title;
+
+        if (empty($url_title)) {
             $url_title = $entry->url_title;
         }
-        
+
         return $url_title;
     }
 
     private function map_audio($audio_models)
     {
         $audio_array = array();
-        
+
         /* get column names */
         $field_id = $this->field_utils->get_field_id('audio_files');
         $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
-        
+
         $count = 1;
-        foreach ($audio_models as $model)
-        {
+        foreach ($audio_models as $model) {
             $stream = $this->map_audio_formats($model->Format);
-            if (isset($stream[0]))
-            {
+            if (isset($stream[0])) {
                 $stream = $stream[0];
             }
 
@@ -155,44 +147,41 @@ class Publish_form_mapper
             $row_name = "new_row_$count";
 
             $audio = array(
-                    $grid_column_names['audio_type'] => $model->type, // col_id => value?
-                    $grid_column_names['audio_duration'] => $this->convert_audio_duration($model->duration),
-                    $grid_column_names['audio_description'] => $model->description,
-                    $grid_column_names['audio_filesize'] => $stream['filesize'],
-                    $grid_column_names['audio_format'] => $stream['format'],
-                    $grid_column_names['audio_url'] => $stream['url'],
-                    $grid_column_names['audio_rights'] => $model->rights,
-                    $grid_column_names['audio_permissions'] => $this->parse_audio_permissions($model->permissions),
-                    $grid_column_names['audio_title'] => $model->title,
-                    $grid_column_names['audio_region'] => $model->region,
-                    $grid_column_names['audio_rightsholder'] => $model->rightsholder
+                $grid_column_names['audio_type'] => $model->type, // col_id => value?
+                $grid_column_names['audio_duration'] => $this->convert_audio_duration($model->duration),
+                $grid_column_names['audio_description'] => $model->description,
+                $grid_column_names['audio_filesize'] => $stream['filesize'],
+                $grid_column_names['audio_format'] => $stream['format'],
+                $grid_column_names['audio_url'] => $stream['url'],
+                $grid_column_names['audio_rights'] => $model->rights,
+                $grid_column_names['audio_permissions'] => $this->parse_audio_permissions($model->permissions),
+                $grid_column_names['audio_title'] => $model->title,
+                $grid_column_names['audio_region'] => $model->region,
+                $grid_column_names['audio_rightsholder'] => $model->rightsholder,
             );
 
             $audio_array['rows'][$row_name] = $audio;
             $count++;
         }
-   
+
         return $audio_array;
     }
 
     private function map_audio_formats($format_models)
     {
         $preference = array('mp3', 'mp4');
-        $model = NULL;
-        foreach ($preference as $format)
-        {
+        $model = null;
+        foreach ($preference as $format) {
             $model = $format_models->filter('format', '==', $format)
                 ->filter('filesize', '!=', '')
                 ->first();
-            
-            if ($model != NULL)
-            {
+
+            if ($model != null) {
                 break;
             }
         }
-        
-        if ($model === NULL)
-        {
+
+        if ($model === null) {
             return;
         }
 
@@ -201,7 +190,7 @@ class Publish_form_mapper
             'type' => $model->type,
             'filesize' => $model->filesize,
             'format' => $model->format,
-            'url' => $model->url
+            'url' => $model->url,
         );
 
         return $format_array;
@@ -210,8 +199,7 @@ class Publish_form_mapper
     private function map_bylines($byline_models)
     {
         $names = array();
-        foreach ($byline_models as $model)
-        {
+        foreach ($byline_models as $model) {
             $names[] = $model->name;
         }
 
@@ -222,26 +210,25 @@ class Publish_form_mapper
     private function map_corrections($correction_models, $entry_id)
     {
         $corrections = array();
-        
+
         /* get column names */
         $field_id = $this->field_utils->get_field_id('corrections');
         $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
 
         $count = 1;
-        foreach ($correction_models as $model)
-        {
+        foreach ($correction_models as $model) {
             // should be row_id_x if row exists, but this doesn't seem to duplicate entries.
             $row_name = "new_row_$count";
 
             $correction = array(
-                    $grid_column_names['correction_date'] => $model->correctionDate, // col_id => value?
-                    $grid_column_names['correction_text'] => $model->correctionText
+                $grid_column_names['correction_date'] => $model->correctionDate, // col_id => value?
+                $grid_column_names['correction_text'] => $model->correctionText,
             );
 
             $corrections['rows'][$row_name] = $correction;
             $count++;
         }
-     
+
         return $corrections;
     }
 
@@ -249,8 +236,7 @@ class Publish_form_mapper
     {
         $credit = "{$image_model->producer}/{$image_model->provider}";
 
-        if ($image_model->copyright !== 0)
-        {
+        if ($image_model->copyright !== 0) {
             $credit = "Copyright {$image_model->copyright} {$credit}";
         }
 
@@ -259,19 +245,16 @@ class Publish_form_mapper
 
     private function map_image_crops($crop_models)
     {
-        if (!($crop_models instanceof \EllisLab\ExpressionEngine\Service\Model\Collection))
-        {
+        if (!($crop_models instanceof \EllisLab\ExpressionEngine\Service\Model\Collection)) {
             $crop_models = array($crop_models);
         }
 
         $crop_array = array();
-        foreach ($crop_models as $model)
-        {
+        foreach ($crop_models as $model) {
             $file = $this->sideload_file($model);
 
             $primary = $model->type === 'primary';
-            if (property_exists($model, 'primary') && $model->primary)
-            {
+            if (property_exists($model, 'primary') && $model->primary) {
                 $primary = true;
             }
 
@@ -281,7 +264,7 @@ class Publish_form_mapper
                 'src' => $model->src,
                 'height' => property_exists($model, 'height') ? $model->height : '',
                 'width' => property_exists($model, 'width') ? $model->width : '',
-                'primary' => $primary
+                'primary' => $primary,
             );
         }
 
@@ -294,19 +277,17 @@ class Publish_form_mapper
 
         $field_id = $this->field_utils->get_field_id('npr_images');
         $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
- 
+
         $count = 1;
-        foreach ($image_models as $model)
-        {
+        foreach ($image_models as $model) {
             $caption = $model->caption->value ? $model->caption->value : $model->title;
             $credit = $this->map_image_credit($model);
             $crops = $this->map_image_crops($model->Crop);
             $crops[] = $this->map_image_crops($model)[0];
-            foreach ($crops as $crop)
-            {
+            foreach ($crops as $crop) {
                 // should be row_id_x if row exists, but this doesn't seem to duplicate entries.
                 $row_name = "new_row_$count";
-                
+
                 $image = array(
                     $grid_column_names['file'] => $crop['file'],
                     $grid_column_names['crop_type'] => $crop['type'],
@@ -321,9 +302,9 @@ class Publish_form_mapper
                     // $grid_column_names['crop_provider'] => $model->provider,
                     $grid_column_names['crop_provider_url'] => $model->providerUrl,
                     // $grid_column_names['copyright'] => $model->copyright,
-                    $grid_column_names['crop_credit'] => $credit
+                    $grid_column_names['crop_credit'] => $credit,
                 );
-                
+
                 $image_array['rows'][$row_name] = $image;
                 $count++;
             }
@@ -344,27 +325,26 @@ class Publish_form_mapper
 
         $field_id = $this->field_utils->get_field_id('organization');
         $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
- 
+
         $org_array['rows']['new_row_1'] = array(
             $grid_column_names['org_id'] => $org_model->orgId,
             $grid_column_names['org_abbr'] => $org_model->orgAbbr,
             $grid_column_names['org_name'] => $org_model->name,
-            $grid_column_names['org_website'] => $org_model->website
-        );      
-    
+            $grid_column_names['org_website'] => $org_model->website,
+        );
+
         return $org_array;
     }
 
     private function map_permalinks($link_models)
     {
         $model = $link_models->filter('type', '==', 'html')->first();
-        
-        if ($model === NULL)
-        {
-            return NULL;
+
+        if ($model === null) {
+            return null;
         }
 
-        return  $model->link;
+        return $model->link;
     }
 
     private function map_pullquotes($quote_models)
@@ -375,14 +355,13 @@ class Publish_form_mapper
         $grid_column_names = $this->field_utils->get_grid_column_names($field_id);
 
         $count = 1;
-        foreach ($quote_models as $model)
-        {
+        foreach ($quote_models as $model) {
             $row_name = "new_row_$count";
 
             $quote = array(
                 $grid_column_names['quote_person'] = $model->person,
                 $grid_column_names['quote_date'] = $model->date,
-                $grid_column_names['quote_text'] = $model->text
+                $grid_column_names['quote_text'] = $model->text,
             );
 
             $quote_array['rows'][$row_name] = $quote;
@@ -395,12 +374,11 @@ class Publish_form_mapper
     private function map_text($text_models)
     {
         $text_array = array();
-        foreach ($text_models->sortBy('num') as $model)
-        {
+        foreach ($text_models->sortBy('num') as $model) {
             // check for paragraph tags before adding text.
             $paragraph = mb_substr($model->text, 0, 2) === '<p' ?
-                $model->text :
-                "<p>$model->text</p>";
+            $model->text :
+            "<p>$model->text</p>";
 
             $text_array[] = $paragraph;
         }
@@ -425,82 +403,79 @@ class Publish_form_mapper
             ->filter('upload_location_id', $this->settings->npr_image_destination)
             ->filter('file_name', $filename)
             ->first();
-        
-        if ($file != null)
-        {
+
+        if ($file != null) {
             return array(
                 'dir' => '{filedir_' . $this->settings->npr_image_destination . '}',
-                'file' => $file
-            ); 
+                'file' => $file,
+            );
         }
 
         $destination = ee('Model')->get('UploadDestination')
             ->filter('id', $this->settings->npr_image_destination)
-			->filter('site_id', ee()->config->item('site_id'))
+            ->filter('site_id', ee()->config->item('site_id'))
             ->first();
-        
+
         ee()->load->library('upload', array('upload_path' => $destination->server_path));
-        
+
         $raw = file_get_contents($model->src);
-        
-        if (ee()->upload->raw_upload($filename, $raw) === FALSE)
-        {
+
+        if (ee()->upload->raw_upload($filename, $raw) === false) {
             ee('CP/Alert')->makeInline('shared-form')
                 ->asIssue()
                 ->withTitle(lang('upload_filedata_error'))
                 ->addToBody('')
                 ->now();
-            
-            return FALSE;
+
+            return false;
         }
-        
+
         // from filemanager
         $upload_data = ee()->upload->data();
-        
+
         // (try to) Set proper permissions
-		@chmod($upload_data['full_path'], FILE_WRITE_MODE);
+        @chmod($upload_data['full_path'], FILE_WRITE_MODE);
         // --------------------------------------------------------------------
-		// Add file the database
+        // Add file the database
 
         ee()->load->library('filemanager', array('upload_path' => dirname($destination->server_path)));
         $thumb_info = ee()->filemanager->get_thumb($upload_data['file_name'], $destination->id);
-        
+
         // Build list of information to save and return
-		$file_data = array(
-			'upload_location_id'	=> $destination->id,
-			'site_id'				=> ee()->config->item('site_id'),
+        $file_data = array(
+            'upload_location_id' => $destination->id,
+            'site_id' => ee()->config->item('site_id'),
 
-			'file_name'				=> $upload_data['file_name'],
-			'orig_name'				=> $filename, // name before any upload library processing
-			'file_data_orig_name'	=> $upload_data['orig_name'], // name after upload lib but before duplicate checks
+            'file_name' => $upload_data['file_name'],
+            'orig_name' => $filename, // name before any upload library processing
+            'file_data_orig_name' => $upload_data['orig_name'], // name after upload lib but before duplicate checks
 
-			'is_image'				=> $upload_data['is_image'],
-			'mime_type'				=> $upload_data['file_type'],
+            'is_image' => $upload_data['is_image'],
+            'mime_type' => $upload_data['file_type'],
 
-			'file_thumb'			=> $thumb_info['thumb'],
-			'thumb_class' 			=> $thumb_info['thumb_class'],
+            'file_thumb' => $thumb_info['thumb'],
+            'thumb_class' => $thumb_info['thumb_class'],
 
-			'modified_by_member_id' => ee()->session->userdata('member_id'),
-			'uploaded_by_member_id'	=> ee()->session->userdata('member_id'),
+            'modified_by_member_id' => ee()->session->userdata('member_id'),
+            'uploaded_by_member_id' => ee()->session->userdata('member_id'),
 
-			'file_size'				=> $upload_data['file_size'] * 1024, // Bring it back to Bytes from KB
-			'file_height'			=> $upload_data['image_height'],
-			'file_width'			=> $upload_data['image_width'],
-			'file_hw_original'		=> $upload_data['image_height'].' '.$upload_data['image_width'],
-			'max_width'				=> $destination->max_width,
-			'max_height'			=> $destination->max_height
+            'file_size' => $upload_data['file_size'] * 1024, // Bring it back to Bytes from KB
+            'file_height' => $upload_data['image_height'],
+            'file_width' => $upload_data['image_width'],
+            'file_hw_original' => $upload_data['image_height'] . ' ' . $upload_data['image_width'],
+            'max_width' => $destination->max_width,
+            'max_height' => $destination->max_height,
         );
 
         $is_crop = property_exists($model, 'image_id') ? true : false;
-        
+
         $file_data['title'] = $filename;
         $file_data['description'] = $is_crop ? $model->Image->caption : $model->caption->value;
         $file_data['credit'] = $is_crop ? $this->map_image_credit($model->Image) : $this->map_image_credit($model);
 
         $saved = ee()->filemanager->save_file($upload_data['full_path'], $destination->id, $upload_data);
 
-        if ($saved['status'] === false)
-        {
+        if ($saved['status'] === false) {
             return;
         }
 
@@ -516,7 +491,7 @@ class Publish_form_mapper
 
         $results = array(
             'dir' => '{filedir_' . $destination->id . '}',
-            'file' => $file
+            'file' => $file,
         );
 
         return $results;
@@ -526,7 +501,7 @@ class Publish_form_mapper
     {
         $url_data = parse_url($url);
         $filename = basename($url_data['path']);
-        
+
         if (!array_key_exists('query', $url_data)) {
             return $filename;
         }
