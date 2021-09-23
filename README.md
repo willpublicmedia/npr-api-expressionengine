@@ -80,6 +80,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+## 2.0.7
+
+- Move channel entry data assignment to public utility
+
 ## 2.0.6
 
 - add optional parameters to table loader class methods.
