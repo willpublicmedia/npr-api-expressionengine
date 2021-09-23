@@ -80,9 +80,14 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+## 2.0.8
+
+- Correct constant name.
+- Update docs url.
+
 ## 2.0.7
 
-- Move channel entry data assignment to public utility
+- Move channel entry data assignment to public utility.
 
 ## 2.0.6
 
