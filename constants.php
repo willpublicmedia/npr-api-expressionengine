@@ -16,7 +16,7 @@ class Constants
 
     const DESCRIPTION = "An ExpressionEngine port of NPR's story API Wordpress module (https://github.com/npr/nprapi-wordpress).";
 
-    const DOCS_URL = 'https://gitlab.engr.illinois.edu/willpublicmedia/npr_api_expressionengine';
+    const DOCS_URL = 'https://github.com/willpublicmedia/npr-api-expressionengine';
 
     const NAMESPACE  = 'IllinoisPublicMedia\NprStoryApi';
 
