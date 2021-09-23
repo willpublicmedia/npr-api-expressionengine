@@ -15,6 +15,7 @@ class Channel_entry_builder
 
     public function __construct()
     {
+        ee()->load->model('grid_model');
         $this->field_utils = new Field_utils();
     }
 
