@@ -12,12 +12,15 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
 
 class Publish_form_mapper
 {
+    private $entry_builder;
+
     private $field_utils;
 
     private $settings;
 
     public function __construct()
     {
+        $this->entry_builder = new Channel_entry_builder();
         $this->field_utils = new Field_utils();
 
         $this->settings = ee()->db
@@ -68,51 +71,14 @@ class Publish_form_mapper
             'url_title' => $url_title,
         );
 
-        $objects = $this->assign_data_to_entry($data, $entry, $values);
+        $objects = $this->entry_builder->assign_data_to_entry($data, $entry, $values);
         $objects['story'] = $story;
-        return $objects;
-    }
-
-    private function assign_data_to_entry($data, $entry, $values)
-    {
-        foreach ($data as $field => $value) {
-            $name = $field;
-            if ($field !== 'title' && $field !== 'url_title') {
-                $field = $this->field_utils->get_field_name($field);
-            }
-
-            $values[$field] = $value;
-            $entry->{$field} = $value;
-
-            if ($this->field_is_grid($name)) {
-                // Grid_ft->post_save stomps data values with cache.
-                ee()->session->set_cache('Grid_ft', $field, $value);
-            }
-        }
-
-        $objects = array(
-            'entry' => $entry,
-            'values' => $values,
-        );
-
         return $objects;
     }
 
     private function convert_audio_duration($raw)
     {
         return ltrim(gmdate('H:i:s', $raw), "00:");
-    }
-
-    private function field_is_grid($name)
-    {
-        $type = ee('Model')->get('ChannelField')
-            ->filter('field_name', $name)
-            ->fields('field_type')
-            ->first()
-            ->field_type;
-
-        $is_grid = ($type === 'grid' || $type === 'file_grid');
-        return $is_grid;
     }
 
     private function generate_url_title($entry, $story_title)
