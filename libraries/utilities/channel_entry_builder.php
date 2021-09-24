@@ -59,7 +59,7 @@ class Channel_entry_builder
             ->filter('field_name', $name)
             ->fields('field_type')
             ->first()
-            ->field_type;
+            ->field_type ?? '';
 
         $is_grid = ($type === 'grid' || $type === 'file_grid');
         return $is_grid;
