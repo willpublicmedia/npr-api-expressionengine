@@ -80,6 +80,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+## Unreleased
+
+- Process only largest image crop on story pull.
+
 ## 2.0.10
 
 - Fix grid fieldtype detection warning.
