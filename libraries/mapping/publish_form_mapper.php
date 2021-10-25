@@ -220,6 +220,8 @@ class Publish_form_mapper
         foreach ($crop_models as $model) {
             $primary = property_exists($model, 'primary') && $model->primary;
 
+            // we only care about the largest image size.
+            // caution: watch for <image primary='false' /> edge case.
             if (!$primary) {
                 continue;
             }
