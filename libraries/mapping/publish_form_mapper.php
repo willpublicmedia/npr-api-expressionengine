@@ -218,9 +218,13 @@ class Publish_form_mapper
 
         $crop_array = array();
         foreach ($crop_models as $model) {
-            $file = $this->sideload_file($model);
-
             $primary = property_exists($model, 'primary') && $model->primary;
+
+            if (!$primary) {
+                continue;
+            }
+
+            $file = $this->sideload_file($model);
 
             $crop_array[] = array(
                 'file' => $file['dir'] . $file['file']->file_name,
