@@ -8,8 +8,8 @@ if (!defined('BASEPATH')) {
 
 require_once __DIR__ . '/../utilities/field_utils.php';
 require_once __DIR__ . '/../utilities/channel_entry_builder.php';
-use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Channel_entry_builder;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
 
 class Publish_form_mapper
 {
@@ -220,10 +220,7 @@ class Publish_form_mapper
         foreach ($crop_models as $model) {
             $file = $this->sideload_file($model);
 
-            $primary = $model->type === 'primary';
-            if (property_exists($model, 'primary') && $model->primary) {
-                $primary = true;
-            }
+            $primary = property_exists($model, 'primary') && $model->primary;
 
             $crop_array[] = array(
                 'file' => $file['dir'] . $file['file']->file_name,
