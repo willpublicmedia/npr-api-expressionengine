@@ -8,8 +8,8 @@ if (!defined('BASEPATH')) {
 
 require_once __DIR__ . '/../utilities/field_utils.php';
 require_once __DIR__ . '/../utilities/channel_entry_builder.php';
-use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Channel_entry_builder;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
 
 class Publish_form_mapper
 {
@@ -218,12 +218,15 @@ class Publish_form_mapper
 
         $crop_array = array();
         foreach ($crop_models as $model) {
-            $file = $this->sideload_file($model);
+            $primary = property_exists($model, 'primary') && $model->primary;
 
-            $primary = $model->type === 'primary';
-            if (property_exists($model, 'primary') && $model->primary) {
-                $primary = true;
+            // we only care about the largest image size.
+            // caution: watch for <image primary='false' /> edge case.
+            if (!$primary) {
+                continue;
             }
+
+            $file = $this->sideload_file($model);
 
             $crop_array[] = array(
                 'file' => $file['dir'] . $file['file']->file_name,
@@ -252,6 +255,11 @@ class Publish_form_mapper
             $crops = $this->map_image_crops($model->Crop);
             $crops[] = $this->map_image_crops($model)[0];
             foreach ($crops as $crop) {
+                // we only care about the largest image size.
+                if (!$crop['primary']) {
+                    continue;
+                }
+
                 // should be row_id_x if row exists, but this doesn't seem to duplicate entries.
                 $row_name = "new_row_$count";
 
