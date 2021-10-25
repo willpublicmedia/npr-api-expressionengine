@@ -255,6 +255,11 @@ class Publish_form_mapper
             $crops = $this->map_image_crops($model->Crop);
             $crops[] = $this->map_image_crops($model)[0];
             foreach ($crops as $crop) {
+                // we only care about the largest image size.
+                if (!$crop['primary']) {
+                    continue;
+                }
+
                 // should be row_id_x if row exists, but this doesn't seem to duplicate entries.
                 $row_name = "new_row_$count";
 
