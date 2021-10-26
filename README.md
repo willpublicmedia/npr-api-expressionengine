@@ -83,6 +83,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 ## Unreleased
 
 - Process only largest image crop on story pull.
+- Make sure sideloaded images get a thumbnail.
 
 ## 2.0.10
 

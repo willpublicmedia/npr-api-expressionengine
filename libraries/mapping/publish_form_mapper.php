@@ -392,6 +392,8 @@ class Publish_form_mapper
             ->first();
 
         ee()->load->library('upload', array('upload_path' => $destination->server_path));
+        // upload path should be set by library loader, but it's not.
+        ee()->upload->set_upload_path($destination->server_path);
 
         $raw = file_get_contents($model->src);
 
