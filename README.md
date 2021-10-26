@@ -80,7 +80,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
-## Unreleased
+## 2.0.11
 
 - Process only largest image crop on story pull.
 - Make sure sideloaded images get a thumbnail.
