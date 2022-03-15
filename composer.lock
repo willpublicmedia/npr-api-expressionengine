@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d974007a5a3aba014c8b7147cb4a7b3f",
+    "content-hash": "5318e90b7a31c16a09feac4d77de60f6",
     "packages": [
         {
             "name": "nprds/nprapi-wordpress",
-            "version": "dev-master",
+            "version": "v1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/npr/nprapi-wordpress.git",
@@ -30,6 +30,7 @@
                 "source": "https://github.com/npr/nprapi-wordpress/tree/v1.8",
                 "issues": "https://github.com/npr/nprapi-wordpress/issues"
             },
+            "abandoned": true,
             "time": "2018-09-28T21:36:13+00:00"
         }
     ],
@@ -40,5 +41,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
 }
