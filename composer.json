@@ -4,7 +4,7 @@
     "license": "ncsa",
     "type": "expressionengine-addon",
     "require": {
-        "openpublicmedia/npr-story-api": "v1.8"
+        "openpublicmedia/npr-story-api": "v1.9.1"
     },
     "autoload": {
         "classmap": [
