@@ -4,21 +4,17 @@
     "license": "ncsa",
     "type": "expressionengine-addon",
     "require": {
-        "nprds/nprapi-wordpress": "v1.8"
+        "openpublicmedia/npr-story-api": "v1.8"
     },
     "autoload": {
         "classmap": [
-            "vendor/nprds/nprapi-wordpress/classes/"
+            "vendor/openpublicmedia/npr-story-api/classes/"
         ]
     },
     "repositories": [
         {
             "type": "github",
             "url": "https://github.com/openpublicmedia/nprapi-wordpress"
-        },
-        {
-            "type": "github",
-            "url": "https://github.com/nprds/nprapi-wordpress"
         }
     ],
     "minimum-stability": "dev"
