@@ -1,17 +1,21 @@
 {
     "name": "illinoispublicmedia/npr_api_expressionengine",
     "description": "An ExpressionEngine wrapper for NPR's Story API Wordpress plugin.",
-    "license": "",
+    "license": "GPL-2.0+",
     "type": "expressionengine-addon",
     "require": {
-        "nprds/nprapi-wordpress": "master"
+        "openpublicmedia/npr-story-api": "v1.9.1"
     },
     "autoload": {
-        "classmap": ["vendor/nprds/nprapi-wordpress/classes/"]
+        "classmap": [
+            "vendor/openpublicmedia/npr-story-api/classes/"
+        ]
     },
-    "repositories": [{
-        "type": "github",
-        "url": "https://github.com/npr/nprapi-wordpress"
-    }],
+    "repositories": [
+        {
+            "type": "github",
+            "url": "https://github.com/openpublicmedia/nprapi-wordpress"
+        }
+    ],
     "minimum-stability": "dev"
 }

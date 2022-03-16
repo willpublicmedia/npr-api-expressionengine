@@ -4,33 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d974007a5a3aba014c8b7147cb4a7b3f",
+    "content-hash": "de63c2aa7a15d57e6ec4544e39747904",
     "packages": [
         {
-            "name": "nprds/nprapi-wordpress",
-            "version": "dev-master",
+            "name": "openpublicmedia/npr-story-api",
+            "version": "v1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/npr/nprapi-wordpress.git",
-                "reference": "0d6fa17c1f44ed39450e0ab6e1391dd2bcf99d5d"
+                "url": "https://github.com/OpenPublicMedia/nprapi-wordpress.git",
+                "reference": "d17e4a635609c1dba9b69c69d1f27406c8c8576a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/npr/nprapi-wordpress/zipball/0d6fa17c1f44ed39450e0ab6e1391dd2bcf99d5d",
-                "reference": "0d6fa17c1f44ed39450e0ab6e1391dd2bcf99d5d",
-                "shasum": ""
+                "url": "https://github.com/OpenPublicMedia/nprapi-wordpress/archive/refs/tags/v1.9.1.zip"
             },
             "type": "wordpress-plugin",
             "license": [
                 "GPL-2.0+"
             ],
+            "authors": [
+                {
+                    "name": "Jared Counts",
+                    "email": "jcounts@houstonpublicmedia.org"
+                },
+                {
+                    "name": "William Tam",
+                    "email": "tamw@thirteen.org"
+                },
+                {
+                    "name": "NPR DS",
+                    "email": "digitalservices@npr.org"
+                },
+                {
+                    "name": "INN Labs",
+                    "email": "labs@inn.org"
+                }
+            ],
             "description": "Access the NPR API from within Wordpress",
-            "homepage": "https://digitalservices.npr.org/",
+            "homepage": "https://github.com/OpenPublicMedia/nprapi-wordpress/",
             "support": {
-                "source": "https://github.com/npr/nprapi-wordpress/tree/v1.8",
-                "issues": "https://github.com/npr/nprapi-wordpress/issues"
+                "source": "https://github.com/OpenPublicMedia/nprapi-wordpress/tree/v1.9.1",
+                "issues": "https://github.com/OpenPublicMedia/nprapi-wordpress/issues"
             },
-            "time": "2018-09-28T21:36:13+00:00"
+            "time": "2022-03-09T17:08:21+00:00"
         }
     ],
     "packages-dev": [],
@@ -40,5 +56,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
 }
