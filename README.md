@@ -18,12 +18,12 @@ The plugin also allows channel mapping, allowing existing channels to push to or
 2. From Control Panel > Developer > Addons, install the plugin.
 3. Click the NPR Story API settings icon:
 
-  - Use your org's API key in the API Key field.
-  - Use your org's org ID in the Org ID field.
-  - Set the pull url (<https://api.npr.org> for production, <https://api-s1.npr.org> for NPR's api test environment).
-  - Set the push url as above. Note: API push requires IP address whitelist by NPR.
-  - Choose a file location for images from pulled stories.
-  - Choose channels to be mapped to the NPR api. (Start with the NPR Stories channel.)
+- Use your org's API key in the API Key field.
+- Use your org's org ID in the Org ID field.
+- Set the pull url (<https://api.npr.org> for production, <https://api-s1.npr.org> for NPR's api test environment).
+- Set the push url as above. Note: API push requires IP address whitelist by NPR.
+- Choose a file location for images from pulled stories.
+- Choose channels to be mapped to the NPR api. (Start with the NPR Stories channel.)
 
 4. Save settings.
 
@@ -39,9 +39,9 @@ Mapped channels must have access to all fields required by the story api (NPR St
 2. In the publish tab, add any title text.
 3. Switch to the Options tab
 
-  - Set story source to NPR.
-  - Set the NPR Story ID to the desired story.
-  - Click Overwrite Local.
+- Set story source to NPR.
+- Set the NPR Story ID to the desired story.
+- Click Overwrite Local.
 
 4. Click Save.
 
@@ -58,11 +58,11 @@ If the story is correctly formatted, change story status from Draft to Open and 
 3. Save the story before pushing to prevent work from being lost on a failed push.
 4. Switch to the Options tab:
 
-  - Leave story source set to Local.
-  - Leave NPR Story ID blank.
-  - Click Publish to NPR.
-  - _Optional:_ Click Send to NPR One to include the story on NPR One.
-  - _Optional:_ Click NPR One Featured to request the story be featured in NPR One.
+- Leave story source set to Local.
+- Leave NPR Story ID blank.
+- Click Publish to NPR.
+- _Optional:_ Click Send to NPR One to include the story on NPR One.
+- _Optional:_ Click NPR One Featured to request the story be featured in NPR One.
 
 5. Click Save.
 
@@ -79,6 +79,11 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 - [Composer](https://getcomposer.org)
 
 ## Changelog
+
+## Unreleased
+
+- Follow Open Public Media fork of nprapi-wordpress.
+- Pin nprapi-wordpress to 1.9.1.
 
 ## 2.0.11
 
