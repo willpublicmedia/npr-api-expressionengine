@@ -72,11 +72,12 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Dependencies
 
-- ExpressionEngine 5
-- PHP 7
+- ExpressionEngine 5+
+- PHP 7+
 - PHP curl module
 - PHP xml module
 - [Composer](https://getcomposer.org)
+- [NPR Story API Wordpress Plugin](https://github.com/openpublicmedia/nprapi-wordpress) (via composer)
 
 ## Changelog
 
