@@ -2,24 +2,24 @@
     exit('No direct script access allowed');
 }
 
-require_once(__DIR__ . '/constants.php');
-require_once(__DIR__ . '/libraries/installation/dependency_manager.php');
-require_once(__DIR__ . '/libraries/installation/field_installer.php');
-require_once(__DIR__ . '/libraries/installation/channel_installer.php');
-require_once(__DIR__ . '/libraries/installation/status_installer.php');
-require_once(__DIR__ . '/libraries/installation/extension_installer.php');
-require_once(__DIR__ . '/libraries/configuration/tables/table_loader.php');
-require_once(__DIR__ . '/libraries/configuration/tables/itable.php');
-require_once(__DIR__ . '/libraries/installation/table_installer.php');
-require_once(__DIR__ . '/libraries/installation/updates/updater_2_0_0.php');
+require_once __DIR__ . '/constants.php';
+require_once __DIR__ . '/libraries/installation/dependency_manager.php';
+require_once __DIR__ . '/libraries/installation/field_installer.php';
+require_once __DIR__ . '/libraries/installation/channel_installer.php';
+require_once __DIR__ . '/libraries/installation/status_installer.php';
+require_once __DIR__ . '/libraries/installation/extension_installer.php';
+require_once __DIR__ . '/libraries/configuration/tables/table_loader.php';
+require_once __DIR__ . '/libraries/configuration/tables/itable.php';
+require_once __DIR__ . '/libraries/installation/table_installer.php';
+require_once __DIR__ . '/libraries/installation/updates/updater_2_0_0.php';
 use IllinoisPublicMedia\NprStoryApi\Constants;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Dependency_manager;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Channel_installer;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Status_installer;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Extension_installer;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table_loader;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\ITable;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table_loader;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Channel_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Dependency_manager;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Extension_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Status_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Table_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Updates\Updater_2_0_0;
 
@@ -29,18 +29,18 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Updates\Updater_2_0_0
 class Npr_story_api_upd
 {
     private $channels = array(
-        'npr_stories'
+        'npr_stories',
     );
 
     private $module_name = 'Npr_story_api';
 
     private $publish_layout = 'NPR Story API';
-    
+
     private $tables = array(
         // table order matters for column relationships
         'config' => array(
             'config_settings',
-            'config_field_mappings'
+            'config_field_mappings',
         ),
         'story' => array(
             'npr_story',
@@ -58,8 +58,8 @@ class Npr_story_api_upd
             // 'npr_related_link',
             'npr_text_paragraph',
             'npr_thumbnail',
-            'pushed_stories'
-        )
+            'pushed_stories',
+        ),
     );
 
     private $version = Constants::VERSION;
@@ -69,7 +69,8 @@ class Npr_story_api_upd
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         ee()->load->dbforge();
     }
 
@@ -80,8 +81,7 @@ class Npr_story_api_upd
      */
     public function install()
     {
-        if ($this->check_dependencies() === false)
-        {
+        if ($this->check_dependencies() === false) {
             return false;
         }
 
@@ -100,7 +100,7 @@ class Npr_story_api_upd
         );
 
         ee()->db->insert('modules', $data);
-        
+
         return true;
     }
 
@@ -116,7 +116,12 @@ class Npr_story_api_upd
         ee()->db->where('module_name', $this->module_name);
         $query = ee()->db->get();
 
-        ee()->db->delete('module_member_groups', array('module_id' => $query->row('module_id')));
+        if (APP_VER < 6) {
+            ee()->db->delete('module_member_groups', array('module_id' => $query->row('module_id')));
+        } else {
+            ee()->db->delete('module_member_roles', array('module_id' => $query->row('module_id')));
+        }
+
         ee()->db->delete('modules', array('module_name' => $this->module_name));
         ee()->db->delete('actions', array('class' => $this->module_name));
 
@@ -145,25 +150,22 @@ class Npr_story_api_upd
 
             return true;
         }
-        
+
         if (version_compare($current, $this->version, '=')) {
             return false;
         }
-        
-        if ($this->check_dependencies() === false)
-        {
+
+        if ($this->check_dependencies() === false) {
             return false;
         }
-        
+
         $updated = true;
 
-        if (version_compare($current, '2.0.0', '<'))
-        {
+        if (version_compare($current, '2.0.0', '<')) {
             $updater_2_0_0 = new Updater_2_0_0();
             $success = $updater_2_0_0->update();
 
-            if (!$success)
-            {
+            if (!$success) {
                 $updated = false;
             }
         }
@@ -175,35 +177,40 @@ class Npr_story_api_upd
     {
         $manager = new Dependency_manager();
         $has_dependencies = $manager->check_dependencies();
-        
+
         return $has_dependencies;
     }
 
-    private function create_required_channels() {
+    private function create_required_channels()
+    {
         $installer = new Channel_installer();
         $installer->install($this->channels, $this->publish_layout);
     }
 
-    private function create_required_extensions() {
+    private function create_required_extensions()
+    {
         $installer = new Extension_installer();
         $installer->install();
     }
 
-    private function create_required_fields() {
+    private function create_required_fields()
+    {
         $installer = new Field_installer();
         $installer->install();
     }
 
-    private function create_required_statuses() {
+    private function create_required_statuses()
+    {
         $statuses = array(
-            'draft'
+            'draft',
         );
 
         $installer = new Status_installer();
         $installer->install($statuses);
     }
 
-    private function create_tables(array $table_names) {
+    private function create_tables(array $table_names)
+    {
         $tables = array();
         foreach ($table_names as $name) {
             $data = $this->load_table_config($name);
@@ -214,27 +221,32 @@ class Npr_story_api_upd
         $installer->install($tables);
     }
 
-    private function delete_channels() {
+    private function delete_channels()
+    {
         $installer = new Channel_installer();
         $installer->uninstall($this->channels, $this->publish_layout);
     }
 
-    private function delete_extensions() {
+    private function delete_extensions()
+    {
         $uninstaller = new Extension_installer();
         $uninstaller->uninstall();
     }
 
-    private function delete_fields() {
+    private function delete_fields()
+    {
         $uninstaller = new Field_installer();
         $uninstaller->uninstall();
     }
 
-    private function delete_statuses() {
+    private function delete_statuses()
+    {
         $uninstaller = new Status_installer();
         $uninstaller->uninstall();
     }
 
-    private function delete_tables(array $table_names) {
+    private function delete_tables(array $table_names)
+    {
         $tables = array();
         foreach ($table_names as $name) {
             $data = $this->load_table_config($name);
@@ -246,7 +258,8 @@ class Npr_story_api_upd
         $uninstaller->uninstall($tables);
     }
 
-    private function load_table_config(string $table_name): ITable {
+    private function load_table_config(string $table_name): ITable
+    {
         $loader = new Table_loader();
         $data = $loader->load($table_name);
 
