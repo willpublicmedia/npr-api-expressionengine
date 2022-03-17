@@ -80,43 +80,43 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
-## Unreleased
+### Unreleased
 
 - Update install/uninstall methods for EE6 compatibility.
 - Follow Open Public Media fork of nprapi-wordpress.
 - Pin nprapi-wordpress to 1.9.1.
 
-## 2.0.11
+### 2.0.11
 
 - Process only largest image crop on story pull.
 - Make sure sideloaded images get a thumbnail.
 
-## 2.0.10
+### 2.0.10
 
 - Fix grid fieldtype detection warning.
 
-## 2.0.9
+### 2.0.9
 
 - Load required modules.
 
-## 2.0.8
+### 2.0.8
 
 - Correct constant name.
 - Update docs url.
 
-## 2.0.7
+### 2.0.7
 
 - Move channel entry data assignment to public utility.
 
-## 2.0.6
+### 2.0.6
 
 - add optional parameters to table loader class methods.
 
-## 2.0.5
+### 2.0.5
 
 - Add config utility class.
 
-## 2.0.4
+### 2.0.4
 
 - Bump version constant.
 
