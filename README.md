@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 2.1.1
+
+- Correct version constant.
+
 ### 2.1.0
 
 - Update connection error handling.
