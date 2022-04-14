@@ -244,19 +244,14 @@ class Npr_api_expressionengine extends NPRAPI
                 ->withTitle("Unable to connect to NPR Story API")
                 ->addToBody($msg)
                 ->defer();
-
-            curl_close($ch);
-
-            // $response = new Api_response(''); 
-            return;
         }
 
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        curl_close($ch);
-
         // parser expects an object, not xml string.
-        $response = $this->convert_response($raw, $url);
+        $response = curl_errno($ch) ? $this->create_error_response(curl_error($ch), $url) : $this->convert_response($raw, $url);
+
+        curl_close($ch);
 
         if ($http_status != self::NPRAPI_STATUS_OK || $response->code != self::NPRAPI_STATUS_OK) {
             $code = array_key_exists('code', $response) ? $response->code : $http_status;
@@ -285,6 +280,16 @@ class Npr_api_expressionengine extends NPRAPI
         if (array_key_exists('messages', $data)) {
             $response->messages = $data['messages'];
         }
+
+        return $response;
+    }
+
+    private function create_error_response($message, $url)
+    {
+        $response = new Api_response('');
+        $response->url = $url;
+        $response->code = 503;
+        $response->messages = [$message];
 
         return $response;
     }
