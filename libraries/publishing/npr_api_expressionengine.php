@@ -245,6 +245,8 @@ class Npr_api_expressionengine extends NPRAPI
                 ->addToBody($msg)
                 ->defer();
 
+            curl_close($ch);
+
             return;
         }
 
