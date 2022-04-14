@@ -86,7 +86,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 - Update connection error handling.
 - Update install/uninstall methods for EE6 compatibility.
 - Follow Open Public Media fork of nprapi-wordpress.
-- Pin nprapi-wordpress to 1.9.1.
+- Pin nprapi-wordpress to 1.9.2.
 
 ### 2.0.11
 

@@ -4,19 +4,19 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de63c2aa7a15d57e6ec4544e39747904",
+    "content-hash": "4abb3f11c9ee33c03ddcdfa87cf0d707",
     "packages": [
         {
             "name": "openpublicmedia/npr-story-api",
-            "version": "v1.9.1",
+            "version": "v1.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenPublicMedia/nprapi-wordpress.git",
-                "reference": "d17e4a635609c1dba9b69c69d1f27406c8c8576a"
+                "reference": "52a52e523335ab30ef7cdca601b0938735e7f24a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/OpenPublicMedia/nprapi-wordpress/archive/refs/tags/v1.9.1.zip"
+                "url": "https://github.com/OpenPublicMedia/nprapi-wordpress/archive/refs/tags/v1.9.2.zip"
             },
             "type": "wordpress-plugin",
             "license": [
@@ -32,21 +32,17 @@
                     "email": "tamw@thirteen.org"
                 },
                 {
-                    "name": "NPR DS",
-                    "email": "digitalservices@npr.org"
-                },
-                {
-                    "name": "INN Labs",
-                    "email": "labs@inn.org"
+                    "name": "Brian Divver",
+                    "email": "bdivver@xpn.org"
                 }
             ],
             "description": "Access the NPR API from within Wordpress",
             "homepage": "https://github.com/OpenPublicMedia/nprapi-wordpress/",
             "support": {
-                "source": "https://github.com/OpenPublicMedia/nprapi-wordpress/tree/v1.9.1",
+                "source": "https://github.com/OpenPublicMedia/nprapi-wordpress/tree/v1.9.2",
                 "issues": "https://github.com/OpenPublicMedia/nprapi-wordpress/issues"
             },
-            "time": "2022-03-09T17:08:21+00:00"
+            "time": "2022-03-28T16:21:49+00:00"
         }
     ],
     "packages-dev": [],
