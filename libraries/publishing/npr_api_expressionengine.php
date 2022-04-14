@@ -247,6 +247,7 @@ class Npr_api_expressionengine extends NPRAPI
 
             curl_close($ch);
 
+            // $response = new Api_response(''); 
             return;
         }
 
@@ -266,8 +267,6 @@ class Npr_api_expressionengine extends NPRAPI
                 ->withTitle("NPR API response error: $code")
                 ->addToBody($message)
                 ->defer();
-
-            return;
         }
 
         return $response;
