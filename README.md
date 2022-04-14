@@ -18,12 +18,12 @@ The plugin also allows channel mapping, allowing existing channels to push to or
 2. From Control Panel > Developer > Addons, install the plugin.
 3. Click the NPR Story API settings icon:
 
-  - Use your org's API key in the API Key field.
-  - Use your org's org ID in the Org ID field.
-  - Set the pull url (<https://api.npr.org> for production, <https://api-s1.npr.org> for NPR's api test environment).
-  - Set the push url as above. Note: API push requires IP address whitelist by NPR.
-  - Choose a file location for images from pulled stories.
-  - Choose channels to be mapped to the NPR api. (Start with the NPR Stories channel.)
+- Use your org's API key in the API Key field.
+- Use your org's org ID in the Org ID field.
+- Set the pull url (<https://api.npr.org> for production, <https://api-s1.npr.org> for NPR's api test environment).
+- Set the push url as above. Note: API push requires IP address whitelist by NPR.
+- Choose a file location for images from pulled stories.
+- Choose channels to be mapped to the NPR api. (Start with the NPR Stories channel.)
 
 4. Save settings.
 
@@ -39,9 +39,9 @@ Mapped channels must have access to all fields required by the story api (NPR St
 2. In the publish tab, add any title text.
 3. Switch to the Options tab
 
-  - Set story source to NPR.
-  - Set the NPR Story ID to the desired story.
-  - Click Overwrite Local.
+- Set story source to NPR.
+- Set the NPR Story ID to the desired story.
+- Click Overwrite Local.
 
 4. Click Save.
 
@@ -58,11 +58,11 @@ If the story is correctly formatted, change story status from Draft to Open and 
 3. Save the story before pushing to prevent work from being lost on a failed push.
 4. Switch to the Options tab:
 
-  - Leave story source set to Local.
-  - Leave NPR Story ID blank.
-  - Click Publish to NPR.
-  - _Optional:_ Click Send to NPR One to include the story on NPR One.
-  - _Optional:_ Click NPR One Featured to request the story be featured in NPR One.
+- Leave story source set to Local.
+- Leave NPR Story ID blank.
+- Click Publish to NPR.
+- _Optional:_ Click Send to NPR One to include the story on NPR One.
+- _Optional:_ Click NPR One Featured to request the story be featured in NPR One.
 
 5. Click Save.
 
@@ -72,45 +72,53 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Dependencies
 
-- ExpressionEngine 5
-- PHP 7
+- ExpressionEngine 5+
+- PHP 7+
 - PHP curl module
 - PHP xml module
 - [Composer](https://getcomposer.org)
+- [NPR Story API Wordpress Plugin](https://github.com/openpublicmedia/nprapi-wordpress) (via composer)
 
 ## Changelog
 
-## 2.0.11
+### 2.1.0
+
+- Update connection error handling.
+- Update install/uninstall methods for EE6 compatibility.
+- Follow Open Public Media fork of nprapi-wordpress.
+- Pin nprapi-wordpress to 1.9.2.
+
+### 2.0.11
 
 - Process only largest image crop on story pull.
 - Make sure sideloaded images get a thumbnail.
 
-## 2.0.10
+### 2.0.10
 
 - Fix grid fieldtype detection warning.
 
-## 2.0.9
+### 2.0.9
 
 - Load required modules.
 
-## 2.0.8
+### 2.0.8
 
 - Correct constant name.
 - Update docs url.
 
-## 2.0.7
+### 2.0.7
 
 - Move channel entry data assignment to public utility.
 
-## 2.0.6
+### 2.0.6
 
 - add optional parameters to table loader class methods.
 
-## 2.0.5
+### 2.0.5
 
 - Add config utility class.
 
-## 2.0.4
+### 2.0.4
 
 - Bump version constant.
 
