@@ -81,7 +81,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
-### Unreleased
+### 2.1.0
 
 - Update connection error handling.
 - Update install/uninstall methods for EE6 compatibility.
