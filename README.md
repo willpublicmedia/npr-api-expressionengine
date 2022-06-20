@@ -81,7 +81,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
-### unreleased
+### 2.1.2
 
 - upgrade wordpress package to 1.9.4
 
