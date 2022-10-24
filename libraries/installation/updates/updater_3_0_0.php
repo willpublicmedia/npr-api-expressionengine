@@ -2,6 +2,9 @@
 
 namespace IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Updates;
 
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_content_definitions as Story_content_definitions;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
+
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
@@ -9,12 +12,7 @@ if (!defined('BASEPATH')) {
 class Updater_3_0_0
 {
     private $fields = array(
-        'audio_files' => array(
-            'remove' => array(
-                'audio_type',
-                'audio_duration',
-            ),
-        ),
+        'audio_files',
     );
 
     public function update(): bool
@@ -28,20 +26,11 @@ class Updater_3_0_0
     {
         $success_audio_remove = false;
 
-        foreach ($fields as $field => $actions) {
-            $model = ee('Model')->get('ChannelField')
-                ->filter('field_name', $field)
-                ->fields('field_id')
-                ->first();
+        $installer = new Field_installer();
 
-            $field_id = $model->field_id;
-
-            $remove_cols = $actions['remove'];
-            foreach ($remove_cols as $col) {
-                $model->remove($col);
-            }
-
-            $success_audio_remove = $model->save();
+        foreach ($fields as $field_name) {
+            $settings = Story_content_definitions::$fields[$field_name];
+            // use grid_lib to apply settings
         }
 
         $this->log_message();
