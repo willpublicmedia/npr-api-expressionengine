@@ -4,19 +4,19 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a698abd257eca42cab50f59b25011ab7",
+    "content-hash": "b8085724dbc4134eb5f22ccc747c09e6",
     "packages": [
         {
             "name": "openpublicmedia/npr-story-api",
-            "version": "v1.9.4",
+            "version": "v1.9.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenPublicMedia/nprapi-wordpress.git",
-                "reference": "29258684d3eb87ae1206cfb132084b62423ce075"
+                "reference": "c7a521ff569b6bd065f84eac323c2fe2d98f270f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/OpenPublicMedia/nprapi-wordpress/archive/refs/tags/v1.9.4.zip"
+                "url": "https://github.com/OpenPublicMedia/nprapi-wordpress/archive/refs/tags/v1.9.4.1.zip"
             },
             "type": "wordpress-plugin",
             "license": [
@@ -39,10 +39,10 @@
             "description": "Access the NPR API from within Wordpress",
             "homepage": "https://github.com/OpenPublicMedia/nprapi-wordpress/",
             "support": {
-                "source": "https://github.com/OpenPublicMedia/nprapi-wordpress/tree/v1.9.4",
+                "source": "https://github.com/OpenPublicMedia/nprapi-wordpress/tree/v1.9.4.1",
                 "issues": "https://github.com/OpenPublicMedia/nprapi-wordpress/issues"
             },
-            "time": "2022-06-16T14:42:51+00:00"
+            "time": "2022-06-24T19:07:11+00:00"
         }
     ],
     "packages-dev": [],
@@ -53,5 +53,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
