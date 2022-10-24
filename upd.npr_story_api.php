@@ -12,6 +12,7 @@ require_once __DIR__ . '/libraries/configuration/tables/table_loader.php';
 require_once __DIR__ . '/libraries/configuration/tables/itable.php';
 require_once __DIR__ . '/libraries/installation/table_installer.php';
 require_once __DIR__ . '/libraries/installation/updates/updater_2_0_0.php';
+require_once __DIR__ . '/libraries/installation/updates/updater_3_0_0.php';
 use IllinoisPublicMedia\NprStoryApi\Constants;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\ITable;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\Table_loader;
@@ -22,6 +23,7 @@ use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Status_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Table_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Updates\Updater_2_0_0;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Updates\Updater_3_0_0;
 
 /**
  * NPR Story API updater.
@@ -164,6 +166,15 @@ class Npr_story_api_upd
         if (version_compare($current, '2.0.0', '<')) {
             $updater_2_0_0 = new Updater_2_0_0();
             $success = $updater_2_0_0->update();
+
+            if (!$success) {
+                $updated = false;
+            }
+        }
+
+        if (version_compare($current, '3.0.0', '<')) {
+            $updater_3_0_0 = new Updater_3_0_0();
+            $success = $updater_3_0_0->update();
 
             if (!$success) {
                 $updated = false;
