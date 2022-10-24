@@ -14,7 +14,7 @@ class Layout_customizer
 {
     private $channel;
 
-    private $member_group_blacklist = array(
+    private $member_group_deny = array(
         'Banned',
         'Guests',
         'Pending',
@@ -70,13 +70,13 @@ class Layout_customizer
 
         if (APP_VER < 6) {
             $member_groups = ee('Model')->get('MemberGroup')
-                ->filter('group_title', 'NOT IN', $this->member_group_blacklist)
+                ->filter('group_title', 'NOT IN', $this->member_group_deny)
                 ->all();
 
             $channel_layout->MemberGroups = $member_groups;
         } else {
             $member_roles = ee('Model')->get('Role')
-                ->filter('name', 'NOT IN', $this->member_group_blacklist)
+                ->filter('name', 'NOT IN', $this->member_group_deny)
                 ->all();
 
             $channel_layout->PrimaryRoles = $member_roles;
