@@ -72,7 +72,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Dependencies
 
-- ExpressionEngine 5+
+- ExpressionEngine 6+
 - PHP 7+
 - PHP curl module
 - PHP xml module
@@ -83,6 +83,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ### Unreleased
 
+- breaking: update EE class namespace for v6
 - update wordpress package to 1.9.4.1
 
 ### 2.1.2

@@ -7,7 +7,7 @@ if (!defined('BASEPATH')) {
 }
 
 require_once __DIR__ . '/../model/channel/default_npr_story_layout.php';
-use EllisLab\ExpressionEngine\Model\Channel\Channel;
+use ExpressionEngine\Model\Channel\Channel;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Model\Channel\Default_npr_story_layout;
 
 class Layout_customizer

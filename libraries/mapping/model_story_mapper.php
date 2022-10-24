@@ -6,7 +6,7 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
-use EllisLab\ExpressionEngine\Service\Model\Model;
+use ExpressionEngine\Service\Model\Model;
 
 require_once(__DIR__ . '/../../vendor/autoload.php');
 use \NPRMLElement;

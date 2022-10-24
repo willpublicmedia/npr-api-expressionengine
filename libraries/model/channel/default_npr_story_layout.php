@@ -5,7 +5,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
-use EllisLab\ExpressionEngine\Model\Channel\Display\DefaultChannelLayout;
+use ExpressionEngine\Model\Channel\Display\DefaultChannelLayout;
 
 class Default_npr_story_layout extends DefaultChannelLayout {
 	private $custom_options_fields = array(

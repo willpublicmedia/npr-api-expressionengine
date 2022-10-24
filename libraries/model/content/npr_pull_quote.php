@@ -2,7 +2,7 @@
 
 namespace IllinoisPublicMedia\NprStoryApi\Libraries\Model\Content;
 
-use EllisLab\ExpressionEngine\Service\Model\Model;
+use ExpressionEngine\Service\Model\Model;
 
 /**
  * Object model for an NPR story pull quote as defined by https://www.npr.org/api/outputReference.php.

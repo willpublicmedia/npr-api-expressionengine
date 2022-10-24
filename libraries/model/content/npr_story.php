@@ -6,7 +6,7 @@ if (!defined('BASEPATH')) {
     exit ('No direct script access allowed.');
 }
 
-use EllisLab\ExpressionEngine\Service\Model\Model;
+use ExpressionEngine\Service\Model\Model;
 
 /**
  * Object model for an NPR story as defined by https://www.npr.org/api/outputReference.php.

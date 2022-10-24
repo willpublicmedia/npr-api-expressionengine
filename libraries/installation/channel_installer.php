@@ -9,7 +9,7 @@ if (!defined('BASEPATH')) {
 require_once(__DIR__ . '/../utilities/autoloader.php');
 require_once(__DIR__ . '/field_installer.php');
 require_once(__DIR__ . '/layout_customizer.php');
-use EllisLab\ExpressionEngine\Model\Channel\Channel;
+use ExpressionEngine\Model\Channel\Channel;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Layout_customizer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Autoloader;

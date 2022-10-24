@@ -16,7 +16,7 @@ require_once __DIR__ . '/../exceptions/configuration_exception.php';
 require_once __DIR__ . '/../exceptions/npr_response_exception.php';
 require_once __DIR__ . '/../dto/http/api_response.php';
 require_once __DIR__ . '/../mapping/model_story_mapper.php';
-use EllisLab\ExpressionEngine\Service\Model\Model;
+use ExpressionEngine\Service\Model\Model;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Dto\Http\Api_response;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Configuration_exception;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Npr_response_exception;

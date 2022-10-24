@@ -2,7 +2,7 @@
 
 namespace IllinoisPublicMedia\NprStoryApi\Libraries\Model\Content;
 
-use EllisLab\ExpressionEngine\Service\Model\Model;
+use ExpressionEngine\Service\Model\Model;
 
 /**
  * Object model for an NPR HTML asset. Not defined in API output spec.

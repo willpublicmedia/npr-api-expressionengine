@@ -6,7 +6,7 @@ if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
 
-use EllisLab\ExpressionEngine\Model\Status\Status;
+use ExpressionEngine\Model\Status\Status;
 
 /**
  * Installs statuses required by NPR Story API module.

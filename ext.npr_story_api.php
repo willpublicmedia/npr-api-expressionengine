@@ -11,7 +11,7 @@ require_once(__DIR__ . '/libraries/mapping/publish_form_mapper.php');
 require_once(__DIR__ . '/libraries/installation/field_installer.php');
 require_once(__DIR__ . '/libraries/mapping/field_autofiller.php');
 use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
-use EllisLab\ExpressionEngine\Service\Validation\Result as ValidationResult;
+use ExpressionEngine\Service\Validation\Result as ValidationResult;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Nprml_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
