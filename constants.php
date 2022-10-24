@@ -20,5 +20,5 @@ class Constants
 
     const NAMESPACE  = 'IllinoisPublicMedia\NprStoryApi';
 
-    const VERSION = '2.1.2';
+    const VERSION = '3.0.0-rc0';
 }
