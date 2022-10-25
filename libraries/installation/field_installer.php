@@ -23,9 +23,10 @@ class Field_installer
 
     private $validation_errors;
 
-    public function __construct()
+    public function __construct($field_definitions = null)
     {
-        $this->field_definitions = array(
+        $this->field_definitions = $field_definitions ??
+        array(
             'source' => Story_source_definitions::$fields,
             'content' => Story_content_definitions::$fields,
         );
