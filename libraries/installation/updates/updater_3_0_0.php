@@ -26,9 +26,12 @@ class Updater_3_0_0
     {
         $success_audio_remove = false;
 
-        $settings = [array('content' => [])];
+        $settings = [
+            'content' => [],
+        ];
+
         foreach ($fields as $field_name) {
-            $settings['content'][] = Story_content_definitions::$fields[$field_name];
+            $settings['content'][$field_name] = Story_content_definitions::$fields[$field_name];
         }
 
         $installer = new Field_installer($settings);
