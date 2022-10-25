@@ -2,8 +2,6 @@
 
 namespace IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Updates;
 
-use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Fields\Story_content_definitions as Story_content_definitions;
-
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
@@ -11,7 +9,17 @@ if (!defined('BASEPATH')) {
 class Updater_3_0_0
 {
     private $fields = array(
-        'audio_files',
+        'audio_files' => [
+            'delete_columns' => [
+                'audio_type',
+                'audio_duration',
+                'audio_filesiz',
+                'audio_format',
+                'audio_rights',
+                'audio_region',
+                'audio_rightsholder',
+            ],
+        ],
     );
 
     public function update(): bool
@@ -68,8 +76,8 @@ class Updater_3_0_0
 
         $this->load_grid_lib($settings);
 
-        foreach ($fields as $field_name) {
-            $model = ee('Model')->get('ChannelField')->filter('field_name', $field_name)->first();
+        foreach ($fields as $field_name => $actions) {
+            $model = ee('Model')->get('ChannelField')->filter('field_name', $field_name)->fields('field_id')->first();
 
             if ($model === null) {
                 continue;
@@ -77,8 +85,14 @@ class Updater_3_0_0
 
             $field_id = $model->field_id;
             $columns = ee()->grid_model->get_columns_for_field($field_id, 'channel', false);
-            // $settings['defined'][$field_name] = Story_content_definitions::$fields[$field_name];
-            $definition = Story_content_definitions::$fields[$field_name];
+
+            foreach ($columns as $column) {
+                if (in_array($column['column_name'], $this->fields[$field_name]['delete_columns'])) {
+                    continue;
+                }
+            }
+
+            ee()->grid_model->delete_columns($column['column_id'], $column['column_type'], $field_id, $column['content_type']);
         }
 
         // ee()->grid_lib->apply_settings($settings);
