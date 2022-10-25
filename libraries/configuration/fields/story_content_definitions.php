@@ -40,51 +40,51 @@ class Story_content_definitions
                                 'num_existing' => "50"
                             )
                         ),
-                        'new_1' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Audio Type',
-                            'col_name' => 'audio_type',
-                            'col_instructions' => 'The type of audio file.',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            )
-                        ),
-                        'new_2' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Audio Duration',
-                            'col_name' => 'audio_duration',
-                            'col_instructions' => 'The duration of the audio asset. All formats for the audio will have the same duration.',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            )
-                        ),
-                        'new_3' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Filesize',
-                            'col_name' => 'audio_filesize',
-                            'col_instructions' => 'The size of the audio file in bytes. Filesize will differ by type.',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            )
-                        ),
+                        // 'new_1' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Audio Type',
+                        //     'col_name' => 'audio_type',
+                        //     'col_instructions' => 'The type of audio file.',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     )
+                        // ),
+                        // 'new_2' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Audio Duration',
+                        //     'col_name' => 'audio_duration',
+                        //     'col_instructions' => 'The duration of the audio asset. All formats for the audio will have the same duration.',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     )
+                        // ),
+                        // 'new_3' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Filesize',
+                        //     'col_name' => 'audio_filesize',
+                        //     'col_instructions' => 'The size of the audio file in bytes. Filesize will differ by type.',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     )
+                        // ),
                         'new_4' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Description',
@@ -100,21 +100,21 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_5' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Audio Format',
-                            'col_name' => 'audio_format',
-                            'col_instructions' => 'The audio format.',
-                            'col_required' => 'n',
-                            'col_search' => 'n',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            )
-                        ),
+                        // 'new_5' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Audio Format',
+                        //     'col_name' => 'audio_format',
+                        //     'col_instructions' => 'The audio format.',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'n',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     )
+                        // ),
                         'new_6' => array(
                             'col_type' => 'url',
                             'col_label' => 'Audio URL',
@@ -127,21 +127,21 @@ class Story_content_definitions
                                 'url_scheme_placeholder' => 'https://'
                             )
                         ),
-                        'new_7' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Audio Rights',
-                            'col_name' => 'audio_rights',
-                            'col_instructions' => '',
-                            'col_required' => 'n',
-                            'col_search' => 'y',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            )
-                        ),
+                        // 'new_7' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Audio Rights',
+                        //     'col_name' => 'audio_rights',
+                        //     'col_instructions' => '',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'y',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     )
+                        // ),
                         'new_8' => array(
                             'col_type' => 'text',
                             'col_label' => 'Audio Permissions',
@@ -172,36 +172,36 @@ class Story_content_definitions
                                 'field_content_type' => 'all'
                             )
                         ),
-                        'new_10' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Audio Region',
-                            'col_name' => 'audio_region',
-                            'col_instructions' => '',
-                            'col_required' => 'n',
-                            'col_search' => 'y',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            )
-                        ),
-                        'new_11' => array(
-                            'col_type' => 'text',
-                            'col_label' => 'Audio Rightsholder',
-                            'col_name' => 'audio_rightsholder',
-                            'col_instructions' => '',
-                            'col_required' => 'n',
-                            'col_search' => 'y',
-                            'col_width' => '',
-                            'col_settings' => array(
-                                'field_maxl' => '',
-                                'field_fmt' => 'none',
-                                'field_text_direction' => 'ltr',
-                                'field_content_type' => 'all'
-                            ) 
-                        )
+                        // 'new_10' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Audio Region',
+                        //     'col_name' => 'audio_region',
+                        //     'col_instructions' => '',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'y',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     )
+                        // ),
+                        // 'new_11' => array(
+                        //     'col_type' => 'text',
+                        //     'col_label' => 'Audio Rightsholder',
+                        //     'col_name' => 'audio_rightsholder',
+                        //     'col_instructions' => '',
+                        //     'col_required' => 'n',
+                        //     'col_search' => 'y',
+                        //     'col_width' => '',
+                        //     'col_settings' => array(
+                        //         'field_maxl' => '',
+                        //         'field_fmt' => 'none',
+                        //         'field_text_direction' => 'ltr',
+                        //         'field_content_type' => 'all'
+                        //     ) 
+                        // )
                     )
                 )
             )
