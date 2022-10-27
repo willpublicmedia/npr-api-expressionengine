@@ -98,15 +98,17 @@ class Updater_3_0_0
             ee()->grid_model->delete_columns($column['col_id'], $column['col_type'], $field_id, $column['content_type']);
         }
 
+        $this->log_message("$field_name-column-removal", 'NPR Story API Field Update', "Removed columns from $field_name: " . implode(', ', $columns_to_delete));
+
         return true;
     }
 
-    private function log_message()
+    private function log_message(string $alert_name, string $title, string $message): void
     {
-        ee('CP/Alert')->makeInline('npr-column-update')
+        ee('CP/Alert')->makeInline($alert_name)
             ->asAttention()
-            ->withTitle("NPR Data Fields Updated")
-            ->addToBody('Removed audio_files columns: ' . implode(',', $this->fields['audio_files']['remove']))
+            ->withTitle($title)
+            ->addToBody($message)
             ->defer();
     }
 }
