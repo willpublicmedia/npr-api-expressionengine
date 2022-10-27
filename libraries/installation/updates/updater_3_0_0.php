@@ -13,7 +13,7 @@ class Updater_3_0_0
             'delete_columns' => [
                 'audio_type',
                 'audio_duration',
-                'audio_filesiz',
+                'audio_filesize',
                 'audio_format',
                 'audio_rights',
                 'audio_region',
