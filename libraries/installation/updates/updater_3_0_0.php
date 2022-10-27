@@ -9,8 +9,8 @@ if (!defined('BASEPATH')) {
 class Updater_3_0_0
 {
     private $fields = array(
-        'audio_files' => [
-            'delete_columns' => [
+        'delete_columns' => [
+            'audio_files' => [
                 'audio_type',
                 'audio_duration',
                 'audio_filesize',
@@ -24,8 +24,15 @@ class Updater_3_0_0
 
     public function update(): bool
     {
-        $publish_columns_removed = $this->remove_publish_form_columns($this->fields);
-        $success = $publish_columns_removed;
+        $operation_success = [];
+        $delete = $this->fields['delete_columns'];
+
+        foreach ($delete as $field) {
+            $publish_columns_removed = $this->remove_publish_form_columns($this->fields);
+            $operation_success[] = $publish_columns_removed;
+        }
+
+        $success = (end($delete_success) === true && count(array_unique($delete_success)) === 1) ? true : false;
         return $success;
     }
 
