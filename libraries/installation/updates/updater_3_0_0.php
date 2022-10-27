@@ -32,7 +32,7 @@ class Updater_3_0_0
             $operation_success[] = $publish_columns_removed;
         }
 
-        $success = (end($delete_success) === true && count(array_unique($delete_success)) === 1) ? true : false;
+        $success = (end($operation_success) === true && count(array_unique($operation_success)) === 1) ? true : false;
         return $success;
     }
 
