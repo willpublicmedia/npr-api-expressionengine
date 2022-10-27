@@ -36,21 +36,20 @@ class Field_autofiller
             $file_model = $this->get_file_model($item[$file_col]);
             $format = $this->get_file_extension($item[$file_col]);
 
-            $audio_type_col = $column_names['audio_type'];
-            $item[$audio_type_col] = empty($item[$audio_type_col]) ?
-                // $file_model->mime_type :
-                $format :
-                $item[$audio_type_col];
+            // $audio_type_col = $column_names['audio_type'];
+            // $item[$audio_type_col] = empty($item[$audio_type_col]) ?
+            //     $format :
+            //     $item[$audio_type_col];
 
-            $filesize_col = $column_names['audio_filesize'];
-            $item[$filesize_col] = empty($item[$filesize_col]) ?
-                $file_model->file_size :
-                $item[$filesize_col];
+            // $filesize_col = $column_names['audio_filesize'];
+            // $item[$filesize_col] = empty($item[$filesize_col]) ?
+            //     $file_model->file_size :
+            //     $item[$filesize_col];
 
-            $format_col = $column_names['audio_format'];
-            $item[$format_col] = empty($item[$format_col]) ?
-                $format :
-                $item[$format_col];
+            // $format_col = $column_names['audio_format'];
+            // $item[$format_col] = empty($item[$format_col]) ?
+            //     $format :
+            //     $item[$format_col];
 
             $url_col = $column_names['audio_url'];
             $item[$url_col] = empty($item[$url_col]) ?
