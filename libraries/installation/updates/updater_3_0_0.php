@@ -27,8 +27,8 @@ class Updater_3_0_0
         $operation_success = [];
         $delete = $this->fields['delete_columns'];
 
-        foreach ($delete as $field) {
-            $publish_columns_removed = $this->remove_publish_form_columns($this->fields);
+        foreach ($delete as $field => $columns) {
+            $publish_columns_removed = $this->remove_publish_form_columns($field, $columns);
             $operation_success[] = $publish_columns_removed;
         }
 
@@ -73,40 +73,32 @@ class Updater_3_0_0
         ee()->grid_lib->settings_form_field_name = 'grid';
     }
 
-    private function remove_publish_form_columns(array $fields): bool
+    private function remove_publish_form_columns(string $field_name, array $columns_to_delete): bool
     {
-        $success_audio_remove = false;
-
         $settings = [
             'defined' => [],
         ];
 
         $this->load_grid_lib($settings);
 
-        foreach ($fields as $field_name => $actions) {
-            $model = ee('Model')->get('ChannelField')->filter('field_name', $field_name)->fields('field_id')->first();
+        $model = ee('Model')->get('ChannelField')->filter('field_name', $field_name)->fields('field_id', 'field_name')->first();
 
-            if ($model === null) {
+        if ($model === null) {
+            return false;
+        }
+
+        $field_id = $model->field_id;
+        $columns = ee()->grid_model->get_columns_for_field($field_id, 'channel', false);
+
+        foreach ($columns as $column) {
+            if (!in_array($column['col_name'], $columns_to_delete)) {
                 continue;
             }
 
-            $field_id = $model->field_id;
-            $columns = ee()->grid_model->get_columns_for_field($field_id, 'channel', false);
-
-            foreach ($columns as $column) {
-                if (in_array($column['column_name'], $this->fields[$field_name]['delete_columns'])) {
-                    continue;
-                }
-            }
-
-            ee()->grid_model->delete_columns($column['column_id'], $column['column_type'], $field_id, $column['content_type']);
+            ee()->grid_model->delete_columns($column['col_id'], $column['col_type'], $field_id, $column['content_type']);
         }
 
-        // ee()->grid_lib->apply_settings($settings);
-
-        $success = $success_audio_remove;
-
-        return $success;
+        return true;
     }
 
     private function log_message()
