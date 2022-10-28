@@ -64,6 +64,12 @@ class Field_autofiller
                 $item[$permissions_col] = empty($item[$permissions_col]) ? 'download, stream, embed' : $item[$permissions_col];
             }
 
+            if (array_key_exists('audio_title', $column_names)) {
+                $title_col = $column_names['audio_title'];
+                $position = array_search($row, array_keys($audio_data['rows'])) + 1;
+                $item[$title_col] = empty($item[$title_col]) ? $entry->title . ' segment ' . $position : $item[$title_col];
+            }
+
             $audio_data['rows'][$row] = $item;
         }
 
