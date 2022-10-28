@@ -55,21 +55,21 @@ class Story_content_definitions
                         //         'field_content_type' => 'all'
                         //     )
                         // ),
-                        // 'new_2' => array(
-                        //     'col_type' => 'text',
-                        //     'col_label' => 'Audio Duration',
-                        //     'col_name' => 'audio_duration',
-                        //     'col_instructions' => 'The duration of the audio asset. All formats for the audio will have the same duration.',
-                        //     'col_required' => 'n',
-                        //     'col_search' => 'n',
-                        //     'col_width' => '',
-                        //     'col_settings' => array(
-                        //         'field_maxl' => '',
-                        //         'field_fmt' => 'none',
-                        //         'field_text_direction' => 'ltr',
-                        //         'field_content_type' => 'all'
-                        //     )
-                        // ),
+                        'new_2' => array(
+                            'col_type' => 'text',
+                            'col_label' => 'Audio Duration',
+                            'col_name' => 'audio_duration',
+                            'col_instructions' => 'The duration of the audio asset. All formats for the audio will have the same duration.',
+                            'col_required' => 'n',
+                            'col_search' => 'n',
+                            'col_width' => '',
+                            'col_settings' => array(
+                                'field_maxl' => '',
+                                'field_fmt' => 'none',
+                                'field_text_direction' => 'ltr',
+                                'field_content_type' => 'all'
+                            )
+                        ),
                         // 'new_3' => array(
                         //     'col_type' => 'text',
                         //     'col_label' => 'Filesize',
