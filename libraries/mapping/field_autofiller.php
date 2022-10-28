@@ -2,12 +2,11 @@
 
 namespace IllinoisPublicMedia\NprStoryApi\Libraries\Mapping;
 
-if (!defined('BASEPATH'))
-{
-    exit ('No direct script access allowed.');
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed.');
 }
 
-require_once(__DIR__ . '/../utilities/field_utils.php');
+require_once __DIR__ . '/../utilities/field_utils.php';
 use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
 
 class Field_autofiller
@@ -25,36 +24,34 @@ class Field_autofiller
         $column_names = $this->field_utils->get_grid_column_names($field_id);
         $audio_data = $this->field_utils->get_posted_grid_values("field_id_$field_id");
 
-        if (empty($audio_data))
-        {
+        if (empty($audio_data)) {
             return;
         }
-        
-        foreach ($audio_data['rows'] as $row => $item)
-        {
+
+        foreach ($audio_data['rows'] as $row => $item) {
             $file_col = $column_names['file'];
             $file_model = $this->get_file_model($item[$file_col]);
             $format = $this->get_file_extension($item[$file_col]);
 
-            // $audio_type_col = $column_names['audio_type'];
-            // $item[$audio_type_col] = empty($item[$audio_type_col]) ?
-            //     $format :
-            //     $item[$audio_type_col];
+            if (array_key_exists('audio_type', $column_names)) {
+                $audio_type_col = $column_names['audio_type'];
+                $item[$audio_type_col] = empty($item[$audio_type_col]) ? $format : $item[$audio_type_col];
+            }
 
-            // $filesize_col = $column_names['audio_filesize'];
-            // $item[$filesize_col] = empty($item[$filesize_col]) ?
-            //     $file_model->file_size :
-            //     $item[$filesize_col];
+            if (array_key_exists('audio_filesize', $column_names)) {
+                $filesize_col = $column_names['audio_filesize'];
+                $item[$filesize_col] = empty($item[$filesize_col]) ? $file_model->file_size : $item[$filesize_col];
+            }
 
-            // $format_col = $column_names['audio_format'];
-            // $item[$format_col] = empty($item[$format_col]) ?
-            //     $format :
-            //     $item[$format_col];
+            if (array_key_exists('audio_format', $column_names)) {
+                $format_col = $column_names['audio_format'];
+                $item[$format_col] = empty($item[$format_col]) ? $format : $item[$format_col];
+            }
 
-            $url_col = $column_names['audio_url'];
-            $item[$url_col] = empty($item[$url_col]) ?
-                $this->build_url($file_model->getAbsoluteUrl()) :
-                $item[$url_col];
+            if (array_key_exists('audio_url', $column_names)) {
+                $url_col = $column_names['audio_url'];
+                $item[$url_col] = empty($item[$url_col]) ? $this->build_url($file_model->getAbsoluteUrl()) : $item[$url_col];
+            }
 
             $audio_data['rows'][$row] = $item;
         }
@@ -69,36 +66,34 @@ class Field_autofiller
         $column_names = $this->field_utils->get_grid_column_names($field_id);
         $image_data = $this->field_utils->get_posted_grid_values("field_id_$field_id");
 
-        if (empty($image_data))
-        {
+        if (empty($image_data)) {
             return;
         }
 
-        foreach ($image_data['rows'] as $row => $item)
-        {
+        foreach ($image_data['rows'] as $row => $item) {
             $file_col = $column_names['file'];
             $file_model = $this->get_file_model($item[$file_col]);
             $format = $this->get_file_extension($item[$file_col]);
             $dimensions = $this->get_image_dimensions($file_model->file_hw_original);
-            
+
             $crop_col = $column_names['crop_type'];
             $item[$crop_col] = empty($item[$crop_col]) ?
-                'default' :
-                $item[$crop_col];
-            
+            'default' :
+            $item[$crop_col];
+
             $src_col = $column_names['crop_src'];
             $item[$src_col] = empty($item[$src_col]) ?
-                $this->build_url($file_model->getAbsoluteUrl()) :
-                $item[$src_col];
-            
+            $this->build_url($file_model->getAbsoluteUrl()) :
+            $item[$src_col];
+
             $width_col = $column_names['crop_width'];
             $item[$width_col] = empty($item[$width_col]) ?
-                $dimensions['width'] :
-                $item[$width_col];
+            $dimensions['width'] :
+            $item[$width_col];
 
             $image_data['rows'][$row] = $item;
         }
-        
+
         $this->field_utils->save_posted_grid_values("field_id_$field_id", $image_data);
         $this->field_utils->cache_posted_grid_values("field_id_$field_id", $image_data);
     }
@@ -107,9 +102,9 @@ class Field_autofiller
     {
         $site_url = ee()->config->item('site_url');
         $url = substr($input, 0, strlen($site_url)) === $site_url ?
-            $input :
-            $site_url . '/' . ltrim($input, '/');
-        
+        $input :
+        $site_url . '/' . ltrim($input, '/');
+
         return $url;
     }
 
@@ -122,12 +117,12 @@ class Field_autofiller
     {
         $split = explode('}', $entry_filepath);
         preg_match('/\d+$/', $split[0], $location_id);
-            
+
         $file_model = ee('Model')->get('File')
             ->filter('file_name', $split[1])
             ->filter('upload_location_id', $location_id[0])
             ->first();
-        
+
         return $file_model;
     }
 
@@ -136,7 +131,7 @@ class Field_autofiller
         $hw = explode(' ', $file_hw_property);
         $dimensions = [
             'height' => intval($hw[0]),
-            'width' => intval($hw[1])
+            'width' => intval($hw[1]),
         ];
 
         return $dimensions;
@@ -146,19 +141,16 @@ class Field_autofiller
     {
         $data = array(
             'entry_id' => $entry_id,
-            'field_id' => $field_id
+            'field_id' => $field_id,
         );
 
-        foreach ($named_data as $item)
-        {
+        foreach ($named_data as $item) {
             $row_id = $item['row_id'];
-            
+
             $row = array();
-            
-            foreach ($item as $name => $value)
-            {
-                if ($name === 'entry_id' || $name == 'row_id')
-                {
+
+            foreach ($item as $name => $value) {
+                if ($name === 'entry_id' || $name == 'row_id') {
                     continue;
                 }
 
