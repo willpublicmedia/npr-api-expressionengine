@@ -8,6 +8,7 @@ if (!defined('BASEPATH')) {
 
 require_once __DIR__ . '/../utilities/field_utils.php';
 use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\MP3File;
 
 class Field_autofiller
 {
@@ -35,7 +36,7 @@ class Field_autofiller
 
             if (array_key_exists('audio_duration', $column_names)) {
                 $duration_col = $column_names['audio_duration'];
-                $item[$duration_col] = empty($item[$duration_col]) ? '' : $item[$duration_col];
+                $item[$duration_col] = empty($item[$duration_col]) ? $this->calculate_audio_duration($file_model) : $item[$duration_col];
             }
 
             if (array_key_exists('audio_type', $column_names)) {
@@ -116,6 +117,13 @@ class Field_autofiller
         $site_url . '/' . ltrim($input, '/');
 
         return $url;
+    }
+
+    private function calculate_audio_duration($model)
+    {
+        $mp3 = new MP3File($model->getAbsolutePath());
+        $duration = $mp3->getDurationEstimate();
+        return $duration;
     }
 
     private function get_file_extension($filename)
