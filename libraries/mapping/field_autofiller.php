@@ -33,6 +33,11 @@ class Field_autofiller
             $file_model = $this->get_file_model($item[$file_col]);
             $format = $this->get_file_extension($item[$file_col]);
 
+            if (array_key_exists('audio_duration', $column_names)) {
+                $duration_col = $column_names['audio_duration'];
+                $item[$duration_col] = empty($item[$duration_col]) ? '' : $item[$duration_col];
+            }
+
             if (array_key_exists('audio_type', $column_names)) {
                 $audio_type_col = $column_names['audio_type'];
                 $item[$audio_type_col] = empty($item[$audio_type_col]) ? $format : $item[$audio_type_col];
