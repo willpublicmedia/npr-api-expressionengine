@@ -83,7 +83,9 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ### Unreleased
 
+- breaking: remove EE audio columns (audio_type, audio_filesize, audio_format, audio_rights, audio_region, audio_rightsholder)
 - breaking: update EE class namespace for v6
+- autofill default audio permissions
 - update wordpress package to 1.9.4.1
 
 ### 2.1.2

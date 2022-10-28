@@ -53,6 +53,11 @@ class Field_autofiller
                 $item[$url_col] = empty($item[$url_col]) ? $this->build_url($file_model->getAbsoluteUrl()) : $item[$url_col];
             }
 
+            if (array_key_exists('audio_permissions', $column_names)) {
+                $permissions_col = $column_names['audio_permissions'];
+                $item[$permissions_col] = empty($item[$permissions_col]) ? 'download, stream, embed' : $item[$permissions_col];
+            }
+
             $audio_data['rows'][$row] = $item;
         }
 
