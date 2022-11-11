@@ -360,7 +360,7 @@ class Nprml_mapper
         return $expiration;
     }
 
-    private function nprstory_nai_get_excerpt($text, $word_count = 30)
+    private function nprstory_nai_get_excerpt($text, $excerpt_length = 30)
     {
         $text = str_replace(']]>', ']]&gt;', $text);
         $text = strip_tags($text);
