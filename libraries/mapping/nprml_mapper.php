@@ -77,11 +77,11 @@ class Nprml_mapper
         {
             // Check for image in content and assign a corepublisher flag.
             // WordPress may add something like "-150X150" to the end of the filename, before the extension.
-            $image_name_parts = explode( ".", $image_guid );
+            $image_name_parts = explode( ".", $data["file"] );
             $image_regex = "/" . $image_name_parts[0] . "\-[a-zA-Z0-9]*" . $image_name_parts[1] . "/"; 
             $in_body = "";
             if ( preg_match( $image_regex, $content ) ) {
-                if ( strstr( $image->guid, '?') ) {
+                if ( strstr( $data["file"], '?') ) {
                     $in_body = "&origin=body";
                 } else {
                     $in_body = "?origin=body";
