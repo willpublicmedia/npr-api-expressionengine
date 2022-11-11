@@ -41,7 +41,7 @@ class Nprml_mapper
             $data['audio_title'] :
             $data['audio_description'];
 
-            $format = $this->get_audio_format($data);
+            $format = $this->get_audio_format($data["file"]);
 
             $audio[] = array(
                 'tag' => 'audio',
@@ -50,7 +50,7 @@ class Nprml_mapper
                         'tag' => 'format',
                         'children' => array(
                             array(
-                                'tag' => $data['audio_format'],
+                                'tag' => $format,
                                 'text' => $data['audio_url'],
                             ),
                         ),
@@ -144,9 +144,9 @@ class Nprml_mapper
         return $crops;
     }
 
-    private function get_audio_format($data)
+    private function get_audio_format($filename)
     {
-        throw new \Exception("Not implemented. Fetch from audio file.", 1);
+        return end(explode('.', $filename));
     }
 
     private function get_bylines($entry, $split_bylines = false)
