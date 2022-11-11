@@ -34,7 +34,7 @@ class Field_autofiller
             $file_model = $this->get_file_model($item[$file_col]);
             $format = $this->get_file_extension($item[$file_col]);
 
-            if (array_key_exists('audio_duration', $column_names)) {
+            if ($file_model !== null && array_key_exists('audio_duration', $column_names)) {
                 $duration_col = $column_names['audio_duration'];
                 $item[$duration_col] = empty($item[$duration_col]) ? $this->calculate_audio_duration($file_model) : $item[$duration_col];
             }
@@ -127,7 +127,12 @@ class Field_autofiller
 
     private function calculate_audio_duration($model)
     {
-        $mp3 = new MP3File($model->getAbsolutePath());
+        $path = $model->getAbsolutePath();
+        if (!$path) {
+            return null;
+        }
+
+        $mp3 = new MP3File($path);
         $duration = $mp3->getDurationEstimate();
         return $duration;
     }
