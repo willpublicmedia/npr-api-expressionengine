@@ -280,7 +280,7 @@ class Nprml_mapper
 
     private function get_option($option_name)
     {
-        $option_value;
+        $option_value = false;
         switch ($option_name) {
             case 'dp_npr_push_use_custom_map':
                 $option_value = false;
