@@ -56,7 +56,9 @@ class Field_autofiller
 
             if (array_key_exists('audio_url', $column_names)) {
                 $url_col = $column_names['audio_url'];
-                $item[$url_col] = empty($item[$url_col]) ? $this->build_url($file_model->getAbsoluteUrl()) : $item[$url_col];
+                if (empty($item[$url_col])) {
+                    $item[$url_col] = $file_model === null ? $item[$url_col] : $this->build_url($file_model->getAbsoluteUrl());
+                }
             }
 
             if (array_key_exists('audio_permissions', $column_names)) {
