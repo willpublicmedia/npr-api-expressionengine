@@ -42,6 +42,9 @@ class Nprml_mapper
             $data['audio_description'];
 
             $format = $this->get_audio_format($data["file"]);
+            $duration = $data['audio_duration'] === '' ?
+            $this->get_audio_duration($data) :
+            $data['audio_duration'];
 
             $audio[] = array(
                 'tag' => 'audio',
@@ -142,6 +145,11 @@ class Nprml_mapper
         }
 
         return $crops;
+    }
+
+    private function get_audio_duration($data)
+    {
+        throw new \Exception('not implemented');
     }
 
     private function get_audio_format($filename)
