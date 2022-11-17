@@ -9,8 +9,10 @@ if (!defined('BASEPATH')) {
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/compatibility/ipm_compatibility.php';
 require_once __DIR__ . '/../utilities/field_utils.php';
+require_once __DIR__ . '/../utilities/mp3file.php';
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Compatibility\Ipm_compatibility;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\Field_utils;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Utilities\MP3File;
 
 class Nprml_mapper
 {
@@ -30,6 +32,9 @@ class Nprml_mapper
             'children' => array(array('tag' => 'story', 'children' => $npr_story)),
         );
         $nprml = $this->nprstory_nprml_array_to_xml('nprml', array('version' => '0.93'), $doc);
+
+        // file_put_contents(__DIR__ . '/nprml.xml', $nprml);
+
         return $nprml;
     }
 
@@ -149,7 +154,15 @@ class Nprml_mapper
 
     private function get_audio_duration($data)
     {
-        throw new \Exception('not implemented');
+        $model = $this->get_file_model($data['file']);
+        $path = $model->getAbsolutePath();
+        if (!$path) {
+            return null;
+        }
+
+        $mp3 = new MP3File($path);
+        $duration = $mp3->getDurationEstimate();
+        return $duration;
     }
 
     private function get_audio_format($filename)
@@ -211,6 +224,19 @@ class Nprml_mapper
             ->file_id;
 
         return $file_id;
+    }
+
+    private function get_file_model($entry_filepath)
+    {
+        $split = explode('}', $entry_filepath);
+        preg_match('/\d+$/', $split[0], $location_id);
+
+        $file_model = ee('Model')->get('File')
+            ->filter('file_name', $split[1])
+            ->filter('upload_location_id', $location_id[0])
+            ->first();
+
+        return $file_model;
     }
 
     private function get_manipulations($image_data): array
