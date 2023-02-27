@@ -193,7 +193,7 @@ class Nprml_mapper
         return $entry->{$content_field};
     }
 
-    private function get_date($format = 'D, d M Y H:i:s +0000', $field, $localize, $entry)
+    private function get_date($field, $localize, $entry, $format = 'D, d M Y H:i:s +0000')
     {
         $field_name = $this->field_utils->get_field_name($field);
         $data = $entry->{$field_name};
