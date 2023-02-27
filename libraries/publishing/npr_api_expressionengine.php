@@ -36,7 +36,7 @@ class Npr_api_expressionengine extends NPRAPI
         $this->request->request_url = $url;
 
         $response = $this->connect_as_curl($url, $method);
-        if (array_key_exists('messages', $response)) {
+        if (isset($response->messages)) {
             return;
         }
 

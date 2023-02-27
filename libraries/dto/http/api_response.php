@@ -11,6 +11,8 @@ class Api_response {
 
     public $code;
 
+    public $messages;
+
     public $raw;
     
     public $url;

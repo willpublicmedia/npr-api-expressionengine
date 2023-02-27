@@ -552,7 +552,7 @@ class Npr_story_api_ext
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'query', $pull_url);
         
-        if ($api_service->response === null || array_key_exists('messages', $api_service->response))
+        if ($api_service->response === null || isset($api_service->response->messages))
         {
             return;
         }

@@ -83,6 +83,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ### Unreleased
 
+- php 8: correct argument type checking on api response
 - php 8: correct required, optional param order
 - breaking: remove EE audio columns (audio_type, audio_filesize, audio_format, audio_rights, audio_region, audio_rightsholder)
 - breaking: update EE class namespace for v6
