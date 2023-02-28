@@ -19,7 +19,7 @@ class Field_installer
 
     private $field_definitions;
 
-    private $preferred_wysiwyg_editor = 'wygwam';
+    private $preferred_wysiwyg_editor = 'wyvern';
 
     private $validation_errors;
 
