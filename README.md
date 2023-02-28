@@ -90,6 +90,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 - autofill default audio permissions, duration, title
 - changed preferred wysiwyg editor to wyvern
 - update wordpress package to 1.9.5
+- don't delete channels, fields, or statuses on uninstall
 
 ### 2.1.2
 
