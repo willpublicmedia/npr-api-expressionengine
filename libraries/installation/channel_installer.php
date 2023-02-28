@@ -113,6 +113,10 @@ class Channel_installer {
             ->get('Channel')
             ->filter('channel_name', '==', $channel_name)
             ->first();
+
+        if ($channel != null) {
+            return;
+        }
         
         switch($channel_name) {
             case 'npr_stories':
