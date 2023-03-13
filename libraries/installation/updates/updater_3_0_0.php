@@ -8,23 +8,21 @@ if (!defined('BASEPATH')) {
 
 class Updater_3_0_0
 {
-    private $fields = array(
-        'delete_columns' => [
-            'audio_files' => [
-                'audio_type',
-                'audio_filesize',
-                'audio_format',
-                'audio_rights',
-                'audio_region',
-                'audio_rightsholder',
-            ],
+    private $delete_columns = [
+        'audio_files' => [
+            'audio_type',
+            'audio_filesize',
+            'audio_format',
+            'audio_rights',
+            'audio_region',
+            'audio_rightsholder',
         ],
-    );
+    ];
 
     public function update(): bool
     {
         $operation_success = [];
-        $delete = $this->fields['delete_columns'];
+        $delete = $this->delete_columns;
 
         foreach ($delete as $field => $columns) {
             $publish_columns_removed = $this->remove_publish_form_columns($field, $columns);
