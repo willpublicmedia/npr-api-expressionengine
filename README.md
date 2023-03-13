@@ -91,6 +91,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 - changed preferred wysiwyg editor to wyvern
 - update wordpress package to 1.9.5
 - don't delete channels, fields, or statuses on uninstall
+- various: check variable state before using
 
 ### 2.1.2
 

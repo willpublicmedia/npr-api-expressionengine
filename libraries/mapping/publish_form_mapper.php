@@ -38,7 +38,7 @@ class Publish_form_mapper
     public function map($entry, $values, $story)
     {
         $audio = $this->map_audio($story->Audio);
-        $audio_runby_date = strtotime($story->audioRunByDate);
+        $audio_runby_date = $story->audioRunByDate ? strtotime($story->audioRunByDate) : null;
         $byline = $this->map_bylines($story->Byline);
         $corrections = $this->map_corrections($story->Correction, $entry->entry_id);
         $images = $this->map_images($story->Image);
