@@ -2,6 +2,9 @@
 
 namespace IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Updates;
 
+require_once __DIR__ . '/../../configuration/tables/npr_story_table.php';
+use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\npr_story_table as npr_story_table;
+
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
 }
@@ -20,20 +23,34 @@ class Updater_3_0_0
     ];
 
     private $update_column_length = [
-        'npr_story_table' => [
+        // namespace slashes must be escaped
+        'IllinoisPublicMedia\\NprStoryApi\\Libraries\\Configuration\\Tables\\npr_story_table' => [
             'slug',
-            'shortTitle'
-        ]
+            'shortTitle',
+        ],
     ];
+
+    public function __construct()
+    {
+        ee()->load->dbforge();
+    }
 
     public function update(): bool
     {
         $operation_success = [];
-        $delete = $this->delete_columns;
 
+        $delete = $this->delete_columns;
         foreach ($delete as $field => $columns) {
             $publish_columns_removed = $this->remove_publish_form_columns($field, $columns);
             $operation_success[] = $publish_columns_removed;
+        }
+
+        $update = $this->update_column_length;
+        foreach ($update as $table_name => $columns) {
+            foreach ($columns as $column_name) {
+                $status = $this->update_column_length($table_name, $column_name);
+                $operation_success[] = $status;
+            }
         }
 
         $success = (end($operation_success) === true && count(array_unique($operation_success)) === 1) ? true : false;
@@ -105,6 +122,23 @@ class Updater_3_0_0
         $this->log_message("$field_name-column-removal", 'NPR Story API Field Update', "Removed columns from $field_name: " . implode(', ', $columns_to_delete));
 
         return true;
+    }
+
+    private function update_column_length(string $table_name, string $column_name): bool
+    {
+        $table = new $table_name;
+        $fields = $table->fields();
+        $definition = array(
+            $column_name => array(
+                'name' => $column_name,
+                'type' => $fields[$column_name]['type'],
+                'constraint' => $fields[$column_name]['constraint'],
+            ),
+        );
+
+        $result = ee()->dbforge->modify_column($table->table_name(), $definition);
+
+        return $result;
     }
 
     private function log_message(string $alert_name, string $title, string $message): void
