@@ -253,7 +253,12 @@ class Publish_form_mapper
             $caption = $model->caption->value ? $model->caption->value : $model->title;
             $credit = $this->map_image_credit($model);
             $crops = $this->map_image_crops($model->Crop);
-            $crops[] = $this->map_image_crops($model)[0];
+
+            $extra_images = $this->map_image_crops($model);
+            if (array_key_exists(0, $extra_images)) {
+                $crops[] = $extra_images[0];
+            }
+            
             foreach ($crops as $crop) {
                 // we only care about the largest image size.
                 if (!$crop['primary']) {
