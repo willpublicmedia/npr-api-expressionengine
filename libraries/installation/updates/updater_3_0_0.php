@@ -19,6 +19,13 @@ class Updater_3_0_0
         ],
     ];
 
+    private $update_column_length = [
+        'npr_story_table' => [
+            'slug',
+            'shortTitle'
+        ]
+    ];
+
     public function update(): bool
     {
         $operation_success = [];

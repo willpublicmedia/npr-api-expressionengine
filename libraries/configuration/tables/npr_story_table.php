@@ -33,7 +33,7 @@ class npr_story_table extends Table {
         ),
         'shortTitle' => array(
             'type' => 'varchar',
-            'constraint' => 48
+            'constraint' => 128
         ),
         'teaser' => array(
             'type' => 'varchar',
@@ -49,7 +49,7 @@ class npr_story_table extends Table {
         ),
         'slug' => array(
             'type' => 'varchar',
-            'constraint' => 48
+            'constraint' => 128
         ),
         'storyDate' => array(
             'type' => 'datetime'
