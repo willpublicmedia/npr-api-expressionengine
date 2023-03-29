@@ -254,8 +254,8 @@ class Npr_api_expressionengine extends NPRAPI
         curl_close($ch);
 
         if ($http_status != self::NPRAPI_STATUS_OK || $response->code != self::NPRAPI_STATUS_OK) {
-            $code = array_key_exists('code', $response) ? $response->code : $http_status;
-            $message = array_key_exists('messages', $response) ? $response->messages[0]['message'] : "Error updating $url";
+            $code = property_exists($response, 'code') ? $response->code : $http_status;
+            $message = property_exists($response, 'messages') ? $response->messages[0]['message'] : "Error updating $url";
 
             ee('CP/Alert')->makeInline('entries-form')
                 ->asIssue()
