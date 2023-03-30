@@ -1,59 +1,65 @@
 <?php
 
-if (!defined('BASEPATH')) 
-{
-    exit ('No direct script access allowed.');
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed.');
 }
 
-require_once(__DIR__ . '/libraries/publishing/npr_api_expressionengine.php');
-require_once(__DIR__ . '/libraries/mapping/nprml_mapper.php');
-require_once(__DIR__ . '/libraries/mapping/publish_form_mapper.php');
-require_once(__DIR__ . '/libraries/installation/field_installer.php');
-require_once(__DIR__ . '/libraries/mapping/field_autofiller.php');
-use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
+require_once __DIR__ . '/libraries/publishing/npr_api_expressionengine.php';
+require_once __DIR__ . '/libraries/mapping/nprml_mapper.php';
+require_once __DIR__ . '/libraries/mapping/publish_form_mapper.php';
+require_once __DIR__ . '/libraries/installation/field_installer.php';
+require_once __DIR__ . '/libraries/mapping/field_autofiller.php';
 use ExpressionEngine\Service\Validation\Result as ValidationResult;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Nprml_mapper;
-use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Field_autofiller;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Nprml_mapper;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Publish_form_mapper;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Publishing\Npr_api_expressionengine;
 
-class Npr_story_api_ext 
+class Npr_story_api_ext
 {
     private $fields = array(
-        'audio_files' => NULL,
-        'channel_entry_source' => NULL,
-        'npr_images' => NULL,
-        'npr_story_id' => NULL,
-        'overwrite_local_values' => NULL,
-        'publish_to_npr' => NULL
+        'audio_files' => null,
+        'channel_entry_source' => null,
+        'npr_images' => null,
+        'npr_story_id' => null,
+        'overwrite_local_values' => null,
+        'publish_to_npr' => null,
     );
-    
+
     private $required_extensions = array(
         'autofill_media_fields' => array(
             'hook' => 'before_channel_entry_save',
-            'priority' => 5
+            'priority' => 5,
         ),
         'nprstory_api_delete' => array(
             'hook' => 'before_channel_entry_delete',
-            'priority' => 10
+            'priority' => 10,
         ),
         'push_to_api' => array(
             'hook' => 'before_channel_entry_save',
-            'priority' => 15
+            'priority' => 15,
         ),
         'query_api' => array(
             'hook' => 'before_channel_entry_save',
-            'priority' => 10
+            'priority' => 10,
         ),
         'register_pushed_stories' => array(
             'hook' => 'after_channel_entry_save',
-            'priority' => 10
-        )
+            'priority' => 10,
+        ),
     );
+
+    private $settings = [
+        'api_key' => null,
+        'org_id' => null,
+        'pull_url' => null,
+        'push_url' => null,
+    ];
 
     public $version;
 
-    function __construct()
+    public function __construct()
     {
         $addon = ee('Addon')->get('npr_story_api');
         $this->version = $addon->getVersion();
@@ -63,13 +69,11 @@ class Npr_story_api_ext
 
     public function activate_extension()
     {
-        if (ee('Model')->get('Extension')->filter('class', __CLASS__)->count() > 0)
-        {
+        if (ee('Model')->get('Extension')->filter('class', __CLASS__)->count() > 0) {
             return;
         }
 
-        foreach ($this->required_extensions as $method => $settings)
-        {
+        foreach ($this->required_extensions as $method => $settings) {
             $data = array(
                 'class' => __CLASS__,
                 'method' => $method,
@@ -77,9 +81,9 @@ class Npr_story_api_ext
                 'priority' => $settings['priority'],
                 'version' => $this->version,
                 'settings' => '',
-                'enabled' => 'y'
+                'enabled' => 'y',
             );
-            
+
             ee('Model')->make('Extension', $data)->save();
         }
     }
@@ -87,8 +91,7 @@ class Npr_story_api_ext
     public function autofill_media_fields($entry, $values)
     {
         $is_mapped_channel = $this->check_mapped_channel($entry->channel_id, false);
-        if ($is_mapped_channel === false)
-        {
+        if ($is_mapped_channel === false) {
             return;
         }
 
@@ -104,8 +107,7 @@ class Npr_story_api_ext
     {
         $npr_story_id = $this->check_pushed_story_registry($entry->entry_id);
 
-        if ($npr_story_id == null)
-        {
+        if ($npr_story_id == null) {
             return;
         }
 
@@ -118,28 +120,24 @@ class Npr_story_api_ext
         $push_field = $this->fields['publish_to_npr'];
         $push_story = $values[$push_field];
 
-        if (!$push_story)
-        {
+        if (!$push_story) {
             return;
         }
 
         $abort = false;
 
         $is_mapped_channel = $this->check_mapped_channel($entry->channel_id);
-        if ($is_mapped_channel === false)
-        {
+        if ($is_mapped_channel === false) {
             $abort = true;
         }
 
         $has_required_fields = $this->check_required_fields($entry->Channel->FieldGroups);
-        if ($has_required_fields === false)
-        {
+        if ($has_required_fields === false) {
             $abort = true;
         }
 
         $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
-        if ($api_key === '')
-        {
+        if ($api_key === '') {
             $abort = true;
             ee('CP/Alert')->makeInline('story-push-api-key')
                 ->asIssue()
@@ -149,8 +147,7 @@ class Npr_story_api_ext
         }
 
         $push_url = isset($this->settings['push_url']) ? $this->settings['push_url'] : null;
-        if ($push_url === null)
-        {
+        if ($push_url === null) {
             $abort = true;
             ee('CP/Alert')->makeInline('story-push-push-url')
                 ->asIssue()
@@ -159,38 +156,35 @@ class Npr_story_api_ext
                 ->defer();
         }
 
-        if ($abort)
-        {
+        if ($abort) {
             return;
         }
 
         $nprml = $this->create_nprml($entry, $values);
-        
+
         $params = array(
             'orgId' => $this->settings['org_id'],
             // 'dateType' => 'story',
             // 'output' => 'NPRML',
             'apiKey' => $api_key,
-            'body' => $nprml
+            'body' => $nprml,
         );
 
         // TODO: deduplicate request methods
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'story', $push_url, 'post');
 
-        if (array_key_exists('messages', $api_service->response))
-        {
+        if (array_key_exists('messages', $api_service->response)) {
             return;
         }
 
         $npr_story_id = $api_service->process_push_response();
 
         // don't assign npr_story_id if entry already has one
-        if ($entry->{$this->fields['npr_story_id']} === '')
-        {
+        if ($entry->{$this->fields['npr_story_id']} === '') {
             $entry->{$this->fields['npr_story_id']} = $npr_story_id;
         }
-        
+
         ee('CP/Alert')->makeInline('story-push')
             ->asSuccess()
             ->withTitle('NPR Stories')
@@ -206,51 +200,43 @@ class Npr_story_api_ext
         $overwrite = $values[$overwrite_field];
 
         // WARNING: check for push stories!
-        if (!$is_external_story || !$overwrite)
-        {
+        if (!$is_external_story || !$overwrite) {
             return;
         }
 
         $abort = false;
 
         $is_mapped_channel = $this->check_mapped_channel($entry->channel_id);
-        if ($is_mapped_channel === false)
-        {
+        if ($is_mapped_channel === false) {
             $abort = true;
         }
 
         $has_required_fields = $this->check_required_fields($entry->Channel->FieldGroups);
-        if ($has_required_fields === false)
-        {
+        if ($has_required_fields === false) {
             $abort = true;
         }
 
-        if ($abort === true)
-        {
+        if ($abort === true) {
             return;
         }
 
         $id_field = $this->fields['npr_story_id'];
         $npr_story_id = $values[$id_field];
-        
+
         $result = $this->validate_story_id($entry, $values);
-        if ($result instanceOf ValidationResult)
-        {
-            if ($result->isNotValid())
-            {
+        if ($result instanceof ValidationResult) {
+            if ($result->isNotValid()) {
                 return $this->display_error($result);
             }
         }
 
         // WARNING: story pull executes loop. Story may be an array.
         $story = $this->pull_npr_story($npr_story_id);
-        if (!$story)
-        {
+        if (!$story) {
             return;
         }
 
-        if (isset($story[0]))
-        {
+        if (isset($story[0])) {
             $story = $story[0];
         }
 
@@ -260,8 +246,8 @@ class Npr_story_api_ext
         $entry = $objects['entry'];
 
         // Flip overwrite value
-        $values[$overwrite_field] = FALSE;
-        $entry->{$overwrite_field} = FALSE;
+        $values[$overwrite_field] = false;
+        $entry->{$overwrite_field} = false;
 
         $story->ChannelEntry = $entry;
         $story->save();
@@ -279,8 +265,7 @@ class Npr_story_api_ext
         $push_field = $this->fields['publish_to_npr'];
         $was_pushed = $entry->{$push_field} === 1;
 
-        if ($was_pulled || !$was_pushed)
-        {
+        if ($was_pulled || !$was_pushed) {
             return;
         }
 
@@ -290,8 +275,7 @@ class Npr_story_api_ext
             ->get()
             ->num_rows() > 0;
 
-        if ($already_registered)
-        {
+        if ($already_registered) {
             return;
         }
 
@@ -302,7 +286,7 @@ class Npr_story_api_ext
             'npr_story_api_pushed_stories',
             array(
                 'entry_id' => $entry->entry_id,
-                'npr_story_id' => $npr_story_id
+                'npr_story_id' => $npr_story_id,
             ));
     }
 
@@ -316,22 +300,18 @@ class Npr_story_api_ext
      */
     public function update_extension($current = '')
     {
-        if ($current == '' OR $current == $this->version)
-        {
-            return FALSE;
+        if ($current == '' or $current == $this->version) {
+            return false;
         }
 
-        if (ee('Model')->get('Extension')->filter('class', __CLASS__)->count() === count($this->required_extensions))
-        {
+        if (ee('Model')->get('Extension')->filter('class', __CLASS__)->count() === count($this->required_extensions)) {
             return;
         }
 
         $methods = ee('Model')->get('Extension')->filter('class', __CLASS__)->fields('method')->all()->pluck('method');
 
-        foreach ($this->required_extensions as $method => $settings)
-        {
-            if (in_array($method, $methods))
-            {
+        foreach ($this->required_extensions as $method => $settings) {
+            if (in_array($method, $methods)) {
                 continue;
             }
 
@@ -342,16 +322,16 @@ class Npr_story_api_ext
                 'priority' => $settings['priority'],
                 'version' => $this->version,
                 'settings' => '',
-                'enabled' => 'y'
+                'enabled' => 'y',
             );
-            
+
             ee('Model')->make('Extension', $data)->save();
         }
 
         ee()->db->where('class', __CLASS__);
         ee()->db->update(
-                'extensions',
-                array('version' => $this->version)
+            'extensions',
+            array('version' => $this->version)
         );
     }
 
@@ -364,12 +344,11 @@ class Npr_story_api_ext
 
     private function check_external_story_source($story_source)
     {
-        if ($story_source == NULL || $story_source == 'local')
-        {
-            return FALSE;
+        if ($story_source == null || $story_source == 'local') {
+            return false;
         }
 
-        return TRUE;
+        return true;
     }
 
     private function check_mapped_channel($channel_id, $display_error = true)
@@ -385,37 +364,33 @@ class Npr_story_api_ext
 
         $is_mapped = in_array($channel_id, $mapped_channels);
 
-        if (!$is_mapped && $display_error)
-        {
+        if (!$is_mapped && $display_error) {
             ee('CP/Alert')->makeInline('story-push-not-mapped')
                 ->asIssue()
                 ->withTitle('NPR Stories Mapping Error')
                 ->addToBody('Channel not mapped to story API. See addon settings in control panel.')
                 ->defer();
         }
-    
+
         return $is_mapped;
     }
 
     private function check_required_fields($field_groups, $display_error = true)
     {
-        foreach ($field_groups as $group)
-        {
-            if ($group->group_name === Field_installer::DEFAULT_FIELD_GROUP_NAME)
-            {
+        foreach ($field_groups as $group) {
+            if ($group->group_name === Field_installer::DEFAULT_FIELD_GROUP_NAME) {
                 return true;
             }
         }
 
-        if ($display_error)
-        {
+        if ($display_error) {
             ee('CP/Alert')->makeInline('story-push-missing-fields')
                 ->asIssue()
                 ->withTitle('NPR Stories Mapping Error')
                 ->addToBody('Channel must use the ' . Field_installer::DEFAULT_FIELD_GROUP_NAME . ' field group.')
                 ->defer();
         }
-        
+
         return false;
     }
 
@@ -435,23 +410,21 @@ class Npr_story_api_ext
     {
         $mapper = new Nprml_mapper();
         $nprml = $mapper->map($entry, $values);
-        
+
         return $nprml;
     }
 
     private function display_error($errors)
     {
-        foreach ($errors->getAllErrors() as $field => $results)
-        {
+        foreach ($errors->getAllErrors() as $field => $results) {
             $alert = ee('CP/Alert')->makeInline('entries-form')
                 ->asIssue()
                 ->withTitle('NPR Story save error.');
-            
-            foreach ($results as $message)
-            {
+
+            foreach ($results as $message) {
                 $alert->addToBody($message);
             }
-            
+
             $alert->defer();
         }
     }
@@ -463,25 +436,22 @@ class Npr_story_api_ext
             ->get()
             ->result_array();
 
-        if (isset($settings[0]))
-        {
+        if (isset($settings[0])) {
             $settings = $settings[0];
         }
-        
+
         return $settings;
     }
 
     private function map_model_fields($field_array)
     {
         $field_names = array();
-        foreach ($field_array as $model_field)
-        {
+        foreach ($field_array as $model_field) {
             $field = ee('Model')->get('ChannelField')
-            ->filter('field_name', $model_field)
-            ->first();
+                ->filter('field_name', $model_field)
+                ->first();
 
-            if ($field === NULL)
-            {
+            if ($field === null) {
                 continue;
             }
 
@@ -501,16 +471,15 @@ class Npr_story_api_ext
     {
         $mapper = new Publish_form_mapper();
         $objects = $mapper->map($entry, $values, $story);
-        
+
         return $objects;
     }
 
     private function model_post_data()
     {
         $posted = array();
-        foreach (array_keys($_POST) as $key)
-        {
-            $posted[$key] = ee()->input->post($key); 
+        foreach (array_keys($_POST) as $key) {
+            $posted[$key] = ee()->input->post($key);
         }
 
         $uri = explode("/", uri_string());
@@ -518,14 +487,11 @@ class Npr_story_api_ext
         reset($uri);
 
         $model;
-        if (in_array("edit", $uri) && is_numeric($page))
-        {
+        if (in_array("edit", $uri) && is_numeric($page)) {
             $model = ee('Model')->get('ChannelEntry')
                 ->filter('entry_id', $page)
                 ->first();
-        }
-        else
-        {
+        } else {
             $model = ee('Model')->make('ChannelEntry', $posted);
         }
 
@@ -535,8 +501,7 @@ class Npr_story_api_ext
     private function pull_npr_story($npr_story_id)
     {
         $api_key = isset($this->settings['api_key']) ? $this->settings['api_key'] : '';
-        if ($api_key === '')
-        {
+        if ($api_key === '') {
             throw new Configuration_exception('NPR API key not found. Configure key in NPR Story API module settings.');
         }
 
@@ -544,24 +509,22 @@ class Npr_story_api_ext
             'id' => $npr_story_id,
             'dateType' => 'story',
             'output' => 'NPRML',
-            'apiKey' => $api_key
+            'apiKey' => $api_key,
         );
-        
+
         $pull_url = isset($this->settings['pull_url']) ? $this->settings['pull_url'] : null;
-        
+
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'query', $pull_url);
-        
-        if ($api_service->response === null || isset($api_service->response->messages))
-        {
+
+        if ($api_service->response === null || isset($api_service->response->messages)) {
             return;
         }
 
         $api_service->parse();
-        
+
         $stories = array();
-        foreach ($api_service->stories as $story)
-        {
+        foreach ($api_service->stories as $story) {
             $stories[] = $api_service->save_clean_response($story);
         }
 
@@ -590,12 +553,10 @@ class Npr_story_api_ext
     private function validate_story_id($entry, $values)
     {
         $validator = ee('Validation')->make();
-        $validator->defineRule('uniqueStoryId', function($key, $value, $parameters) use ($entry)
-        {          
+        $validator->defineRule('uniqueStoryId', function ($key, $value, $parameters) use ($entry) {
             $count = ee('Model')->get('npr_story_api:Npr_story')->filter('id', $value)->count();
-            if ($count === 0)
-            {
-                return TRUE;
+            if ($count === 0) {
+                return true;
             }
 
             $owner_entry = ee()->db->select('entry_id')
@@ -605,16 +566,15 @@ class Npr_story_api_ext
                 ->get()
                 ->row('entry_id');
 
-            if ($owner_entry === $entry->entry_id)
-            {
-                return TRUE;
+            if ($owner_entry === $entry->entry_id) {
+                return true;
             }
 
             return "An NPR story with ID $value has already been created. Content rejected.";
         });
 
         $validator->setRules(array(
-            $this->fields['npr_story_id'] => 'uniqueStoryId'
+            $this->fields['npr_story_id'] => 'uniqueStoryId',
         ));
 
         $result = $validator->validate($values);
