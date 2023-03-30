@@ -141,7 +141,9 @@ class Field_autofiller
 
     private function get_file_extension($filename)
     {
-        return end(explode('.', $filename));
+        $segments = explode('.', $filename);
+        $extension = end($segments);
+        return $extension;
     }
 
     private function get_file_model($entry_filepath)
