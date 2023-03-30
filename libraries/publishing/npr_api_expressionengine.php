@@ -180,7 +180,7 @@ class Npr_api_expressionengine extends NPRAPI
      */
     public function update_posts_from_stories($publish = true, $qnum = false)
     {
-        throw new Exception('not implemented');
+        throw new \Exception('not implemented');
     }
 
     private function build_query_params($params)
