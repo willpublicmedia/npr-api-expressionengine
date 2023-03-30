@@ -174,7 +174,7 @@ class Npr_story_api_ext
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'story', $push_url, 'post');
 
-        if (array_key_exists('messages', $api_service->response)) {
+        if (property_exists($api_service->response, 'messages')) {
             return;
         }
 
