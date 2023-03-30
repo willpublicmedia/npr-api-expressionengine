@@ -101,17 +101,19 @@ class Nprml_mapper
 
             // set default crop type
             $image_type = $data['crop_primary'] == true ? 'primary' : 'standard';
+            $crop_caption = $data['crop_caption'] ?? '';
+            $crop_title = $data['crop_title'] ?? $crop_caption;
             $tag_data = array(
                 'tag' => 'image',
                 'attr' => array('src' => $data['crop_src'] . $in_body, 'type' => $image_type),
                 'children' => array(
                     array(
                         'tag' => 'title',
-                        'text' => $data['crop_title'],
+                        'text' => $crop_title,
                     ),
                     array(
                         'tag' => 'caption',
-                        'text' => $data['crop_caption'],
+                        'text' => $crop_caption,
                     ),
                     array(
                         'tag' => 'producer',
