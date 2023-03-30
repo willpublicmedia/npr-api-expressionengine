@@ -9,7 +9,9 @@ require_once __DIR__ . '/libraries/mapping/nprml_mapper.php';
 require_once __DIR__ . '/libraries/mapping/publish_form_mapper.php';
 require_once __DIR__ . '/libraries/installation/field_installer.php';
 require_once __DIR__ . '/libraries/mapping/field_autofiller.php';
+require_once __DIR__ . '/libraries/exceptions/configuration_exception.php';
 use ExpressionEngine\Service\Validation\Result as ValidationResult;
+use IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Configuration_exception;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Field_installer;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Field_autofiller;
 use IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Nprml_mapper;
@@ -486,7 +488,7 @@ class Npr_story_api_ext
         $page = end($uri);
         reset($uri);
 
-        $model;
+        $model = null;
         if (in_array("edit", $uri) && is_numeric($page)) {
             $model = ee('Model')->get('ChannelEntry')
                 ->filter('entry_id', $page)
