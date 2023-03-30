@@ -25,6 +25,14 @@ use \NPRAPI;
 
 class Npr_api_expressionengine extends NPRAPI
 {
+    public $notice = [];
+
+    public $request;
+
+    public $response;
+
+    public $xml;
+
     /**
      *
      * Query a single url.  If there is not an API Key in the query string, append one, but otherwise just do a straight query
