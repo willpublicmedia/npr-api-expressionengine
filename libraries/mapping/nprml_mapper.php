@@ -293,7 +293,14 @@ class Nprml_mapper
             }
 
             // get filename from possible url
-            $file_id = $this->get_file_id($row_data['crop_src']);
+            $url_col = '';
+            if ($field_name === 'audio_files') {
+                $url_col = $row_data['audio_url'];
+            } elseif ($field_name === 'npr_images') {
+                $url_col = $row_data['crop_src'];
+            }
+
+            $file_id = $this->get_file_id($url_col);
             $row_data['file_id'] = $file_id;
 
             $media[] = $row_data;
