@@ -81,7 +81,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
-### Unreleased
+### 3.0.1
 
 - remove type hints incompatible with php7
 
