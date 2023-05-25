@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### Unreleased
+
+- remove type hints incompatible with php7
+
 ### 3.0.0
 
 - php 8: correct pass-by-reference warnings

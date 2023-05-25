@@ -31,7 +31,7 @@ class Npr_api_expressionengine extends NPRAPI
 
     public $response;
 
-    public Array $stories;
+    public $stories =  [];
 
     public $xml;
 
