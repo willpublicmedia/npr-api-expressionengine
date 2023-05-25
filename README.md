@@ -81,7 +81,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
-### Unreleased
+### 3.0.0
 
 - php 8: correct pass-by-reference warnings
 - php 8: correct argument type checking on api response
