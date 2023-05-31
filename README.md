@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 3.0.3
+
+- check for npr response message before exiting push
+
 ### 3.0.2
 
 - limit updater_3_0_0 column delete to php 8+
