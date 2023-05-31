@@ -178,7 +178,7 @@ class Npr_story_api_ext
 
         if (property_exists($api_service->response, 'messages')) {
             ee('CP/Alert')->makeInline('story-push')
-                ->asSuccess()
+                ->asIssue()
                 ->withTitle('NPR Stories')
                 ->addToBody("Error pushing to NPR")
                 ->defer();
