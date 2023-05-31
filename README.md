@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 3.0.2
+
+- limit updater_3_0_0 column delete to php 8+
+
 ### 3.0.1
 
 - remove type hints incompatible with php7
