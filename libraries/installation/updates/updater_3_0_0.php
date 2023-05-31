@@ -119,6 +119,10 @@ class Updater_3_0_0
                 continue;
             }
 
+            if (!array_key_exists('col_type', $column) || !isset($column['col_type'])) {
+                continue;
+            }
+
             ee()->grid_model->delete_columns($column['col_id'], $column['col_type'], $field_id, $column['content_type']);
         }
 
