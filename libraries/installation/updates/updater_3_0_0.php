@@ -3,7 +3,6 @@
 namespace IllinoisPublicMedia\NprStoryApi\Libraries\Installation\Updates;
 
 require_once __DIR__ . '/../../configuration/tables/npr_story_table.php';
-use IllinoisPublicMedia\NprStoryApi\Libraries\Configuration\Tables\npr_story_table as npr_story_table;
 
 if (!defined('BASEPATH')) {
     exit('No direct script access allowed.');
@@ -113,6 +112,10 @@ class Updater_3_0_0
 
         foreach ($columns as $column) {
             if (!in_array($column['col_name'], $columns_to_delete)) {
+                continue;
+            }
+
+            if (!array_key_exists('col_id', $column) || !isset($column['col_id'])) {
                 continue;
             }
 
