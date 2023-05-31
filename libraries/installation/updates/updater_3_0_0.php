@@ -114,21 +114,29 @@ class Updater_3_0_0
         $field_id = $model->field_id;
         $columns = ee()->grid_model->get_columns_for_field($field_id, 'channel', false);
 
-        foreach ($columns as $column) {
-            if (!in_array($column['col_name'], $columns_to_delete)) {
-                continue;
+        foreach ($columns_to_delete as $delete_column) {
+            foreach ($columns as $live_column) {
+                if ($delete_column === $live_column['col_name']) {
+                    ee()->grid_model->delete_columns($live_column['col_id'], $live_column['col_type'], $field_id, $live_column['content_type']);
+                }
             }
-
-            if (!array_key_exists('col_id', $column) || !isset($column['col_id'])) {
-                continue;
-            }
-
-            if (!array_key_exists('col_type', $column) || !isset($column['col_type'])) {
-                continue;
-            }
-
-            ee()->grid_model->delete_columns($column['col_id'], $column['col_type'], $field_id, $column['content_type']);
         }
+
+        // foreach ($columns as $column) {
+        //     if (!in_array($column['col_name'], $columns_to_delete)) {
+        //         continue;
+        //     }
+
+        //     if (!array_key_exists('col_id', $column) || !isset($column['col_id'])) {
+        //         continue;
+        //     }
+
+        //     if (!array_key_exists('col_type', $column) || !isset($column['col_type'])) {
+        //         continue;
+        //     }
+
+        //     ee()->grid_model->delete_columns($column['col_id'], $column['col_type'], $field_id, $column['content_type']);
+        // }
 
         $this->log_message("$field_name-column-removal", 'NPR Story API Field Update', "Removed columns from $field_name: " . implode(', ', $columns_to_delete));
 
