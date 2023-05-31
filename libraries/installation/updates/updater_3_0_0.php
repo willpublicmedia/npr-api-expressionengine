@@ -83,6 +83,10 @@ class Updater_3_0_0
         ? $settings['entry_id'] :
         ee()->input->get_post('entry_id');
 
+        if (!$entry_id) {
+            return;
+        }
+
         // ee()->grid_lib->entry_id = ($this->content_id() == NULL) ? $entry_id : $this->content_id();
         ee()->grid_lib->entry_id = $entry_id;
         ee()->grid_lib->field_id = $settings['field_id'];
