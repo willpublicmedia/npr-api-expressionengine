@@ -183,7 +183,7 @@ class Npr_api_expressionengine extends NPRAPI
 
         $request_url = $this->build_request($params, $path, $base, $method);
         $response = $this->connect_as_curl($request_url, $method);
-        if (property_exists($response, 'messages')) {
+        if (!$response || property_exists($response, 'messages')) {
             return;
         }
 
