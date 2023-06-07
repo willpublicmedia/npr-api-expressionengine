@@ -19,7 +19,6 @@ require_once __DIR__ . '/../mapping/model_story_mapper.php';
 use ExpressionEngine\Service\Model\Model;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Dto\Http\Api_response;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Configuration_exception;
-use \IllinoisPublicMedia\NprStoryApi\Libraries\Exceptions\Npr_response_exception;
 use \IllinoisPublicMedia\NprStoryApi\Libraries\Mapping\Model_story_mapper;
 use \NPRAPI;
 
@@ -31,7 +30,7 @@ class Npr_api_expressionengine extends NPRAPI
 
     public $response;
 
-    public $stories =  [];
+    public $stories = [];
 
     public $xml;
 
@@ -93,23 +92,41 @@ class Npr_api_expressionengine extends NPRAPI
     public function process_push_response()
     {
         if ($this->response->code != 200) {
-            throw new Npr_response_exception('Couldn\'t push story. Connection error: ' . $this->response->code);
+            ee('CP/Alert')->makeInline('story-push-response-error')
+                ->asAttention()
+                ->withTitle('NPR Stories')
+                ->addToBody("Received response code " . $this->response->code . " while pushing story to NPR.")
+                ->defer();
         }
 
         if (!$this->response->body) {
-            throw new Npr_response_exception('Error returned from NPR Story API with status code 200 OK but failed to retrieve message body.');
+            ee('CP/Alert')->makeInline('story-push-response-error')
+                ->asAttention()
+                ->withTitle('NPR Stories')
+                ->addToBody("Error returned from NPR Story API with status code 200 OK but failed to retrieve message body.")
+                ->defer();
         }
 
-        // IPM's mock api response includes headers in body.
-        // May not be needed in production.
-        $body = $this->response->body;
-        $response_xml = simplexml_load_string($body);
-        $header_count = 0;
-        while ($response_xml === false && $header_count < 3) {
-            list($headers, $body) = explode("\r\n\r\n", $this->response->body, 2);
-            $this->response->body = $body;
+        try {
+            // IPM's mock api response includes headers in body.
+            // May not be needed in production.
+            $body = $this->response->body;
             $response_xml = simplexml_load_string($body);
-            $header_count++;
+            $header_count = 0;
+            while ($response_xml === false && $header_count < 3) {
+                list($headers, $body) = explode("\r\n\r\n", $this->response->body, 2);
+                $this->response->body = $body;
+                $response_xml = simplexml_load_string($body);
+                $header_count++;
+            }
+        } catch (\Throwable $th) {
+            ee('CP/Alert')->makeInline('story-push-response-error')
+                ->asAttention()
+                ->withTitle('NPR Stories')
+                ->addToBody("Unable to process story api response. " . $th->getMessage())
+                ->defer();
+
+            return '';
         }
 
         if (property_exists($response_xml, 'message')) {
