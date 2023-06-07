@@ -182,8 +182,6 @@ class Npr_story_api_ext
                 ->withTitle('NPR Stories')
                 ->addToBody("Error pushing to NPR")
                 ->defer();
-
-            return;
         }
 
         $npr_story_id = $api_service->process_push_response();
