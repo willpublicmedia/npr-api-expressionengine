@@ -345,7 +345,7 @@ class Npr_api_expressionengine extends NPRAPI
                 'code' => '503',
                 'messages' => array(
                     array(
-                        'message' => 'Unable to process XML response.',
+                        'message' => 'Unable to process XML response. Probable submission/connection issue.',
                         'level' => '1',
                     ),
                 ),
