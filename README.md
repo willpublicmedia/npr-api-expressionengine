@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### Unreleased
+
+- check for story ID before exiting push
+
 ### 3.0.3
 
 - check for npr response message before exiting push
