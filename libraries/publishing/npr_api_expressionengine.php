@@ -302,7 +302,7 @@ class Npr_api_expressionengine extends NPRAPI
 
         $xml = simplexml_load_string($xmlstring);
 
-        $data = $this->set_response_code($xml);
+        $data = $xml === false ? $this->set_response_code($xml, 400, $response->body) : $this->set_response_code($xml);
         $response->code = $data['code'];
 
         if (array_key_exists('messages', $data)) {
@@ -338,7 +338,7 @@ class Npr_api_expressionengine extends NPRAPI
         );
     }
 
-    private function set_response_code($simplexml)
+    private function set_response_code($simplexml, $http_status = null, $response_message = null)
     {
         if (!$simplexml) {
             return array(
