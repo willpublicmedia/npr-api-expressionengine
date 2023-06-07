@@ -176,6 +176,10 @@ class Npr_story_api_ext
         $api_service = new Npr_api_expressionengine();
         $api_service->request($params, 'story', $push_url, 'post');
 
+        if (!property_exists($api_service, 'response') || $api_service->response === null) {
+            return;
+        }
+
         if (property_exists($api_service->response, 'messages') && $api_service->response->messages !== null) {
             ee('CP/Alert')->makeInline('story-push')
                 ->asIssue()
