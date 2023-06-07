@@ -668,8 +668,8 @@ class Nprml_mapper
          */
         $images = $this->get_media($entry, 'npr_images');
         $image_credits = $this->process_image_credits($images);
-        $custom_media_agency = $image_credits['media_agency'];
-        $custom_media_credit = $image_credits['media_credit'];
+        $custom_media_agency = array_key_exists('media_agency', $image_credits) ? $image_credits['media_agency'] : null;
+        $custom_media_credit = array_key_exists('media_credit', $image_credits) ? $image_credits['media_credit'] : null;
         $images = $this->convert_images($images, $custom_media_credit, $custom_media_agency);
         foreach ($images as $image) {
             $story[] = $image;
