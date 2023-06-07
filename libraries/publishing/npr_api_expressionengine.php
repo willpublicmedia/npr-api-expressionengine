@@ -344,9 +344,12 @@ class Npr_api_expressionengine extends NPRAPI
             return array(
                 'code' => '503',
                 'messages' => array(
-                    'message' => 'Unable to process XML response.',
-                    'level' => '1',
-                ));
+                    array(
+                        'message' => 'Unable to process XML response.',
+                        'level' => '1',
+                    ),
+                ),
+            );
         }
 
         if (!property_exists($simplexml, 'message')) {
