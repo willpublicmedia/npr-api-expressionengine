@@ -81,7 +81,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
-### Unreleased
+### 3.0.4
 
 - parse xml from raw npr error response
 - check for story ID before exiting push
