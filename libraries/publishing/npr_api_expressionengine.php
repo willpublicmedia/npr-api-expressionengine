@@ -341,12 +341,13 @@ class Npr_api_expressionengine extends NPRAPI
     private function set_response_code($simplexml, $http_status = null, $response_message = null)
     {
         if (!$simplexml) {
+            $code = $http_status ? $http_status : 501;
+            $message = $response_message ? htmlentities($response_message) : 'Unable to process XML response. Probable submission/connection issue.';
             return array(
-                'code' => '503',
+                'code' => $code,
                 'messages' => array(
                     array(
-                        'message' => 'Unable to process XML response. Probable submission/connection issue.',
-                        'level' => '1',
+                        'message' => $message
                     ),
                 ),
             );
