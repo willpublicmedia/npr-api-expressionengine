@@ -595,9 +595,7 @@ class Nprml_mapper
         /*
          * Dates and times
          */
-        if ($entry->{$this->field_utils->get_field_name('pub_date')} === null) {
-            $entry->{$this->field_utils->get_field_name('pub_date')} = $entry->edit_date;
-        }
+        $entry->{$this->field_utils->get_field_name('pub_date')} = $entry->edit_date;
 
         $story[] = array(
             'tag' => 'pubDate',

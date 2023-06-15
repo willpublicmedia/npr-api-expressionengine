@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 3.0.5
+
+- update pub_date on save
+
 ### 3.0.4
 
 - parse xml from raw npr error response
