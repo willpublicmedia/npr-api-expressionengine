@@ -83,6 +83,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ### unreleased
 
+- check autofill values before using
 - check several styles of error response
 
 ### 3.0.5

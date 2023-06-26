@@ -32,9 +32,14 @@ class Field_autofiller
         foreach ($audio_data['rows'] as $row => $item) {
             $file_col = $column_names['file'];
             $file_model = $this->get_file_model($item[$file_col]);
+
+            if ($file_model === null) {
+                continue;
+            }
+
             $format = $this->get_file_extension($item[$file_col]);
 
-            if ($file_model !== null && array_key_exists('audio_duration', $column_names)) {
+            if (array_key_exists('audio_duration', $column_names)) {
                 $duration_col = $column_names['audio_duration'];
                 $item[$duration_col] = empty($item[$duration_col]) ? $this->calculate_audio_duration($file_model) : $item[$duration_col];
             }
@@ -92,6 +97,11 @@ class Field_autofiller
         foreach ($image_data['rows'] as $row => $item) {
             $file_col = $column_names['file'];
             $file_model = $this->get_file_model($item[$file_col]);
+
+            if ($file_model === null) {
+                continue;
+            }
+
             $format = $this->get_file_extension($item[$file_col]);
             $dimensions = $this->get_image_dimensions($file_model->file_hw_original);
 
