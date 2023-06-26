@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### unreleased
+
+- check several styles of error response
+
 ### 3.0.5
 
 - update pub_date on save
