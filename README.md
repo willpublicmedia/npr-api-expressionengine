@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 3.0.7
+
+- check field availability on save
+
 ### 3.0.6
 
 - check autofill values before using

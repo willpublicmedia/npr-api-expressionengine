@@ -120,7 +120,7 @@ class Npr_story_api_ext
     public function push_to_api($entry, $values)
     {
         $push_field = $this->fields['publish_to_npr'];
-        $push_story = $values[$push_field];
+        $push_story = array_key_exists($push_field, $values) ? $values[$push_field] : false;
 
         if (!$push_story) {
             return;
@@ -205,9 +205,9 @@ class Npr_story_api_ext
     public function query_api($entry, $values)
     {
         $source_field = $this->fields['channel_entry_source'];
-        $is_external_story = $this->check_external_story_source($values[$source_field]);
+        $is_external_story = array_key_exists($source_field, $values) ? $this->check_external_story_source($values[$source_field]) : false;
         $overwrite_field = $this->fields['overwrite_local_values'];
-        $overwrite = $values[$overwrite_field];
+        $overwrite = array_key_exists($overwrite_field, $values) ? $values[$overwrite_field] : false;
 
         // WARNING: check for push stories!
         if (!$is_external_story || !$overwrite) {
