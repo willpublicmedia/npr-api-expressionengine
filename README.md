@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 3.0.8
+
+- update openpublicmedia/nprapi-wordpress to v1.9.5.2
+
 ### 3.0.7
 
 - check field availability on save

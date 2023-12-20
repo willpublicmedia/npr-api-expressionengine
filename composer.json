@@ -4,7 +4,7 @@
     "license": "GPL-2.0+",
     "type": "expressionengine-addon",
     "require": {
-        "openpublicmedia/npr-story-api": "v1.9.5"
+        "openpublicmedia/npr-story-api": "v1.9.5.2"
     },
     "autoload": {
         "classmap": [
