@@ -212,6 +212,10 @@ class Model_story_mapper
             // $value is often a single-element array.
             $format_data = is_array($value) ? array_pop($value) : $value;
 
+            if (is_null($format_data)) {
+                continue;
+            }
+
             $url = $format_data->value;
             $type = $format_data->type;
             
