@@ -29,7 +29,7 @@ class Model_story_mapper
         $model->keywords = $story->keywords->value;
         $model->priorityKeywords = $story->keywords->value;
         
-        if (property_exists($story, 'correction'))
+        if (property_exists($story, 'correction') && !is_null($story->correction))
         {
             $correction = is_array($story->correction) ?
                 $this->process_corrections($story->correction) :
@@ -37,7 +37,7 @@ class Model_story_mapper
             $model->Correction = $correction;
         }
 
-        if (property_exists($story, 'organization'))
+        if (property_exists($story, 'organization') && !is_null($story->organization))
         {
             $model->Organization = $this->load_organization($story->organization);
         }
@@ -45,7 +45,7 @@ class Model_story_mapper
         // newsroom doesn't use plain text.
         $model->TextWithHtml = $this->process_text($story->textWithHtml, 'textWithHtml');
 
-        if (property_exists($story, 'audio'))
+        if (property_exists($story, 'audio') && !is_null($story->audio))
         {
             $audio = is_array($story->audio) ? 
                 $this->process_audios($story->audio) : 
@@ -53,12 +53,12 @@ class Model_story_mapper
             $model->Audio = $audio;
         }
 
-        if (property_exists($story, 'audioRunByDate'))
+        if (property_exists($story, 'audioRunByDate') && !is_null($story->audioRunByDate))
         {
             $model->audioRunByDate = $this->convert_date_string($story->audioRunByDate->value);
         }
 
-        if (property_exists($story, 'byline'))
+        if (property_exists($story, 'byline') && !is_null($story->byline))
         {
             $byline = is_array($story->byline) ?
                 $this->process_bylines($story->byline) :
@@ -71,7 +71,7 @@ class Model_story_mapper
         //     $model->RelatedLink = $this->process_related_links($story->relatedLink);
         // }
 
-        if (property_exists($story, 'image'))
+        if (property_exists($story, 'image') && !is_null($story->image))
         {
             $image = is_array($story->image) ?
                 $this->process_images($story->image) :
@@ -79,7 +79,7 @@ class Model_story_mapper
             $model->Image = $image;
         }
 
-        if (property_exists($story, 'link'))
+        if (property_exists($story, 'link') && !is_null($story->link))
         {
             $link = is_array($story->link) ?
                 $this->process_permalinks($story->link) :
@@ -87,7 +87,7 @@ class Model_story_mapper
             $model->Link = $link;
         }
         
-        if (property_exists($story, 'pullQuote'))
+        if (property_exists($story, 'pullQuote') && !is_null($story->pullQuote))
         {
             $quote = is_array($story->pullQuote) ?
                 $this->process_pullquotes($story->pullQuote) :
@@ -95,12 +95,12 @@ class Model_story_mapper
             $model->PullQuote = $quote;
         }
 
-        if (property_exists($story, 'thumbnail'))
+        if (property_exists($story, 'thumbnail') && !is_null($story->thumbnail))
         {
             $model->Thumbnail = $this->process_thumbnail($story->thumbnail);
         }
 
-        if (property_exists($story, 'toenail'))
+        if (property_exists($story, 'toenail') && !is_null($story->toenail))
         {
             $model->Toenail = $this->process_thumbnail($story->toenail);
         }
@@ -227,11 +227,11 @@ class Model_story_mapper
             $model->format = $key;
             $model->url = $url;
 
-            if (\property_exists($format_data, 'type')) {
+            if (\property_exists($format_data, 'type') && !is_null($format_data->type)) {
                 $model->type = $format_data->type;
             }
 
-            if (\property_exists($format_data, 'fileSize'))
+            if (\property_exists($format_data, 'fileSize') && !is_null($format_data->filesize))
             {
                 $model->filesize = $format_data->fileSize;
             }
