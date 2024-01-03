@@ -386,8 +386,12 @@ class Publish_form_mapper
             ->first();
 
         if ($file != null) {
+            $dir = APP_VER < 7 ? 
+                '{filedir_' . $this->settings->npr_image_destination . '}' : 
+                '{file:' . $this->settings->npr_image_destination . '}';
+
             return array(
-                'dir' => '{filedir_' . $this->settings->npr_image_destination . '}',
+                'dir' => $dir,
                 'file' => $file,
             );
         }
@@ -472,8 +476,12 @@ class Publish_form_mapper
         $file->credit = $file_data['credit'];
         $file->save();
 
+        $dir = APP_VER < 7 ?
+            '{filedir_' . $destination->id . '}' :
+            '{file:' . $destination->id . '}';
+
         $results = array(
-            'dir' => '{filedir_' . $destination->id . '}',
+            'dir' => $dir,
             'file' => $file,
         );
 
