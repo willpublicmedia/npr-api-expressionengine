@@ -527,7 +527,7 @@ class Model_story_mapper
         $model;
         foreach ($thumbnail_element as $key => $value)
         {
-            if ($key === 'provider')
+            if ($key === 'provider' || is_null($value))
             {
                 continue;
             }
