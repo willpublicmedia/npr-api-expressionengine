@@ -444,10 +444,22 @@ class Model_story_mapper
 
     private function process_permissions(\NPRMLElement $permissions_element)
     {
+        $expected = ['download', 'embed', 'stream'];
+        
         $permissions = array();
-        foreach ($permissions_element as $key => $value)
-        {
-            $permissions[$key] = $permissions_element->$key->allow;
+
+        foreach ($expected as $mode) {
+            if (!property_exists($permissions_element, $mode))
+            {
+                continue;
+            }
+
+            if (!property_exists($permissions_element->$mode, 'allow'))
+            {
+                continue;
+            }
+
+            $permissions[$mode] = $permissions_element->$mode->allow;
         }
 
         return $permissions;
