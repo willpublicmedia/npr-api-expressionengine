@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 3.0.9
+
+- improve property checks on story mapping
+
 ### 3.0.8
 
 - update openpublicmedia/nprapi-wordpress to v1.9.5.2
