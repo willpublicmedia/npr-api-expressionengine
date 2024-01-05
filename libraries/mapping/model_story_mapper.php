@@ -235,7 +235,7 @@ class Model_story_mapper
                 $model->type = $format_data->type;
             }
 
-            if (\property_exists($format_data, 'fileSize') && !is_null($format_data->filesize))
+            if (\property_exists($format_data, 'fileSize') && !is_null($format_data->fileSize))
             {
                 $model->filesize = $format_data->fileSize;
             }
