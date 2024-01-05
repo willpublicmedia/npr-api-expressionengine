@@ -152,13 +152,16 @@ class Publish_form_mapper
             $model = $format_models->filter('format', '==', $format)
                 ->filter('filesize', '!=', '')
                 ->first();
-
-            if ($model != null) {
+                
+            if (!is_null($model)) {
                 break;
             }
+            
+            $model = $format_models->filter('format', '==', $format)->first();
         }
 
-        if ($model === null) {
+        if (is_null($model)) 
+        {
             return;
         }
 
