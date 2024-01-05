@@ -81,6 +81,12 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 3.0.10
+
+- correct audio property checks
+- add audio selection fallback
+- set top level file manager check (WIP: plugin must use file manager compatibility mode)
+
 ### 3.0.9
 
 - improve property checks on story mapping
