@@ -17,12 +17,21 @@ class Publish_form_mapper
 
     private $field_utils;
 
+    private $file_manager_compatibility_mode = true;
+
     private $settings;
 
     public function __construct()
     {
         $this->entry_builder = new Channel_entry_builder();
         $this->field_utils = new Field_utils();
+
+        if (APP_VER >= 7) {
+            $compatibility_mode = ee()->config->item('file_manager_compatibility_mode');
+            if ($compatibility_mode === 'n') {
+                $this->file_manager_compatibility_mode = false;
+            }
+        }
 
         $this->settings = ee()->db
             ->limit(1)
@@ -386,7 +395,7 @@ class Publish_form_mapper
             ->first();
 
         if ($file != null) {
-            $dir = APP_VER < 7 ? 
+            $dir = $this->file_manager_compatibility_mode ? 
                 '{filedir_' . $this->settings->npr_image_destination . '}' : 
                 '{file:' . $this->settings->npr_image_destination . '}';
 
@@ -476,7 +485,7 @@ class Publish_form_mapper
         $file->credit = $file_data['credit'];
         $file->save();
 
-        $dir = APP_VER < 7 ?
+        $dir = $this->file_manager_compatibility_mode === true ?
             '{filedir_' . $destination->id . '}' :
             '{file:' . $destination->id . '}';
 
