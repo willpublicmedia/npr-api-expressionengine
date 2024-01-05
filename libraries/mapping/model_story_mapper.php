@@ -344,8 +344,18 @@ class Model_story_mapper
             $model->copyright = intval($image_element->copyright->value);
         }
         
-        $model->enlargement = $image_element->enlargement->src;
-        $model->enlargementCaption = $image_element->enlargement->caption->value;
+        if (\property_exists($image_element, 'enlargement')) {
+            if (\property_exists($image_element, 'src')) 
+            {
+                $model->enlargement = $image_element->enlargement->src;
+            }
+            
+            if (\property_exists($image_element, 'src'))
+            {
+                $model->enlargementCaption = $image_element->enlargement->caption->value;
+            }
+        }
+
 
         if (property_exists($image_element, 'crop'))
         {
