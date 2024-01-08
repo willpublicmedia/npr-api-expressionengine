@@ -239,10 +239,13 @@ class Publish_form_mapper
                 continue;
             }
 
-            $file = $this->sideload_file($model);
+            $file_segments = $this->sideload_file($model);
+            $file = $this->file_manager_compatibility_mode === true ?
+                $file_segments['dir'] . $file_segments['file']->file_name :
+                '{' . $file_segments['dir'] . ':' . $file_segments['file']->file_id . ':url}';
 
             $crop_array[] = array(
-                'file' => $file['dir'] . $file['file']->file_name,
+                'file' => $file,
                 'type' => $model->type,
                 'src' => $model->src,
                 'height' => property_exists($model, 'height') ? $model->height : '',
@@ -400,7 +403,7 @@ class Publish_form_mapper
         if ($file != null) {
             $dir = $this->file_manager_compatibility_mode ? 
                 '{filedir_' . $this->settings->npr_image_destination . '}' : 
-                '{file:' . $this->settings->npr_image_destination . '}';
+                'file';
 
             return array(
                 'dir' => $dir,
@@ -439,7 +442,7 @@ class Publish_form_mapper
 
         ee()->load->library('filemanager', array('upload_path' => dirname($destination->server_path)));
         $thumb_info = ee()->filemanager->get_thumb($upload_data['file_name'], $destination->id);
-
+        
         // Build list of information to save and return
         $file_data = array(
             'upload_location_id' => $destination->id,
@@ -490,7 +493,7 @@ class Publish_form_mapper
 
         $dir = $this->file_manager_compatibility_mode === true ?
             '{filedir_' . $destination->id . '}' :
-            '{file:' . $destination->id . '}';
+            'file';
 
         $results = array(
             'dir' => $dir,
