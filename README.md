@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### 3.0.12
+
+- strip http headers from xml response
+
 ### 3.0.11
 
 - correct EE7 filemanager reference format
