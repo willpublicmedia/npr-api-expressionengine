@@ -276,7 +276,8 @@ class Npr_api_expressionengine extends NPRAPI
 
         $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $body = $header_size >= 0 ? substr($raw, $header_size) : $raw;
+        $is_xml = str_starts_with($raw, '<?xml');
+        $body = $is_xml ? $raw : substr($raw, $header_size);
 
         // parser expects an object, not xml string.
         $response = curl_errno($ch) ? $this->create_error_response(curl_error($ch), $url) : $this->convert_response($body, $url);
