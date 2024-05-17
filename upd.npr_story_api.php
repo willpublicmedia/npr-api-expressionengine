@@ -131,8 +131,8 @@ class Npr_story_api_upd
         // $this->delete_statuses();
         // $this->delete_fields();
         $this->delete_extensions();
-        $this->delete_tables($this->tables['story']);
-        $this->delete_tables($this->tables['config']);
+        // $this->delete_tables($this->tables['story']);
+        // $this->delete_tables($this->tables['config']);
 
         return true;
     }

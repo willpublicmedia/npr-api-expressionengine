@@ -81,6 +81,10 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 ## Changelog
 
+### unreleased
+
+- don't delete tables on uninstall
+
 ### 3.0.13
 
 - check for xml before stripping headers
