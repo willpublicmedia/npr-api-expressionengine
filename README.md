@@ -1,6 +1,10 @@
 # NPR Story API ExpressionEngine Module
 
-Wraps NPR's [Story API Wordpress plugin](https://github.com/npr/nprapi-wordpress) in an ExpressionEngine module. By default, installation will create a default channel, required fields, and a publish layout suitable for pushing to and pulling from the [NPR Story API](https://api.npr.org).
+**Deprecation Warning:** The NPR Story API is no longer actively maintained. Stations wishing to share NPR content should use the [NPR Content Distribution System](https://npr.github.io/content-distribution-service/) instead. See also the [NPR CDS module for ExpressionEngine](https://github.com/willpublicmedia/npr-cds-expressionengine).
+
+## Summary
+
+The NPR Story API module wraps NPR's [Story API Wordpress plugin](https://github.com/npr/nprapi-wordpress) in an ExpressionEngine module. By default, installation will create a default channel, required fields, and a publish layout suitable for pushing to and pulling from the [NPR Story API](https://api.npr.org).
 
 The plugin also allows channel mapping, allowing existing channels to push to or pull from the story api.
 
@@ -85,7 +89,7 @@ To re-push a story, make corrections, update the Publication Date (Date tab), th
 
 - don't delete tables on uninstall
 
-### 3.0.13
+### 3.0.14
 
 - check for xml before stripping headers
 
